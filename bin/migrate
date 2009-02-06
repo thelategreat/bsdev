@@ -1,0 +1,59 @@
+#!/usr/bin/php
+<?php
+/**
+ * Database migration tool, similar to Rake db:migrate but utilizing
+ * xml files
+ */
+
+set_include_path( get_include_path() . 
+  PATH_SEPARATOR . "lib"
+);
+
+
+require_once( 'optparser.php' );
+include_once( 'migrator.php' );
+
+$migration_table_name = 'ci_schema_info';
+$migration_field_name = 'migration';
+
+$help =<<<EOF
+CI Database Migration Tool
+---
+usage: migrate [OPTIONS]
+EOF;
+
+$cli = new OptParser( $help );
+$cli->add_option( 'e', 'env', 'Use environment ARG', true );
+$cli->add_option( 'f', 'force', 'Force re-run all migrations (DROP)' );
+$cli->add_option( 'h', 'help', 'Get some help dude' );
+$cli->add_option( 'v', 'version', 'Run or undo migration to version ARG', true );
+$cli->parse( $argv );
+$args = $cli->args();
+
+$config = ConfigData::getInstance();
+
+if( $cli->used_opt('env')) {
+  $config->env = $cli->opt_value('env');
+}
+
+echo '-- Environment: ' . $config->env . " (" . $config->dbtype . ")\n";
+
+$dsn = array('phptype' => $config->dbtype,
+             'hostspec' => $config->dbhost,
+             'username' => $config->dbuser,
+             'password' => $config->dbpass,
+             'database' => $config->dbname );
+
+try {
+  $dbconn = Creole::getConnection( $dsn );
+}
+catch( Exception $e ) {
+  echo $e;
+  exit;
+}
+
+$migrator = new Migrator( $dbconn, "../db/schema" );
+if( $cli->used_opt('force')) {
+  $migrator->clear();
+}
+$migrator->migrate($config->dbtype, $cli->opt_value('version'));

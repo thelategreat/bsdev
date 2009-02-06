@@ -1,0 +1,245 @@
+
+html,
+body {
+    margin:0;
+    padding:0;
+    height:100%;
+    font-family: Verdana, Ariel, sans-serif;
+    font-size: 12px;
+}
+
+a {
+    text-decoration: none;
+}
+
+#container {
+    min-height:100%;
+    position:relative;
+    margin: 0 auto;
+    width: 95%;
+}
+
+#header {
+    padding:10px;
+}
+
+#header h1 {
+    font-size: 1.2em;
+    padding: 0;
+    margin: 0;
+}
+
+#nav {
+    border-bottom: 2px solid #ddd;
+    height: 24px;
+}
+
+#dropmenu, #dropmenu ul 
+{
+    margin:0; 
+    padding:0; 
+    list-style-type:none; 
+    list-style-position:outside; 
+    position:relative; 
+    line-height:1.5em; 
+    z-index:300; 
+    width:100%; 
+    background:#fff;
+} 
+#dropmenu a {
+    display:block; 
+    padding:0.25em 1em; 
+    color:#444; 
+    /*border-right:1px solid #c8c8c8;  */
+    text-decoration:none; 
+    background:#fff;
+} 
+#dropmenu a:hover {
+    background:#888; 
+    color:#fff;
+} 
+#dropmenu li {
+    float:left; 
+    position:relative;
+} 
+#dropmenu ul {
+    position:absolute; 
+    display:none; 
+    width:12em; 
+    top:1.9em; 
+    left:-1px;
+} 
+#dropmenu ul a {
+    border-right:1px solid #c8c8c8; 
+    border-left:1px solid #c8c8c8;
+} 
+#dropmenu li ul {
+    border-top:1px solid #c8c8c8; 
+    width:14.1em;
+} 
+#dropmenu li ul a {
+    width:12em; 
+    height:auto; 
+    float:left;  
+    border-bottom:1px solid #c8c8c8;
+} 
+#dropmenu ul ul {
+    top:auto;
+} 
+#dropmenu li ul ul {
+    left:12em; 
+    margin:0px 0 0 10px;
+} 
+#dropmenu li:hover ul ul, #dropmenu li:hover ul ul ul, #dropmenu li:hover ul ul ul ul {
+    display:none;
+} 
+#dropmenu li:hover ul, #dropmenu li li:hover ul, #dropmenu li li li:hover ul, #dropmenu li li li li:hover ul {
+    display:block;
+}
+
+
+#content {
+    clear: both; 
+    padding:10px 10px;
+    padding-bottom:30px;   /* Height of the footer */
+}
+
+#footer {
+    border-top: 1px solid #ddd;
+    position:absolute;
+    bottom:0;
+    width:100%;
+    height:30px;   /* Height of the footer */
+    
+    font-size: 0.9em;
+    text-align: center;
+    padding-top: 5px;
+}
+
+table.general {border-collapse: collapse; width: 100%; margin: 8px 0 6px 0;border: 1px solid #d7d7d7;}
+table.general th { text-align: left; background-color: #ddd; border-bottom: 1px solid #d0d0d0;}
+tr.odd { background-color: #efefef;}
+
+/***** Calendar *****/
+table.cal {border-collapse: collapse; width: 100%; margin: 8px 0 6px 0;border: 1px solid #d7d7d7;}
+table.cal thead th {width: 14%;}
+table.cal tbody tr {height: 80px;}
+table.cal th { background-color:#EEEEEE; padding: 4px; }
+table.cal td {border: 1px solid #d7d7d7; vertical-align: top; font-size: 0.9em;}
+table.cal td p.day-num {font-size: 1.1em; text-align:right;}
+table.cal td.odd p.day-num {color: #bbb;}
+table.cal td.today {background:#ffffdd;}
+table.cal td.today p.day-num {font-weight: bold;}
+
+table.cal_week tbody tr { height: 40px; }
+table.cal_week tbody th { font-weight: normal; vertical-align: top; }
+
+table.cal_day thead th {width: 95%;}
+table.cal_day tbody th { font-weight: normal; vertical-align: top; }
+table.cal_day tbody tr {height: 40px;}
+
+table.cal td.nav {
+    background-color: #666;
+    vertical-align: bottom;
+    text-align: center;
+}
+
+/***** Tabs *****/
+#content .tabs {height: 2.6em; border-bottom: 1px solid #bbbbbb; margin-bottom:1.2em; position:relative;}
+#content .tabs ul {margin:0; position:absolute; bottom:-2px; padding-left:1em;}
+#content .tabs>ul { bottom:-1px; } /* others */
+#content .tabs ul li {
+float:left;
+list-style-type:none;
+white-space:nowrap;
+margin-right:8px;
+background:#fff;
+}
+#content .tabs ul li a{
+display:block;
+font-size: 0.9em;
+text-decoration:none;
+line-height:1.3em;
+padding:4px 6px 4px 6px;
+border: 1px solid #ccc;
+border-bottom: 1px solid #bbbbbb;
+background-color: #eeeeee;
+color:#777;
+font-weight:bold;
+}
+
+#content .tabs ul li a:hover {
+background-color: #ffffdd;
+text-decoration:none;
+}
+
+#content .tabs ul li a.selected {
+background-color: #fff;
+border: 1px solid #bbbbbb;
+border-bottom: 1px solid #fff;
+}
+
+#content .tabs ul li a.selected:hover {
+background-color: #fff;
+}
+
+div.scrollable
+{
+	padding: 5px;
+	width: 95%;
+	height: 500px;
+	overflow: auto;
+}
+
+div.leftCol {
+    float: left;
+    width: 200px;
+    padding: 0;
+    margin: 0;
+}
+
+div.rightCol {
+    margin-left: 210px;
+}
+
+/*
+ * F O R M S
+ */
+form.general {
+    
+}
+
+form.general fieldset {
+    border: 2px solid #d0d0d0;
+}
+
+form.general legend {
+    padding: 2px;
+    padding-left: 5px;
+    padding-right: 5px;
+    border: 1px solid #a0a0a0;
+    background-color: #444;
+    color: white;
+}
+
+form.general label {
+}
+
+form.general input, textarea {
+    border: 1px solid #a0a0a0;
+    padding: 3px;
+    margin: 5px;
+}
+
+form.general input:focus, textarea:focus {
+    border: 1px solid #666;
+    background-color: #dfdfdf;
+}
+
+form.general input[type=submit]{
+    border: 1px solid #a0a0a0;
+}
+form.general td.form_error {
+    font-size: 0.85em;
+    color: #900;
+}

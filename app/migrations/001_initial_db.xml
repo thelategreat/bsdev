@@ -1,0 +1,43 @@
+<migration>
+
+	<!-- user roles -->
+	<table name="user_roles" description="Site user role info">
+		<column name="id" type="integer" required="true" primarykey="true" autoinc="true" />
+		<column name="role" type="varchar" size="28" required="true" />
+		<column name="description" type="varchar" size="255" required="false" />
+	</table>
+
+	<!-- add roles -->
+	<record table="user_roles">
+		<column name="id" value="1" />
+		<column name="role" value="admin" />
+		<column name="description" value="system administrator" />
+	</record>
+
+	<!-- user table -->
+	<table name="users" description="Site users info">
+		<column name="id" type="integer" required="true" primarykey="true" autoinc="true" />
+		<column name="username" type="varchar" size="128" required="true" />
+		<column name="passwd" type="varchar" size="128"  />
+		<column name="firstname" type="varchar" size="128"  />
+		<column name="lastname" type="varchar" size="128"  />
+		<column name="email" type="varchar" size="128"  />
+		<column name="last_login" type="datetime" required="true" default="CURRENT_TIMESTAMP"/>
+	  	<column name="created_on" type="datetime" />
+	  	<column name="updated_on" type="datetime"  />
+		<column name="role_id" type="integer"  />
+		<index unique="true">
+			<index_column name="username" />
+		</index>
+	</table>
+
+	<!-- add the admin user -->
+	<record table="users">
+		<column name="id" value="1" />
+		<column name="username" value="admin" />
+		<column name="passwd" value="admin" />
+		<column name="lastname" value="Admin" />
+		<column name="email" value="" />
+		<column name="role_id" value="1" />
+	</record>			
+</migration>

@@ -1,0 +1,4 @@
+.DS_Store
+system/
+app/config/config.php
+app/config/database.php
