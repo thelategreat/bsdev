@@ -10,7 +10,15 @@
 	
 	<!-- javascript -->
 	<script type="text/javascript" src="/js/jquery.js" ></script>
-	
+    <script type="text/javascript" src="/js/jquery.form.js" ></script>
+    <script type="text/javascript" src="/js/jquery-ui.min.js" ></script>
+    <script type="text/javascript" src="/js/jquery.simplemodal.min.js" ></script>
+    <script type="text/javascript" src="/js/jquery.json-1.3.min.js" ></script>
+
+	<script type="text/javascript" src="/js/admin.js" ></script>
+
+	<script type="text/javascript" src="/js/tiny_mce/tiny_mce.js" ></script>
+		
 	<script type="text/javascript">
 	jQuery(document).ready(function() { 
 		// drop menu
@@ -21,6 +29,19 @@
 		        $(this).find('ul:first').css({visibility: "hidden"}); 
 		        }); 
 	});
+
+	tinyMCE.init({
+		mode : "textareas",
+		editor_deselector : "mceNoEditor",
+		theme : "advanced",
+		theme_advanced_buttons1 : "mybutton,bold,italic,underline,separator,strikethrough,justifyleft,justifycenter,justifyright, justifyfull,bullist,numlist,undo,redo,link,unlink",
+		theme_advanced_buttons2 : "",
+		theme_advanced_buttons3 : "",
+		theme_advanced_toolbar_location : "top",
+		theme_advanced_toolbar_align : "left",
+		theme_advanced_statusbar_location : "bottom",		
+	});
+
 	</script>
 	
 	<!-- meta -->

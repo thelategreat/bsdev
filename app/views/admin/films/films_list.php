@@ -1,5 +1,10 @@
-<h2>Films</h2>
-<a href="/admin/cinema/add">Add</a>
+
+<div style="float: right">
+	<a href="/admin/cinema/add/"><img src="/img/picture_add.png" /> Add Film</a>
+</div>
+
+<h3><img src="/img/picture.png" /> Films</h3>
+
 <table class="general">
 	<tr>
 		<th>Title</th>

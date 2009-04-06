@@ -12,6 +12,10 @@ a {
     text-decoration: none;
 }
 
+img {
+    border: none;
+}
+
 #container {
     min-height:100%;
     position:relative;
@@ -101,6 +105,7 @@ a {
 #content {
     clear: both; 
     padding:10px 10px;
+    line-height: 1.6em;
     padding-bottom:30px;   /* Height of the footer */
 }
 
@@ -116,9 +121,28 @@ a {
     padding-top: 5px;
 }
 
-table.general {border-collapse: collapse; width: 100%; margin: 8px 0 6px 0;border: 1px solid #d7d7d7;}
-table.general th { text-align: left; background-color: #ddd; border-bottom: 1px solid #d0d0d0;}
+table {border-collapse: collapse; width: 100%; margin: 8px 0 6px 0;border: 1px solid #d7d7d7;}
+table th { text-align: left; background-color: #ddd; border-bottom: 1px solid #d0d0d0;}
 tr.odd { background-color: #efefef;}
+
+ 
+tr.hilite:hover {
+    background-color: #ffffaa;
+    cursor: pointer;
+}
+
+td.label {
+    font-weight: bold;
+}
+
+div.info {
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    background-color: #dedede;
+    border: 1px solid #ccc;
+    padding: 10px; margin: 10px;
+    font-size: 0.9em;
+}
 
 /***** Calendar *****/
 table.cal {border-collapse: collapse; width: 100%; margin: 8px 0 6px 0;border: 1px solid #d7d7d7;}
@@ -202,9 +226,81 @@ div.rightCol {
     margin-left: 210px;
 }
 
+div.rounded {
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    padding: 5px;    
+}
+
 /*
  * F O R M S
  */
+
+
+fieldset {
+     border: 2px solid #d0d0d0;
+     -moz-border-radius: 5px;
+     -webkit-border-radius: 5px;
+ }
+
+legend {
+     padding: 2px;
+     padding-left: 5px;
+     padding-right: 5px;
+     border: 1px solid #a0a0a0;
+     background-color: #444;
+     color: white;
+     -moz-border-radius: 5px;
+     -webkit-border-radius: 5px;
+ }
+
+label {
+ }
+
+ textarea {
+     border: 1px solid #a0a0a0;
+     padding: 3px;
+     margin: 5px;
+     -moz-border-radius: 5px;
+     -webkit-border-radius: 5px;
+ }
+
+input, button {
+     border: 1px solid #a0a0a0;
+     padding: 3px;
+     margin: 5px;
+     -moz-border-radius: 5px;
+     -webkit-border-radius: 5px;
+ }
+
+ input:focus, textarea:focus {
+     border: 1px solid #666;
+     background-color: #dfdfdf;
+ }
+
+input[type=submit]{
+     border: 1px solid #a0a0a0;
+ }
+ 
+input[readonly] {
+    background-color: #ffe;
+    font-style: italic;
+}
+ 
+td.form_error {
+ font-size: 0.85em;
+ color: #900;
+}
+ 
+span.form_error {
+    font-size: 0.8em;
+    color: red;
+}
+ 
+span.small {
+    font-size: 0.8em;
+}
+ 
 form.general {
     
 }
@@ -242,4 +338,25 @@ form.general input[type=submit]{
 form.general td.form_error {
     font-size: 0.85em;
     color: #900;
+}
+
+img.icon {
+    background-color: #bbb;
+    width: 12px;
+}
+
+ul.event_list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+ul.event_list li {
+    border-bottom: 1px solid #ddd;
+    padding: 3px;
+}
+
+ul.event_list li span.event_date {
+    font-size: 0.85em;
+    color: #aaa;
 }

@@ -1,10 +1,10 @@
-<h2>Edit Film</h2>
+<h3>Edit Film</h3>
 
 <?= form_open('admin/cinema/edit/' . $film->id, array('class'=>'general')); ?>
-<table>
+<table style="border: 0">
 	<tr><td valign="top">
 		<fieldset><legend>Details</legend>
-		<table>
+		<table style="border: 0">
 			<tr>
 				<td><label for="title">title</label><br/>
 				<input name="title" type="text" size="40" class="required" value="<?=set_value('title', $film->title )?>"/></td>
@@ -22,7 +22,7 @@
 			</tr>
 			<tr>
 				<td>
-					<table>
+					<table style="border: 0">
 						<tr>
 							<td><label for="year">year</label><br/>
 							<input name="year" type="text" size="4" value="<?=set_value('year', $film->year )?>"/></td>

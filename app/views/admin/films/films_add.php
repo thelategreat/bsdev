@@ -53,13 +53,13 @@ function do_link_lookup()
 
 </script>
 
-<h2>Add Film</h2>
+<h3>Add Film</h3>
 
 <?= form_open('admin/cinema/add', array('class'=>'general')); ?>
-<table>
+<table style="border: 0">
 	<tr><td valign="top">
 		<fieldset><legend>Details</legend>
-		<table>
+		<table style="border: 0">
 			<tr>
 				<td><label for="title" onclick="do_lookup()">title</label><br/>
 				<input name="title" id="title" type="text" size="50" class="required" value="<?=set_value('title')?>"/></td>
@@ -77,7 +77,7 @@ function do_link_lookup()
 			</tr>
 			<tr>
 				<td>
-					<table>
+					<table style="border: 0">
 						<tr>
 							<td><label for="year">year</label><br/>
 							<input name="year" id="year" type="text" size="4" value="<?=set_value('year')?>"/></td>

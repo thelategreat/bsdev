@@ -2,6 +2,15 @@
 
 String.prototype.trim = function() { return this.replace(/^\s+|\s+$/, ''); }
 
+function live_search()
+{
+	var query = $("#query").val();
+	// take three chars and don't hit it if the last char is a space
+	if( query.length >= 3 && query.substr( query.length-1, 1) != " ")  {
+		search();
+	}
+}
+
 function search()
 {
 	var query = $("#query").val();
@@ -22,6 +31,32 @@ function search()
 	});
 	
 }
+
+function show_item( row )
+{
+	var row_id = $(row).find('td').html();
+	var type = $('#type :selected').val();
+
+	if( !row_id )
+		return;
+
+	if( row_id.trim() == "" ) {
+		return;
+	}
+	
+	$('#results').html('<center><p><img src="/img/ajax-loader.gif" /></p>Hang on...</center>');
+	
+	$.post('/admin/imdb/ajax_details', {id: row_id, t: type }, function(data) {
+		data = eval("(" + data + ")");
+		if( data.err == 1 ) {
+			alert( data.msg );
+		} else {
+			$('#results').html(data.html);
+		}
+	});
+
+}
+
 </script>
 
 <h3>IMDB</h3>
@@ -37,13 +72,13 @@ function search()
 			<option value="director">director</option>
 		</optgroup>
 	</select>
-	<input id="query"  size="30" />
+	<input id="query"  onkeyup="live_search()" size="30" />
 	<button onclick="search()">Go</button>
 </fieldset>
 
-<div id="info" style="float: right; width: 200px;">
+<div id="info" class="info" style="float: right; width: 200px;">
 	<h4>Searching</h4>
-	<p>Names are titles in this database have the first name and articles
+	<p>Names and titles in this database have the first name and articles
 		at the end, after a comma, so "The Pink Panther" is "Pink Panther, The"
 		and "Will Smith" is "Smith, Will". 
 	</p>
@@ -52,6 +87,14 @@ function search()
 		treated at the beginning of the string. So search for "smith" rather
 		then "will".
 	</p>
+	<ul>
+		<li>"title" - tv series</li>
+		<li>"title" (mini) - tv mini-series</li>
+		<li>(TV) - tv</li>
+		<li>(V) - video</li>
+		<li>(VG) - video game</li>
+	</ul>
+			
 </div>
-<div id="results" style="float: left">
+<div id="results" style="overflow: auto; max-height: 400px; ">
 </div>
