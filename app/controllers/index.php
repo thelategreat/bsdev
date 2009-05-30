@@ -22,7 +22,13 @@ class Index extends Controller
 	{
 		$pg_data = array(
 			'title' => 'Welcome',
-			'content' => $this->load->view('home_page', '', true)
+			'page_title' => 'Bookshelf - Home',
+			'page_name' => 'home',
+			'main_content_nav' => '<ul id="main_content_nav"><li></li></ul>',
+			'content' => $this->load->view('home/home_page', '', true),
+			'sidebar_nav' => $this->load->view('events/sidebar_nav', '', true ),
+			'sidebar' => $this->load->view('home/sidebar', '', true ),
+			'footer' => $this->load->view('layouts/standard_footer', '', true )
 		);
 		$this->load->view('layouts/standard_page', $pg_data );
 	}

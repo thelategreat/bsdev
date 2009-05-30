@@ -6,6 +6,7 @@ class Cinema extends Controller {
 	function Cinema()
 	{
 		parent::Controller();
+		$this->auth->restrict_role('admin');
 		$this->load->helper('url');
 		$this->load->database();
 	}
@@ -37,7 +38,7 @@ class Cinema extends Controller {
 			'title' => 'Admin - Cinema',
 			'nav' => $this->load->view('layouts/admin_nav', '', true),
 			'content' => $this->load->view('admin/films/films_list', $data, true ),
-			'footer' => $this->load->view('layouts/standard_footer', '', true)
+			'footer' => $this->load->view('layouts/admin_footer', '', true)
 		);
 		$this->load->view('layouts/admin_page', $pg_data );
 		
@@ -75,7 +76,7 @@ class Cinema extends Controller {
 			'title' => 'Admin - Cinema',
 			'nav' => $this->load->view('layouts/admin_nav', '', true),
 			'content' => $this->load->view('admin/films/films_add', '', true ),
-			'footer' => $this->load->view('layouts/standard_footer', '', true)
+			'footer' => $this->load->view('layouts/admin_footer', '', true)
 		);
 		$this->load->view('layouts/admin_page', $pg_data );		
 	}
@@ -122,7 +123,7 @@ class Cinema extends Controller {
 			'title' => 'Admin - Cinema',
 			'nav' => $this->load->view('layouts/admin_nav', '', true),
 			'content' => $this->load->view('admin/films/films_edit', array('film' => $film), true ),
-			'footer' => $this->load->view('layouts/standard_footer', '', true)
+			'footer' => $this->load->view('layouts/admin_footer', '', true)
 		);
 		$this->load->view('layouts/admin_page', $pg_data );		
 	}

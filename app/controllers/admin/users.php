@@ -7,6 +7,7 @@ class Users extends Controller
 	function Users()
 	{
 		parent::Controller();
+		$this->auth->restrict_role(array('admin'));
 		$this->load->helper('url','form');
 		$this->load->library('form_validation');
 		$this->load->model('users_model');
@@ -25,7 +26,7 @@ class Users extends Controller
 			'title' => 'Admin - Users',
 			'nav' => $this->load->view('layouts/admin_nav', '', true),
 			'content' => $this->load->view('admin/users/users_list', array('users' => $data), true ),
-			'footer' => $this->load->view('layouts/standard_footer', '', true)
+			'footer' => $this->load->view('layouts/admin_footer', '', true)
 		);
 		$this->load->view('layouts/admin_page', $pg_data );
 	}
@@ -64,7 +65,7 @@ class Users extends Controller
 			'title' => 'Admin - Users',
 			'nav' => $this->load->view('layouts/admin_nav', '', true),
 			'content' => $this->load->view('admin/users/users_add', $content, true ),
-			'footer' => $this->load->view('layouts/standard_footer', '', true)
+			'footer' => $this->load->view('layouts/admin_footer', '', true)
 		);
 		$this->load->view('layouts/admin_page', $pg_data );
 		
@@ -127,7 +128,7 @@ class Users extends Controller
 			'title' => 'Admin - Users',
 			'nav' => $this->load->view('layouts/admin_nav', '', true),
 			'content' => $this->load->view('admin/users/users_edit', $content, true ),
-			'footer' => $this->load->view('layouts/standard_footer', '', true)
+			'footer' => $this->load->view('layouts/admin_footer', '', true)
 		);
 		$this->load->view('layouts/admin_page', $pg_data );
 		

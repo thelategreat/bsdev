@@ -7,97 +7,18 @@ class Calendar extends Controller
 	protected $day_names = array("Sun","Mon","Tue","Wed","Thu","Fri","Sat");
 	protected $month_names = array("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec");
 
-	function Calender()
+	function Calendar()
 	{
 		parent::Controller();
+		
+		$this->auth->restrict_role('admin');
 		$this->load->model('event_model');
+		
 	}
 	
 	function index()
 	{
 		$this->month();
-	}
-	
-	
-	function add_event()
-	{
-		$ra = array(
-			'err' => true,
-			'msg' => 'nothing happened',
-			'data' => $_POST
-			);
-		// YYYY-MM-DD HH:MM:SS
-		
-		if( $this->input->post('title')) {
-			if( $this->input->post('id') != -1 ) {
-				$this->update_event();
-				return;
-			}
-			$this->load->model('event_model');
-			$data['submitter_id'] = 1;
-			$data['title'] = $this->input->post('title');
-			$data['venue'] = $this->input->post('venue');
-			$data['body'] = $this->input->post('body');
-			$data['dt_start'] = $this->input->post('event_date_start') . " " . $this->input->post('event_time_start');
-			$data['dt_end'] = $this->input->post('event_date_end') . " " . $this->input->post('event_time_end');
-			$this->event_model->add_event( $data );
-			$ra['err']  = false;
-		}
-		
-		echo json_encode( $ra );		
-	}
-	
-	function update_event()
-	{
-		$ra = array(
-			'err' => true,
-			'msg' => 'nothing happened',
-			'data' => $_POST
-			);
-
-
-		if( $this->input->post('title')) {
-			$this->load->model('event_model');
-			$id = $this->input->post('id');
-			$data['submitter_id'] = 1;
-			$data['title'] = $this->input->post('title');
-			$data['venue'] = $this->input->post('venue');
-			$data['body'] = $this->input->post('body');
-			$data['dt_start'] = $this->input->post('event_date_start') . " " . $this->input->post('event_time_start');
-			$data['dt_end'] = $this->input->post('event_date_end') . " " . $this->input->post('event_time_end');
-			if( $id ) {
-				$this->event_model->update_event( $id, $data );
-				$ra['err']  = false;
-			} else {
-				
-			}
-		}
-
-		echo json_encode( $ra );		
-	}
-	
-	function delete_event()
-	{
-		
-	}
-	
-	function ajax_get_event()
-	{
-		$ra = array(
-			'err' => true,
-			'msg' => 'nothing happened',
-			'data' => $_POST
-			);
-
-		if( $this->input->post('id')) {
-			$this->db->where('id', $this->input->post('id'));
-			$res = $this->db->get('events')->result_array();
-			$ra['err'] = false;
-			$ra['msg'] = '';
-			$ra['data'] = $res[0];
-		}
-		
-		echo json_encode( $ra );
 	}
 	
 	function month()
@@ -193,7 +114,7 @@ class Calendar extends Controller
 			'title' => 'Admin - Calendar',
 			'nav' => $this->load->view('layouts/admin_nav', '', true),
 			'content' => $this->load->view('admin/calendar/calendar', $data, true ),
-			'footer' => $this->load->view('layouts/standard_footer', '', true)
+			'footer' => $this->load->view('layouts/admin_footer', '', true)
 		);
 		$this->load->view('layouts/admin_page', $pg_data );		
 	}
@@ -325,7 +246,7 @@ class Calendar extends Controller
 			'title' => 'Admin - Calendar',
 			'nav' => $this->load->view('layouts/admin_nav', '', true),
 			'content' => $this->load->view('admin/calendar/calendar', $data, true ),
-			'footer' => $this->load->view('layouts/standard_footer', '', true)
+			'footer' => $this->load->view('layouts/admin_footer', '', true)
 		);
 		$this->load->view('layouts/admin_page', $pg_data );				
 	}
@@ -393,11 +314,107 @@ class Calendar extends Controller
 			'title' => 'Admin - Calendar',
 			'nav' => $this->load->view('layouts/admin_nav', '', true),
 			'content' => $this->load->view('admin/calendar/calendar', $data, true ),
-			'footer' => $this->load->view('layouts/standard_footer', '', true)
+			'footer' => $this->load->view('layouts/admin_footer', '', true)
 		);
 		$this->load->view('layouts/admin_page', $pg_data );						
 	}
 	
+	
+	function new_event()
+	{
+		$this->load->view('admin/calendar/event' );						
+	}
+	
+	function new_media()
+	{
+		$this->load->view('admin/calendar/event_media' );								
+	}
+	
+	function rm_event()
+	{
+		
+	}
+	
+
+	function ajax_add_event()
+	{
+		$ra = array(
+			'err' => true,
+			'msg' => 'nothing happened',
+			'data' => $_POST
+			);
+		// YYYY-MM-DD HH:MM:SS
+		
+		if( $this->input->post('title')) {
+			if( $this->input->post('id') != -1 ) {
+				$this->update_event();
+				return;
+			}
+			$this->load->model('event_model');
+			$data['submitter_id'] = 1;
+			$data['title'] = $this->input->post('title');
+			$data['venue'] = $this->input->post('venue');
+			$data['body'] = $this->input->post('body');
+			$data['dt_start'] = $this->input->post('event_date_start') . " " . $this->input->post('event_time_start');
+			$data['dt_end'] = $this->input->post('event_date_end') . " " . $this->input->post('event_time_end');
+			$this->event_model->add_event( $data );
+			$ra['err']  = false;
+		}
+		
+		echo json_encode( $ra );		
+	}
+	
+	function ajax_update_event()
+	{
+		$ra = array(
+			'err' => true,
+			'msg' => 'nothing happened',
+			'data' => $_POST
+			);
+
+
+		if( $this->input->post('title')) {
+			$this->load->model('event_model');
+			$id = $this->input->post('id');
+			$data['submitter_id'] = 1;
+			$data['title'] = $this->input->post('title');
+			$data['venue'] = $this->input->post('venue');
+			$data['body'] = $this->input->post('body');
+			$data['dt_start'] = $this->input->post('event_date_start') . " " . $this->input->post('event_time_start');
+			$data['dt_end'] = $this->input->post('event_date_end') . " " . $this->input->post('event_time_end');
+			if( $id ) {
+				$this->event_model->update_event( $id, $data );
+				$ra['err']  = false;
+			} else {
+				
+			}
+		}
+
+		echo json_encode( $ra );		
+	}
+		
+	function ajax_get_event()
+	{
+		$ra = array(
+			'err' => true,
+			'msg' => 'nothing happened',
+			'data' => $_POST
+			);
+
+		if( $this->input->post('id')) {
+			$this->db->where('id', $this->input->post('id'));
+			$res = $this->db->get('events')->result_array();
+			$ra['err'] = false;
+			$ra['msg'] = '';
+			$ra['data'] = $res[0];
+		}
+		
+		echo json_encode( $ra );
+	}
+	
+	// --------------------------------
+	// P R I V A T E  F U N C T I O N S
+	// --------------------------------	
 	private function _adjust_date( $month, $year )
 	{
 		$a = array();  

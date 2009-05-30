@@ -1,0 +1,224 @@
+/*************************************************
+	Bookshelf 2009
+	
+	Site by Barking Dog Studios
+	http://www.barkingdogstudios.com/
+	
+	These styles make Internet Explorer 7
+	behave like a normal, modern browser :)
+
+*************************************************/
+
+ul#main_nav {
+	position: absolute;
+	top: 35px;
+	left: 338px;
+	width: 278px;
+	height: 25px;
+	list-style: none;
+}
+
+ul#sidebar_home_nav {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	z-index: 99;
+	width: 292px;
+	height: 34px;
+	background: url(../i/sidebar_home_nav_bg.gif) repeat-x left 6px;
+	list-style: none;
+	overflow: hidden;
+}
+
+ul#sidebar_home_nav li {
+	margin-left: 20px;
+}
+
+ul#sidebar_home_nav li.today {
+	margin-left: 0;
+	width: 39px;
+}
+
+ul#sidebar_home_nav li.tomorrow {
+	width: 64px;
+}
+
+ul#sidebar_home_nav li.date {
+	width: 54px;
+}
+
+ul#sidebar_home_nav li.calendar {
+	width: 55px;
+}
+
+ul#sidebar_home_nav li.refine {
+	margin-left: 0;
+	width: 105px;
+}
+
+#search-results ul#sidebar_home_nav li.calendar {
+	margin-left: 0;
+	width: 55px;
+}
+
+
+/* Negative top margin fixes rollover color issues */
+ul.search_result_listings li {
+	position: relative;
+	margin-top: -4px;
+	border-bottom: 1px solid #c5c2bf;
+	font-family: "Trebuchet MS", Helvetica, Arial;
+	overflow: hidden;
+}
+
+#sidebar ul#listings li {
+	margin-top: -4px;
+}
+
+
+#sidebar ul#listings li a .description {
+	clear: left;
+	float: left;
+	padding-left: 58px;
+	width: 211px;
+	font: normal 10px/15px Verdana, Helvetica, Arial;
+	color: #ccc;
+}
+
+ul#main_content_nav {
+	position: absolute;
+	bottom: -10px; 
+	left: 0;
+	z-index: 99;
+	padding-left: 12px;
+	width: 596px;
+	height: 44px;
+	list-style: none;
+	overflow: hidden;
+	background: url(../i/sidebar_home_nav_bg.gif) repeat-x 0 6px;	
+}
+
+ul#main_content_nav li {
+	margin-left: 4px;
+	float: left;
+}
+
+ul#main_content_nav li.details {
+	width: 60px;
+}
+
+ul#main_content_nav li.location {
+	width: 70px;
+}
+
+ul#main_content_nav li.media_gallery {
+	width: 105px;
+}
+
+ul#main_content_nav li.calendar_month {
+	width: 105px;
+}
+
+ul#main_content_nav li.search_results {
+	width: 110px;
+}
+
+ul#weekday {
+	position: relative;
+	left: 2px;
+	width: 602px;
+	height: 12px;
+	list-style: none;
+	overflow: hidden;	
+}
+
+ul.calendar {
+	position: relative;
+	z-index: 1;
+	left: 6px;
+	width: 602px;
+	height: 308px;
+	list-style: none;
+}
+
+ul.calendar li.day {
+	position: relative;
+	z-index: 1;
+	float: left;
+	width: 82px;
+	height: 46px;
+	background: url(../i/calendar_default_bg.gif) no-repeat 0 0;
+	border-left: 4px solid #fff;
+	border-bottom: 4px solid #fff;
+}
+
+ul.calendar li.day.events ul.day_events {
+	display: none;
+	position: absolute;
+	z-index: 9999;
+	padding: 12px 0 4px 12px;
+	border: 4px solid #fff;
+	width: 242px;
+	background: #a82e24 url(../i/day_events_bg_repeat.jpg) repeat-x 0 0;
+	list-style: none;
+}
+
+ul.search_result_listings li .left {
+	display: block;
+	width: 280px;
+	overflow: hidden;
+}
+
+ul.search_result_listings li .left .result_title {
+	float: left;
+	width: 280px;
+	font: bold 13px/15px "Trebuchet MS", Helvetica, Arial;
+	color: #a72e24;
+}
+
+ul.search_result_listings li .left .result_description {
+	clear: left;
+	float: left;
+	width: 280px;
+	font: normal 11px/15px "Trebuchet MS", Helvetica, Arial;
+	color: #000;
+}
+
+#search-results fieldset ul li.radio_left {
+	clear: left;
+	float: left;
+	margin-left: 30px;
+	padding-top: 4px;
+	width: 85px;
+	overflow: hidden;
+}
+
+#search-results fieldset ul li.radio_left label {
+	float: left;
+	padding: 2px 0 0 5px;
+	width: 60px;
+}
+
+#search-results fieldset ul li.radio_right {
+	float: left;
+	padding-top: 4px;
+	width: 130px;
+	overflow: hidden;
+}
+
+#search-results fieldset ul li.radio_right label {
+	float: left;
+	padding: 2px 0 0 5px;
+	width: 105px;
+}
+
+#search-results #sidebar #sidebar_search_button {
+	position: absolute;
+	bottom: -20px;
+	right: 0;
+	margin-left: 12px;
+	width: 292px;
+	height: 22px;
+	border-top: 4px solid #fff;
+	background: #a82e24;
+}

@@ -55,16 +55,19 @@
 <body>
 	<div id="container">
 	   <div id="header">
-		<h1>Bookshelf - Admin</h1>
+			<h1>Bookshelf - Admin</h1>
+			<div style="float: right">
+			  <a href="/">Main Site</a>
+			</div>
 	   </div>
 	   <div id="nav">
-		<?=$nav?>
+			<?=$nav?>
 	   </div>	
 	   <div id="content">
-		<?=$content?>
+			<?=$content?>
 	   </div>
 	   <div id="footer">
-		<?=$footer?>
+			<?=$footer?>
 	   </div>
 	</div>
 </body>

@@ -6,6 +6,7 @@ class Ebar extends Controller {
 	function Ebar()
 	{
 		parent::Controller();
+		$this->auth->restrict_role('admin');
 	}
 	
 	function index()
@@ -14,7 +15,7 @@ class Ebar extends Controller {
 			'title' => 'Admin - eBar',
 			'nav' => $this->load->view('layouts/admin_nav', '', true),
 			'content' => $this->load->view('admin/ebar', '', true ),
-			'footer' => $this->load->view('layouts/standard_footer', '', true)
+			'footer' => $this->load->view('layouts/admin_footer', '', true)
 		);
 		$this->load->view('layouts/admin_page', $pg_data );
 	}

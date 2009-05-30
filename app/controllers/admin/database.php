@@ -11,6 +11,7 @@ class Database extends Controller
 	function __construct()
 	{
 		parent::Controller();
+		$this->auth->restrict_role('admin');
 		$this->load->database();
 	}
 	

@@ -1,3 +1,4 @@
+
 <script type="text/javascript">
 
 function edit_event( id )
@@ -28,7 +29,7 @@ function edit_event( id )
 function get_event_data( eid )
 {
 	var ok = true;
-	
+	/*
 	$.post('/admin/calendar/ajax_get_event', {id: eid }, function(data) {
 		data = eval("(" + data + ")");
 		if( data.err == 1 ) {
@@ -46,18 +47,62 @@ function get_event_data( eid )
 			$('#fld_event_time_end').val(tmp[1].substr(0,5));
 		}
 	});
+	*/
 	return ok;
+}
+
+function get_details()
+{
+	$.get('/admin/calendar/new_event', function(data) {
+		$('#modal_content').html( data );
+		tinyMCE.init({
+			mode : "textareas",
+			editor_deselector : "mceNoEditor",
+			theme : "advanced",
+			theme_advanced_buttons1 : "mybutton,bold,italic,underline,separator,strikethrough,justifyleft,justifycenter,justifyright, justifyfull,bullist,numlist,undo,redo,link,unlink",
+			theme_advanced_buttons2 : "",
+			theme_advanced_buttons3 : "",
+			theme_advanced_toolbar_location : "top",
+			theme_advanced_toolbar_align : "left",
+			theme_advanced_statusbar_location : "bottom",		
+		});			
+	});
+	
+}
+
+function get_media()
+{
+	$.get('/admin/calendar/new_media', function(data) {
+		$('#modal_content').html( data );
+	});
+	
 }
 
 function modal_open( dialog )
 {
 	var ediv = $('#editModalDiv');
-	
+
+	$.get('/admin/calendar/new_event', function(data) {
+		$('#modal_content').html( data );
+	});
+
+
 	dialog.overlay.fadeIn('fast', function() {
 		dialog.container.fadeIn('slow',function() {
 			dialog.data.hide().slideDown('fast');
+			tinyMCE.init({
+				mode : "textareas",
+				editor_deselector : "mceNoEditor",
+				theme : "advanced",
+				theme_advanced_buttons1 : "mybutton,bold,italic,underline,separator,strikethrough,justifyleft,justifycenter,justifyright, justifyfull,bullist,numlist,undo,redo,link,unlink",
+				theme_advanced_buttons2 : "",
+				theme_advanced_buttons3 : "",
+				theme_advanced_toolbar_location : "top",
+				theme_advanced_toolbar_align : "left",
+				theme_advanced_statusbar_location : "bottom",		
+			});			
 		});	
-	});
+	});	
 }
 
 function save_record()
@@ -103,6 +148,18 @@ function modal_close( dialog )
 </div>
 
 <div style="display: none; margin: 5px;" id="editModalDiv">
+ <div id="modal_tools" style="border-bottom: 1px solid #ddd;">
+	<span style="float: right">
+		<img onclick="$.modal.close()" src="/img/close.png" title="Close" style="cursor: pointer;"/>
+	</span>
+    <h3>Edit Event</h3>
+ </div>
+ <div id="modal_content">
+ </div>
+</div>
+
+
+<!--
 <h3>Event</h3>
 <form id="event_form" action="/admin/calendar/add_event" >
 <input type="hidden" name="id" id="fld_id" value="-1" />
@@ -154,7 +211,6 @@ function modal_close( dialog )
 </table>
 </form>
 <p/>
-<button onclick="save_record()">Save</button>
-<button onclick="$.modal.close()">Cancel</button>
 
 </div>
+-->

@@ -17,7 +17,7 @@ class Migrate extends Controller
 	function Migrate()
 	{
 		parent::Controller();
-		//$this->auth->restrict_role('admin');
+		$this->auth->restrict_role('admin');
 		$this->load->helper('url');  
 		//$this->load->library('tabs');
     
@@ -45,7 +45,7 @@ class Migrate extends Controller
 		$pg_data = array(
 			'title' => 'Admin',
 			'nav' => $this->load->view('layouts/admin_nav', '', true),
-			'footer' => $this->load->view('layouts/standard_footer', '', true),
+			'footer' => $this->load->view('layouts/admin_footer', '', true),
 			'content' => $this->load->view('admin/admin_migrate', array('keys' => $keys), true)
 		);
 		$this->load->view('layouts/admin_page', $pg_data );

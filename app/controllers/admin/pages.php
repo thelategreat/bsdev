@@ -11,7 +11,7 @@ class Pages extends Controller
 	function __construct()
 	{
 		parent::Controller();
-		//$this->auth->restrict_role('admin');
+		$this->auth->restrict_role('admin');
 		$this->load->library('pagination');
 		$this->load->helper('url');		
 		$this->load->helper('form');	
@@ -34,7 +34,7 @@ class Pages extends Controller
 			'title' => 'Welcome',
 			'nav' => $this->load->view('layouts/admin_nav', '', true),
 			'content' => $this->load->view('admin/pages/pages_list', $data, true),
-			'footer' => $this->load->view('layouts/standard_footer', '', true)
+			'footer' => $this->load->view('layouts/admin_footer', '', true)
 		);
 		$this->load->view('layouts/admin_page', $pg_data );
 	}
@@ -59,7 +59,7 @@ class Pages extends Controller
 			'title' => 'Welcome',
 			'nav' => $this->load->view('layouts/admin_nav', '', true),
 			'content' => $this->load->view('admin/pages/pages_add', $data, true),
-			'footer' => $this->load->view('layouts/standard_footer', '', true)
+			'footer' => $this->load->view('layouts/admin_footer', '', true)
 		);
 		$this->load->view('layouts/admin_page', $pg_data );
 		
@@ -94,7 +94,7 @@ class Pages extends Controller
 			'title' => 'Welcome',
 			'nav' => $this->load->view('layouts/admin_nav', '', true),
 			'content' => $this->load->view('admin/pages/pages_edit', $data, true),
-			'footer' => $this->load->view('layouts/standard_footer', '', true)
+			'footer' => $this->load->view('layouts/admin_footer', '', true)
 		);
 		$this->load->view('layouts/admin_page', $pg_data );
 		

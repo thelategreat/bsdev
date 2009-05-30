@@ -22,6 +22,7 @@ class Maillist extends Controller {
 	function Maillist()
 	{
 		parent::Controller();
+		$this->auth->restrict_role('admin');
 		$this->load->helper('url');
 	}
 	
@@ -42,7 +43,7 @@ class Maillist extends Controller {
 			'title' => 'Admin - Mailing List Newsletters',
 			'nav' => $this->load->view('layouts/admin_nav', '', true),
 			'content' => $this->load->view('admin/maillist/msg_list', $content, true ),
-			'footer' => $this->load->view('layouts/standard_footer', '', true)
+			'footer' => $this->load->view('layouts/admin_footer', '', true)
 		);
 		$this->load->view('layouts/admin_page', $pg_data );
 		
@@ -76,7 +77,7 @@ class Maillist extends Controller {
 			'title' => 'Admin - Mailing List Newsletters',
 			'nav' => $this->load->view('layouts/admin_nav', '', true),
 			'content' => $this->load->view('admin/maillist/msg_add', $content, true ),
-			'footer' => $this->load->view('layouts/standard_footer', '', true)
+			'footer' => $this->load->view('layouts/admin_footer', '', true)
 		);
 		$this->load->view('layouts/admin_page', $pg_data );
 		
@@ -109,7 +110,7 @@ class Maillist extends Controller {
 			'title' => 'Admin - Mailing List Newsletters',
 			'nav' => $this->load->view('layouts/admin_nav', '', true),
 			'content' => $this->load->view('admin/maillist/msg_edit', $content, true ),
-			'footer' => $this->load->view('layouts/standard_footer', '', true)
+			'footer' => $this->load->view('layouts/admin_footer', '', true)
 		);
 		$this->load->view('layouts/admin_page', $pg_data );
 		
@@ -128,7 +129,7 @@ class Maillist extends Controller {
 			'title' => 'Admin - Mailing List Groups',
 			'nav' => $this->load->view('layouts/admin_nav', '', true),
 			'content' => $this->load->view('admin/maillist/list_list', $content, true ),
-			'footer' => $this->load->view('layouts/standard_footer', '', true)
+			'footer' => $this->load->view('layouts/admin_footer', '', true)
 		);
 		$this->load->view('layouts/admin_page', $pg_data );
 	}
@@ -158,7 +159,7 @@ class Maillist extends Controller {
 			'title' => 'Admin - Mailing List Groups',
 			'nav' => $this->load->view('layouts/admin_nav', '', true),
 			'content' => $this->load->view('admin/maillist/list_add', $content, true ),
-			'footer' => $this->load->view('layouts/standard_footer', '', true)
+			'footer' => $this->load->view('layouts/admin_footer', '', true)
 		);
 		$this->load->view('layouts/admin_page', $pg_data );
 		
@@ -191,7 +192,7 @@ class Maillist extends Controller {
 			'title' => 'Admin - Mailing List Groups',
 			'nav' => $this->load->view('layouts/admin_nav', '', true),
 			'content' => $this->load->view('admin/maillist/list_edit', $content, true ),
-			'footer' => $this->load->view('layouts/standard_footer', '', true)
+			'footer' => $this->load->view('layouts/admin_footer', '', true)
 		);
 		$this->load->view('layouts/admin_page', $pg_data );
 		
@@ -210,7 +211,7 @@ class Maillist extends Controller {
 			'title' => 'Admin - Mailing List Subscribers',
 			'nav' => $this->load->view('layouts/admin_nav', '', true),
 			'content' => $this->load->view('admin/maillist/subscr_list', $content, true ),
-			'footer' => $this->load->view('layouts/standard_footer', '', true)
+			'footer' => $this->load->view('layouts/admin_footer', '', true)
 		);
 		$this->load->view('layouts/admin_page', $pg_data );
 	}
@@ -240,7 +241,7 @@ class Maillist extends Controller {
 			'title' => 'Admin - Mailing List Subscribers',
 			'nav' => $this->load->view('layouts/admin_nav', '', true),
 			'content' => $this->load->view('admin/maillist/subscr_add', $content, true ),
-			'footer' => $this->load->view('layouts/standard_footer', '', true)
+			'footer' => $this->load->view('layouts/admin_footer', '', true)
 		);
 		$this->load->view('layouts/admin_page', $pg_data );
 		
@@ -273,7 +274,7 @@ class Maillist extends Controller {
 			'title' => 'Admin - Mailing List Subscribers',
 			'nav' => $this->load->view('layouts/admin_nav', '', true),
 			'content' => $this->load->view('admin/maillist/subscr_edit', $content, true ),
-			'footer' => $this->load->view('layouts/standard_footer', '', true)
+			'footer' => $this->load->view('layouts/admin_footer', '', true)
 		);
 		$this->load->view('layouts/admin_page', $pg_data );
 		

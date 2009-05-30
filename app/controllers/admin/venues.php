@@ -6,6 +6,7 @@ class Venues extends Controller {
 	function Venues()
 	{
 		parent::Controller();
+		$this->auth->restrict_role('admin');
 		$this->load->helper('url');
 		$this->load->library('tabs');
 
@@ -27,7 +28,7 @@ class Venues extends Controller {
 			'title' => 'Admin - Venues',
 			'nav' => $this->load->view('layouts/admin_nav', '', true),
 			'content' => $this->load->view('admin/venues/venue_list', $content, true ),
-			'footer' => $this->load->view('layouts/standard_footer', '', true)
+			'footer' => $this->load->view('layouts/admin_footer', '', true)
 		);
 		$this->load->view('layouts/admin_page', $pg_data );
 	}
@@ -62,7 +63,7 @@ class Venues extends Controller {
 			'title' => 'Admin - Venues',
 			'nav' => $this->load->view('layouts/admin_nav', '', true),
 			'content' => $this->load->view('admin/venues/venue_add', $content, true ),
-			'footer' => $this->load->view('layouts/standard_footer', '', true)
+			'footer' => $this->load->view('layouts/admin_footer', '', true)
 		);
 		$this->load->view('layouts/admin_page', $pg_data );
 	}
@@ -109,7 +110,7 @@ class Venues extends Controller {
 			'title' => 'Admin - Venues',
 			'nav' => $this->load->view('layouts/admin_nav', '', true),
 			'content' => $page,
-			'footer' => $this->load->view('layouts/standard_footer', '', true)
+			'footer' => $this->load->view('layouts/admin_footer', '', true)
 		);
 		$this->load->view('layouts/admin_page', $pg_data );
 	}

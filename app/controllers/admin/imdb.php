@@ -6,6 +6,7 @@ class Imdb extends Controller {
 	function Imdb()
 	{
 		parent::Controller();
+		$this->auth->restrict_role('admin');
 		$this->load->database();
 		$this->load->helper('markdown');
 	}
@@ -16,7 +17,7 @@ class Imdb extends Controller {
 			'title' => 'Admin - IMDB',
 			'nav' => $this->load->view('layouts/admin_nav', '', true),
 			'content' => $this->load->view('admin/imdb', '', true ),
-			'footer' => $this->load->view('layouts/standard_footer', '', true)
+			'footer' => $this->load->view('layouts/admin_footer', '', true)
 		);
 		$this->load->view('layouts/admin_page', $pg_data );
 	}
