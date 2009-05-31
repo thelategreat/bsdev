@@ -21,7 +21,7 @@
 	<script src="/scripts/TradeGothic_700.font.js" type="text/javascript"></script>
 </head>
 	
-<body id="<?= $page_name ?>"> <!-- Make this change for each page -->
+<body id="<?= $css_name ?>"> <!-- Make this change for each page -->
 <!--
 <ul id="stylesheet">
 	<li><a href="#" rel="/css/screen.css">Red</a></li>
@@ -67,7 +67,7 @@
     	</div>
 
     	<div id="top_feature">
-    		<img src="/i/features/top_feature.jpg" width="608" height="128" alt="Alt text goes here" />
+			  <?= $featured_top ?>
     		<?= $main_content_nav ?>
     	</div>
 
@@ -87,27 +87,8 @@
 	    </div><!-- /Sidebar -->
     </div><!-- /Content Wrapper -->
 
-
-    <div id="featured_bottom">
-    	<div id="featured_left">
-    		<a href="#">
-    		<img src="/i/features/featured_left.jpg" width="292" height="124" alt="Alt text goes here" />
-    		</a>
-    	</div>
-
-    	<div id="featured_middle">
-    		<a href="#">
-    		<img src="/i/features/featured_middle.jpg" width="292" height="124" alt="Alt text goes here" />
-    		</a>
-    	</div>
-
-    	<div id="featured_right">
-    		<a href="#">
-    		<img src="/i/features/featured_right.jpg" width="292" height="124" alt="Alt text goes here" />
-    		</a>
-    	</div>
-    </div><!-- /Featured Row -->	
-
+		<?= $featured_bottom ?>
+		
 </div><!-- /Wrapper -->
 
 	<div id="footer">

@@ -42,6 +42,7 @@ class Pages extends Controller
 	function add()
 	{
 		if( $this->input->post('save')) {
+			unset($_POST['save']);
 			$this->pages_model->add_page( $_POST );
 			redirect('/admin/pages');
 		}
@@ -69,6 +70,7 @@ class Pages extends Controller
 	function edit()
 	{
 		if( $this->input->post('save') ) {
+			unset($_POST["save"]);
 			$this->input->post('title');
 			$this->db->where('id', $this->uri->segment(4));
 			if( !isset($_POST['active'])) {

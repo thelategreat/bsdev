@@ -1,7 +1,7 @@
 <?php
 if (!defined('BASEPATH')) exit('No direct script access allowed');   
 
-class Index extends Controller 
+class Index extends MY_Controller 
 {
 	/**
 	 * CTOR
@@ -20,18 +20,18 @@ class Index extends Controller
 	 **/
 	function index()
 	{
-		$pg_data = array(
-			'title' => 'Welcome',
-			'page_title' => 'Bookshelf - Home',
-			'page_name' => 'home',
-			'main_content_nav' => '<ul id="main_content_nav"><li></li></ul>',
-			'content' => $this->load->view('home/home_page', '', true),
-			'sidebar_nav' => $this->load->view('events/sidebar_nav', '', true ),
-			'sidebar' => $this->load->view('home/sidebar', '', true ),
-			'footer' => $this->load->view('layouts/standard_footer', '', true )
-		);
+		$this->load->model('media_model');
+		$res = $this->media_model->files_for_section('front_page');		
+		$images = array();
+		foreach( $res->result() as $row ) {
+			$images[] = './pubmedia/front_page/' . $row->filepath;
+		}
+		
+		$pg_data = $this->get_page_data('Bookshelf - Home', 'home' );
+		$pg_data['content'] = $this->load->view('home/home_page', array('images' => $images), true);
 		$this->load->view('layouts/standard_page', $pg_data );
 	}
+		
 }
 
 /* End of file welcome.php */

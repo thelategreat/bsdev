@@ -1,7 +1,7 @@
 <?php
 if (!defined('BASEPATH')) exit('No direct script access allowed');   
 
-class Page extends Controller 
+class Page extends MY_Controller 
 {
 	/**
 	 * CTOR
@@ -11,6 +11,7 @@ class Page extends Controller
 	function __construct()
 	{
 		parent::Controller();
+		$this->load->model('pages_model');
 	}
 	
 	/**
@@ -25,62 +26,76 @@ class Page extends Controller
 	
 	function about()
 	{
-	  $pg_data = $this->load_page();
-	  $pg_data['content'] = '<h2>About</h2>';
+		$pg_data = $this->get_page_data('Bookshelf - About', 'home');
+		
+		$page = $this->pages_model->get_page('About');
+		$data = array('title' => 'Page Not Found', 'body' => '');
+		if( $page ) {
+			$data['title'] = $page->title;
+			$data['body'] = $page->body;
+		}
+  	$pg_data['content'] = $this->load->view('page/page', $data, true);
 		$this->load->view('layouts/standard_page', $pg_data );
 	}
 
 
 	function contact()
 	{
-	  $pg_data = $this->load_page();
-	  $pg_data['content'] = '<h2>Contact</h2>';
+		$pg_data = $this->get_page_data('Bookshelf - Contact', 'home');
+		$page = $this->pages_model->get_page('Contact');
+		$data = array('title' => 'Page Not Found', 'body' => '');
+		if( $page ) {
+			$data['title'] = $page->title;
+			$data['body'] = $page->body;
+		}
+  	$pg_data['content'] = $this->load->view('page/page', $data, true);
 		$this->load->view('layouts/standard_page', $pg_data );
 	}
 	
 	function legal()
 	{
-	  $pg_data = $this->load_page();
-	  $pg_data['content'] = '<h2>Legal</h2>';
+		$pg_data = $this->get_page_data('Bookshelf - Legal', 'home');
+		$page = $this->pages_model->get_page('Legal');
+		$data = array('title' => 'Page Not Found', 'body' => '');
+		if( $page ) {
+			$data['title'] = $page->title;
+			$data['body'] = $page->body;
+		}
+  	$pg_data['content'] = $this->load->view('page/page', $data, true);
 		$this->load->view('layouts/standard_page', $pg_data );
 	}
 
 	function privacy()
 	{
-	  $pg_data = $this->load_page();
-	  $pg_data['content'] = '<h2>Privacy</h2>';
+		$pg_data = $this->get_page_data('Bookshelf - Privacy', 'home');
+		$page = $this->pages_model->get_page('Privacy');
+		$data = array('title' => 'Page Not Found', 'body' => '');
+		if( $page ) {
+			$data['title'] = $page->title;
+			$data['body'] = $page->body;
+		}
+  	$pg_data['content'] = $this->load->view('page/page', $data, true);
 		$this->load->view('layouts/standard_page', $pg_data );
 	}
 
 
 	function subscribe()
 	{
-	  $pg_data = $this->load_page();
+		$pg_data = $this->get_page_data('Bookshelf - Subscribe', 'home');
 	  $pg_data['content'] = '<h2>Subscribe</h2>';
 		$this->load->view('layouts/standard_page', $pg_data );		
 	}
 	
 	function help()
 	{
-	  $pg_data = $this->load_page();
-	  $pg_data['content'] = '<h2>Help</h2>';
+		$pg_data = $this->get_page_data('Bookshelf - Help', 'home');
+		$page = $this->pages_model->get_page('Help');
+		$data = array('title' => 'Page Not Found', 'body' => '');
+		if( $page ) {
+			$data['title'] = $page->title;
+			$data['body'] = $page->body;
+		}
+  	$pg_data['content'] = $this->load->view('page/page', $data, true);
 		$this->load->view('layouts/standard_page', $pg_data );		
-	}
-	
-	private function load_page()
-	{
-		$pg_data = array(
-			'title' => 'Welcome',
-			'page_title' => 'Bookshelf - Home',
-			'page_name' => 'home',
-			'main_content_nav' => '<ul id="main_content_nav"><li></li></ul>',
-			'content' => '',
-			'sidebar_nav' => $this->load->view('events/sidebar_nav', '', true ),
-			'sidebar' => $this->load->view('home/sidebar', '', true ),
-			'footer' => $this->load->view('layouts/standard_footer', '', true )
-		);	
-		
-		return $pg_data;  
-	}
-	
+	}	
 }

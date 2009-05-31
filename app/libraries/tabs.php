@@ -18,7 +18,7 @@ class Tabs
 		$s = '<div class="tabs"><ul>';
 		foreach( $tabs as $tab ) {
 			$s .= '<li><a href="' .  $url . '/' . str_replace(' ', '_', strtolower($tab)) . '"';
-			if( strtolower($tab) == $selected) {
+			if( strtolower($tab) == strtolower($selected)) {
 				$s .= ' class="selected"';
 			}
 			$s .= '>' . $tab . '</a></li>';

@@ -121,9 +121,23 @@ img {
     padding-top: 5px;
 }
 
-table {border-collapse: collapse; width: 100%; margin: 8px 0 6px 0;border: 1px solid #d7d7d7;}
-table th { text-align: left; background-color: #ddd; border-bottom: 1px solid #d0d0d0;}
-tr.odd { background-color: #efefef;}
+table {
+	border-collapse: collapse; 
+	width: 100%; 
+	margin: 8px 0 6px 0;
+	border: 1px solid #d7d7d7;
+}
+
+table th { 
+	text-align: left; 
+	background-color: #ddd; 
+	background-image: url(/img/fm/gray-grad.png);
+	border-bottom: 1px solid #d0d0d0;
+}
+
+tr.odd { 
+	background-color: #efefef;
+}
 
  
 tr.hilite:hover {
@@ -133,6 +147,15 @@ tr.hilite:hover {
 
 td.label {
     font-weight: bold;
+}
+
+table.media_table td {
+	padding: 5px;
+	border-bottom: 1px solid #aaa;
+}
+
+table.media_table td img {
+	border: 1px solid #666;
 }
 
 div.info {

@@ -14,9 +14,8 @@
 	<li>
 		<a href="/admin">Web Site</a>
 		<ul>
-			<li><a href="/admin">Front Page Features</a></li>
 			<li><a href="/admin/pages">Pages</a></li>
-			<li><a href="/admin">Media</a></li>
+			<li><a href="/admin/media">Media</a></li>
 		</ul>
 	</li>
 	<li>

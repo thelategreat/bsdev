@@ -8,7 +8,7 @@
 	<li><a href="/page/privacy">| Privacy</a></li>		
 </ul>
 
-<p class="copyright">Copyright <?= date('Y') ?> <span>All Rights Reserved</span></p>
+<p class="copyright">Copyright &copy; <?= date('Y') ?> <span>All Rights Reserved</span></p>
 
 <a class="credit" href="http://www.barkingdogstudios.com/"> Design: Barking Dog Studios</a>
 <a class="credit" href="http://www.talonedge.com/"> Site: TalonEdge</a>

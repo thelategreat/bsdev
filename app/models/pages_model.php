@@ -62,4 +62,11 @@ class Pages_model extends Model
 			}
 		}		
 	}
+	
+	function get_page( $title )
+	{
+		$this->db->where('title', $title );
+		return $this->db->get('pages')->row();
+	}
+	
 }

@@ -428,3 +428,4 @@ function magicDate(input) {
          } catch (e){} // no message div
      }
  }
+
