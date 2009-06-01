@@ -41,7 +41,7 @@ class MY_Controller extends Controller
 	}
 	
 	/**
-	 * Weve have these on every page
+	 * We have these on every page
 	 *
 	 * @return void
 	 */

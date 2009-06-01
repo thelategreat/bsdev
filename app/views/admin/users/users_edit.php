@@ -7,7 +7,7 @@
   <tr>
     <td><label for="username">Username</label></td>
     <td><input name="username" size="30" value="<?=$user->username?>" readonly="1"/></td>
-	<td><?=form_error('username')?></td>
+		<td><?=form_error('username')?></td>
   </tr>
   <tr>
     <td valign="top"><label for="role">Role</label></td>
@@ -16,13 +16,15 @@
   </tr>
   <tr>
     <td valign="top"><label for="passwd">Password</label></td>
-    <td><input type="password" name="passwd" size="30" autocomplete="off" value=""/></td>
-	<td><?=form_error('passwd')?></td>
+    <td><input type="password" name="passwd" size="30" autocomplete="off" value=""/>
+		<br/><small><i>leave this blank if you don't want to change the current password</i></small>
+		</td>
+		<td><?=form_error('passwd')?></td>
   </tr>
   <tr>
     <td valign="top"><label for="vpasswd">Verify Password</label></td>
     <td><input type="password" name="vpasswd" size="30" autocomplete="off" value=""/></td>
-	<td><?=form_error('vpasswd')?></td>
+		<td><?=form_error('vpasswd')?></td>
   </tr>
   <tr>
     <td valign="top"><label for="active">Active</label></td>

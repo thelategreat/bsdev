@@ -143,8 +143,8 @@ class Users extends Controller
 	function username_check( $user )
 	{
 		$this->db->where('username',$user);
-		$row = $this->db->get('users');
-		if( $row ) {
+		$result = $this->db->get('users');
+		if( $result->num_rows() > 0 ) {
 			$this->form_validation->set_message('username_check', 'This username is already in use');
 			return false;
 		}

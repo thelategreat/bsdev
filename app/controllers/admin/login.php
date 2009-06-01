@@ -12,7 +12,7 @@ class Login extends Controller {
       $this->page_tabs = array(
         'Details', 'Media'
       );
-	}
+	} 
 
 	function index()
 	{				
