@@ -56,8 +56,12 @@
 	<div id="container">
 	   <div id="header">
 			<h1>Bookshelf - Admin</h1>
-			<div style="float: right">
-			  <a href="/">Main Site</a>
+			<div style="float: right"><small>
+			  <a href="/">site</a> 
+			  <?php if( $this->auth->logged_in()) { ?>
+				 | <a href="/admin/login/logout">logout</a> 
+				<?php } ?>
+				</small>
 			</div>
 	   </div>
 	   <div id="nav">

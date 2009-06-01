@@ -8,6 +8,15 @@
     <td><input name="username" size="30" value="<?=set_value('username')?>"/></td>
 	<td><?=form_error('username')?></td>
   </tr>
+	  <tr>
+	    <td valign="top"><label for="firstname">First Name</label></td>
+	    <td><input name="firstname" size="30" value="" /></td>
+		<td/>
+	  <tr>
+	    <td valign="top"><label for="lastname">Last Name</label></td>
+	    <td><input name="lastname" size="30" value="" /></td>
+		<td/>
+  <tr>
   <tr>
     <td valign="top"><label for="role">Role</label></td>
     <td><?= $role_select ?></td>

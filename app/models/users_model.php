@@ -12,7 +12,7 @@ class users_model extends Model
   function get_users()
   {
     $query =<<<EOF
-SELECT u.id, u.username, u.active, u.last_login, u.email, r.role as role 
+SELECT u.id, u.username, u.firstname, u.lastname, u.active, u.last_login, u.email, r.role as role 
   FROM users as u, user_roles as r 
   WHERE u.role_id = r.id  
   ORDER BY u.username    

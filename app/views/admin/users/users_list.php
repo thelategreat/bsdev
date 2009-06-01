@@ -7,6 +7,7 @@
 <table>
 <tr>
   <th>username</th>
+  <th>name</th>
   <th>role</th>
   <th>email</th>
   <th>active</th>
@@ -16,6 +17,7 @@
   foreach( $users as $row ) { ?>
   <tr <?php if($i % 2 == 0) { echo 'class="odd"'; } ?> >
     <td><a href="/admin/users/edit/<?= $row->id ?>"><?= $row->username ?></td></a>
+    <td><?= $row->firstname ?> <?= $row->lastname ?></td>
     <td><?= $row->role ?></td>
     <td><?= $row->email ?></td>
     <td><?= $row->active ? '<img src="/img/tick.png" />' : '<img src="/img/cross.png" />'?></td>
