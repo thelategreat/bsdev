@@ -31,7 +31,7 @@ class Pages extends Controller
 		$data['titles'] = $this->pages_model->getPageTitles();
 		
 		$pg_data = array(
-			'title' => 'Welcome',
+			'title' => 'Admin - Pages',
 			'nav' => $this->load->view('layouts/admin_nav', '', true),
 			'content' => $this->load->view('admin/pages/pages_list', $data, true),
 			'footer' => $this->load->view('layouts/admin_footer', '', true)
@@ -57,7 +57,7 @@ class Pages extends Controller
 		$data['page_types'] = $this->mk_types_select( 'page' );
 						
 		$pg_data = array(
-			'title' => 'Welcome',
+			'title' => 'Admin - Pages',
 			'nav' => $this->load->view('layouts/admin_nav', '', true),
 			'content' => $this->load->view('admin/pages/pages_add', $data, true),
 			'footer' => $this->load->view('layouts/admin_footer', '', true)

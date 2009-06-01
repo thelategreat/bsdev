@@ -28,6 +28,12 @@ class Events extends MY_Controller
 	 */
 	function calendar()
 	{
+		$main_content_nav = '
+			<ul id="main_content_nav">
+				<li class="calendar_month selected"><a class="cufon" href="page-event-calendar.html">January 2009</a></li>
+				<li class="calendar_meta">Click arrows to view previous or next month.</li>
+			</ul>';
+			
 		/*
 		$pg_data = array(
 			'page_title' => 'Bookshelf - Calendar',
@@ -42,6 +48,8 @@ class Events extends MY_Controller
 		*/
 		$pg_data = $this->get_page_data('Bookshelf - Calendar', 'events-calendar');
 		$pg_data['content'] = $this->load->view('events/calendar', '', true);
+		$pg_data['main_content_nav'] = $main_content_nav;
+		$pg_data['main_nav_arrows'] = '<a id="left_arrow" href="#">&laquo; Previous</a><a id="right_arrow" href="#">Next &raquo;</a>';
 		$this->load->view('layouts/standard_page', $pg_data );	  
 	}
 

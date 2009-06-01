@@ -3,7 +3,7 @@
 <head>
 	<title><?= $page_title ?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" href="/css/screen.css" type="text/css" media="screen" />
+	<link rel="stylesheet" href="<?= $style ?>" type="text/css" media="screen" />
 	<link rel="stylesheet" href="/css/fancybox.css" type="text/css" media="screen" />
 	<!--[if IE 7]><link rel="stylesheet" href="/css/ie7.css" type="text/css" media="screen" /><![endif]-->
 	
@@ -15,8 +15,10 @@
 	<script src="/scripts/jquery.jcarousellite.min.js" type="text/javascript"></script>
 	<script src="/scripts/jquery.pop.js" type="text/javascript"></script>
 	<script src="/scripts/jquery.fancybox.js" type="text/javascript"></script>
-	<!-- This breaks the calendar pop-ups for some reason -->
-	<script src="/scripts/jquery.easing.1.1.1.js" type="text/javascript"></script> 
+	<?php if( $css_name != 'events-calendar') { ?>
+		<!-- This breaks the calendar pop-ups for some reason -->
+		<script src="/scripts/jquery.easing.1.1.1.js" type="text/javascript"></script> 
+	<?php } ?>
 	<script src="/scripts/cufon-yui.js" type="text/javascript"></script>
 	<script src="/scripts/TradeGothic_700.font.js" type="text/javascript"></script>
 </head>
@@ -49,9 +51,9 @@
 
     <div id="header">
     	<ul id="main_nav">
-    		<li class="books"><a href="#" class="cufon">Books</a></li>
-    		<li class="cinema"><a href="#" class="cufon">Cinema</a></li>
-    		<li class="ebar selected"><a href="#" class="cufon">Ebar</a></li>	
+    		<li class="books <?= $section == 'books' ? 'selected' :''?>"><a href="/home/books" class="cufon">Books</a></li>
+    		<li class="cinema <?= $section == 'cinema' ? 'selected' :''?>"><a href="/home/cinema" class="cufon">Cinema</a></li>
+    		<li class="ebar <?= $section == 'ebar' ? 'selected' :''?>"><a href="/home/ebar" class="cufon">Ebar</a></li>	
     	</ul>
 
     	<ul id="header_meta_nav">

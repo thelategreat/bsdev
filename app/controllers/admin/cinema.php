@@ -20,7 +20,7 @@ class Cinema extends Controller {
 	{
 		$filter = array(
 			'page' => 0,
-			'limit' => 20
+			'limit' => 200
 			);
 			
 		$segs = $this->uri->uri_to_assoc(4);

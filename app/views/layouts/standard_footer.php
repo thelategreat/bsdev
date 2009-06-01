@@ -11,4 +11,4 @@
 <p class="copyright">Copyright &copy; <?= date('Y') ?> <span>All Rights Reserved</span></p>
 
 <a class="credit" href="http://www.barkingdogstudios.com/"> Design: Barking Dog Studios</a>
-<a class="credit" href="http://www.talonedge.com/"> Site: TalonEdge</a>
+<a class="credit" href="http://www.talonedge.com/"> Powered by: TalonEdge</a>

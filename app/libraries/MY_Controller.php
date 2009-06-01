@@ -27,6 +27,8 @@ class MY_Controller extends Controller
 			'page_title' => $title,
 			'css_name' => $css_name,
 			'main_content_nav' => '<ul id="main_content_nav"><li></li></ul>',
+			'style' => '/css/screen.css',
+			'section' => '',
 			'content' => '',
 			'sidebar_nav' => $this->load->view('events/sidebar_nav', '', true ),
 			'sidebar' => $this->load->view('home/sidebar', '', true ),
