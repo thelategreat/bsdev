@@ -3,19 +3,21 @@
 		<a href="/admin">Dashboard</a>
 	</li>
 	<li>
-		<a href="/admin">Event Info</a>
+		<a href="/admin">Site</a>
 		<ul>
+			<li><a href="/admin/articles">Articles</a></li>
 			<li><a href="/admin/calendar">Calendar</a></li>
-			<li><a href="/admin/cinema">Films</a></li>
-		<!--	<li><a href="/admin/imdb">IMDB</a></li> -->
-			<li><a href="/admin/venues">Venues</a></li>
+			<li><a href="/admin/media">Features</a></li>
+			<li><a href="/admin/pages">Static Pages</a></li>
 		</ul>
 	</li>
 	<li>
-		<a href="/admin">Web Site</a>
+		<a href="/admin">Data</a>
 		<ul>
-			<li><a href="/admin/pages">Pages</a></li>
-			<li><a href="/admin/media">Media</a></li>
+			<li><a href="/admin/media/library">Media Library</a></li>
+			<li><a href="/admin/cinema">Films</a></li>
+		<!--	<li><a href="/admin/imdb">IMDB</a></li> -->
+			<li><a href="/admin/venues">Venues</a></li>
 		</ul>
 	</li>
 	<li>
@@ -30,11 +32,9 @@
 		<a href="/admin">System</a>
 		<ul>
 			<li><a href="/admin/users">Site Users</a></li>
-			<!--
-			<li><a href="/admin">Stats</a></li>
-			<li><a href="/admin">Logs</a></li>
-			<li><a href="/admin">Backup/Restore</a></li>
-			-->
+			<li><a href="/admin/stats">Stats</a></li>
+			<li><a href="/admin/logs">Logs</a></li>
+			<li><a href="/admin/archive">Backup/Restore</a></li>
 		</ul>
 	</li>
 </ul>

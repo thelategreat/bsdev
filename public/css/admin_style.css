@@ -434,3 +434,26 @@ ul.event_list li span.event_date {
     font-size: 0.85em;
     color: #aaa;
 }
+
+#editModalDiv {
+	display: none; 
+	margin: 0; 
+	margin-top: 0;
+}
+
+#modal_title {
+	background-color: #222;
+	color: #eee;
+	padding: 1px;
+	margin: 1px;
+	margin-bottom: 5px;
+}
+
+#modal_title h3 {
+	padding: 1px;
+	margin: 1px;	
+}
+
+#modal_content {
+	padding: 5px;
+}

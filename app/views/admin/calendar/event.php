@@ -55,5 +55,5 @@
 </table>
 </form>
 <p/>
-<button onclick="save_record()">Save</button>
+<button style="background-color: #9f9;" onclick="save_record()">Save</button>
 <button onclick="$.modal.close()">Cancel</button>

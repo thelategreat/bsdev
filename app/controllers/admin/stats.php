@@ -1,7 +1,7 @@
 <?php
 if (!defined('BASEPATH')) exit('No direct script access allowed');   
 
-class Home extends Controller 
+class Stats extends Controller 
 {
 	/**
 	 * CTOR
@@ -15,21 +15,16 @@ class Home extends Controller
 	}
 	
 	/**
-	 * Home page
 	 *
-	 * @return void
-	 **/
+	 */
 	function index()
 	{		
 		$pg_data = array(
 			'title' => 'Admin',
 			'nav' => $this->load->view('layouts/admin_nav', '', true),
 			'footer' => $this->load->view('layouts/admin_footer', '', true),
-			'content' => $this->load->view('admin/index', '', true)
+			'content' => $this->load->view('admin/stats/stats_list', '', true)
 		);
 		$this->load->view('layouts/admin_page', $pg_data );
 	}
 }
-
-/* End of file welcome.php */
-/* Location: ./system/application/controllers/welcome.php */

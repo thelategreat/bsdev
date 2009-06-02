@@ -12,13 +12,13 @@ class Media extends Controller
 		$this->load->library('form_validation');
 		$this->load->model('media_model');
 		
-		$this->media_tabs = array('Front Page','Top Feature', 'Left Feature', 'Mid Feature', 'Right Feature', 'Library');
+		$this->media_tabs = array('Front Page','Top Feature', 'Left Feature', 'Mid Feature', 'Right Feature');
 		
 	}
 
 	function index()
 	{
-		$this->front_page();
+		redirect('/admin/media/front_page');
 	}
 	
 	
@@ -106,6 +106,31 @@ class Media extends Controller
 	}
 
 
+	function browser()
+	{
+		$view_data = array(
+			'media_path' => '',
+			'errors' => '',
+			'files' => array(),);
+		
+		$this->load->view('admin/media/media_browser', $view_data );						
+	}
+
+	function edit( $fname )
+	{
+		$view_data = array(
+			'fname' => $fname 
+			);
+		
+		$pg_data = array(
+			'title' => 'Admin - Media',
+			'nav' => $this->load->view('layouts/admin_nav', '', true),
+			'content' => $this->load->view("admin/media/media_edit", $view_data, true ),
+			'footer' => $this->load->view('layouts/admin_footer', '', true)
+		);
+		$this->load->view('layouts/admin_page', $pg_data );						
+	}
+
 
 	/* -----------------
 	 * P R I V A T E
@@ -128,9 +153,17 @@ class Media extends Controller
 			$this->rm( $my_root, $segs['rm'], $lc_section );
 			redirect('/admin/media/' . $lc_section );
 		}
+		else if( isset($segs['edit'])) {
+			$this->edit( '/pubmedia/' . $this->uri->segment(3) . "/" . $segs['edit'] );
+			return;
+		}
 		
 		// generate the tabs
-		$tabbar = $this->tabs->gen_tabs($this->media_tabs, $section, '/admin/media');
+		if( $section == 'Library') {
+			$tabbar = '';
+		} else {
+			$tabbar = $this->tabs->gen_tabs($this->media_tabs, $section, '/admin/media');
+		}
 		// load file manager
 		$this->load->library('fm', array('root' => $my_root ));
 		
@@ -151,12 +184,13 @@ class Media extends Controller
 												'errors' => $errors
 												 );
 		// load fm view
-		$file_view = $this->load->view('fm/view', $file_data, true );
+		$file_view = $this->load->view('admin/media/media_list', $file_data, true );
 		// set data for the main view
 		$view_data = array(	'tabs' => $tabbar, 
 												'section' => $section,
 												'content' => $file_view
 												);
+																								
 		// load the page data
 		$pg_data = array(
 			'title' => 'Admin - Media',
