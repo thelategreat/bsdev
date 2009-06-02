@@ -1390,22 +1390,3 @@ ul#stylesheet a {
 	color: #606060;
 	text-decoration: none;
 }
-
-/* normal page styles */
-#page_style {
-	
-}
-
-#page_style h2 {
-	margin-top: 1.2em;
-	margin-bottom: 1.2em;
-}
-
-#page_style p {
-	line-height: 1.4em;
-	margin-bottom: 1.2em;
-}
-
-#page_style ul {
-	margin-left: 20px;
-}

@@ -4,6 +4,7 @@
 	<title><?= $page_title ?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" href="<?= $style ?>" type="text/css" media="screen" />
+	<link rel="stylesheet" href="/css/page.css" type="text/css" media="screen" />
 	<link rel="stylesheet" href="/css/fancybox.css" type="text/css" media="screen" />
 	<!--[if IE 7]><link rel="stylesheet" href="/css/ie7.css" type="text/css" media="screen" /><![endif]-->
 	
