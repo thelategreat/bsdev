@@ -38,7 +38,6 @@ class Articles extends Controller
 	
 	function add()
 	{
-
 		if( $this->input->post("save")) {
 			$this->form_validation->set_error_delimiters('<span class="form_error">','</span>');
 			$this->form_validation->set_rules('title','Title','trim|required');
