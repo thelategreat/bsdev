@@ -18,7 +18,7 @@ class Archive extends Controller
 	 *
 	 */
 	function index()
-	{		
+	{ 		
 		$pg_data = array(
 			'title' => 'Admin',
 			'nav' => $this->load->view('layouts/admin_nav', '', true),
