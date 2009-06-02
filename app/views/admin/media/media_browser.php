@@ -1,4 +1,5 @@
 <div style="float: right">
+<input name="q" size="15" value="search..." />
 <a href="#" onclick="$('#upload_div').toggle();"><img src="/img/go-up.png" /> upload</a>
 </div>
 
