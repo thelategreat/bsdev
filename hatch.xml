@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<project name='IAWeb' basedir='.' default='dist'>
+	<!-- project help -->
+	<info>
+		International ISBN Agency Web Site build.
+	</info>
+	
+	<!-- properties -->
+	<property name="build.dir" value="build" />
+	<property name="test.dir" value="tests" />
+	<property name="doc.dir" value="docs" />
+		
+	<!-- I N I T-->
+	<target name='init' >
+	</target>
+
+	<!-- B U I L D -->
+	<target name='build' depends='clean,init' >
+	</target>
+	
+	<!-- C L E A N -->
+	<target name='clean'>
+	</target>
+
+	<!-- T E S T -->
+	<target name='test' >
+	</target>
+
+	<!-- D I S T -->
+	<target name='dist' depends="build" description="sync to bs dev web site" >
+		<rsync from="." to="te:/home/talonedge/bs.talonedge.com/"
+			 	opts="-e ssh --recursive --links --group --owner --devices --update --delete --compress --progress --stats " 
+				verbose="true" >
+			<exclude name="public/.htaccess" />
+			<exclude name="app/config/config.php" />
+			<exclude name="app/config/database.php" />
+			<exclude name="*~" />
+			<exclude name=".git/*" />
+			<exclude name="app/logs/*" />
+			<exclude name=".DS_Store" />
+			<exclude name=".gitignore" />
+			<exclude name="hatch" />
+			<exclude name="hatch.xml" />
+			<exclude name="h" />
+		</rsync>	
+	</target>
+
+	<!-- D O C -->
+	<target name='doc' >
+	</target>
+</project>
+

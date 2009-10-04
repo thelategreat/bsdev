@@ -1,15 +1,23 @@
 
-<div style="float: right">
-<a href="#" onclick="$('#upload_div').toggle();"><img src="/img/go-up.png" /> upload</a>
+<div style="float: left;">
+	<ul>
+	<?php foreach( $dirs as $dir ) { ?>
+		<li><?=$dir?></li>
+	<?php } ?>
+	</ul>
 </div>
 
-<div id="upload_div" style="display: none;">
-<form method="post" action="" enctype="multipart/form-data" />
-<input type="hidden" name="media_path" value="<?=$media_path?>" />
-<input type="file" name="userfile" />
-<input type="submit" name="upload" value="Upload" />
-</form>
-</div>
+<div style="float: right; width: 75%">
+	
+	<a href="#" onclick="$('#upload_div').toggle();"><img src="/img/go-up.png" /> upload</a>
+	
+	<div id="upload_div" style="display: none;">
+		<form method="post" action="" enctype="multipart/form-data" >
+			<input type="hidden" name="media_path" value="<?=$media_path?>" />
+			<input type="file" name="userfile" />
+			<input type="submit" name="upload" value="Upload" />
+		</form>
+	</div>
 
 <?= $errors ?>
 
@@ -40,3 +48,5 @@
 	</tr>
 <?php $count++; }?>
 </table>
+</div>
+

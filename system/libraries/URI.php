@@ -186,7 +186,8 @@ class CI_URI {
 	{
 		if ($str != '' && $this->config->item('permitted_uri_chars') != '' && $this->config->item('enable_query_strings') == FALSE)
 		{
-			if ( ! preg_match("|^[".preg_quote($this->config->item('permitted_uri_chars'))."]+$|i", $str))
+			//if ( ! preg_match("|^[".preg_quote($this->config->item('permitted_uri_chars'))."]+$|i", $str))
+			if ( ! preg_match("|^[".($this->config->item('permitted_uri_chars'))."]+$|i", $str))
 			{
 				exit('The URI you submitted has disallowed characters.');
 			}

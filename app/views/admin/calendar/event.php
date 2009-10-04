@@ -55,5 +55,7 @@
 </table>
 </form>
 <p/>
+<span id='fld_event_date_startMsg'><p/></span>
+<span id='fld_event_date_endMsg'><p/></span>
 <button style="background-color: #9f9;" onclick="save_record()">Save</button>
 <button onclick="$.modal.close()">Cancel</button>

@@ -17,3 +17,6 @@
 </tr>
 </table>  
 </form>
+<script language="javascript" type="text/javascript">
+$("#username").focus();
+</script>

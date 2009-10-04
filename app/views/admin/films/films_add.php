@@ -61,6 +61,11 @@ function do_link_lookup()
 		<fieldset><legend>Details</legend>
 		<table style="border: 0">
 			<tr>
+				<td><label for="ttno">tt#</label><br/>
+				<input name="ttno" type="text" value="<?set_value('ttno')?>"/></td>
+				<td class="form_error"><?=form_error('ttno')?></td>
+			</tr>
+			<tr>
 				<td><label for="title" onclick="do_lookup()">title</label><br/>
 				<input name="title" id="title" type="text" size="50" class="required" value="<?=set_value('title')?>"/></td>
 				<td class="form_error"><?=form_error('title')?></td>

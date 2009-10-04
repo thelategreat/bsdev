@@ -46,6 +46,7 @@ function __inputIfy(element) {
  
 </script>
 
+<?=$tabs?>
 
 <fieldset><legend>Edit Page</legend>
 <?= form_open('/admin/pages/edit/' . $page->id );?>
@@ -60,7 +61,7 @@ function __inputIfy(element) {
 </tr>
 <tr>
 <td><label>Title</label></td>
-<td><input type="text" name="title" class="textbox" size="50" value="<?=$page->title?>" /></td>
+<td><input type="text" name="title" class="textbox" size="50" value="<?=$page->title?>" <?=$page->deletable ? "" : "readonly"?>/></td>
 </tr>
 <tr>
 <?php if( $page->page_type == 'page') {?>

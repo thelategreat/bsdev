@@ -29,7 +29,7 @@ function edit_event( id )
 function get_event_data( eid )
 {
 	var ok = true;
-	/*
+	
 	$.post('/admin/calendar/ajax_get_event', {id: eid }, function(data) {
 		data = eval("(" + data + ")");
 		if( data.err == 1 ) {
@@ -47,7 +47,7 @@ function get_event_data( eid )
 			$('#fld_event_time_end').val(tmp[1].substr(0,5));
 		}
 	});
-	*/
+	
 	return ok;
 }
 
@@ -81,11 +81,10 @@ function get_media()
 function modal_open( dialog )
 {
 	var ediv = $('#editModalDiv');
-
+  
 	$.get('/admin/calendar/new_event', function(data) {
 		$('#modal_content').html( data );
 	});
-
 
 	dialog.overlay.fadeIn('fast', function() {
 		dialog.container.fadeIn('slow',function() {
@@ -108,12 +107,13 @@ function modal_open( dialog )
 function save_record()
 {
 	var query = $('#event_form').formSerialize();
-	$.post('/admin/calendar/add_event', query, function(data) {
+	$.post('/admin/calendar/ajax_add_event', query, function(data) {
 		data = eval("(" + data + ")");
 		if( data.err == 1 ) {
 			alert( data.msg + data.data );
 		} else {
 			$.modal.close();
+			window.location.reload();
 		}
 	});
 }
@@ -134,7 +134,7 @@ function modal_close( dialog )
 	<ul class="event_list">
 	<?php foreach( $events->result() as $row ) {
 		echo '<li>';
-		echo '<a href="#" onclick="edit_event('.$row->id.')"><img class="icon" src="/img/icons/icon_'.$row->venue.'.gif" /> ' . $row->title . '</a>';
+		echo '<a href="#" title="Edit event" onclick="edit_event('.$row->id.')"><img class="icon" src="/img/icons/icon_'.$row->venue.'.gif" /> ' . $row->title . '</a>';
 		echo '<br/><span class="event_date">' . date("M j, y @ g:ia",strtotime($row->dt_start)). '</span>';
 		echo '</li>';
 	} ?>

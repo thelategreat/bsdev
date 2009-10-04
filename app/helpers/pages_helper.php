@@ -70,7 +70,11 @@ function emit_title_rows( $titles, $offset = 5 )
 			echo '<td>';
 			echo ($page->active ? '<img src="/img/tick.png" onclick="deactivate(0);"/>' : '<img src="/img/cross.png" onclick="activate(0);" />');
 			echo '</td>';
-			echo '<td><a href="/admin/pages/rm/'.$page->id.'" title="delete" onclick="return confirm(\'Really delete this page?\');"><img src="/img/user-trash.png" /></a>';
+			if( $page->deletable ) {
+				echo '<td><a href="/admin/pages/rm/'.$page->id.'" title="delete" onclick="return confirm(\'Really delete this page?\');"><img src="/img/user-trash.png" /></a>';
+			} else {
+				echo '<td/>';
+			}
 		echo '</tr>';
 	
 		if( count($page->children) ) { emit_title_rows( $page->children, $offset + 30 ); }
@@ -78,4 +82,15 @@ function emit_title_rows( $titles, $offset = 5 )
 		$i++;
 		$count++;
 	endforeach;
+}
+
+function pretty_size( $size )
+{
+  // i dont think php can handle a number beyond tera ;)
+  foreach(array('b','kb','mb','gb','tb','pb','eb','zb','yb') as $sz ) {
+    if( $size < 1024.0 ) {
+      return sprintf("%3.1f %s", $size, $sz );
+    }
+    $size /= 1024.0;
+  }
 }

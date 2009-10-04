@@ -104,6 +104,9 @@ $(function() {
 });
 
 
+$(document).ready(function() {
+    //
+});
 
 // Stylesheet switcher to test alternate colors - remove this after testing
 // Must be commented out in order for IE 7 stylesheet to work

@@ -12,7 +12,7 @@ class Pages_model extends Model
 	
 	function getPageTitles( $parent = 0, $recurse = true )
 	{
-		$q = "SELECT id, title, active, parent_id, page_type FROM pages WHERE parent_id = $parent ORDER BY sort_order";
+		$q = "SELECT id, title, active, parent_id, page_type, deletable FROM pages WHERE parent_id = $parent ORDER BY sort_order";
 		$res = $this->db->query( $q );
 		$ra = array();
 		foreach( $res->result() as $row ) {

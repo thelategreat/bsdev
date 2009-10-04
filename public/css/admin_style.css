@@ -125,7 +125,8 @@ table {
 	border-collapse: collapse; 
 	width: 100%; 
 	margin: 8px 0 6px 0;
-	border: 1px solid #d7d7d7;
+	/*border: 1px solid #d7d7d7; */
+	border: 0;
 }
 
 table th { 
@@ -147,6 +148,10 @@ tr.hilite:hover {
 
 td.label {
     font-weight: bold;
+}
+
+table.media_table {
+	font-size: 0.9em;
 }
 
 table.media_table td {
@@ -456,4 +461,93 @@ ul.event_list li span.event_date {
 
 #modal_content {
 	padding: 5px;
+}
+
+/* media browser */
+#media {
+	width: 500px;
+}
+
+#media img {
+	border: 0;
+	margin-left: 5px;
+}
+
+#media .clear_both {
+	clear: both;
+}
+
+#media .float_left,
+#media ul, li {
+	float: left;
+	display: inline;
+}
+
+#media .float_right {
+	float: right;
+}
+
+#media .overclear {
+	width: 100%;
+	overflow: hidden;
+}
+
+#media .buttons {
+	position: relative;
+	height: 15px;
+	padding: 0 0 2px 0;
+	border-bottom: 1px solid #ddd;
+}
+
+#media .prev {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+#media .next {
+	position: absolute;
+	top: 0;
+	right: 0px;
+}
+
+#media .showing {
+	/*margin: 5px 60px 0 60px;*/
+	text-align: center;
+	font-size: .8em;
+}
+
+#media .inner {
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+#media .bottom {
+	height: 30px;
+	border-top: 1px solid #ddd;
+}
+
+#media ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+#media ul li {
+/*	display: none; */
+	position: relative;
+	margin: 0;
+	padding: 0 10px 10px 0;
+	font-size: .8em;
+	z-index: 1;
+	height: 100px;
+	width: 100px;
+}
+
+#media ul li.loader {
+	display: block;
+	float: none;
+	height: 50px;
+	width: 100%;
+	background: url("/img/ajax-loader.gif") no-repeat center center;
 }

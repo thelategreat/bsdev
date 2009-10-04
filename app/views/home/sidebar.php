@@ -1,5 +1,6 @@
 <a class="previous_listings" href="/events/details">&laquo; Previous listings</a>
 
+<!--
 <ul id="listings">
 	<li><a href="/events/details">
 		<span class="time">4pm</span>
@@ -76,6 +77,8 @@
 		<span class="event">Flight of the Conchords <span class="venue">@Ebar</span></span>
 		<em class="description">Flew the Coop Tour with Toad and the Wet Sprocket.</em>
 	</a></li>
-</ul><!-- /Listings -->
+</ul>
+-->
+<!-- /Listings -->
 
 <a class="next_listings" href="#">Next listings &raquo;</a>

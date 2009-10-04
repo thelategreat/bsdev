@@ -335,7 +335,6 @@ class Calendar extends Controller
 		
 	}
 	
-
 	function ajax_add_event()
 	{
 		$ra = array(

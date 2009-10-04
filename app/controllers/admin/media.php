@@ -18,7 +18,7 @@ class Media extends Controller
 
 	function index()
 	{
-		redirect('/admin/media/front_page');
+		redirect('/admin/media/library');
 	}
 	
 	
@@ -177,9 +177,12 @@ class Media extends Controller
 				}
 			}
 		}
+				
+		$dir_list = array();
 		
 		// set data for the fm view
 		$file_data = array( 'files' => $file_list, 
+												'dirs' => $dir_list,
 												'media_path' => $my_root, 
 												'errors' => $errors
 												 );
@@ -195,7 +198,7 @@ class Media extends Controller
 		$pg_data = array(
 			'title' => 'Admin - Media',
 			'nav' => $this->load->view('layouts/admin_nav', '', true),
-			'content' => $this->load->view("admin/media/media", $view_data, true ),
+			'content' => $this->load->view('admin/media/media', $view_data, true ),
 			'footer' => $this->load->view('layouts/admin_footer', '', true)
 		);
 		$this->load->view('layouts/admin_page', $pg_data );				

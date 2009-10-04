@@ -60,6 +60,7 @@ class Cinema extends Controller {
 		
 		if( $this->form_validation->run()) {
 			$data = array();
+			$data['ttno'] = $this->input->post('ttno');
 			$data['title'] = $this->input->post('title');
 			$data['director'] = $this->input->post('director');
 			$data['country'] = $this->input->post('country');
@@ -102,6 +103,7 @@ class Cinema extends Controller {
 		
 		if( $this->form_validation->run()) {
 			$data = array();
+			$data['ttno'] = $this->input->post('ttno');
 			$data['title'] = $this->input->post('title');
 			$data['director'] = $this->input->post('director');
 			$data['country'] = $this->input->post('country');
@@ -128,6 +130,98 @@ class Cinema extends Controller {
 		$this->load->view('layouts/admin_page', $pg_data );		
 	}
 	
+	function upload()
+	{
+		$id = $this->uri->segment(4);
+		if( ! $id ) {
+			return '';
+		}
+		
+		$path = '../public/pubmedia/films/';
+		if( !file_exists( $path . $id)) {
+			mkdir( $path . $id, 0777, TRUE );
+		}
+		
+		$fname = $path . $id . '/' . basename($_FILES['userfile']['name']);
+		$bad_chars = array('`','"','\'','\\','/');
+		$fname = str_replace(' ','_',$fname);
+		$fname = str_replace($bad_chars,'',$fname);
+		if( move_uploaded_file( $_FILES['userfile']['tmp_name'], $fname )) {
+			// cool
+		} else {
+			// not cool
+		}
+		return '';
+	}
+	
+	function media( )
+	{
+		$id = $this->uri->segment(4);
+		if( ! $id ) {
+			redirect("/admin/cinema");
+		}
+
+    $xml =<<<EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<images>
+
+  <image>
+    <caption>Tester image</caption>
+    <source>/pubmedia/films/doubt.jpg</source>
+    <type>image</type>
+    <info>lorem freakin ipsum and all that stuff</info>
+  </image>
+  <image>
+    <caption>Tester image</caption>
+    <source>/pubmedia/films/milk.jpg</source>
+    <type>image</type>
+    <info>lorem freakin ipsum and all that stuff</info>
+  </image>
+  <image>
+    <caption>Tester image</caption>
+    <source>/pubmedia/films/the-wrestler.jpg</source>
+    <type>image</type>
+    <info>lorem freakin ipsum and all that stuff</info>
+  </image>
+  <image>
+    <caption>Tester image</caption>
+    <source>/pubmedia/films/the-wrestler.jpg</source>
+    <type>image</type>
+    <info>lorem freakin ipsum and all that stuff</info>
+  </image>
+  <image>
+    <caption>Tester image</caption>
+    <source>/pubmedia/films/the-wrestler.jpg</source>
+    <type>image</type>
+    <info>lorem freakin ipsum and all that stuff</info>
+  </image>
+  <image>
+    <caption>Tester image</caption>
+    <source>/pubmedia/films/the-wrestler.jpg</source>
+    <type>image</type>
+    <info>lorem freakin ipsum and all that stuff</info>
+  </image>
+</images>
+EOF;
+	  
+		$xml = '<?xml version="1.0" encoding="UTF-8"?><images>';
+		
+		$dh = @opendir($path = '../public/pubmedia/films/' . $id );
+		if( $dh ) {
+			while(($file = readdir($dh)) !== false ) {
+				if( $file[0] != '.') {
+					$xml .= '<image>';
+					$xml .= '<source>/pubmedia/films/' . $id . '/' . $file . '</source>';
+					$xml .= '</image>';
+				}
+			}
+		}
+		$xml .= '</images>';
+	
+	  header("Content-Type: text/xml");
+	  echo $xml;
+	  
+	}
 	//http://www.trynt.com/trynt-movie-imdb-api/
 	//http://www.imdb.com/interfaces.html
 	// this is kinda fiked up
