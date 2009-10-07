@@ -1,15 +1,13 @@
-<div style="float: right">
-<input name="q" size="15" value="search..." />
-<a href="#" onclick="$('#upload_div').toggle();"><img src="/img/go-up.png" /> upload</a>
-</div>
 
-<div id="upload_div" style="display: none;">
-<form method="post" action="" enctype="multipart/form-data" />
-<input type="hidden" name="media_path" value="<?=$media_path?>" />
-<input type="file" name="userfile" />
-<input type="submit" name="upload" value="Upload" />
-</form>
+<script language="javascript" type="text/javascript">
+$(function() {
+});
+</script>
+
+<div style="float: right">
+<div id="upload_button"><img src="/img/upload.png" /></div>
 </div>
+<h4><?=$media_path?></h4>
 
 <?= $errors ?>
 

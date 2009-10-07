@@ -129,12 +129,14 @@ function modal_close( dialog )
 </script>
 
 <div class="leftCol">
-	<h3>Calendar <img src="/img/calendar_add.png" style="cursor: pointer" title="New Event" onclick="edit_event(-1);"/></h3>
+	<table><tr>
+	<td><h3>Calendar</h3></td><td><a href="/admin/event/add"><img src="/img/calendar_add.png" style="cursor: pointer" title="New Event"/></a></td>
+	</tr></table>
 	<div class="scrollable" style="height: 500px">
 	<ul class="event_list">
 	<?php foreach( $events->result() as $row ) {
 		echo '<li>';
-		echo '<a href="#" title="Edit event" onclick="edit_event('.$row->id.')"><img class="icon" src="/img/icons/icon_'.$row->venue.'.gif" /> ' . $row->title . '</a>';
+		echo '<a href="/admin/event/edit/' . $row->id .'" title="Edit event" ><img class="icon" src="/img/icons/icon_'.$row->venue.'.gif" /> ' . $row->title . '</a>';
 		echo '<br/><span class="event_date">' . date("M j, y @ g:ia",strtotime($row->dt_start)). '</span>';
 		echo '</li>';
 	} ?>

@@ -124,9 +124,7 @@ function modal_close( dialog )
 		<table><tr><th>Excerpt</th><th>Media</th></tr>
 			<tr>
 				<td><textarea name="excerpt" class="mceNoEditor" rows="5" cols="60"><?=$article->excerpt?></textarea></td>
-				<td><a href="#" onclick="media_browser();"><img src="/pubmedia/library/no_image.jpg" height="80" /></a>
-				<br><small>no image assigned</small>
-				</td>
+c				</td>
 			</tr>
 		</table>
 		<td valign="top">

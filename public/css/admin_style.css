@@ -551,3 +551,30 @@ ul.event_list li span.event_date {
 	width: 100%;
 	background: url("/img/ajax-loader.gif") no-repeat center center;
 }
+
+/* auto complete */
+.suggestBox {
+	position: relative;
+	left: 30px;
+	margin: 10px 0px 0px 0px;
+	width: 200px;
+	font-size: 0.85em;
+}
+
+.suggestList {
+	margin: 0px;
+	padding: 0px;
+}
+
+.suggestList li {
+	display: block;
+	float: none;
+	margin: 0px 0px 3px 0px;
+	padding: 3px;
+	cursor: pointer;
+}
+
+.suggestList li:hover {
+	background-color: #659CD8;
+}
+

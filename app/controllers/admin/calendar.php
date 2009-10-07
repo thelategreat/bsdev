@@ -335,6 +335,11 @@ class Calendar extends Controller
 		
 	}
 	
+	function add_event()
+	{
+		redirect("/admin/calendar");
+	}
+	
 	function ajax_add_event()
 	{
 		$ra = array(

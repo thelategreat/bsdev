@@ -43,56 +43,6 @@ class Media extends Controller
 		$this->gen_page('Front Page', $conf );		
 	}
 
-
-	/**
-	 * events stuff
-	 *
-	 * @return void
-	 */
-	function top_feature()
-	{
-		// upload configuration
-		$conf['allowed_types'] = 'jpg|png';		
-		$this->gen_page('Top Feature', $conf );		
-	}
-
-	/**
-	 * events stuff
-	 *
-	 * @return void
-	 */
-	function left_feature()
-	{
-		// upload configuration
-		$conf['allowed_types'] = 'jpg|png';
-		$this->gen_page('Left Feature', $conf);		
-	}
-
-	/**
-	 * events stuff
-	 *
-	 * @return void
-	 */
-	function right_feature()
-	{
-		// upload configuration
-		$conf['allowed_types'] = 'jpg|png';
-		$this->gen_page('Right Feature', $conf);		
-	}
-
-	/**
-	 * events stuff
-	 *
-	 * @return void
-	 */
-	function mid_feature()
-	{
-		// upload configuration
-		$conf['allowed_types'] = 'jpg|png';
-		$this->gen_page('Mid Feature', $conf);		
-	}
-
-
 	/**
 	 * events stuff
 	 *
@@ -108,10 +58,30 @@ class Media extends Controller
 
 	function browser()
 	{
+		$path = $this->input->post('path');
+		
 		$view_data = array(
-			'media_path' => '',
+			'media_path' => $path,
 			'errors' => '',
 			'files' => array(),);
+
+		$files = array();
+		$dpath = '../public/pubmedia/' . $path;
+		$dh = @opendir( $dpath );
+		if( $dh ) {
+			while(($file = readdir($dh)) !== false ) {
+				if( $file[0] != '.') {
+					$info['fname'] = $file;
+					$info['url'] = '/pubmedia/' . $path . '/' . $file;
+					$info['author'] = '-';
+					$info['date'] = '-';
+					$info['size'] = '-';
+					$files[] = $info;
+				}
+			}
+		}
+		
+		$view_data['files'] = $files;
 		
 		$this->load->view('admin/media/media_browser', $view_data );						
 	}
@@ -129,6 +99,26 @@ class Media extends Controller
 			'footer' => $this->load->view('layouts/admin_footer', '', true)
 		);
 		$this->load->view('layouts/admin_page', $pg_data );						
+	}
+
+	function upload()
+	{
+		$path = '../public/pubmedia/' . $this->input->post('path');
+		if( !file_exists( $path)) {
+			mkdir( $path, 0777, TRUE );
+		}
+		
+		$fname = $path . '/' . basename($_FILES['userfile']['name']);
+		$bad_chars = array('`','"','\'','\\');
+		$fname = str_replace(' ','_',$fname);
+		$fname = str_replace($bad_chars,'',$fname);
+		if( move_uploaded_file( $_FILES['userfile']['tmp_name'], $fname )) {
+			// cool
+		} else {
+			// not cool
+		}
+		return '';
+		
 	}
 
 
