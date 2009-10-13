@@ -1,60 +1,5 @@
-<script type="text/javascript">
-
-function media_browser( id )
-{
-	/*
-	if( id != -1 ) {
-		if( !get_event_data( id )) {
-			return;
-		}
-	}
-	*/
-	
-	$('#editModalDiv').modal({
-		overlayCss: {
-			backgroundColor: '#000', 
-			cursor: 'wait'
-		},
-		containerCss: {
-			height: 500,
-			width: 600,
-			backgroundColor: '#fff',
-			border: '3px solid #ccc',
-			overflow: 'auto'
-		},
-		onClose: modal_close,
-		onOpen: modal_open
-	});	
-}
-
-function modal_open( dialog )
-{
-	var ediv = $('#editModalDiv');
-	
-	
-	$.get('/admin/media/browser', function(data) {
-		$('#modal_content').html( data );
-	});
-	
-
-	dialog.overlay.fadeIn('fast', function() {
-		dialog.container.fadeIn('slow',function() {
-			dialog.data.hide().slideDown('fast');
-		});	
-	});	
-}
-
-function modal_close( dialog ) 
-{	
-	dialog.data.fadeOut('slow',function() {
-		dialog.container.hide('slow', function() {
-			$.modal.close();
-		});
-	});
-}
-
-
-</script>
+<script type="text/javascript" src="/js/ajaxupload.js" ></script>
+<script type="text/javascript" src="/js/admin_mb.js" ></script>
 
 <?= $tabs ?>
 
@@ -124,7 +69,12 @@ function modal_close( dialog )
 		<table><tr><th>Excerpt</th><th>Media</th></tr>
 			<tr>
 				<td><textarea name="excerpt" class="mceNoEditor" rows="5" cols="60"><?=$article->excerpt?></textarea></td>
-c				</td>
+			  <td>
+					<div id="media_preview">
+						<a href="#" onclick="MediaBrowser.init({path: '/articles/<?=$article->id?>'});"><img src="/pubmedia/library/no_image.jpg" height="80" /></a>
+						<br><small>no image assigned</small>
+					</div>
+				</td>
 			</tr>
 		</table>
 		<td valign="top">

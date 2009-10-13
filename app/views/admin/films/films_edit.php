@@ -1,208 +1,104 @@
 <script type="text/javascript" src="/js/ajaxupload.js" ></script>
 
 <script language="javascript" type="text/javascript">
-
-var image_path = null;
-
-function edit_image( id )
+var MediaBrowser = function() 
 {
-  image_path = id;
-  /*
-	if( id != -1 ) {
-		if( !get_event_data( id )) {
-			return;
-		}
-	}
-	*/
-	$('#editModalDiv').modal({
-		overlayCss: {
-			backgroundColor: '#000', 
-			cursor: 'wait'
-		},
-		containerCss: {
-			height: 500,
-			width: 600,
-			backgroundColor: '#fff',
-			border: '3px solid #ccc',
-			overflow: 'auto'
-		},
-		onClose: modal_close,
-		onOpen: modal_open
-	});	
-}
-
-function modal_open( dialog )
-{
-	var ediv = $('#editModalDiv');
-  /*
-	$.get('/admin/calendar/new_event', function(data) {
-		$('#modal_content').html( data );
-	});
-  */
-  $('#modal_content').html( '<img src="' + image_path + '" />' );
-	dialog.overlay.fadeIn('fast', function() {
-		dialog.container.fadeIn('slow',function() {
-			dialog.data.hide().slideDown('fast');
-		});	
-	});	
-  
-}
-
-function modal_close( dialog ) 
-{	
-	dialog.data.fadeOut('slow',function() {
-		dialog.container.hide('slow', function() {
-			$.modal.close();
-		});
-	});
-}
-
-
-var MediaBrowser = function() {
+	// everything is private
   var _P = {
+    /*
+     *
+     */
+    params: null,
 
     /*
      *
      */
     init : function( params ) {
       _P.params = params;
-      _P.loadXml();
-    },
-    params: null,
-    data: null,
 
-    /*
-     *
-     */
-    loadXml: function() {
-      $.ajax({
-        type: "POST",
-        url : _P.params.xmlPath,
-        dataType : "xml",
-        success : function( data ) {
-          _P.data = data;
-          _P.max = _P.params.perView;
-          _P.count = $("image", data).length;
-          _P.preload();
-          _P.browse();
-        }
-      });
-    },
-    first: 0,
-    max: 0,
-    count: 0,
-
-    /*
-     *
-     */
-    preload: function() {
-      $("ul","#media").empty();
-      $( "#media .prev").css("visibility", "hidden");
-      $( "#media .next").css("visibility", "hidden");
-      $("image", _P.data ).each( function( i ) {
-        var caption = $.trim( $("caption", this).text() );
-        var href = $.trim( $("source", this).text() );
-        $( "ul", "#media").append([
-          "<li><a href='#' onclick='edit_image(\"" + href + "\")'",
-          "><img src='",
-          href,
-          "' width='100' height='100' alt='More info' />",
-          "</a></li>"
-          ].join( ""));
-      });
-      $( "#media .prev").click( function() {
-        _P.browse( "prev" );
-      });
-      $( "#media .next").click( function() {
-        _P.browse( "next" );
-      });
+			$('#editModalDiv').modal({
+				overlayCss: {
+					backgroundColor: '#000', 
+					cursor: 'wait'
+				},
+				containerCss: {
+					height: 500,
+					width: 600,
+					backgroundColor: '#fff',
+					border: '3px solid #ccc',
+					overflow: 'auto'
+				},
+				onClose: _P.modal_close,
+				onOpen: _P.modal_open
+			});	
+			
     },
 
-    /*
-     *
-     */
-    browse: function( browse ) {
-      if( browse == "prev" ) {
-        if( _P.first == _P.count && (_P.count % _P.max > 0 )) {
-          _P.first = _P.first - (( _P.count % _P.max ) + _P.max );
-        } else {
-          _P.first = _P.first - ( _P.max * 2 );
-        }
-      }
-      var range = _P.first + _P.max;
-      var start = 1;
-      if( range > _P.max ) {
-        start = (( range - _P.max ) + 1 );
-      }
-      if( _P.first == 0 ) {
-        $( "#media .prev").css("visibility", "hidden");
-      } else {
-        $( "#media .prev").css("visibility", "visible");        
-      }
-      if( range < _P.count ) {
-        $( "#media .next").css("visibility", "visible");
-      } else if (range >= _P.count ) {
-        range = _P.count;
-        $( "#media .next").css("visibility", "hidden");        
-      }        
-      $( "image", _P.data ).each( function( i ) {
-        if( i >= _P.first && i < range ) {
-          $( "#media li:eq(" + i + ")").fadeIn( "slow" );
-        } else {
-          $( "#media li:eq(" + i + ")").css( "display", "none");          
-        }
-      });      
-      _P.first = range;
-      $( "#media .showing" ).html([
-        "Viewing <strong>",
-        start,
-        " - ",
-        range,
-        "</strong> of <strong>",
-        _P.count,
-        "</strong>"
-        ].join(""));
-    },
-    
-    /*
-     *
-     */
-    tooltip : {
-      show: function( e, $o ) {},
-      hide: function( e, $o ) {},
-      getMouse: function( v, e ) {},
-      getViewport: function() {}
-    }
-  };
-  
-  return {
-    init : function( params ) {
-      _P.init( params );
-    },
+		/*
+		 *
+		 */
 		reload : function() {
-			_P.data = null;
-			_P.first = 0;
-			_P.loadXml();
+			$.post('/admin/media/browser', 
+				{ path: _P.params.path },
+				function(data) {
+					$('#modal_content').html( data );
+				}
+			);			
+		},
+
+
+		/*
+		 *
+		 */
+		modal_open : function( dialog ) {
+			var ediv = $('#editModalDiv');
+
+			_P.reload();
+
+			dialog.overlay.fadeIn('fast', function() {
+				dialog.container.fadeIn('slow',function() {
+					dialog.data.hide().slideDown('fast');
+					
+					/* http://valums.com/ajax-upload/ */
+				  new AjaxUpload('upload_button', 
+						{
+							action: '/admin/media/upload/',
+							data: {
+								path: _P.params.path
+							},
+							onComplete: function( file, response ) {
+								_P.reload();
+							}
+						});
+				});	
+			});				
+		},
+		
+		/*
+		 *
+		 */
+		modal_close : function( dialog ) {
+			dialog.data.fadeOut('slow',function() {
+				dialog.container.hide('slow', function() {
+					$.modal.close();
+				});
+			});			
 		}
-  }
+
+	};
+	
+	// we expose the public bits here
+	return {
+		init : function( params ) {
+			_P.init( params );
+		},
+		reload : function() {
+			_P.reload();
+		}
+	}
+
 }();
 
-
-$(function() {
-  var mb = MediaBrowser.init({
-    xmlPath : "/admin/cinema/media/<?= $film->id ?>",
-    imgPath : "images",
-    perView : 4
-  });
-	/* http://valums.com/ajax-upload/ */
-  new AjaxUpload('upload_button', 
-		{
-			action: '/admin/cinema/upload/<?= $film->id ?>',
-			onComplete: function( file, response ) {
-				MediaBrowser.reload();
-			}
-		});
-});
 
 </script>
 
@@ -271,23 +167,12 @@ $(function() {
     	</tr>
     	<tr>
     	  <td valign="top">
-      		<fieldset style=""><legend>Media</legend>
-      		  <!-- media browser thing -->
-      		  <div id="media">
-      		    <div class="overclear buttons">
-      		      <a href="#" class="prev"><img src="/img/16-arrow-left.png" title="Previous" alt="Previous"/></a>
-      		      <div class="showing"><!-- showing --></div>
-      		      <a href="#" class="next"><img src="/img/16-arrow-right.png" title="Next" alt="Next"/></a>
-      		    </div>
-      		    <div class="overclear inner">
-      		      <ul class="overclear">
-      		      </ul>
-      		    </div>
-      		    <div class="overclear bottom">  
-      		      <div id="upload_button"><img src="/img/upload.png" /></div>
-      		    </div>
-      		  </div>
-      	  </fieldset>
+					<fieldset><legend>Media</legend>
+						<div id="media_preview">
+							<a href="#" onclick="MediaBrowser.init({path: '/films/<?=$film->id?>'});"><img src="/pubmedia/library/no_image.jpg" height="80" /></a>
+							<br><small>no image assigned</small>
+						</div>
+					</fieldset>
     	  </td>
     	</tr>
 		</table>
@@ -299,12 +184,13 @@ $(function() {
 <input type="submit" name="cancel" value="Cancel" />
 </form>
 
-<div style="display: none; margin: 5px;" id="editModalDiv">
- <div id="modal_tools" style="border-bottom: 1px solid #ddd;">
-	<span style="float: right">
-		<img onclick="$.modal.close()" src="/img/close.png" title="Close" style="cursor: pointer;"/>
-	</span>
-    <h3>Edit Image</h3>
+<!-- media editing -->
+<div id="editModalDiv">
+ <div id="modal_title">
+		<span style="float: right">
+			<img onclick="$.modal.close()" src="/img/close.png" title="Close" style="cursor: pointer;"/>
+		</span>
+    <h3>Media Browser</h3>
  </div>
  <div id="modal_content">
  </div>

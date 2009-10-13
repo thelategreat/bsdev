@@ -29,7 +29,7 @@
 	<!-- D I S T -->
 	<target name='dist' depends="build" description="sync to bs dev web site" >
 		<rsync from="." to="te:/home/talonedge/bs.talonedge.com/"
-			 	opts="-e ssh --recursive --links --group --owner --devices --update --delete --compress --progress --stats " 
+			 	opts="-e ssh --recursive --links --group --owner --devices --update --delete --compress --progress --stats" 
 				verbose="true" >
 			<exclude name="public/.htaccess" />
 			<exclude name="app/config/config.php" />

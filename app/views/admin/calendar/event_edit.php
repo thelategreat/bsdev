@@ -191,8 +191,10 @@ function fill( thisValue )
   <td colspan="3"><textarea name="body" rows="10" cols="70" id="fld_body" ><?=$event->body?></textarea></td>
 	<td valign="top" align="center">
 		<fieldset><legend>Media</legend>
-			<a href="#" onclick="MediaBrowser.init({path: '/events/<?=$event->id?>'});"><img src="/pubmedia/library/no_image.jpg" height="80" /></a>
-			<br><small>no image assigned</small>
+			<div id="media_preview">
+				<a href="#" onclick="MediaBrowser.init({path: '/events/<?=$event->id?>'});"><img src="/pubmedia/library/no_image.jpg" height="80" /></a>
+				<br><small>no image assigned</small>
+			</div>
 		</fieldset>
 	</td>
 </tr>

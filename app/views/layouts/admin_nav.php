@@ -7,7 +7,6 @@
 		<ul>
 			<li><a href="/admin/articles">Articles</a></li>
 			<li><a href="/admin/calendar">Calendar</a></li>
-			<li><a href="/admin/media">Features</a></li>
 			<li><a href="/admin/pages">Static Pages</a></li>
 		</ul>
 	</li>
