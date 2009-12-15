@@ -1,9 +1,9 @@
 <h3>Migration</h3>
 
-<p class="warn">
+<div class="warning">
 	Running the default migration could scramble this database. Make
 	sure you have a clean backup before running this.
-<p>
+</div>
 
 <form action="/admin/migrate/run" method="post">
 <label for"key">DB Config</label>

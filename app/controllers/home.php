@@ -21,7 +21,7 @@ class Home extends MY_Controller
 	function index()
 	{
 		$this->load->model('media_model');
-		$res = $this->media_model->files_for_section('front_page');		
+		$res = $this->media_model->files_for_path('pages/1');		
 		$images = array();
 		foreach( $res->result() as $row ) {
 			$images[] = '/pubmedia/front_page/' . $row->filepath;
@@ -35,7 +35,7 @@ class Home extends MY_Controller
 	function books()
 	{
 		$this->load->model('media_model');
-		$res = $this->media_model->files_for_section('front_page');		
+		$res = $this->media_model->files_for_path('pages/1');		
 		$images = array();
 		foreach( $res->result() as $row ) {
 			$images[] = '/pubmedia/front_page/' . $row->filepath;
@@ -52,7 +52,7 @@ class Home extends MY_Controller
 	function ebar()
 	{
 		$this->load->model('media_model');
-		$res = $this->media_model->files_for_section('front_page');		
+		$res = $this->media_model->files_for_path('pages/1');		
 		$images = array();
 		foreach( $res->result() as $row ) {
 			$images[] = '/pubmedia/front_page/' . $row->filepath;
@@ -69,7 +69,7 @@ class Home extends MY_Controller
 	function cinema()
 	{
 		$this->load->model('media_model');
-		$res = $this->media_model->files_for_section('front_page');		
+		$res = $this->media_model->files_for_path('pages/1');		
 		$images = array();
 		foreach( $res->result() as $row ) {
 			$images[] = '/pubmedia/front_page/' . $row->filepath;

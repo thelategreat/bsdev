@@ -48,7 +48,7 @@ class MY_Controller extends Controller
 	protected function get_featured()
 	{
 		$data = array();
-		$res = $this->media_model->files_for_section('front_page');
+		$res = $this->media_model->files_for_path('pages/1');		
 		$data['top_feature'] = '/i/features/top_feature.jpg';		
 		$data['left_feature'] = '/i/features/featured_left.jpg';		
 		$data['mid_feature'] = '/i/features/featured_middle.jpg';		

@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
-<project name='IAWeb' basedir='.' default='dist'>
+<project name='Bookshelf Web' basedir='.' default='dist'>
 	<!-- project help -->
 	<info>
-		International ISBN Agency Web Site build.
+		Bookshelf Web Site build.
 	</info>
 	
 	<!-- properties -->
@@ -35,13 +35,13 @@
 			<exclude name="app/config/config.php" />
 			<exclude name="app/config/database.php" />
 			<exclude name="*~" />
-			<exclude name=".git/*" />
 			<exclude name="app/logs/*" />
 			<exclude name=".DS_Store" />
-			<exclude name=".gitignore" />
-			<exclude name="hatch" />
 			<exclude name="hatch.xml" />
-			<exclude name="h" />
+			<exclude name="public/media/*" />
+			<exclude name="_FOSSIL_" />
+			<exclude name="manifest" />
+			<exclude name="manifest.uuid" />
 		</rsync>	
 	</target>
 

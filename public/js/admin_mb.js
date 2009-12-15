@@ -34,16 +34,46 @@ var MediaBrowser = function()
 
         },
 
+        search_view : function () {
+            var query = "";
+            if( $("#q").length ) {
+                query = $("#q").val();
+            }
+			$.post('/admin/media/search', 
+				{ ajax: 1, q: query, pg: 1 },
+				function(data) {
+					$('#popup_content').html( data );
+					$('#search_form').submit(function() {
+					   MediaBrowser.search_view(); 
+					   return false;
+					});
+				}
+			);			
+        },
+
+        media_view : function () {
+            this.reload();
+        },
+
+        
+        add : function() {
+            alert('adding');
+        },
+
+
 		/*
 		 *
 		 */
 		reload : function() {
+		    this.search_view();
+		    /*
 			$.post('/admin/media/browser', 
 				{ path: _P.params.path },
 				function(data) {
 					$('#modal_content').html( data );
 				}
-			);			
+			);
+			*/			
 		},
 
 
@@ -59,6 +89,22 @@ var MediaBrowser = function()
 				dialog.container.fadeIn('slow',function() {
 					dialog.data.hide().slideDown('fast');
 
+                    $('.media_table a').each(function(i){
+                        var href = $(this).attr('href');
+                        $(this).attr('href', '');
+                        $(this).bind('click', function() {
+                           items = href.split('/');
+                   			$.post('/admin/media/add', 
+                   				{ path: _P.params['path'], 
+                   				 'uuid' : items[items.length-1], 
+                   				 'slot' : $('#slot_select').val() },
+                   				function(data) {
+                   				    //alert(data);
+                				} );
+                				return true;
+                        });
+                    });
+                    
 					/* http://valums.com/ajax-upload/ */
 					if( typeof AjaxUpload != "undefined" ) {
     				    new AjaxUpload('upload_button', 
@@ -96,6 +142,12 @@ var MediaBrowser = function()
 		},
 		reload : function() {
 			_P.reload();
+		},
+		media_view : function() {
+			_P.media_view();
+		},
+		search_view : function() {
+			_P.search_view();
 		}
 	}
 

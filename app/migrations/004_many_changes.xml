@@ -1,0 +1,153 @@
+<migration>
+  <table name="article_categories">
+    <field name="id" type="int" size="11" required="true" primarykey="true" autoinc="true">
+    <field name="category" type="varchar" size="128">
+  </table>
+
+  <table name="article_statuses">
+    <field name="id" type="int" size="11" required="true" primarykey="true" autoinc="true">
+    <field name="status" type="varchar" size="128">
+  </table>
+
+  <table name="articles">
+    <field name="id" type="int" size="11" required="true" primarykey="true" autoinc="true">
+    <field name="title" type="varchar" size="256" required="true">
+    <field name="excerpt" type="text">
+    <field name="body" type="text" required="true">
+    <field name="author" type="varchar" size="256">
+    <field name="category" type="int" size="11" required="true">
+    <field name="updated_on" type="timestamp" required="true">
+    <field name="created_on" type="timestamp" required="true">
+    <field name="status" type="int" size="11">
+    <field name="tags" type="varchar" size="512">
+  </table>
+
+  <table name="events">
+    <field name="id" type="int" size="11" required="true" primarykey="true" autoinc="true">
+    <field name="created_on" type="datetime" required="true">
+    <field name="updated_on" type="datetime" required="true">
+    <field name="submitter_id" type="int" size="11" required="true">
+    <field name="title" type="varchar" size="255" required="true">
+    <field name="venue" type="varchar" size="255" required="true">
+    <field name="dt_start" type="datetime" required="true">
+    <field name="dt_end" type="datetime" required="true">
+    <field name="body" type="text">
+    <field name="rating" type="varchar" size="255">
+    <field name="category" type="varchar" size="128">
+  </table>
+
+  <table name="media">
+    <field name="id" type="int" size="11" required="true" primarykey="true" autoinc="true">
+    <field name="uuid" type="char" size="36" required="true">
+    <field name="title" type="varchar" size="250">
+    <field name="type" type="char" size="5" required="true">
+    <field name="created_on" type="timestamp">
+    <field name="updated_on" type="timestamp">
+    <field name="user" type="varchar" size="50" required="true">
+    <field name="caption" type="varchar" size="250">
+    <field name="description" type="text">
+    <field name="license" type="varchar" size="50">
+    <index  unique="true">
+      <index_column name="uuid" />
+    </index>
+  </table>
+
+  <table name="media_map">
+    <field name="id" type="int" size="11" required="true" primarykey="true" autoinc="true">
+    <field name="media_id" type="int" size="11">
+    <field name="path" type="varchar" size="256">
+    <field name="order" type="int" size="11">
+  </table>
+
+  <table name="media_old">
+    <field name="id" type="int" size="11" required="true" primarykey="true" autoinc="true">
+    <field name="filepath" type="varchar" size="1024" required="true">
+    <field name="user" type="varchar" size="256" required="true">
+    <field name="updated_on" type="timestamp" required="true">
+    <field name="created_on" type="timestamp" required="true">
+    <field name="section" type="varchar" size="256">
+  </table>
+
+  <table name="media_tag_map">
+    <field name="id" type="int" size="11" required="true" primarykey="true" autoinc="true">
+    <field name="media_id" type="int" size="11" required="true">
+    <field name="media_tag_id" type="int" size="11" required="true">
+  </table>
+
+  <table name="media_tags">
+    <field name="id" type="int" size="11" required="true" primarykey="true" autoinc="true">
+    <field name="name" type="varchar" size="50">
+    <field name="slug" type="varchar" size="50">
+    <index  unique="true">
+      <index_column name="name" />
+    </index>
+	</table>
+
+  <table name="ml_list">
+    <field name="id" type="int" size="11" required="true" primarykey="true" autoinc="true">
+    <field name="name" type="varchar" size="128" required="true">
+    <field name="descrip" type="text">
+    <field name="is_visible" type="tinyint" size="4" required="true">
+    <field name="is_enabled" type="tinyint" size="4" required="true">
+    <field name="is_open" type="tinyint" size="4" required="true">
+  </table>
+
+  <table name="ml_messages">
+    <field name="id" type="int" size="11" required="true" primarykey="true" autoinc="true">
+    <field name="subject" type="varchar" size="255" required="true">
+    <field name="from" type="varchar" size="255" required="true">
+    <field name="text_fmt" type="text">
+    <field name="text_plain" type="text">
+    <field name="text_footer" type="text">
+    <field name="ml_list_id" type="int" size="11" required="true">
+    <field name="send_on" type="datetime">
+  </table>
+
+  <table name="ml_subscr">
+    <field name="id" type="int" size="11" required="true" primarykey="true" autoinc="true">
+    <field name="fullname" type="varchar" size="256">
+    <field name="email" type="varchar" size="256" required="true">
+    <field name="pref_format" type="char" size="5">
+    <field name="status" type="char" size="10">
+  </table>
+
+  <table name="ml_subscr_group_map">
+    <field name="subscr_id" type="int" size="11" required="true">
+    <field name="group_id" type="int" size="11" required="true">
+  </table>
+
+  <table name="pages">
+    <field name="id" type="int" size="11" required="true" primarykey="true" autoinc="true">
+    <field name="title" type="varchar" size="255" required="true">
+    <field name="body" type="text">
+    <field name="created_on" type="timestamp" required="true">
+    <field name="active" type="tinyint" size="4">
+    <field name="parent_id" type="int" size="11">
+    <field name="sort_order" type="int" size="11">
+    <field name="page_type" type="varchar" size="32">
+    <field name="deletable" type="tinyint" size="4" required="true">
+  </table>
+
+  <table name="ratings">
+    <field name="id" type="int" size="11" required="true" primarykey="true" autoinc="true">
+    <field name="rating" type="varchar" size="128" required="true">
+    <field name="rating_short" type="varchar" size="32" required="true">
+  </table>
+
+  <table name="tags">
+    <field name="id" type="int" size="11" required="true" primarykey="true" autoinc="true">
+    <field name="tag" type="varchar" size="64" required="true">
+  </table>
+
+  <table name="venues">
+    <field name="id" type="int" size="11" required="true" primarykey="true" autoinc="true">
+    <field name="name" type="varchar" size="255" required="true">
+    <field name="descrip" type="text">
+    <field name="map_link" type="varchar" size="255">
+    <field name="address" type="varchar" size="255">
+    <field name="postal" type="char" size="7">
+    <field name="city" type="varchar" size="128">
+    <field name="prov" type="char" size="2" required="true">
+    <field name="country" type="varchar" size="128" required="true">
+  </table>
+</migration>

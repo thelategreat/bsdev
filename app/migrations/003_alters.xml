@@ -1,0 +1,4 @@
+<migration>
+	<add_column table="films" name="ttno" type="varchar" size="128" />
+	<add_column table="users" name="active" type="tinyint" size="4" />  
+</migration>

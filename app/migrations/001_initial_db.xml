@@ -1,5 +1,4 @@
 <migration>
-
 	<!-- user roles -->
 	<table name="user_roles" description="Site user role info">
 		<column name="id" type="integer" required="true" primarykey="true" autoinc="true" />
@@ -23,8 +22,8 @@
 		<column name="lastname" type="varchar" size="128"  />
 		<column name="email" type="varchar" size="128"  />
 		<column name="last_login" type="datetime" required="true" default="CURRENT_TIMESTAMP"/>
-	  	<column name="created_on" type="datetime" />
-	  	<column name="updated_on" type="datetime"  />
+	  <column name="created_on" type="datetime" />
+	  <column name="updated_on" type="datetime"  />
 		<column name="role_id" type="integer"  />
 		<index unique="true">
 			<index_column name="username" />

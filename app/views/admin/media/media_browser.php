@@ -4,11 +4,6 @@ $(function() {
 });
 </script>
 
-<div style="float: right">
-<div id="upload_button"><img src="/img/upload.png" /></div>
-</div>
-<h4><?=$media_path?></h4>
-
 <?= $errors ?>
 
 <p style="clear:both;">
@@ -18,21 +13,34 @@ $(function() {
   <th>tags</th>
   <th>author</th>
   <th>date/size</th>
+  <th>order</th>
 </tr>
 <?php 
 	$count = 0;
 	foreach( $files as $file ) {  ?>
 	<tr <?= ($count % 2) != 0 ? "class='odd'" : "" ?>>
-	  <td width="10%"><img src="<?=$file['url']?>" width="50" /></td>
+	  <td width="10%"><img src="/media/<?=$file['url']?>" width="50" /></td>
 	  <td><?=$file['fname']?>
 		<p><small>
-			<a href="<?= $this->uri->uri_string()?>/edit/<?=$file['fname']?>">Edit</a> | 
-			<a href="<?= $this->uri->uri_string()?>/rm/<?=$file['fname']?>" onclick="return confirm('Really delete this?');">Delete</a>
+			<a href="/admin/media/edit/<?=$file['url']?>">Edit</a> | 
+			<a href="/admin/media/rmlink/<?=$file['url'] . '/' . $slot . $media_path ?>" onclick="return confirm('Really delete this?');">Delete</a>
 		</small></p>
 		</td>
   	<td></td>
   	<td><?=$file['author']?></td>
 	  <td><?=$file['date']?><br/><?=$file['size']?></td>
+		<td>
+			<?php if( $count != 0 ) { ?>
+			<a href="/admin/media/move/up/<?= $file['url'] . '/' . $slot . $media_path ?>">
+				<img class="icon" src="/img/go-up.png" />
+			<a/> 
+			<?php } else { echo "&nbsp;"; }?>
+			- 
+			<?php if( $count != count($files) - 1 ) { ?>
+			<a href="/admin/media/move/down/<?= $file['url'] . '/' . $slot . $media_path ?>">
+				<img class="icon" src="/img/go-down.png" /></td>
+			</a>
+			<?php } ?>
 	</tr>
 <?php $count++; }?>
 </table>

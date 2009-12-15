@@ -1,7 +1,7 @@
 <?php
 /*
   This file is part of the Talon Toolkit
-  Copyright (C) 2008  J. Knight <jim@talonedge.com> and
+  Copyright (C) 2006-present J. Knight <jim@talonedge.com> and
   contributors.
 
   Talon is free software: you can redistribute it and/or modify
@@ -19,7 +19,7 @@
 */
 
 /**
- * OptParser - Command Line Inteface
+ * OptParser - Command Line Interface
  *
  * Parses command line options in an ordered way.
  *
@@ -176,7 +176,6 @@ class OptParser
    * Return boolean if an option was used
    *
    * @return void
-   * @author J Knight
    **/
   public function used_opt( $option )
   {
@@ -190,6 +189,12 @@ class OptParser
     return false;
   }
     
+	/**
+	 * Return the option value or NULL if not found
+	 *
+	 * @param string $option 
+	 * @return void
+	 */
   public function opt_value( $option )
   {
     for( $i = 0; $i < count($this->options); $i++ ) {
@@ -206,7 +211,6 @@ class OptParser
    * Return the options we parsed
    *
    * @return an array of parsed options
-   * @author J Knight
    **/
   public function opts()
   {
@@ -223,7 +227,6 @@ class OptParser
    * Return the args we parsed
    *
    * @return an array of arguments not associated with options
-   * @author J Knight
    **/
   public function args()
   {

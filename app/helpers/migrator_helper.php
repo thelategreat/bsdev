@@ -464,15 +464,12 @@ class DBMigrator
 	 * CTOR
 	 *
 	 * @param $path the path to the location of the migration files
-	 * @param $dbgroup the name of the db connection group. This corresponds
-	 *                 to groups in application/config/database.php 
+	 * @param $dbo a CI database object, already connected
 	 * @return void
 	 **/
-	function __construct( $path, $dbgroup = "default" )
+	function __construct( $path, $dbo )
 	{
-        $this->CI =& get_instance();  
-		$this->dbgroup = $dbgroup;
-				
+		$this->DBO = $dbo;				
 		$this->init( $path );
 	}
 	
@@ -485,8 +482,6 @@ class DBMigrator
 	private function init( $path )
 	{
 		$this->path = $path;
-		
-		$this->DBO = $this->CI->load->database( $this->dbgroup, TRUE );
 		
 		// make sure the migration table exists and create it if not
 		if( ! $this->DBO->table_exists($this->migration_table_name)) {
@@ -527,6 +522,49 @@ class DBMigrator
 		}	
 		$this->DBO->close();
 		$this->init($this->path);
+	}
+	
+	public function dump()
+	{
+		$s = "<migration>\n";
+		foreach( $this->DBO->list_tables() as $table ) {
+			if( $table == "db_migration_info")
+				continue;
+			$s .= '  <table name="' . $table . "\">\n";
+			$res = $this->DBO->query('SHOW COLUMNS FROM ' . $table );
+			foreach( $res->result() as $col ) {
+				$s .= '    <field name="' . $col->Field . '"'; 
+				if( preg_match('/(.*)\((\d+)\)/', $col->Type, $matches )) {
+					$s .= ' type="' . $matches[1] . '"';
+					$s .= ' size="' . $matches[2] . '"';
+				} else
+					$s .= ' type="' . $col->Type . '"';				
+				if( $col->Null == 'NO') {
+					$s .= ' required="true"';
+				}
+				if( $col->Key == 'PRI') {
+					$s .= ' primarykey="true"';
+				}
+				if( $col->Extra == 'auto_increment' ) {
+					$s .= ' autoinc="true"';
+				}
+				$s .= '>' . "\n";
+			}
+			$res = $this->DBO->query('SHOW INDEXES FROM ' . $table );
+			foreach( $res->result() as $ndx ) {
+				if( $ndx->Key_name == 'PRIMARY' )
+					continue;
+				$s .= '    <index ';
+				if( $ndx->Non_unique == "0")
+					$s .= ' unique="true"';
+				$s .= ">\n";
+				$s .= '      <index_column name="' . $ndx->Column_name . '" />' . "\n";
+				$s .= '    </index>' . "\n";
+			}
+			$s .= '  </table>' . "\n";
+		}
+		$s .= '</migration>';
+		print $s;
 	}
 	
 	/**

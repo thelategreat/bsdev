@@ -74,6 +74,16 @@ class Articles extends Controller
 
 	function edit()
 	{
+		$tab = $this->uri->segment( 5 );
+		if( $tab && $tab == "media") {
+			$this->edit_media();			
+		} else {
+			$this->edit_article();
+		}
+	}
+
+	function edit_article()
+	{
 		$article_id = $this->uri->segment(4);
 
 		if( $this->input->post("save")) {
@@ -105,7 +115,7 @@ class Articles extends Controller
 			'article' => $article, 
 			'category_select' => $this->articles_model->category_select( $article->category ),
 			'status_select' => $this->articles_model->status_select( $article->status ),
-			'tabs' => $this->tabs->gen_tabs(array('Article','Stats'), 'Article', '/admin/articles/edit/' . $article_id)
+			'tabs' => $this->tabs->gen_tabs(array('Article','Media'), 'Article', '/admin/articles/edit/' . $article_id)
 		);
 		
 		$pg_data = array(
@@ -117,5 +127,29 @@ class Articles extends Controller
 		$this->load->view('layouts/admin_page', $pg_data );		
 	}
 
-	
+	function edit_media()
+	{
+		$article_id = $this->uri->segment(4);
+		
+		$this->db->where( 'id', $article_id );
+		$article = $this->db->get('articles')->row();
+				
+		$view_data = array( 
+			'title' => "Media for article: $article->title",
+			'article' => $article, 
+			'path' => '/articles/' . $article->id,
+			'next' => "/admin/articles/edit/$article->id/media",
+			'tabs' => $this->tabs->gen_tabs(array('Article','Media'), 'Media', '/admin/articles/edit/' . $article->id)
+		);
+		
+		$pg_data = array(
+			'title' => 'Admin - Articles',
+			'nav' => $this->load->view('layouts/admin_nav', '', true),
+			'footer' => $this->load->view('layouts/admin_footer', '', true),
+			'content' => $this->load->view('admin/media/media_tab', $view_data, true)
+			//'content' => $this->load->view('admin/articles/article_media', $view_data, true)
+		);
+		$this->load->view('layouts/admin_page', $pg_data );		
+		
+	}
 }

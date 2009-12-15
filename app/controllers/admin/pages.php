@@ -16,6 +16,7 @@ class Pages extends Controller
 		$this->load->library('tabs');
 		$this->load->helper('url');		
 		$this->load->helper('form');	
+		$this->load->helper('media');	
 		$this->load->helper('pages');	
 		$this->load->model( 'pages_model' );	
 	}
@@ -103,7 +104,16 @@ class Pages extends Controller
 
 		switch( $cur_tab ) {
 			case 'media':
-			$page = $this->load->view('admin/pages/pages_media', $data, true );
+			$page = $data['page'];
+			$view_data = array( 
+				'title' => "Media for page: $page->title",
+				'page' => $page, 
+				'path' => '/pages/' . $page->id,
+				'next' => "/admin/page/edit/$page->id/media",
+				'tabs' => $this->tabs->gen_tabs(array('Details','Media'), 'Media', '/admin/pages/edit/' . $page->id)
+			);
+			$page = $this->load->view('admin/media/media_tab', $view_data, true );
+			//$page = $this->load->view('admin/pages/pages_media', $data, true );
 			break;
 			default:
 			$page = $this->load->view('admin/pages/pages_edit', $data, true );
@@ -150,76 +160,43 @@ class Pages extends Controller
 	function media()
 	{
 		$html = '';
-		$bad_chars = array('`','"','\'','\\','/');
-		
 		$id = $this->uri->segment(4);
-		$slot = $this->uri->segment(5);
-		$slot = str_replace(' ','_',$slot);
-		$slot = str_replace($bad_chars,'',$slot);
+		$slot = slugify($this->uri->segment(5));
 		
-		$dh = @opendir($path = '../public/pubmedia/pages/' . $id . '/' . $slot );
-		if( $dh ) {
-			$html = '<table class="media_table">';
-			$html .= "<tr>";
-			$html .= '<th style="width: 40%" colspan="2">file</th>';
-			$html .= '<th>tags</th>';
-			$html .= '<th>author</th>';
-			$html .= '<th>date/size</th>';
+		//$this->db->where('slot', $slot );
+		//$this->db->where('path', "pages/$id");
+		//$res = $this->db->get('media_map');
+		$res = $this->media_model->get_media_for_path("pages/$id", $slot );
+		
+		$html = '';
+		$html .= '<table class="media_table">';
+		$html .= "<tr>";
+		$html .= '<th style="width: 40%" colspan="2">file</th>';
+		$html .= '<th>tags</th>';
+		$html .= '<th>author</th>';
+		$html .= '<th>date/size</th>';
+		$html .= '<th>order</th>';
+		$html .= '</tr>';
+		foreach( $res as $row ) {
+			$html .= '<tr>';
+			$html .= '<td><img src="' . $row['url'] . '" width="100"/></td>';
+			$html .= '<td />';
+			$html .= '<td />';
+			$html .= '<td />';
+			$html .= '<td />';
+			$html .= '<td>';
+			$html .= '<a href="#"><img class="icon" src="/img/go-up.png" /><a/>';
+			$html .= '&nbsp;-&nbsp;'; 
+			$html .= '<a href="#"><img class="icon" src="/img/go-down.png" /></td></a>';
+			$html .= '</td>';
 			$html .= '</tr>';
-			$count = 0;
-			while(($file = readdir($dh)) !== false ) {
-				if( $file[0] != '.') {
-					$html .= '<tr ' . (($count %2) != 0 ? 'class="odd"' : ""). '>';
-					$html .= '<td>';
-					$html .= '<img width="100" src="/pubmedia/pages/' . $id . '/' . $slot . '/' . $file . '" />';
-					$html .= '</td>';
-					$html .= '<td>'. $file . '</td>';
-					$html .= '<td>-</td>';
-					$html .= '<td>-</td>';
-					$html .= '<td>' . date("Y-m-d", filemtime($path . '/' . $file));
-					$html .= '<br/>' . pretty_size( filesize( $path . '/' . $file ));
-					$html .= '</td>';
-					$html .= '</tr>';
-					$count++;
-				}
-			}
-			$html .= '</table>';
 		}
+		$html .= "</table>";
 		
 	  header("Content-Type: text/html");
 		//echo '<h1>' . $path . '</h1>';
 		echo $html;
-	}
-
-	function upload()
-	{
-		$id = $this->uri->segment(4);
-		if( ! $id ) {
-			return '';
-		}
 		
-		$bad_chars = array('`','"','\'','\\','/');
-		
-		$path = '../public/pubmedia/pages/' . $id . '/';
-		if( isset($_POST["slot"])) {
-			$path = $path . $_POST["slot"] . "/";
-			$path = str_replace(' ','_',$path);
-			$path = str_replace($bad_chars,'',$path);
-		}
-				
-		if( !file_exists( $path )) {
-			mkdir( $path, 0777, TRUE );
-		}
-		
-		$fname = $path . '/' . basename($_FILES['userfile']['name']);
-		$fname = str_replace(' ','_',$fname);
-		$fname = str_replace($remove_these,'',$fname);
-		if( move_uploaded_file( $_FILES['userfile']['tmp_name'], $fname )) {
-			// cool
-		} else {
-			// not cool
-		}
-		return '';
 	}
 
 	private function mk_types_select( $selected = null )

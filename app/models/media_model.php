@@ -1,38 +1,218 @@
 <?php
-if (!defined('BASEPATH')) exit('No direct script access allowed');
+/**
+ * Media Model Class
+ *
+ * @package  Bookself
+ * @subpackage  Media
+ * @category  Models
+ * @author  J Knight 
+ */
 
-class media_model extends Model
+include_once('tag_model.php');
+
+class media_model extends Tag_Model
 {
 
+	/**
+	 *
+	 */
   function media_model()
   {
     parent::Model();
   }
-
 	
-	function add_upload( $path, $section, $user )
+	/**
+	 *
+	 */
+	function add_upload( $uuid, $data, $user )
 	{
-		$this->db->set('filepath', $path );
+				
+		$this->db->set('uuid',  $uuid );
 		$this->db->set('user', $user );
-		$this->db->set('section', $section );
+		$this->db->set('title', $data['orig_name'] );
+		$this->db->set('type', $data['file_ext'] );
 		$this->db->set('created_on', 'NOW()', false );
 		$this->db->set('updated_on', 'NOW()', false );
 		
 		$this->db->insert('media');
-		
+		return $uuid;
 	}
 
-	function remove_upload( $path, $section )
+	
+	/**
+	 *
+	 */
+	function add_link( $uuid, $url, $user )
 	{
-		$this->db->where('filepath', $path);
-		$this->db->where('section', $section);
+		$purl = parse_url( $url );
+		
+		// get vimeo meta data
+		if( $purl['host'] == "www.vimeo.com" || $purl['host'] == "vimeo.com" ) {
+			$json_url = 'http://www.vimeo.com/api/oembed.json?url='.rawurlencode($url);
+			$curl = curl_init( $json_url );
+			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+			curl_setopt($curl, CURLOPT_TIMEOUT, 10);
+			$ret = curl_exec($curl);
+			curl_close($curl);		
+			$data = json_decode( $ret );
+						
+			$this->db->set('caption',  $data->title . " by: " . $data->author_name );
+			$this->db->set('thumbnail',  $data->thumbnail_url );
+		}
+				
+		$this->db->set('uuid',  $uuid );
+		$this->db->set('user', $user );
+		$this->db->set('title', $url );
+		$this->db->set('type', "link" );
+		$this->db->set('created_on', 'NOW()', false );
+		$this->db->set('updated_on', 'NOW()', false );
+		
+		$this->db->insert('media');
+		return $uuid;
+	}
+
+
+	/**
+	 *
+	 */
+	function remove_upload( $uuid )
+	{
+		$this->db->where( 'uuid', $uuid );
 		$this->db->delete('media');
 	}
-
-	function files_for_section( $section )
+	
+	/**
+	 *
+	 */
+	function get_media( $uuid = null, $stags = array(), $page = 1, $limit = 10 )
 	{
-		$this->db->select('filepath, user');
-		$this->db->where('section', $section);		
-		return $this->db->get('media');
+		/*
+		SELECT distinct media.* from media, media_tag_map, media_tags 
+			WHERE media_tag_map.media_tag_id = media_tags.id 
+				AND media_tag_map.media_id = media.id 
+				AND media_tags.name IN ('blue', 'groovy');
+				
+			- or -
+
+			select distinct media.*
+				from media join media_tag_map on media_tag_map.media_id = media.id
+					join media_tags on media_tag_map.media_tag_id = media_tags.id
+						AND media_tags.name IN ('blue', 'groovy');			
+		*/
+		$items = array();
+		if( $uuid ) {
+			$this->db->where('uuid', $uuid );
+		}
+		
+		// searching tags
+		if( count( $stags )) {
+			$this->db->join('media_tag_map', 'media_tag_map.media_id = media.id' );
+			$this->db->join('media_tags', 'media_tag_map.media_tag_id = media_tags.id');
+			$this->db->where_in( 'media_tags.name', $stags );
+			$this->db->distinct();
+			// seems like CI get involved here and checks the filed names, so annoying.
+			// so we cant do db->select( 'media.*' )
+			$this->db->select('media.id, uuid, title, type, created_on, updated_on, user, caption, description, license');
+		}
+		
+		$this->db->offset( ($page - 1) * $limit );
+		$this->db->limit( $limit );
+		$this->db->from('media');
+		$results = $this->db->get();
+		//show_error( $this->db->last_query());
+		foreach( $results->result() as $row ) {
+			$row->tags = $this->get_tags( 'media', $row->id );
+			$items[] = $row;
+		}
+		
+		return $items;
 	}
+	
+	function get_media_for_path( $path, $slot = 'general' )
+	{
+		$files = array();
+		$results = $this->db->query("SELECT m.* FROM media as m, media_map as mm WHERE mm.media_id = m.id AND mm.path = '$path' AND mm.slot = '$slot' ORDER BY mm.sort_order");
+		foreach( $results->result() as $row ) {
+			$info['fname'] = $row->title;
+			$info['url'] =  $row->uuid;
+			$info['author'] = $row->user;
+			$info['date'] = '-';
+			$info['size'] = '-';
+			$files[] = $info;
+		}
+		return $files;
+	}
+	
+	/**
+	 *
+	 */
+	function update_media( $uuid, $meta, $tags )
+	{
+		$this->db->where('uuid', $uuid);
+		$item = $this->db->get('media')->row();
+		
+		$this->db->where( 'uuid', $uuid );
+		$this->db->update('media', $meta );
+		
+		$this->save_tags( 'media', $item->id, $tags );
+	}
+		
+	function files_for_path( $path, $slot = 'general' )
+	{
+		$this->db->where('path', $path );
+		$this->db->where('slot', $slot );
+		return $this->db->get('media_map');
+	}
+		
+	function add_media_for_path( $path, $uuid, $slot='general' )
+	{
+		$this->db->where('uuid', $uuid);
+		$item = $this->db->get('media')->row();
+
+		$so = $this->db->query("SELECT max(sort_order) as maxso FROM media_map WHERE path = '$path' AND slot = '$slot'")->row();
+
+		//$data = array('path' => $path, 'media_id' => $item->id );
+		$this->db->set('path', $path );
+		$this->db->set('slot', $slot );
+		$this->db->set('media_id', $item->id );
+		$this->db->set('sort_order', $so->maxso + 1 );
+		$this->db->insert('media_map');
+	}
+		
+	function move( $dir, $path, $slot, $uuid )
+	{
+		$table = 'media_map';
+		
+		$this->db->where('uuid', $uuid);
+		$item = $this->db->get('media')->row();
+		$crit = "slot = '$slot' AND path = '$path'";
+		
+		//echo "SELECT id, sort_order FROM $table WHERE $crit";
+		$item = $this->db->query("SELECT id, sort_order FROM $table WHERE $crit AND media_id = $item->id")->row();
+		if( $item ) {
+			if( $dir == 'up' ) {
+				//echo "SELECT id, sort_order FROM $table WHERE $crit AND sort_order < $item->sort_order ORDER BY sort_order DESC LIMIT 1";
+				$swap = $this->db->query("SELECT id, sort_order FROM $table WHERE $crit AND sort_order < $item->sort_order ORDER BY sort_order DESC LIMIT 1")->row();
+			} else {
+				//echo "SELECT id, sort_order FROM $table WHERE $crit AND sort_order > $item->sort_order ORDER BY sort_order DESC LIMIT 1";
+				$swap = $this->db->query("SELECT id, sort_order FROM $table WHERE $crit AND sort_order > $item->sort_order ORDER BY sort_order ASC LIMIT 1")->row();
+			}
+			if( $swap ) {
+				//echo $swap->id;
+				$this->db->query("UPDATE $table SET sort_order = $swap->sort_order WHERE id = $item->id");
+				$this->db->query("UPDATE $table SET sort_order = $item->sort_order WHERE id = $swap->id");
+			}
+		}
+	}
+		
+	function migrate()
+	{
+		$items = array(
+			"ALTER TABLE `media_map` ADD `slot` varchar(128) NULL DEFAULT 'general'  AFTER `order`",
+			"ALTER TABLE `media_map` ADD `title` varchar(256) NOT NULL AFTER `slot`",
+			"ALTER TABLE `pages` ADD `slots` varchar(256) NULL DEFAULT NULL  AFTER `deletable`",
+			"ALTER TABLE `media_map` CHANGE `order` `sort_order` int(11) NULL DEFAULT '0'"			
+		);
+	}
+		
 }

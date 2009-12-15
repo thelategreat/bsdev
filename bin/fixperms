@@ -1,0 +1,22 @@
+#!/bin/sh
+# fixes the permissions of the files a directories so that they are
+# writable by the web process
+
+# try and figure the web user based on OS
+webuser='unknown'
+unamestr=`uname`
+if [[ "$unamestr" == 'Linux' ]]; then
+	webuser='www-data'
+elif [[ "$unamestr" == 'Darwin' ]]; then
+	webuser='_www'
+fi
+
+
+# fix file permissions
+find . -type f -print0 | xargs -0 chmod 644
+# fix dir permissions
+find . -type d -print0 | xargs -0 chmod 755
+# change owner, if we can
+if [[ $webuser != 'unknown' ]]; then
+	chown -R $webuser * 
+fi

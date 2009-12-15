@@ -19,20 +19,7 @@ class Migrate extends Controller
 		parent::Controller();
 		$this->auth->restrict_role('admin');
 		$this->load->helper('url');  
-		//$this->load->library('tabs');
     
-		$this->page_tabs = array(
-		  'Site', 'Users', 'Roles', 'Projects', 'Tickets','Archive'
-		  );
-    
-		$this->main_menu = array(
-		  '<a href="/">Home</a>',
-		  '<a href="/project">Projects</a>',
-		  '<a href="/search">Search</a>',
-		  '<a href="/help">Help</a>',
-		  '<a class="selected" href="/admin">Admin</a>'
-		  );
-		
 	}
 	
 	function index()
@@ -57,7 +44,9 @@ class Migrate extends Controller
 		if( $this->input->post('run')) {
 			echo '<a href="/admin/migrate">back</a>';
 			$this->load->helper('migrator');	
-			$m = new DBMigrator( APPPATH . 'migrations/', $this->input->post('key'));
+			$ci =& get_instance();
+			$db = $ci->load->database( $this->input->post('key'), TRUE ); 
+			$m = new DBMigrator( APPPATH . 'migrations/', $db );
 			echo '<pre>';
 			$m->migrate();
 			echo '</pre>';					

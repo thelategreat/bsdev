@@ -1,7 +1,6 @@
 <script type="text/javascript" src="/js/ajaxupload.js" ></script>
 <script type="text/javascript" src="/js/admin_mb.js" ></script>
 
-
 <script language="javascript" type="text/javascript">
 
 function reload()
@@ -9,22 +8,21 @@ function reload()
 	$('#slot_field').val($('#slot_select').val());
 	$('#slot_field1').val($('#slot_select').val());
 	$.post('/admin/media/browser', 
-		{ path: '/pages/<?= $page->id ?>', 'slot': $('#slot_select').val() },
+		{ path: '<?= $path ?>', 'slot': $('#slot_select').val() },
 		function(data) {
 			$('#media_area').html( data );
 		}
 	);			
 }
 
-$(function() {
+$(function() {		
 		reload();	
 });
 </script>
 
-
 <?=$tabs?>
 
-<h3>Page: <?=$page->title?></h3>
+<h3><?=$title?></h3>
 
 Slot: <select id="slot_select" name="slot" onchange="reload()">
 	<option>general</option>
@@ -34,7 +32,7 @@ Slot: <select id="slot_select" name="slot" onchange="reload()">
 <?php } 
 } ?>
 </select><button onclick="reload()"><img width="16" src="/img/reload.png" /></button>
-<button onclick="MediaBrowser.init({path: '/pages/<?=$page->id?>'});"><img src="/img/add.png" /></button>
+<button onclick="MediaBrowser.init({path: '<?=$path?>'});"><img src="/img/add.png" /></button>
 
 <hr/>
 <div id="media_area" ></div>
@@ -45,16 +43,16 @@ Slot: <select id="slot_select" name="slot" onchange="reload()">
 			<td>
 	<form method="post" action="/admin/media" enctype="multipart/form-data" >
 		<label for="userfile">File</label> <input type="file" name="userfile" />
-		<input type="hidden" name="next" value="/admin/pages/edit/<?=$page->id?>/media" />
-		<input type="hidden" name="path" value="/pages/<?=$page->id?>" />
+		<input type="hidden" name="next" value="<?=$next?>" />
+		<input type="hidden" name="path" value="<?=$path?>" />
 		<input type="hidden" id="slot_field" name="slot" value="" />
 		<input type="submit" name="upload" value="Upload" />
 		</td>
 		<td> - or - </td>
 		<td>
 		<label for="url">Link</label> <input type="text" size="50" name="url" />
-		<input type="hidden" name="next" value="/admin/pages/edit/<?=$page->id?>/media" />
-		<input type="hidden" name="path" value="/pages/<?=$page->id?>" />
+		<input type="hidden" name="next" value="<?=$next?>" />
+		<input type="hidden" name="path" value="<?=$path?>" />
 		<input type="hidden" id="slot_field1" name="slot" value="" />
 		<input type="submit" name="link" value="Save" />		
 	</form>
