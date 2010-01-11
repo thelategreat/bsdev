@@ -4,6 +4,10 @@
 <fieldset><legend>Add Newsletter</legend>
 <table style="border: 0">
 <tr>
+  <td><label for="ml_list_id">List</label></td>
+  <td><select name="ml_list_id"><?=$ml_lists?></select></td>
+</tr>
+<tr>
   <td><label for="subject">Subject</label></td>
   <td><input name="subject" size="50" /></td>
 </tr>

@@ -26,7 +26,7 @@ $(function() {
 
 Slot: <select id="slot_select" name="slot" onchange="reload()">
 	<option>general</option>
-<?php foreach( explode(",",$page->slots) as $slot ) { 
+<?php foreach( explode(",", $slots) as $slot ) { 
 	if( !empty($slot) && strlen(trim($slot)) ) { ?>
 			<option><?=$slot?></option>
 <?php } 

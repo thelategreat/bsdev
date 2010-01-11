@@ -1,6 +1,6 @@
 <div style="float: right">
 	<form id="search_form" method="post">
-		<input id="query" name="q" value="" />
+		<input id="query" name="q" value="<?foreach($stags as $tag){ echo $tag . " ";}?>" />
 	</form>
 </div>
 

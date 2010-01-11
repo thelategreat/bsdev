@@ -1,4 +1,4 @@
-<div style="float: right">
+<div style="float: right; font-size: 0.9em">
 <a href="/admin/maillist/listadd"><img src="/img/add.png" /> New List</a>
 </div>
 

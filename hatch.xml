@@ -39,9 +39,8 @@
 			<exclude name=".DS_Store" />
 			<exclude name="hatch.xml" />
 			<exclude name="public/media/*" />
-			<exclude name="_FOSSIL_" />
-			<exclude name="manifest" />
-			<exclude name="manifest.uuid" />
+			<exclude name=".git/*" />
+			<exclude name=".gitignore" />
 		</rsync>	
 	</target>
 

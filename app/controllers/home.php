@@ -21,10 +21,10 @@ class Home extends MY_Controller
 	function index()
 	{
 		$this->load->model('media_model');
-		$res = $this->media_model->files_for_path('pages/1');		
+		$res = $this->media_model->get_media_for_path('/pages/1', 'general');		
 		$images = array();
-		foreach( $res->result() as $row ) {
-			$images[] = '/pubmedia/front_page/' . $row->filepath;
+		foreach( $res as $row ) {
+			$images[] = '/media/' . $row['url'];
 		}
 		
 		$pg_data = $this->get_page_data('Bookshelf - Home', 'home' );
@@ -35,10 +35,10 @@ class Home extends MY_Controller
 	function books()
 	{
 		$this->load->model('media_model');
-		$res = $this->media_model->files_for_path('pages/1');		
+		$res = $this->media_model->get_media_for_path('/pages/1', 'general');		
 		$images = array();
-		foreach( $res->result() as $row ) {
-			$images[] = '/pubmedia/front_page/' . $row->filepath;
+		foreach( $res as $row ) {
+			$images[] = '/media/' . $row['url'];
 		}
 		
 		$pg_data = $this->get_page_data('Bookshelf - Home', 'home' );
@@ -52,10 +52,10 @@ class Home extends MY_Controller
 	function ebar()
 	{
 		$this->load->model('media_model');
-		$res = $this->media_model->files_for_path('pages/1');		
+		$res = $this->media_model->get_media_for_path('/pages/1', 'general');		
 		$images = array();
-		foreach( $res->result() as $row ) {
-			$images[] = '/pubmedia/front_page/' . $row->filepath;
+		foreach( $res as $row ) {
+			$images[] = '/media/' . $row['url'];
 		}
 		
 		$pg_data = $this->get_page_data('Bookshelf - Home', 'home' );
@@ -69,10 +69,10 @@ class Home extends MY_Controller
 	function cinema()
 	{
 		$this->load->model('media_model');
-		$res = $this->media_model->files_for_path('pages/1');		
+		$res = $this->media_model->get_media_for_path('/pages/1', 'general');		
 		$images = array();
-		foreach( $res->result() as $row ) {
-			$images[] = '/pubmedia/front_page/' . $row->filepath;
+		foreach( $res as $row ) {
+			$images[] = '/media/' . $row['url'];
 		}
 		
 		$pg_data = $this->get_page_data('Bookshelf - Home', 'home' );

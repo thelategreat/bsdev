@@ -1,0 +1,17 @@
+--
+RENAME TABLE `ml_subscr_group_map` TO `ml_subscr_list_map`;
+ALTER TABLE `ml_subscr_list_map` CHANGE `group_id` `list_id` int(11) NOT NULL;
+ALTER TABLE `ml_messages` ADD `status` int NULL DEFAULT NULL  AFTER `send_on`;
+
+CREATE TABLE `ml_blacklist` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `email` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `ml_templates` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `tmpl_text` text,
+  `name` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;

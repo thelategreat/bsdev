@@ -48,11 +48,19 @@ class MY_Controller extends Controller
 	protected function get_featured()
 	{
 		$data = array();
-		$res = $this->media_model->files_for_path('pages/1');		
-		$data['top_feature'] = '/i/features/top_feature.jpg';		
-		$data['left_feature'] = '/i/features/featured_left.jpg';		
-		$data['mid_feature'] = '/i/features/featured_middle.jpg';		
-		$data['right_feature'] = '/i/features/featured_right.jpg';	
+		$res = $this->media_model->get_media_for_path('/pages/1', 'top');		
+		$data['top_feature'] = count($res) ? '/media/' . $res[0]['url'] : '/media/logos/no_image.jpg';		
+		
+		$res = $this->media_model->get_media_for_path('/pages/1', 'left');		
+		$data['left_feature'] = count($res) ? '/media/' . $res[0]['url'] : '/media/logos/no_image.jpg';		
+		
+		$res = $this->media_model->get_media_for_path('/pages/1', 'mid');		
+		$data['mid_feature'] = count($res) ? '/media/' . $res[0]['url'] : '/media/logos/no_image.jpg';		
+		
+		$res = $this->media_model->get_media_for_path('/pages/1', 'right');		
+		$data['right_feature'] = count($res) ? '/media/' . $res[0]['url'] : '/media/logos/no_image.jpg';		
+
+		//$data['mid_feature'] = '/i/features/featured_middle.jpg';		
 		
 		return $data;			
 	}

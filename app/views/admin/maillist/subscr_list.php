@@ -1,5 +1,9 @@
-<div style="float: right">
+<div style="float: right; font-size: 0.9em">
 <a href="/admin/maillist/subscradd"><img src="/img/user_add.png" /> New Subscriber</a>
+<a href="/admin/maillist/subscrim"><img src="/img/database_add.png" /> Import</a>
+<a href="/admin/maillist/subscrex" onclick="return confirm('Export list?');"><img src="/img/database_save.png" /> Export</a>
+<br/>
+<form method="post"><input name="query" value="<?=$query?>" /></form>
 </div>
 
 <h3><img src="/img/group.png" /> Mail List Subscribers</h3>

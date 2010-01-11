@@ -34,19 +34,37 @@ var MediaBrowser = function()
 
         },
 
-        search_view : function () {
+        search_view : function ( pg ) {
             var query = "";
+            if( !pg | pg < 1 )
+                pg = 1;
             if( $("#q").length ) {
                 query = $("#q").val();
             }
 			$.post('/admin/media/search', 
-				{ ajax: 1, q: query, pg: 1 },
+				{ ajax: 1, q: query, pg: pg },
 				function(data) {
 					$('#popup_content').html( data );
 					$('#search_form').submit(function() {
 					   MediaBrowser.search_view(); 
 					   return false;
 					});
+					// reroute the image click
+                    $('.media_table a').each(function(i){
+                        var href = $(this).attr('href');
+                        $(this).attr('href', '');
+                        $(this).bind('click', function() {
+                           items = href.split('/');
+                   			$.post('/admin/media/add', 
+                   				{ path: _P.params['path'], 
+                   				 uuid : items[items.length-1], 
+                   				 slot : $('#slot_select').val() },
+                   				function(data) {
+                   				    //alert(data);
+                				} );
+                				return true;
+                        });
+                    });
 				}
 			);			
         },
@@ -89,23 +107,8 @@ var MediaBrowser = function()
 				dialog.container.fadeIn('slow',function() {
 					dialog.data.hide().slideDown('fast');
 
-                    $('.media_table a').each(function(i){
-                        var href = $(this).attr('href');
-                        $(this).attr('href', '');
-                        $(this).bind('click', function() {
-                           items = href.split('/');
-                   			$.post('/admin/media/add', 
-                   				{ path: _P.params['path'], 
-                   				 'uuid' : items[items.length-1], 
-                   				 'slot' : $('#slot_select').val() },
-                   				function(data) {
-                   				    //alert(data);
-                				} );
-                				return true;
-                        });
-                    });
                     
-					/* http://valums.com/ajax-upload/ */
+					/* http://valums.com/ajax-upload/ 
 					if( typeof AjaxUpload != "undefined" ) {
     				    new AjaxUpload('upload_button', 
     						{
@@ -118,6 +121,7 @@ var MediaBrowser = function()
     							}
     						});
 					}
+					*/
 				});	
 			});				
 		},
@@ -135,6 +139,7 @@ var MediaBrowser = function()
 
 	};
 
+
 	// we expose the public bits here
 	return {
 		init : function( params ) {
@@ -146,8 +151,8 @@ var MediaBrowser = function()
 		media_view : function() {
 			_P.media_view();
 		},
-		search_view : function() {
-			_P.search_view();
+		search_view : function(pg) {
+			_P.search_view(pg);
 		}
 	}
 

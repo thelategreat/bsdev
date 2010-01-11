@@ -109,7 +109,8 @@ class Pages extends Controller
 				'title' => "Media for page: $page->title",
 				'page' => $page, 
 				'path' => '/pages/' . $page->id,
-				'next' => "/admin/page/edit/$page->id/media",
+				'next' => "/admin/pages/edit/$page->id/media",
+				'slots' => $page->slots,
 				'tabs' => $this->tabs->gen_tabs(array('Details','Media'), 'Media', '/admin/pages/edit/' . $page->id)
 			);
 			$page = $this->load->view('admin/media/media_tab', $view_data, true );

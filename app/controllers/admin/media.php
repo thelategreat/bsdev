@@ -40,7 +40,7 @@ class Media extends Controller
 		$stags = array();
 		$page = 1;
 		
-		// the first segement might be a page number
+		// the first segment might be a page number
 		$offs = 4;
 		if( $this->uri->segment(4) && is_numeric($this->uri->segment(4))) {
 			$page = $this->uri->segment(4);

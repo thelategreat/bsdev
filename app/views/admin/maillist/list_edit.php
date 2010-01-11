@@ -11,7 +11,7 @@
 </tr>
 <tr>
   <td valign="top"><label for="descrip">Description</label></td>
-  <td><textarea name="descrip" rows="10" cols="50"><?=$list->descrip?></textarea></td>
+  <td><textarea name="descrip" class="mceNoEditor" rows="10" cols="50"><?=$list->descrip?></textarea></td>
 </tr>
 </table>
 </fieldset>

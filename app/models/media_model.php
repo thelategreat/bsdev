@@ -170,13 +170,18 @@ class media_model extends Tag_Model
 		$item = $this->db->get('media')->row();
 
 		$so = $this->db->query("SELECT max(sort_order) as maxso FROM media_map WHERE path = '$path' AND slot = '$slot'")->row();
-
+		if( $so ) {
+			$max = $so->maxso;
+		} else {
+			$max = 0;
+		}
 		//$data = array('path' => $path, 'media_id' => $item->id );
 		$this->db->set('path', $path );
 		$this->db->set('slot', $slot );
 		$this->db->set('media_id', $item->id );
-		$this->db->set('sort_order', $so->maxso + 1 );
+		$this->db->set('sort_order', $max + 1 );
 		$this->db->insert('media_map');
+		//log_message('debug','foo');
 	}
 		
 	function move( $dir, $path, $slot, $uuid )
