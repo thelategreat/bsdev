@@ -3,7 +3,7 @@
 
 <table>
 	<tr>
-		<td width="70%">
+		<td width="70%" valign="top">
 			<hr/>
 			<table>
 			<?php foreach( $blacklist as $item ) { ?>

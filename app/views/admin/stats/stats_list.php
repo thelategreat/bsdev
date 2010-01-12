@@ -1,1 +1,3 @@
-<h3>Stats</h3>
+<h3>Config</h3>
+
+<?=$info?>

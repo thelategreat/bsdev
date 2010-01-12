@@ -1,17 +1,12 @@
 <?php
 if (!defined('BASEPATH')) exit('No direct script access allowed');   
 
-class Login extends Controller {
+class Login extends Controller 
+{
 
 	function Login()
 	{
 		parent::Controller();
-		$this->load->helper('url');
-		$this->load->library('tabs');
-
-      $this->page_tabs = array(
-        'Details', 'Media'
-      );
 	} 
 
 	function index()
@@ -30,7 +25,6 @@ class Login extends Controller {
 				$this->load->vars($data); 
 			} 
 		} 
-
 
 		$pg_data = array(
 			'title' => 'Admin - Login',

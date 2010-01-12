@@ -1,5 +1,40 @@
 <?php 
 
+function html_table( $data, $header = NULL, $caption = NULL )
+{
+	$s = '<table>';
+	if( $caption ) {
+		$s .= '<caption>' . $caption . '</caption>';
+	}
+	
+	if( $header and count($header)) {
+		$s .= '<tr>';
+		foreach( $header as $row ) {
+			$s .= '<td>' . $row . '</td>';
+		}
+		$s .= '</tr>';
+	}
+	
+	$count = 0;
+	if( $data and count($data)) {
+		foreach( $data as $row ) {
+			$s .= '<tr';
+			if( $count % 2 != 0 ) {
+				$s .= ' class="odd"';
+			}
+			$s .= '>';
+			foreach( $row as $item ) {
+				$s .= '<td>' . $item . '</td>';
+			}
+			$s .= '</tr>';
+			$count++;
+		}
+	}
+	
+	$s .= '</table>';
+	return $s;
+}
+
 function validEmail($email, $check_dns = FALSE )
 {
    $isValid = true;

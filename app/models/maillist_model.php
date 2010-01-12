@@ -68,4 +68,18 @@ class maillist_model extends Model
 		return $s;
 	}
 
+	function get_template_select( $dflt = NULL )
+	{
+		$res = $this->db->get('ml_templates');
+		$s = '';
+		foreach( $res->result() as $row ) {
+			$s .= "<option value='$row->id'";
+			if( $dflt and $dflt == $row->id ) {
+				$s .= " selected ";
+			}
+			$s .= ">$row->name</option>";
+		}
+		return $s;		
+	}
+
 }

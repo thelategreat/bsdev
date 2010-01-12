@@ -190,6 +190,7 @@ class Maillist extends Controller {
 			$send_on = $this->input->post("send_on");
 			$send_at = $this->input->post("send_at");
 			unset($_POST["save"]);
+			unset($_POST["template"]);
 			// FIXME this default date thing is messy
 			if( $_POST["send_on"] == "" ) {
 				$_POST["send_on"] = "0000-00-00";
@@ -223,6 +224,7 @@ class Maillist extends Controller {
 			'ml_lists' => $this->maillist_model->get_mllist_select($msg->ml_list_id),
 			'send_on' => $send_on,
 			'send_at' => $send_at,
+			'template_list' => $this->maillist_model->get_template_select(),
 			'error_msg' => $error_msg
 			);
 			
@@ -487,8 +489,6 @@ class Maillist extends Controller {
 				$mapped = 0;
 				if( $fp ) {
 					while(($ra = fgetcsv($fp, 5000, ",")) !== FALSE ) {
-						//$line = fgets( $fp, 4096 );
-						//$ra = csv_explode( $line );
 						if( count($ra) > 1 and validEmail($ra[0]) ) {
 							$good++;
 							$res = $this->db->query("SELECT * FROM ml_subscr WHERE email = " . $this->db->escape($ra[0]));
@@ -497,7 +497,7 @@ class Maillist extends Controller {
 								$inserted++;
 							}
 							
-							// list signup
+							// list signup (mapping)
 							if( $this->input->post("list")) {
 								// the list id
 								$list_id = $this->input->post("list");
@@ -573,6 +573,45 @@ class Maillist extends Controller {
 		);
 		$this->load->view('layouts/admin_page', $pg_data );
 		
+	}
+
+	function logs()
+	{
+		$error_msg = '';
+				
+		$content = array(
+			'logs' => '',
+			'error_msg' => $error_msg
+			);
+		
+		$pg_data = array(
+			'title' => 'Admin - Mail Logs',
+			'nav' => $this->load->view('layouts/admin_nav', '', true),
+			'content' => $this->load->view('admin/maillist/logs_list', $content, true ),
+			'footer' => $this->load->view('layouts/admin_footer', '', true)
+		);
+		$this->load->view('layouts/admin_page', $pg_data );
+		
+	}
+
+
+	function ajxtmpl()
+	{
+		$txt = '';
+		$id = $this->input->post('id');
+		if( $id ) {
+			$this->db->where( 'id', $id );
+			$row = $this->db->get('ml_templates')->row();
+			if( $row )
+				$txt = $row->tmpl_text;
+		}
+		
+		header('Cache-control: no-cache, must-revalidate');
+		header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+		header('Content-type: application/json');
+		$res[] = array('tmpl' => $txt );
+		echo json_encode($res);
+		exit();
 	}
 
 	/*

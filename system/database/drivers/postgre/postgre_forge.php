@@ -6,7 +6,7 @@
  *
  * @package		CodeIgniter
  * @author		ExpressionEngine Dev Team
- * @copyright	Copyright (c) 2008, EllisLab, Inc.
+ * @copyright	Copyright (c) 2008 - 2009, EllisLab, Inc.
  * @license		http://codeigniter.com/user_guide/license.html
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -90,15 +90,8 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 				
 				$sql .= "\n\t".$this->db->_protect_identifiers($field);
 				
-				if (array_key_exists('AUTO_INCREMENT', $attributes) && $attributes['AUTO_INCREMENT'] === TRUE)
-				{
-					$attributes['TYPE'] = 'SERIAL';
-					unset($attributes['CONSTRAINT']);
-					unset($attributes['UNSIGNED']);
-				}
-				
 				$sql .=  ' '.$attributes['TYPE'];
-				
+	
 				if (array_key_exists('CONSTRAINT', $attributes))
 				{
 					$sql .= '('.$attributes['CONSTRAINT'].')';
@@ -123,6 +116,10 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 					$sql .= ' NOT NULL';			
 				}
 	
+				if (array_key_exists('AUTO_INCREMENT', $attributes) && $attributes['AUTO_INCREMENT'] === TRUE)
+				{
+					$sql .= ' AUTO_INCREMENT';
+				}
 			}
 			
 			// don't add a comma on the end of the last field
