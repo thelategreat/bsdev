@@ -27,7 +27,6 @@
 			<li><a href="/admin/maillist/subscr">List Subscribers</a></li>
 			<li><a href="/admin/maillist/tmpl">Templates</a></li>
 			<li><a href="/admin/maillist/blacklist">Black List</a></li>
-			<li><a href="/admin/maillist/logs">Mail Logs</a></li>
 		</ul>
 	</li>
 	<li>
@@ -35,7 +34,8 @@
 		<ul>
 			<li><a href="/admin/users">Site Users</a></li>
 			<li><a href="/admin/stats">Config</a></li>
-			<li><a href="/admin/logs">Logs</a></li>
+			<li><a href="/admin/maillist/logs">Mail Logs</a></li>
+			<li><a href="/admin/logs">Web Logs</a></li>
 			<li><a href="/admin/archive">Backup/Restore</a></li>
 		</ul>
 	</li>

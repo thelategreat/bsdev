@@ -1,17 +1,17 @@
 
-<h3>Bad Folks</h3>
+<h3><img src="/img/silk/lightning.png" /> Bad Folks</h3>
 
 <table>
 	<tr>
 		<td width="70%" valign="top">
 			<hr/>
 			<table>
-			<?php foreach( $blacklist as $item ) { ?>
-				<tr>
+			<?php $count = 0; foreach( $blacklist as $item ) { ?>
+				<tr <?= ($count % 2 != 0) ? " class='odd'" : ""?>>
 					<td><?=$item->email ?></td>
 					<td><a href="/admin/maillist/blacklist/rm/<?=$item->id?>" onclick="return confirm('Really remove this?');">remove</td>
 				</tr>
-			<?php } ?>
+			<?php $count++; } ?>
 			</table>
 			<hr/>
 		</td>
