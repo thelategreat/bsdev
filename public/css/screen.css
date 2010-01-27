@@ -266,7 +266,7 @@ ul#header_meta_nav {
 	position: absolute;
 	top: 6px;
 	left: 614px;
-	width: 98px;
+	width: 108px;
 	height: 14px;
 	list-style: none;
 }
@@ -290,7 +290,7 @@ ul#header_meta_nav li a:hover {
 }
 
 ul#header_meta_nav li.subscribe a {
-	width: 64px;
+	width: 74px;
 }
 
 ul#header_meta_nav li.help a {
@@ -1392,4 +1392,31 @@ ul#stylesheet li {
 ul#stylesheet a {
 	color: #606060;
 	text-decoration: none;
+}
+
+/* Login screen */
+#login #content_wrapper {
+	color: #ddd;
+	background-color: #000;
+}
+
+#login #content_wrapper h2 {
+	font-size: 2.0em;
+	margin: 1.0em;
+}
+
+#login #content_wrapper a {
+	color: #ff3;
+}
+
+/* Regular page */
+#page #content_wrapper {
+}
+
+#page #content_wrapper h2 {
+	font-size: 2.0em;
+	margin: 0.6em;
+}
+
+#page #content_wrapper a {
 }

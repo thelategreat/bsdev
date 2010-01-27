@@ -58,7 +58,7 @@
     	</ul>
 
     	<ul id="header_meta_nav">
-    		<li class="subscribe"><a href="/page/subscribe" class="cufon">Subscribe</a></li>
+    		<li class="subscribe"><a href="/profile" class="cufon">My Bookshelf</a></li>
     		<li class="help"><a href="/page/help" class="cufon">Help</a></li>
     	</ul>
 

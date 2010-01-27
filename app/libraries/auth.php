@@ -163,4 +163,10 @@ class Auth {
     {  
         redirect($url);  
     }
+
+		function username()
+		{
+			return $this->CI->session->userdata('logged_user', NULL );
+		}
+
 }

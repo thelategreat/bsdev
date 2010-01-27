@@ -1,5 +1,5 @@
 
-<h3><img src="/img/silk/lightning.png" /> Bad Folks</h3>
+<h3><img src="/img/silk/weather_clouds.png" /> Bad Folks</h3>
 
 <table>
 	<tr>
