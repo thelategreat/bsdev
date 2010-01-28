@@ -1420,3 +1420,20 @@ ul#stylesheet a {
 
 #page #content_wrapper a {
 }
+
+#page #content_wrapper table {
+	width: 100%;
+}
+
+#page #content_wrapper .odd {
+	background-color: #ddd;
+}
+
+#page #content_wrapper table tr {
+}
+
+#page #content_wrapper table td {
+	padding-bottom: 5px;
+	padding-top: 5px;
+	border-bottom: 1px solid #ddd;
+}

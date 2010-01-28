@@ -12,13 +12,16 @@ class Profile extends MY_Controller
 	function __construct()
 	{
 		parent::Controller();
+		
 		$this->config->load('site_config');
+		
 		$this->load->library('email');
+		
 		$this->load->helper('email');
 		$this->load->helper('media');
 		$this->load->helper('misc');
 		
-		//$this->email->initialize($conf);
+		$this->load->model('maillist_model');
 	}
 
 
@@ -29,7 +32,8 @@ class Profile extends MY_Controller
 			exit();
 		}
 		$error = '';
-		if( $this->input->post('update')) {
+		if( $this->input->post('update')) {			
+			// handle user info
 			$this->db->set('firstname', $this->input->post('firstname'));
 			$this->db->set('lastname', $this->input->post('lastname'));
 			$this->db->where('username', $this->auth->username());
@@ -45,6 +49,19 @@ class Profile extends MY_Controller
 				}
 			}
 			$this->db->update('users');
+			
+			// now mail lists
+			// ---------------
+			// this is fucked up :/
+			$list_ids = array();
+			for( $i = 0; $i < 10; $i++ ) {
+				if( $this->input->post("list_" . $i )) {
+					$list_ids[] = $i;
+				}
+			}
+			if( count($list_ids)) {
+				$this->maillist_model->update_subscriptions($this->auth->username(), $list_ids );
+			}			
 		}
 		
 		$pg_data = $this->get_page_data('Bookshelf - Profile', 'page');
@@ -52,6 +69,7 @@ class Profile extends MY_Controller
 		$data['title'] = '';
 		$data['body'] = '';
 		$data['error'] = $error;
+		// get user info
 		$data['username'] = $this->auth->username();
 		$this->db->where('username',$this->auth->username());
 		$res = $this->db->get('users');
@@ -63,6 +81,25 @@ class Profile extends MY_Controller
 		$data['firstname'] = $row->firstname;
 		$data['lastname'] = $row->lastname;
 		$data['created_on'] = $row->created_on;
+		
+		// mail list info
+		$this->db->where('is_visible', 1);
+		$this->db->where('is_enabled', 1);
+		$this->db->where('is_open', 1);
+		$res = $this->db->get('ml_list');
+		
+		$subs = $this->maillist_model->get_subscriptions($this->auth->username());
+		$lists = array();
+		foreach( $res->result() as $row ) {
+			$list = array($row->id, $row->name, $row->descrip, false );
+			foreach( $subs->result() as $srow ) {
+				if( $srow->id == $row->id ) {
+					$list[3] = true;
+				}
+			}
+			$lists[] = $list;
+		}
+		$data['maillists'] = $lists;
 		
   	$pg_data['content'] = $this->load->view('profile/profile_view', $data, true);
 		$this->load->view('layouts/standard_page', $pg_data );
@@ -122,6 +159,8 @@ class Profile extends MY_Controller
 		}
 		
 		$data = array('title' => 'Page Not Found', 'body' => '');
+		$ok = true;
+		
 		
 		if( $this->input->post("email") && 
 				$this->input->post('cap') && 
@@ -135,19 +174,18 @@ class Profile extends MY_Controller
 			$email = (string)$this->input->post("email",TRUE);
 			$data['email'] = $email;
 			
-			$ok = true;
 			$this->db->where('email', $email);
 			$res = $this->db->get('users');
 			if( $res->num_rows() != 0 ) {
-				$error = "<p class='error'>That email is already registered. Did you forget your password?</p>";						
+				$error = "<p class='error'>That email is already registered. Did you <a href='/profile/forgot'>forget</a> your password?</p>";						
 				$ok = false;
 			}
 			
 			if( valid_email($email) && $cap = $j + $b && $cap > 0 && $ok ) {			
 				$uuid = gen_uuid();
 				$passwd = generatePassword(6);
-				$url = 'http://bsbds/profile/register/' . $uuid;
-				$this->email->from('system@bookshelf.ca', 'Bookshelf Registration - Do Not Reply');
+				$url = $this->config->item('base_url') . 'profile/register/' . $uuid;
+				$this->email->from($this->config->item('email_from'), $this->config->item('email_from_name'));
 				$this->email->to($email);
 				$this->email->subject('Bookshelf Registration');
 				$this->email->message($this->load->view('profile/profile_register_email', array('reg_url' => $url, 'passwd' => $passwd), true));
@@ -215,8 +253,8 @@ class Profile extends MY_Controller
 				
 				$uuid = gen_uuid();
 											
-				$url = 'http://bsbds/profile/forgot/' . $uuid;
-				$this->email->from('system@bookshelf.ca', 'Bookshelf Password Reset - Do Not Reply');
+				$url = $this->config->item('base_url') . 'profile/forgot/' . $uuid;
+				$this->email->from($this->config->item('email_from'), $this->config->item('email_from_name'));
 				$this->email->to($email);
 				$this->email->subject('Bookshelf Password Reset');
 				$this->email->message($this->load->view('profile/profile_forgot_email', array('forgot_url' => $url), true));

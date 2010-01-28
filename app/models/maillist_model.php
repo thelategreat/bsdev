@@ -82,4 +82,41 @@ class maillist_model extends Model
 		return $s;		
 	}
 
+	function update_subscriptions( $email, $list_ids )
+	{
+		// this comes from the front end so it's a bit wierd
+		// first we need to check if this user is in our user list
+		$this->db->where('email', $email );
+		$res = $this->db->get('ml_subscr');
+		if( $res->num_rows() == 0 ) {
+			$this->db->insert('ml_subscr', array('email' => $email, 'pref_format' => 'HTML', 'status' => 'active'));
+			
+			$this->db->where('email', $email );
+			$res = $this->db->get('ml_subscr');
+		}
+		
+		$id = $res->row()->id;
+		if( $id ) {
+			// now we nuke thier old subscriptions and add the new ones
+			$this->db->where('subscr_id', $id );
+			$this->db->delete('ml_subscr_list_map');
+		
+			foreach( $list_ids as $lid ) {
+				$this->db->insert('ml_subscr_list_map', array('subscr_id' => $id, 'list_id' => $lid));
+			}
+		} else {
+			error('id was zero');
+		}
+	}
+	
+	function get_subscriptions( $email ) 
+	{
+		$q = "select l.id, l.name from ml_subscr as s, ml_subscr_list_map as slm, ml_list as l 
+			WHERE s.id = slm.subscr_id AND
+			slm.list_id = l.id AND
+			s.email = " . $this->db->escape($email);
+			
+			return $this->db->query( $q );
+			
+	}
 }

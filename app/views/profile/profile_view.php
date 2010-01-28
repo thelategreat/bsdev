@@ -1,24 +1,22 @@
-<div style="float: right">
-	<a href="/profile/logout">logout</a>
+<div style="float: right; background-color: #000; color: #fff; padding: 10px;">
+	<a style="color: #fff;" href="/profile/logout">logout</a>
 </div>
 <h2>Your Bookshelf</h2>
 
 <p>
-Hi there, this is your profile page. Can't do much here yet, but
+Hi! This is your profile page. Can't do much here yet, but
 it's coming!
 </p>
+
 <hr/>
 <?=$error?>
 
 <form method="POST">
 	<table>
-		<tr>
-			<td>User</td><td><?=$username?></td>
-		</tr>
-		<tr>
+		<tr class="odd">
 			<td>Email</td><td><?=$email?></td>
 		</tr>
-		<tr>
+		<tr class="odd">
 			<td>Since</td><td><?=$created_on?></td>
 		</tr>
 		<tr>
@@ -38,6 +36,21 @@ it's coming!
 			<td>Verify</td><td><input name="password2" type="password" /></td>
 		</tr>
 	</table>
-	<input type="submit" name="update" value="Update" />
+
+<hr/>
+<h3>Your Communications</h3>
+<table>
+	<? foreach( $maillists as $list ) { ?>
+	<tr>
+		<td><input name="list_<?=$list[0]?>" type="checkbox" <?=$list[3] ? "checked" : ""?> /></td>
+		<td><?=$list[1]?></td>
+		<td><?=$list[2]?></td>
+	</tr>
+	<? } ?>
+</table>
+
+<hr/>
+<input type="submit" name="update" value="Save" />
+
 </form>
 
