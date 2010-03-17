@@ -53,13 +53,23 @@ class Calendar extends Controller
 	    $next = $this->_adjust_date($month+1,$year);
 	    $week_no = (int)date("W", mktime(12,0,0,$month,1,$year));
 	    $d = -$first + 1;		
-
-	    $s .= '<h3>' . $this->month_names[$month-1] . ' ' . $year . '</h3>';
+			
+			$s .= '<table width="100%">';
+			$s .= '<tr>';
+			$s .= '<td><a title="Last Month" href="/admin/calendar/month/year/'.$prev[1].'/month/'.$prev[0].'"><img src="/img/16-arrow-left.png"/></a></td>';
+	    $s .= '<td align="center"><h3>' . $this->month_names[$month-1] . ' ' . $year . '</h3></td>';
+			$s .= '<td align="right"><a title="Next Month" href="/admin/calendar/month/year/'.$next[1].'/month/'.$next[0].'"><img src="/img/16-arrow-right.png"/></a></td>';
+			$s .= '</tr>';
+			$s .= '</table>';
 
 	    $s .= '<table class="cal">';
 	    $s .= '<thead>';
 	    $s .= '<tr>';
-	    $s .= '<td/>';
+	    $s .= '<td class="nav">';
+			//$s .= '<a title="Last Month" href="/admin/calendar/month/year/'.$prev[1].'/month/'.$prev[0].'"><img src="/img/16-arrow-left.png"/></a>&nbsp;';
+			//$s .= '<a title="Next Month" href="/admin/calendar/month/year/'.$next[1].'/month/'.$next[0].'"><img src="/img/16-arrow-right.png"/></a>';
+	    $s .= '</td>';
+	    //$s .= '<td/>';
 	    foreach( $this->day_names as $day ) $s .= "<th>$day</th>";    
 	    $s .= '</tr>';
 	    $s .= '</thead>';
@@ -73,7 +83,7 @@ class Calendar extends Controller
 	        }
 	        elseif( $d <= $days_in_month ) {
 			  $href = "/admin/calendar/day/year/$year/month/$month/day/$d";
-	          $s .= '<td class="even ' . ($d == $today['mday'] ? 'today' : '') . '"><p class="day-num"><a href="'.$href.'">' . $d . '</a></p>';
+	          $s .= '<td width="14%" class="even ' . ($d == $today['mday'] ? 'today' : '') . '"><p class="day-num"><a href="'.$href.'">' . $d . '</a></p>';
 	        } elseif( $d > $days_in_month ) {
 	          $s .= '<td class="odd"><p class="day-num">' . ($d - $days_in_month) . '</p>';
 			  $thisdate = sprintf("%04d-%02d-%02d",$year, ($month + 1),($d - $days_in_month));
@@ -137,11 +147,11 @@ class Calendar extends Controller
 		}
 
 		if( !isset($filter['week']) || $filter['week'] == '') {
-			$filter['week'] = strftime('%V', time());
+			$filter['week'] = strftime('%W', time());
 		}
 
 		$monday = $this->_get_iso_monday( $filter['year'], $filter['week']);
-        $monday -= 60*60*24;
+		$monday -= 60*60*24;
 		$today = getdate($monday);
 		$filter['year'] = $today['year'];
 		$filter['month'] = $today['mon'];
@@ -160,10 +170,22 @@ class Calendar extends Controller
 	    $next = $this->_adjust_date($month+1,$year);
 	    $d = -$first + 1;		
 
-		$this->load->model('event_model');
-		$events = $this->event_model->get_events( $filter );
+			$this->load->model('event_model');
+			$events = $this->event_model->get_events( $filter );
 
-
+			$pyear = $filter['year'];
+			$nyear = $filter['year'];
+			$pweek = $filter['week']-1;
+			if( $pweek == 0 ) {
+				$pweek = 52;
+				$pyear--;
+			}
+			$nweek = $filter['week']+1;
+			if( $nweek > 52 ) {
+				$nweek = 1;
+				$nyear++;
+			}
+			
 	    $s = '';
 	    $s .= '<h3>Week starting: ' . date('l, F d, Y', $monday) . " <span class='small'>(week #". $filter['week'] . ')</span></h3>';
 	    $s .= '<div class="scrollable" style="position: relative; width: 700px">';
@@ -171,17 +193,17 @@ class Calendar extends Controller
 	    $s .= '<thead>';
 	    $s .= '<tr>';
 	    $s .= '<td class="nav">';
-	    $s .= '<a href="" title="Prev"><img src="/img/16-arrow-left.png"/></a>&nbsp;';
-	    $s .= '<a href="" title="Next"><img src="/img/16-arrow-right.png" /></a>';
+	    $s .= '<a href="/admin/calendar/week/'.$pweek.'/year/'.$pyear.'" title="Prev"><img src="/img/16-arrow-left.png"/></a>&nbsp;';
+	    $s .= '<a href="/admin/calendar/week/'.$nweek.'/year/'.$nyear.'" title="Next"><img src="/img/16-arrow-right.png" /></a>';
 	    $s .= '</td>';
 	    for( $i = 0; $i < 7; $i++ ) {
-			if( $filter['day'] + $i > $days_in_month ) {
-				$s .= "<th>" . $this->day_names[$i] . " " . ($i - $d - 1) . "</th>";				
-			} else {
-				$s .= "<th>" . $this->day_names[$i] . " " . ($filter['day'] + $i) . "</th>";				
+				if( $filter['day'] + $i > $days_in_month ) {
+					$s .= "<th>" . $this->day_names[$i] . " ". ($filter['day']+$i-$days_in_month) . "</th>";				
+				} else {
+					$s .= "<th>" . $this->day_names[$i] . " " . ($filter['day'] + $i) . "</th>";				
+				}
+				$d++;
 			}
-			$d++;
-		}
 	    $s .= '</tr>';
 	    $s .= '</thead>';
 	    $s .= '<tbody>';
@@ -266,11 +288,16 @@ class Calendar extends Controller
 		foreach( $segs as $k => $v ) {
 			$filter[$k] = $v;
 		}
-
 		
-		$thisday = strtotime(sprintf("%04d-%02d-%02d",$filter['year'],$filter['month'],$filter['day']) . " 00:00:00");
 		
-		$s = '';
+		
+			$thisday = strtotime(sprintf("%04d-%02d-%02d",$filter['year'],$filter['month'],$filter['day']) . " 00:00:00");
+			$pday = getdate($thisday - (24*60*60));
+			$nday = getdate($thisday + (24*60*60));
+			$purl = "/year/" . $pday['year'] . "/month/" . $pday['mon'] . '/day/' . $pday['mday'];
+			$nurl = "/year/" . $nday['year'] . "/month/" . $nday['mon'] . '/day/' . $nday['mday'];
+		
+			$s = '';
 
 	    $s = '';
 	    $s .= '<div class="scrollable">';
@@ -278,8 +305,8 @@ class Calendar extends Controller
 	    $s .= '<thead>';
 	    $s .= '<tr>';
 	    $s .= '<td class="nav">';
-	    $s .= '<a href="" title="Prev"><img src="/img/16-arrow-left.png"/></a>&nbsp;';
-	    $s .= '<a href="" title="Next"><img src="/img/16-arrow-right.png" /></a>';
+	    $s .= '<a href="/admin/calendar/day'.$purl.'" title="Prev"><img src="/img/16-arrow-left.png"/></a>&nbsp;';
+	    $s .= '<a href="/admin/calendar/day'.$nurl.'" title="Next"><img src="/img/16-arrow-right.png" /></a>';
 	    $s .= '</td>';
 	    $s .= '<th>' . date('l, M j, Y', $thisday). "</th>";
 	    $s .= '</tr>';
@@ -358,6 +385,7 @@ class Calendar extends Controller
 			$data['submitter_id'] = 1;
 			$data['title'] = $this->input->post('title');
 			$data['venue'] = $this->input->post('venue');
+			$data['audience'] = $this->input->post('audience');
 			$data['body'] = $this->input->post('body');
 			$data['dt_start'] = $this->input->post('event_date_start') . " " . $this->input->post('event_time_start');
 			$data['dt_end'] = $this->input->post('event_date_end') . " " . $this->input->post('event_time_end');
@@ -383,6 +411,7 @@ class Calendar extends Controller
 			$data['submitter_id'] = 1;
 			$data['title'] = $this->input->post('title');
 			$data['venue'] = $this->input->post('venue');
+			$data['audience'] = $this->input->post('audience');
 			$data['body'] = $this->input->post('body');
 			$data['dt_start'] = $this->input->post('event_date_start') . " " . $this->input->post('event_time_start');
 			$data['dt_end'] = $this->input->post('event_date_end') . " " . $this->input->post('event_time_end');

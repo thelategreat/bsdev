@@ -28,6 +28,7 @@ EOF;
 		$this->db->set('title', $data['title']);
 		$this->db->set('venue', $data['venue']);
 		$this->db->set('category', $data['category']);
+		$this->db->set('audience', $data['audience']);
 		$this->db->set('body', $data['body']);
 		$this->db->set('submitter_id', $data['submitter_id']);
 		$this->db->set('dt_start', $data['dt_start']);
@@ -36,6 +37,7 @@ EOF;
 		$this->db->set('updated_on', 'NOW()', false );
 		
 		$this->db->insert('events');
+		return $this->db->insert_id();
 	}
 	
 	function update_event( $id, $data )
@@ -43,6 +45,7 @@ EOF;
 		$this->db->set('title', $data['title']);
 		$this->db->set('venue', $data['venue']);
 		$this->db->set('category', $data['category']);
+		$this->db->set('audience', $data['audience']);
 		$this->db->set('body', $data['body']);
 		$this->db->set('dt_start', $data['dt_start']);
 		$this->db->set('dt_end', $data['dt_end']);

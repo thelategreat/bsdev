@@ -1,7 +1,6 @@
 <script type="text/javascript" src="/js/ajaxupload.js" ></script>
 <script type="text/javascript" src="/js/admin_mb.js" ></script>
 
-
 <script language="javascript" type="text/javascript">
 
 function reload()
@@ -40,25 +39,25 @@ Slot: <select id="slot_select" name="slot" onchange="reload()">
 <div id="media_area" ></div>
 <hr/>
 <div id="upload_div" >
-	<table>
-		<tr>
-			<td>
-	<form method="post" action="/admin/media" enctype="multipart/form-data" >
-		<label for="userfile">File</label> <input type="file" name="userfile" />
-		<input type="hidden" name="next" value="/admin/pages/edit/<?=$page->id?>/media" />
-		<input type="hidden" name="path" value="/pages/<?=$page->id?>" />
-		<input type="hidden" id="slot_field" name="slot" value="" />
-		<input type="submit" name="upload" value="Upload" />
-		</td>
-		<td> - or - </td>
+<table>
+	<tr>
 		<td>
-		<label for="url">Link</label> <input type="text" size="50" name="url" />
-		<input type="hidden" name="next" value="/admin/pages/edit/<?=$page->id?>/media" />
-		<input type="hidden" name="path" value="/pages/<?=$page->id?>" />
-		<input type="hidden" id="slot_field1" name="slot" value="" />
-		<input type="submit" name="link" value="Save" />		
-	</form>
-	</td>
+			<form method="post" action="/admin/media" enctype="multipart/form-data" >
+				<label for="userfile">File</label> <input type="file" name="userfile" />
+				<input type="hidden" name="next" value="/admin/pages/edit/<?=$page->id?>/media" />
+				<input type="hidden" name="path" value="/pages/<?=$page->id?>" />
+				<input type="hidden" id="slot_field" name="slot" value="" />
+				<input type="submit" name="upload" value="Upload" />
+				</td>
+				<td> - or - </td>
+				<td>
+				<label for="url">Link</label> <input type="text" size="50" name="url" />
+				<input type="hidden" name="next" value="/admin/pages/edit/<?=$page->id?>/media" />
+				<input type="hidden" name="path" value="/pages/<?=$page->id?>" />
+				<input type="hidden" id="slot_field1" name="slot" value="" />
+				<input type="submit" name="link" value="Save" />		
+			</form>
+		</td>
 	</tr>
 </table>
 </div>
@@ -69,7 +68,7 @@ Slot: <select id="slot_select" name="slot" onchange="reload()">
 	<span style="float: right">
 		<img onclick="$.modal.close()" src="/img/close.png" title="Close" style="cursor: pointer;"/>
 	</span>
-    <h3>Media Browser</h3>
+  <h3>Media Browser</h3>
  </div>
  <div id="modal_content">
 	<div id="popup_content">

@@ -42,7 +42,7 @@ class Profile extends MY_Controller
 				$p1 = $this->input->post('password');
 				$p2 = $this->input->post('password2');
 				if( $p1 === $p2 ) {
-					$this->db->set('passwd', "PASSWORD('" . $this->db->escape($p1) . "')", false);
+					$this->db->set('passwd', "PASSWORD(" . $this->db->escape($p1) . ")", false);
 				}
 				else {
 					$error = '<p class="error">Passwords did not match.</p>';
@@ -81,6 +81,7 @@ class Profile extends MY_Controller
 		$data['firstname'] = $row->firstname;
 		$data['lastname'] = $row->lastname;
 		$data['created_on'] = $row->created_on;
+		$data['last_seen'] = $row->last_login;
 		
 		// mail list info
 		$this->db->where('is_visible', 1);
@@ -131,7 +132,7 @@ class Profile extends MY_Controller
 
 	function verified()
 	{
-		$pg_data = $this->get_page_data('Bookshelf - Register', 'login');
+		$pg_data = $this->get_page_data('Bookshelf - Welcome', 'login');
 		$data = array('title' => 'Page Not Found', 'body' => '');
 		$data['title'] = '';
 		$data['body'] = '';
@@ -155,6 +156,8 @@ class Profile extends MY_Controller
 				$this->db->set('active', 1, false );
 				$this->db->update('users');
 				redirect('/profile/verified');
+			} else {
+				//$error = '<p class="error">That registration code is no longer valid.</p>';
 			}
 		}
 		
@@ -181,7 +184,7 @@ class Profile extends MY_Controller
 				$ok = false;
 			}
 			
-			if( valid_email($email) && $cap = $j + $b && $cap > 0 && $ok ) {			
+			if( valid_email($email) && ($cap == $j + $b) && $cap > 0 && $ok ) {			
 				$uuid = gen_uuid();
 				$passwd = generatePassword(6);
 				$url = $this->config->item('base_url') . 'profile/register/' . $uuid;
@@ -210,8 +213,8 @@ class Profile extends MY_Controller
 		$data['title'] = '';
 		$data['body'] = '';
 		$data['error'] = $error;
-		$data['n1'] = rand(0,10);
-		$data['n2'] = rand(0,10);
+		$data['n1'] = rand(1,10);
+		$data['n2'] = rand(1,10);
   	$pg_data['content'] = $this->load->view('profile/profile_register', $data, true);
 		if( $mail_sent ) {
 	  	$pg_data['content'] = $this->load->view('profile/profile_register_success', $data, true);			
@@ -249,10 +252,10 @@ class Profile extends MY_Controller
 			$ok = true;
 			$this->db->where('email', $email);
 			$res = $this->db->get('users');
-			if( $res->num_rows() == 1 ) {
+			// found them
+			if( $res->num_rows() == 1 && ($j + $b == $cap) && $cap > 0 ) {
 				
-				$uuid = gen_uuid();
-											
+				$uuid = gen_uuid();											
 				$url = $this->config->item('base_url') . 'profile/forgot/' . $uuid;
 				$this->email->from($this->config->item('email_from'), $this->config->item('email_from_name'));
 				$this->email->to($email);
@@ -261,8 +264,6 @@ class Profile extends MY_Controller
 				$mail_sent = $this->email->send();				
 				
 				if( $mail_sent ) {
-					//$this->db->set('updated_on', 'now()', false );
-					//$this->db->set('passwd', "PASSWORD('$passwd')", false );
 					$this->db->set('action_uuid', 'forgot_' . $uuid );
 					$this->db->where('email', $email);
 					$this->db->update('users'); 					
@@ -270,12 +271,12 @@ class Profile extends MY_Controller
 			}
 		}
 		
-		$pg_data = $this->get_page_data('Bookshelf - Register', 'login');
+		$pg_data = $this->get_page_data('Bookshelf - Forgot', 'login');
 		$data = array('title' => 'Page Not Found', 'body' => '');
 		$data['title'] = '';
 		$data['body'] = '';
-		$data['n1'] = rand(0,10);
-		$data['n2'] = rand(0,10);
+		$data['n1'] = rand(1,10);
+		$data['n2'] = rand(1,10);
   	$pg_data['content'] = $this->load->view('profile/profile_forgot', $data, true);
 		if( $mail_sent ) {
 	  	$pg_data['content'] = $this->load->view('profile/profile_forgot_email_sent', NULL, true);			

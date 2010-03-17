@@ -19,6 +19,9 @@ it's coming!
 		<tr class="odd">
 			<td>Since</td><td><?=$created_on?></td>
 		</tr>
+		<tr class="odd">
+			<td>Last Seen</td><td><?=$last_seen?></td>
+		</tr>
 		<tr>
 			<td>First Name</td><td><input name="firstname" value="<?=$firstname?>"/></td>
 		</tr>

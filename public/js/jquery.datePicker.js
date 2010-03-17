@@ -3,7 +3,7 @@
  * Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php) 
  * and GPL (http://www.opensource.org/licenses/gpl-license.php) licenses.
  * .
- * $Id: jquery.datePicker.js 84 2009-08-05 17:54:35Z kelvin.luck@gmail.com $
+ * $Id: jquery.datePicker.js 94 2010-01-25 02:25:27Z kelvin.luck $
  **/
 
 (function($){
@@ -501,11 +501,23 @@
  *				$(this).dpClose();
  *			}
  *		);
- * @desc Creates a date picker and makes it appear when the relevant element is focused and disappear when it is blurred.
  **/
 		dpClose : function()
 		{
 			return _w.call(this, '_closeCalendar', false, this[0]);
+		},
+/**
+ * Rerenders the date picker's current month (for use with inline calendars and renderCallbacks).
+ *
+ * @type jQuery
+ * @name dpRerenderCalendar
+ * @cat plugins/datePicker
+ * @author Kelvin Luck (http://www.kelvinluck.com/)
+ *
+ **/
+		dpRerenderCalendar : function()
+		{
+			return _w.call(this, '_rerenderCalendar');
 		},
 		// private function called on unload to clean up any expandos etc and prevent memory links...
 		_dpDestroy : function()
@@ -1137,7 +1149,7 @@
 		HEADER_FORMAT		:	'mmmm yyyy'
 	};
 	// version
-	$.dpVersion = '$Id: jquery.datePicker.js 84 2009-08-05 17:54:35Z kelvin.luck@gmail.com $';
+	$.dpVersion = '$Id: jquery.datePicker.js 94 2010-01-25 02:25:27Z kelvin.luck $';
 
 	$.fn.datePicker.defaults = {
 		month				: undefined,

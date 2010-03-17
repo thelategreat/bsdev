@@ -24,6 +24,7 @@
 	confirmation email to the address you enter. Simply follow the instructions
 	within.
 </p>
-<p>The math is to prevent automated scripts from filling our database 
+<p>
+	The math is to help prevent automated scripts from filling our database 
 	and mail servers with garbage.
 </p>

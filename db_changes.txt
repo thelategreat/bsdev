@@ -1,3 +1,8 @@
+
+--
+
+ALTER TABLE `events` ADD `audience` varchar(128) NULL DEFAULT NULL  AFTER `category`;
+
 --
 RENAME TABLE `ml_subscr_group_map` TO `ml_subscr_list_map`;
 ALTER TABLE `ml_subscr_list_map` CHANGE `group_id` `list_id` int(11) NOT NULL;

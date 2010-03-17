@@ -7,12 +7,14 @@
 
 	<!-- style -->
 	<link rel="stylesheet" href="/css/admin_style.css" type="text/css"  media="screen" />
+	<link rel="stylesheet" href="/css/datePicker.css" type="text/css"  media="screen" />
 	<link rel="stylesheet" href="/css/custom-theme/jquery-ui-1.7.2.custom.css" type="text/css"  media="screen" />
 	
 	<!-- javascript -->
 	<script type="text/javascript" src="/js/jquery-1.3.2.min.js" ></script>
   <script type="text/javascript" src="/js/jquery.form.js" ></script>
   <script type="text/javascript" src="/js/jquery-ui-1.7.2.custom.min.js" ></script>
+  <script type="text/javascript" src="/js/date.js" ></script>
   <script type="text/javascript" src="/js/jquery.datePicker.js" ></script>
   <script type="text/javascript" src="/js/jquery.simplemodal.min.js" ></script>
   <script type="text/javascript" src="/js/jquery.json-1.3.min.js" ></script>
