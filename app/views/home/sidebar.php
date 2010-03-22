@@ -1,5 +1,13 @@
 <a class="previous_listings" href="/events/details">&laquo; Previous listings</a>
-
+	<ul id="listings">
+<?php foreach( $events->result() as $event ) { ?>
+	<li><a href="/events/details/<?=$event->id?>">
+		<span class="time"><?=date('h:i a',strtotime($event->dt_start))?></span>
+		<span class="event"><?=$event->title?></span>
+		<em class="description"><?=strlen(strip_tags($event->body)) > 100 ? substr(strip_tags($event->body),0,100) . "..." : strip_tags($event->body)?></em>
+	</a></li>
+<?php } ?>
+</ul>
 <!--
 <ul id="listings">
 	<li><a href="/events/details">

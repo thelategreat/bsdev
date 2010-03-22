@@ -30,8 +30,8 @@ class MY_Controller extends Controller
 			'style' => '/css/screen.css',
 			'section' => '',
 			'content' => '',
-			'sidebar_nav' => $this->load->view('events/sidebar_nav', '', true ),
-			'sidebar' => $this->load->view('home/sidebar', '', true ),
+			'sidebar_nav' => $this->get_sidebar_nav(),
+			'sidebar' => $this->get_sidebar(),
 			'featured_top' => $this->load->view('home/featured_top', $featured, true),
 			'featured_bottom' => $this->load->view('home/featured_bottom', $featured, true),
 			'footer' => $this->load->view('layouts/standard_footer', '', true )
@@ -48,6 +48,7 @@ class MY_Controller extends Controller
 	protected function get_featured()
 	{
 		$data = array();
+		
 		$res = $this->media_model->get_media_for_path('/pages/1', 'top');		
 		$data['top_feature'] = count($res) ? '/media/' . $res[0]['url'] : '/media/logos/no_image.jpg';		
 		
@@ -63,6 +64,41 @@ class MY_Controller extends Controller
 		//$data['mid_feature'] = '/i/features/featured_middle.jpg';		
 		
 		return $data;			
+	}
+	
+	protected function get_sidebar()
+	{		
+		$today = time();
+		$nextday = strtotime("+2 days");
+		$when = $this->uri->segment(3);
+		if( $when && strlen($when) > 3 ) {
+			$mo = substr($when,0,3);
+			$da = substr($when,3);
+			$today = strtotime($da . " " . $mo);
+		}
+
+		$filter = array('day' => date('d',$today), 'month' => date('m',$today), 'year' => date('Y',$today), 'view' => 'day');
+		$items = $this->event_model->get_events( $filter );
+
+		return $this->load->view('home/sidebar', array('events'=>$items), true );
+	}
+	
+	protected function get_sidebar_nav()
+	{
+		$today = time();
+		$nextday = strtotime("+2 days");
+		$when = $this->uri->segment(3);
+		if( $when && strlen($when) > 3 ) {
+			$mo = substr($when,0,3);
+			$da = substr($when,3);
+			$nextday = strtotime($da . " " . $mo);
+		}
+		
+		$sb_nav = array('dates' => array('Today','Tomorrow',date('M',$nextday) . ' ' . date('d',$nextday)),
+			'when' => $when,
+			'nextday' => date('M',$nextday) . date('d',$nextday) );
+		
+		return $this->load->view('events/sidebar_nav', $sb_nav, true );
 	}
 	
 }
