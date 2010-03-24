@@ -65,18 +65,40 @@ class MY_Controller extends Controller
 		
 		return $data;			
 	}
+
+	protected function get_cal_date()
+	{
+		$today = time();
+		$when = $this->uri->segment(3);
+		
+		if($this->uri->segment(1) == 'events' ) {
+			switch( $this->uri->segment(2)) {
+				case 'details':
+				$event = $this->event_model->get_event($when);
+				$today = strtotime($event->row()->dt_start);
+				break;
+				default:
+				if( $when ) {
+					if( $when == 'today') {
+						$today = time();
+					}				
+					else if( $when == 'tomorrow') {
+						$today = strtotime("+1 days");
+					}				
+					else if(strlen($when) > 3 ) {
+						$mo = substr($when,0,3);
+						$da = substr($when,3);
+						$today = strtotime($da . " " . $mo);
+					}
+				}						
+			}
+		}
+		return $today;
+	}
 	
 	protected function get_sidebar()
 	{		
-		$today = time();
-		$nextday = strtotime("+2 days");
-		$when = $this->uri->segment(3);
-		if( $when && strlen($when) > 3 ) {
-			$mo = substr($when,0,3);
-			$da = substr($when,3);
-			$today = strtotime($da . " " . $mo);
-		}
-
+		$today = $this->get_cal_date();
 		$filter = array('day' => date('d',$today), 'month' => date('m',$today), 'year' => date('Y',$today), 'view' => 'day');
 		$items = $this->event_model->get_events( $filter );
 
@@ -85,18 +107,14 @@ class MY_Controller extends Controller
 	
 	protected function get_sidebar_nav()
 	{
-		$today = time();
+		$today = $this->get_cal_date();
 		$nextday = strtotime("+2 days");
-		$when = $this->uri->segment(3);
-		if( $when && strlen($when) > 3 ) {
-			$mo = substr($when,0,3);
-			$da = substr($when,3);
-			$nextday = strtotime($da . " " . $mo);
-		}
+		$when = date('Md', $today);
 		
-		$sb_nav = array('dates' => array('Today','Tomorrow',date('M',$nextday) . ' ' . date('d',$nextday)),
+		$sb_nav = array(
+			'dates' => array('Today','Tomorrow',date('M',$today) . ' ' . date('d',$today)),
 			'when' => $when,
-			'nextday' => date('M',$nextday) . date('d',$nextday) );
+			'nextday' => date('M',$today) . date('d',$today) );
 		
 		return $this->load->view('events/sidebar_nav', $sb_nav, true );
 	}

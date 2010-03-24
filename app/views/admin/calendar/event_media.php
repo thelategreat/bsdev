@@ -23,7 +23,7 @@ $(function() {
 <?=$tabs?>
 
 <h3>Media for: <?=$event->title?></h3>
-<h4><?=$event->dt_start?> - <?=$event->dt_end?></h4>
+<h4><?=date('l F j, Y',strtotime($event->dt_start))?> - <?=date('g:i a',strtotime($event->dt_start)) . ' to ' . date('g:i a',strtotime($event->dt_end))?></h4>
 
 Slot: <select id="slot_select" name="slot" onchange="reload()">
 	<option>general</option>

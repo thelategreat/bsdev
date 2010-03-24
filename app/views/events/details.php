@@ -1,18 +1,20 @@
+<?php if( $event ) { ?>
 	
-	<div id="left_content">
-  	<h2 class="event_date">Monday, January 14th</h2>
-	<p class="event_time">6 to 8:30PM</p>
+<div id="left_content">
+ 	<h2 class="event_date"><?=$event->title?></h2>
+	<p class="event_time"><?=date('l F j, Y',strtotime($event->dt_start))?></p>
+	<p class="event_time"><?=date('g:i a',strtotime($event->dt_start)) . ' to ' . date('g:i a',strtotime($event->dt_end))?></p>
 
-	<p class="event_location">@ The Ebar</p>
+	<p class="event_location">@ <?=$event->venue?></p>
 	<address class="event_address">2nd floor, Bookshelf<br />
-	41 Quebec St. Guelph</address>
+		41 Quebec St. Guelph
+	</address>
 
 	<div id="event_description">
-		<p>Lorem ipsum dolor sit amet' consectetuer adipiscing elit. Fusce orci neque' sagittis ac' eleifend at' scelerisque cursus' est. In pharetra' elit eget semper consequat' diam quam malesuada velit' et consectetuer arcu sem ac pede. Suspendisse potenti. Aenean tincidunt' quam a consequat blandit' lacus elit fringilla velit' in vestibulum libero erat et nisi. Mauris at libero non nisl laoreet accumsan.</p>
-
-		<p>Donec adipiscing accumsan libero. Sed eleifend euismod mauris. Pellentesque eu dolor sed risus mattis mattis. Donec dignissim nisl ac ante. Aenean mattis' elit ullamcorper fringilla imperdiet' odio elit laoreet nisl' id tristique justo elit sit amet sem. Pellentesque risus augue' commodo ac' tempus vel' fringilla at' est. Vestibulum non sapien non lacus pretium suscipit. Ut risus.</p>
+		<p><?=$event->body?></p>
 	</div>		
-
+	
+	<!--
 	<div id="related_events">
 		<h3>Related events that might interest you</h3>
 		<ul id="related_events_list">	
@@ -37,7 +39,8 @@
 				<p class="description">Donec adipiscing accumsan libero. Sed eleifend euismod mauris.</p>
 			</li>
 		</ul>
-	</div><!-- /Related Events -->
+	</div> -->
+	<!-- /Related Events -->
 </div><!-- /Left Content -->
 
 <div id="right_content">
@@ -51,7 +54,7 @@
 		</div>
 		
 		<img class="event_photo" src="/i/events/event_photo.jpg" width="241" height="307" alt="This is a photo of the event" />
-		
+		<!--
 		<div class="section">
 			<h3>Tickets</h3>
 			<p>Available at the Bookshelf checkout counter. $12 each. Student pricing available. Ask staff for details.</p>
@@ -74,6 +77,14 @@
 				<li><a href="#">Web 2.0 Guelph</a>,</li>
 				<li><a href="#">Ahel Israel</a></li>			
 			</ul>	
-		</div>			
+		</div>	
+		-->		
 	</div><!-- /More Info -->
 </div><!-- /Right Content -->
+
+<?php } else {  ?>
+	<div id="left_content">
+  	<h2 class="event_date">Hmmm... we could not find that event.</h2>
+	</div>
+	
+<?php } ?>

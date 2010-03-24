@@ -8,6 +8,12 @@ class event_model extends Model
 		parent::Model();
 	}
 	
+	function get_event( $id )
+	{
+		$this->db->where('id', intval($id) );
+		return $this->db->get('events');
+	}
+	
 	function get_events( $filter )
 	{
 

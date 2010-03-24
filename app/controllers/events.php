@@ -29,17 +29,17 @@ class Events extends MY_Controller
 	function calendar()
 	{
 		$ts = mktime( 0, 0, 0, date('n'), 1, date('Y'));
-		$maxday = date('t', $ts );
+		$manday = date('t', $ts );
 		$first_day = getdate($ts);
-		$today = getdate();
+		//$today = time();
 		
 		$when = $this->uri->segment(3);
 		switch( $when ) {
 			case 'tomorrow':
-			$today = date_add(new DateTime(),new DateInterval("P1D"));
+			//$today = strtotime("+1 day");
 			break;
 			default:
-			$today = getdate();
+			//$today = time();
 		}
 		
 		$startday = $first_day['wday'];
@@ -111,10 +111,19 @@ class Events extends MY_Controller
 	 */
 	function details()
 	{
+		$event = $this->event_model->get_event( $this->uri->segment(3) );
+		if( $event->num_rows() > 0 ) {
+			$event = $event->row();
+		} else {
+			$event = NULL;
+		}
+		
 	  $main_content_nav = '<ul id="main_content_nav">
   		<li class="details selected"><a class="cufon" href="/events/details">Details</a></li>
+<!--
   		<li class="location"><a class="cufon" href="/events/location">Location</a></li>
   		<li class="media_gallery"><a class="cufon" href="/events/media">Media Gallery</a></li>	
+-->
   	</ul>';
 		
 	  /*
@@ -130,7 +139,7 @@ class Events extends MY_Controller
 		);
 		*/
 		$pg_data = $this->get_page_data('Bookshelf - Event', 'event');
-		$pg_data['content'] = $this->load->view('events/details', '', true);
+		$pg_data['content'] = $this->load->view('events/details', array('event'=>$event), true);
 		$pg_data['main_content_nav'] = $main_content_nav;
 		$this->load->view('layouts/standard_page', $pg_data );	  
 	}
