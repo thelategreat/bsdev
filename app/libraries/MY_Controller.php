@@ -66,6 +66,9 @@ class MY_Controller extends Controller
 		return $data;			
 	}
 
+	/**
+ 	 *
+ 	 */
 	protected function get_cal_date()
 	{
 		$today = time();
@@ -75,7 +78,9 @@ class MY_Controller extends Controller
 			switch( $this->uri->segment(2)) {
 				case 'details':
 				$event = $this->event_model->get_event($when);
-				$today = strtotime($event->row()->dt_start);
+				if( $event->num_rows()) {
+					$today = strtotime($event->row()->dt_start);
+				}
 				break;
 				default:
 				if( $when ) {
@@ -96,6 +101,9 @@ class MY_Controller extends Controller
 		return $today;
 	}
 	
+	/**
+ 	 *
+ 	 */
 	protected function get_sidebar()
 	{		
 		$today = $this->get_cal_date();
@@ -105,6 +113,9 @@ class MY_Controller extends Controller
 		return $this->load->view('home/sidebar', array('events'=>$items), true );
 	}
 	
+	/**
+ 	 *
+ 	 */
 	protected function get_sidebar_nav()
 	{
 		$today = $this->get_cal_date();
@@ -114,7 +125,7 @@ class MY_Controller extends Controller
 		$sb_nav = array(
 			'dates' => array('Today','Tomorrow',date('M',$today) . ' ' . date('d',$today)),
 			'when' => $when,
-			'nextday' => date('M',$today) . date('d',$today) );
+			'today' => date('M',$today) . date('d',$today) );
 		
 		return $this->load->view('events/sidebar_nav', $sb_nav, true );
 	}

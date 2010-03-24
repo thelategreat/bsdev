@@ -28,7 +28,8 @@ class Events extends MY_Controller
 	 */
 	function calendar()
 	{
-		$ts = mktime( 0, 0, 0, date('n'), 1, date('Y'));
+		$today = $this->get_cal_date();
+		$ts = mktime( 0, 0, 0, date('n',$today), 1, date('Y',$today));
 		$manday = date('t', $ts );
 		$first_day = getdate($ts);
 		//$today = time();
@@ -111,35 +112,28 @@ class Events extends MY_Controller
 	 */
 	function details()
 	{
-		$event = $this->event_model->get_event( $this->uri->segment(3) );
+		$id = $this->uri->segment(3);
+		
+		$event = $this->event_model->get_event( $id );
 		if( $event->num_rows() > 0 ) {
 			$event = $event->row();
 		} else {
 			$event = NULL;
 		}
 		
+		$event_media = $this->event_model->get_event_media( $id );
+		
 	  $main_content_nav = '<ul id="main_content_nav">
-  		<li class="details selected"><a class="cufon" href="/events/details">Details</a></li>
+  		<li class="details selected"><a class="cufon" href="/events/details/'.$id.'">Details</a></li>
 <!--
-  		<li class="location"><a class="cufon" href="/events/location">Location</a></li>
-  		<li class="media_gallery"><a class="cufon" href="/events/media">Media Gallery</a></li>	
+  		<li class="location"><a class="cufon" href="/events/location/'.$id.'">Location</a></li>
+  		<li class="media_gallery"><a class="cufon" href="/events/media/'.$id.'">Media Gallery</a></li>	
 -->
   	</ul>';
 		
-	  /*
-		$pg_data = array(
-			'title' => 'Welcome',
-			'page_title' => 'Bookshelf - Event',
-			'page_name' => 'event',
-			'main_content_nav' => $main_content_nav,
-			'content' => $this->load->view('events/details', '', true),
-			'sidebar_nav' => $this->load->view('events/sidebar_nav', '', true ),
-			'sidebar' => $this->load->view('home/sidebar', '', true ),
-			'footer' => $this->load->view('layouts/standard_footer', '', true )
-		);
-		*/
+
 		$pg_data = $this->get_page_data('Bookshelf - Event', 'event');
-		$pg_data['content'] = $this->load->view('events/details', array('event'=>$event), true);
+		$pg_data['content'] = $this->load->view('events/details', array('event'=>$event, 'media'=>$event_media), true);
 		$pg_data['main_content_nav'] = $main_content_nav;
 		$this->load->view('layouts/standard_page', $pg_data );	  
 	}
@@ -150,24 +144,22 @@ class Events extends MY_Controller
 	 */
 	function location()
 	{
+		$id = $this->uri->segment(3);
+		
+		$event = $this->event_model->get_event( $id );
+		if( $event->num_rows() > 0 ) {
+			$event = $event->row();
+		} else {
+			$event = NULL;
+		}
+
+
 	  $main_content_nav = '<ul id="main_content_nav">
   		<li class="details"><a class="cufon" href="/events/details">Details</a></li>
   		<li class="location selected"><a class="cufon" href="/events/location">Location</a></li>
   		<li class="media_gallery"><a class="cufon" href="/events/media">Media Gallery</a></li>	
   	</ul>';
 		
-	  /*
-		$pg_data = array(
-			'title' => 'Welcome',
-			'page_title' => 'Bookshelf - Event Location',
-			'page_name' => 'event',
-			'main_content_nav' => $main_content_nav,
-			'content' => $this->load->view('events/location', '', true),
-			'sidebar_nav' => $this->load->view('events/sidebar_nav', '', true ),
-			'sidebar' => $this->load->view('home/sidebar', '', true ),
-			'footer' => $this->load->view('layouts/standard_footer', '', true )
-		);
-		*/
 		$pg_data = $this->get_page_data('Bookshelf - Event Location', 'event');
 		$pg_data['content'] = $this->load->view('events/location', '', true);
 		$pg_data['main_content_nav'] = $main_content_nav;
@@ -179,25 +171,21 @@ class Events extends MY_Controller
 	 */
 	function media()
 	{
+		$id = $this->uri->segment(3);
+		
+		$event = $this->event_model->get_event( $id );
+		if( $event->num_rows() > 0 ) {
+			$event = $event->row();
+		} else {
+			$event = NULL;
+		}
+		
 	  $main_content_nav = '<ul id="main_content_nav">
   		<li class="details"><a class="cufon" href="/events/details">Details</a></li>
   		<li class="location"><a class="cufon" href="/events/location">Location</a></li>
   		<li class="media_gallery selected"><a class="cufon" href="/events/media">Media Gallery</a></li>	
   	</ul>';
-		
-	  /*
-		$pg_data = array(
-			'title' => 'Welcome',
-			'page_title' => 'Bookshelf - Event Media',
-			'page_name' => 'event-media',
-			'main_content_nav' => $main_content_nav,
-			'content' => $this->load->view('events/media', '', true),
-			'sidebar_nav' => $this->load->view('events/sidebar_nav', '', true ),
-			'sidebar' => $this->load->view('home/sidebar', '', true ),
-			'footer' => $this->load->view('layouts/standard_footer', '', true )
-		);
-		*/
-		
+				
 		$pg_data = $this->get_page_data('Bookshelf - Event Media', 'event-media');
 		$pg_data['content'] = $this->load->view('events/media', '', true);
 		$pg_data['main_content_nav'] = $main_content_nav;

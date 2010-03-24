@@ -53,8 +53,12 @@
 			-->
 		</div>
 		
-		<img class="event_photo" src="/i/events/event_photo.jpg" width="241" height="307" alt="This is a photo of the event" />
+		<?php if( $media->num_rows > 0 ) { ?>
+			<img class="event_photo" src="/media/<?=$media->row()->uuid?>" width="241" height="307" alt="This is a photo of the event" />
+		<?php } ?>
+		
 		<!--
+		<img class="event_photo" src="/i/events/event_photo.jpg" width="241" height="307" alt="This is a photo of the event" />
 		<div class="section">
 			<h3>Tickets</h3>
 			<p>Available at the Bookshelf checkout counter. $12 each. Student pricing available. Ask staff for details.</p>

@@ -14,6 +14,12 @@ class event_model extends Model
 		return $this->db->get('events');
 	}
 	
+	function get_event_media( $id )
+	{
+		$res = $this->db->query("SELECT m.uuid FROM media_map as mm, media as m WHERE mm.path = '/event/" . intval($id) . "' AND m.id = mm.media_id ORDER BY mm.sort_order");
+		return $res;
+	}
+	
 	function get_events( $filter )
 	{
 
