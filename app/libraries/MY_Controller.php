@@ -66,6 +66,17 @@ class MY_Controller extends Controller
 		return $data;			
 	}
 
+	function main_nav_arrows( $back = NULL, $fwd = NULL )
+	{
+		$s = '';
+		if( $back )
+			$s .= '<a id="left_arrow" href="'.$back.'">&laquo; Previous</a>';
+		if( $fwd )
+			$s .= '<a id="right_arrow" href="'.$fwd.'">Next &raquo;</a>';
+		return $s;
+	}
+
+
 	/**
  	 *
  	 */

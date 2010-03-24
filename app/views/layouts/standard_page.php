@@ -64,7 +64,7 @@
 
     	<div id="search">	
 				<form action="/search" method="post">
-    		<input id="search_box" name="box" type="text" value="search..." onfocus="this.value=''; this.style.color='#222';" onblur="this.value='search...'; this.style.color='#ccc';" />
+    		<input id="search_box" name="q" type="text" value="search..." onfocus="this.value=''; this.style.color='#222';" onblur="if(this.value=='') this.value='search...'; this.style.color='#ccc';" />
     		<input id="search_button" name="button" type="image" src="/i/search_button.png" value="" onclick="submit();" />
 				</form>
     	</div>

@@ -1,5 +1,6 @@
-<p id="returned_results">Your search on Flight Conchords Concert returned 53 results.</p>
+<p id="returned_results">Your search on '<?=$results['query']?>' returned <?=$results['count']?> results.</p>
 	    	
+<!--
 <div id="related_searches">
 	<h4 class="results">Find more results with fewer search terms:</h4>
 	
@@ -9,10 +10,10 @@
 		<li><a href="#">Conchords Concert</a> has returned 99 terms</li>
 	</ul>
 </div>
-
-<fieldset>
+-->
+<fieldset >
 	<legend>Filter your search:</legend>
-	<h4 class="results">OR filter your current results by:</h4>
+	<h4 class="results">Filter your current results by:</h4>
 	<ul>
 		<li><label>Venue</label>
 			<select>

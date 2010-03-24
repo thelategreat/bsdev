@@ -53,7 +53,7 @@
 			-->
 		</div>
 		
-		<?php if( $media->num_rows > 0 ) { ?>
+		<?php if( $media->num_rows() > 0 ) { ?>
 			<img class="event_photo" src="/media/<?=$media->row()->uuid?>" width="241" height="307" alt="This is a photo of the event" />
 		<?php } ?>
 		
