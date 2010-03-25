@@ -19,7 +19,7 @@
 			<?php if( $event["url"] != "" ) { ?>
 				<a href="<?=$event["url"]?>" title="<?=$event["description"]?>">
 			<?php } ?>
-				<!--<img src="<?=$event["image"]?>" width="82" height="46" alt="" /> -->
+				<img src="<?=$event["image"]?>" width="82" height="46" alt="" /> 
 				<?=$event["description"]?>
 			<?php if( $event["url"] != "" ) { ?>
 				</a>			
