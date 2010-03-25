@@ -1,21 +1,14 @@
 <h2>Edit Meta</h2>
 
 <?php if( $item->type == "link") { 
-	$url = $item->title;
-	$purl = parse_url( $url );
-	if( $purl['host'] == 'www.vimeo.com' || $purl['host'] == 'vimeo.com') {
-		$url = 'http://vimeo.com/moogaloop.swf?clip_id=' . substr($purl['path'], 1 ) . '&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1';
-	}
-	?>
-<object width="425" height="344">
-	<param name="movie" value="<?= $url ?>"></param>
-	<param name="allowFullScreen" value="false"></param>
-	<param name="allowscriptaccess" value="always"></param>
-	<embed src="<?= $url ?>" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="false" width="425" height="344"></embed>
-</object>
-<?php } else { ?>
-<img id="theImage" src="/media/<?= $item->uuid ?>" />
-<canvas id="theCanvas" style="border: 1px solid #000;"></canvas>
+	
+	echo get_embed_object( $item->title );
+	
+} else { ?>
+	
+	<img id="theImage" src="/media/<?= $item->uuid ?>" />
+	<canvas id="theCanvas" style="border: 1px solid #000;"></canvas>
+
 <?php } ?>
 
 <?php echo validation_errors('<div class="error">', '</div>'); ?>

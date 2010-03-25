@@ -101,6 +101,10 @@ class Pages extends Controller
 		$data['parent_select'] = $this->mk_nested_select($data['titles'], $data['page']->parent_id );
 		$data['page_types'] = $this->mk_types_select( $data['page']->page_type );
 		$data['tabs'] = $this->tabs->gen_tabs(array('Details','Media'), $cur_tab, '/admin/pages/edit/' . $id);
+		$slot = 'general';
+		if( $this->uri->segment(6)) {
+			$slot = $this->uri->segment(6);
+		}
 
 		switch( $cur_tab ) {
 			case 'media':
@@ -111,6 +115,7 @@ class Pages extends Controller
 				'path' => '/pages/' . $page->id,
 				'next' => "/admin/pages/edit/$page->id/media",
 				'slots' => $page->slots,
+				'slot' => $slot,
 				'tabs' => $this->tabs->gen_tabs(array('Details','Media'), 'Media', '/admin/pages/edit/' . $page->id)
 			);
 			$page = $this->load->view('admin/media/media_tab', $view_data, true );

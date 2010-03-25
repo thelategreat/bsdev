@@ -19,7 +19,21 @@ $(function() {
 	$count = 0;
 	foreach( $files as $file ) {  ?>
 	<tr <?= ($count % 2) != 0 ? "class='odd'" : "" ?>>
-	  <td width="10%"><img src="/media/<?=$file['url']?>" width="50" /></td>
+	  <td width="10%">
+			<?php
+				switch( $file['type'] ) {
+					case 'link':
+					  if( isset($file['thumbnail']) && strlen($file['thumbnail'])) {
+							echo '<img src="' . $file['thumbnail'] . '" width="70" />';											
+					  } else {
+							echo '<img src="/media/logos/youtube.jpg" width="70" />';					
+						}
+						break;
+					default:
+						echo '<img src="/media/'. $file['uuid'] . '" width="70" />';					
+			}
+			?>
+		</td>
 	  <td><?=$file['fname']?>
 		<p><small>
 			<a href="/admin/media/edit/<?=$file['url']?>">Edit</a> | 

@@ -1,19 +1,13 @@
 <div id="featured_bottom">
 	<div id="featured_left">
-		<a href="#">
-		<img src="<?= $left_feature ?>" width="292" height="124" alt="Alt text goes here" />
-		</a>
+			<?= $left_feature ?>
 	</div>
 
 	<div id="featured_middle">
-		<a href="#">
-		<img src="<?= $mid_feature ?>" width="292" height="124" alt="Alt text goes here" />
-		</a>
+		<?= $mid_feature ?>
 	</div>
 
 	<div id="featured_right">
-		<a href="#">
-		<img src="<?= $right_feature ?>" width="292" height="124" alt="Alt text goes here" />
-		</a>
+		<?= $right_feature ?>
 	</div>
 </div><!-- /Featured Row -->	

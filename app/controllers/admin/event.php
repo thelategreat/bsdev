@@ -127,10 +127,17 @@ class Event extends Controller
 		$event = $this->db->get('events')->row();
 		$tabs = $this->tabs->gen_tabs(array('Details','Media'), $cur_tab, '/admin/event/edit/' . $event_id);
 		
+		$data = array(
+			'event' => $event,
+			'tabs' => $tabs,
+			"start_time_widget" => $this->get_time_widget('event_time_start', strtotime($event->dt_start)),
+			"end_time_widget" => $this->get_time_widget('event_time_end', strtotime($event->dt_end)),
+			);
+		
 		if( $cur_tab == 'media' ) {
-			$content = $this->load->view('admin/calendar/event_media', array('event' => $event, 'tabs' => $tabs), true );
+			$content = $this->load->view('admin/calendar/event_media', $data, true );
 		} else {
-			$content = $this->load->view('admin/calendar/event_edit', array('event' => $event, 'tabs' => $tabs), true );
+			$content = $this->load->view('admin/calendar/event_edit', $data, true );
 		}
 		
 		$pg_data = array(

@@ -136,6 +136,8 @@ class media_model extends Tag_Model
 			$info['fname'] = $row->title;
 			$info['url'] =  $row->uuid;
 			$info['author'] = $row->user;
+			$info['type'] = $row->type;
+			$info['uuid'] = $row->uuid;
 			$info['date'] = '-';
 			$info['size'] = '-';
 			$files[] = $info;
@@ -168,8 +170,13 @@ class media_model extends Tag_Model
 	{
 		$this->db->where('uuid', $uuid);
 		$item = $this->db->get('media')->row();
-
-		$so = $this->db->query("SELECT max(sort_order) as maxso FROM media_map WHERE path = '$path' AND slot = '$slot'")->row();
+		if( count($item) == 0 ) {
+			return;
+		}
+		
+		$query = "SELECT max(sort_order) as maxso FROM media_map WHERE path = '$path' AND slot = '$slot'";
+		//echo $query;
+		$so = $this->db->query($query)->row();
 		if( $so ) {
 			$max = $so->maxso;
 		} else {

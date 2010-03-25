@@ -63,9 +63,9 @@ function emit_title_rows( $titles, $offset = 5 )
 				echo '<a href="/admin/pages/edit/'.$page->id.'">'.$page->title.'</a>';
 			echo '</td>';
 			echo '<td>';
-			echo ($first ? '&nbsp;-&nbsp;' : '<a href="/admin/pages/sort/up/'.$page->id.'" title="move up"><img src="/img/go-up.png" style="width: 16px"/></a>');
+			echo ($first ? '&nbsp;-&nbsp;' : '<a href="/admin/pages/sort/up/'.$page->id.'" title="move up"><img src="/img/go-up.png" class="icon" /></a>');
 			echo '&nbsp;';
-			echo ($last ? '&nbsp;-&nbsp;' : '<a href="/admin/pages/sort/down/'.$page->id.'" title="move down"><img src="/img/go-down.png"  style="width: 16px" /></a>');
+			echo ($last ? '&nbsp;-&nbsp;' : '<a href="/admin/pages/sort/down/'.$page->id.'" title="move down"><img src="/img/go-down.png" class="icon" /></a>');
 			echo '</td>';
 			echo '<td>';
 			echo ($page->active ? '<img src="/img/tick.png" onclick="deactivate(0);"/>' : '<img src="/img/cross.png" onclick="activate(0);" />');

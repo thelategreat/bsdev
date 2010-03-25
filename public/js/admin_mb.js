@@ -53,6 +53,7 @@ var MediaBrowser = function()
                     $('.media_table a').each(function(i){
                         var href = $(this).attr('href');
                         $(this).attr('href', '');
+						$(this).attr('title','Click to insert media');
                         $(this).bind('click', function() {
                            items = href.split('/');
                    			$.post('/admin/media/add', 

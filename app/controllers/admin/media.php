@@ -59,26 +59,34 @@ class Media extends Controller
 			$conf['allowed_types'] = 'jpg|png';
 			$conf['upload_path'] = $my_root;
 			$uuid = $this->up($my_root, $conf );
-			if( $this->input->post('next')) {
+			if( $this->input->post('next') ) {
+				$next = $this->input->post('next'); 
 				$slot = $this->input->post('slot');
-				if( empty($slot))
+				if( empty($slot)) {
 					$slot = 'general';
+				} else {
+					$next .= '/' . $slot;
+				}
 				$path = $this->input->post('path');
 				$this->media_model->add_media_for_path( $path, $uuid, $slot );
-				redirect( $this->input->post('next') );
+				redirect( $next );
 			}
 			redirect('/admin/media/edit/' . $uuid );
 		}
 		if( $this->input->post("link")) {
 			$uuid = gen_uuid();
 			$this->media_model->add_link( $uuid, $this->input->post('url'), $this->session->userdata('logged_user'));
-			if( $this->input->post('next')) {
+			if( $this->input->post('next') ) {
+				$next = $this->input->post('next'); 
 				$slot = $this->input->post('slot');
-				if( empty($slot))
+				if( empty($slot)) {
 					$slot = 'general';
+				} else {
+					$next .= '/' . $slot;
+				}
 				$path = $this->input->post('path');
 				$this->media_model->add_media_for_path( $path, $uuid, $slot );
-				redirect( $this->input->post('next') );
+				redirect( $next );
 			}
 			redirect('/admin/media/edit/' . $uuid );
 		}
@@ -232,7 +240,7 @@ class Media extends Controller
 		
 		// now this is lame
 		$tmp = explode('/', $path );
-		redirect('/admin/' . $tmp[1] . '/edit/' . $tmp[2] . '/media' );
+		redirect('/admin/' . $tmp[1] . '/edit/' . $tmp[2] . '/media/' . $slot );
 	}
 
 
@@ -250,7 +258,7 @@ class Media extends Controller
 		
 		// lame, the sequel
 		$tmp = explode('/', $path );
-		redirect('/admin/' . $tmp[1] . '/edit/' . $tmp[2] . '/media' );
+		redirect('/admin/' . $tmp[1] . '/edit/' . $tmp[2] . '/media/' . $slot );
 	}
 
 

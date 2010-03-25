@@ -5,6 +5,7 @@
 
 function reload()
 {
+	
 	$('#slot_field').val($('#slot_select').val());
 	$('#slot_field1').val($('#slot_select').val());
 	$.post('/admin/media/browser', 
@@ -25,10 +26,10 @@ $(function() {
 <h3><?=$title?></h3>
 
 Slot: <select id="slot_select" name="slot" onchange="reload()">
-	<option>general</option>
-<?php foreach( explode(",", $slots) as $slot ) { 
-	if( !empty($slot) && strlen(trim($slot)) ) { ?>
-			<option><?=$slot?></option>
+	<option <?=$slot == 'general' ? 'selected' : ''?>>general</option>
+<?php foreach( explode(",", $slots) as $s ) { 
+	if( !empty($s) && strlen(trim($s)) ) { ?>
+			<option <?=$slot == $s ? 'selected' : ''?>><?=$s?></option>
 <?php } 
 } ?>
 </select><button onclick="reload()"><img width="16" src="/img/reload.png" /></button>

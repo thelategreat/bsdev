@@ -49,20 +49,33 @@ class MY_Controller extends Controller
 	{
 		$data = array();
 		
-		$res = $this->media_model->get_media_for_path('/pages/1', 'top');		
+		$res = $this->media_model->get_media_for_path('/pages/1', 'top');	
 		$data['top_feature'] = count($res) ? '/media/' . $res[0]['url'] : '/media/logos/no_image.jpg';		
 		
 		$res = $this->media_model->get_media_for_path('/pages/1', 'left');		
-		$data['left_feature'] = count($res) ? '/media/' . $res[0]['url'] : '/media/logos/no_image.jpg';		
-		
-		$res = $this->media_model->get_media_for_path('/pages/1', 'mid');		
-		$data['mid_feature'] = count($res) ? '/media/' . $res[0]['url'] : '/media/logos/no_image.jpg';		
-		
-		$res = $this->media_model->get_media_for_path('/pages/1', 'right');		
-		$data['right_feature'] = count($res) ? '/media/' . $res[0]['url'] : '/media/logos/no_image.jpg';		
+		if( count($res) && $res[0]['type'] == 'link') {
+			$data['left_feature'] = get_embed_object($res[0]['fname'], 292, 124 );
+		}	else {
+			$url = count($res) ? '/media/' . $res[0]['url'] : '/media/logos/no_image.jpg';					
+			$data['left_feature'] = '<img src="' . $url .'" width="292" height="124" alt="Left feature" />';
+		}
 
-		//$data['mid_feature'] = '/i/features/featured_middle.jpg';		
-		
+		$res = $this->media_model->get_media_for_path('/pages/1', 'mid');		
+		if( count($res) && $res[0]['type'] == 'link') {
+			$data['mid_feature'] = get_embed_object($res[0]['fname'], 292, 124 );
+		}	else {
+			$url = count($res) ? '/media/' . $res[0]['url'] : '/media/logos/no_image.jpg';					
+			$data['mid_feature'] = '<img src="' . $url .'" width="292" height="124" alt="Mid feature" />';
+		}
+
+		$res = $this->media_model->get_media_for_path('/pages/1', 'right');		
+		if( count($res) && $res[0]['type'] == 'link') {
+			$data['right_feature'] = get_embed_object($res[0]['fname'], 292, 124 );
+		}	else {
+			$url = count($res) ? '/media/' . $res[0]['url'] : '/media/logos/no_image.jpg';					
+			$data['right_feature'] = '<img src="' . $url .'" width="292" height="124" alt="Right feature" />';
+		}
+				
 		return $data;			
 	}
 
