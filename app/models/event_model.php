@@ -40,7 +40,7 @@ EOF;
 		
 		$sql = "SELECT * FROM events WHERE (title LIKE '%" . $this->db->escape_like_str($q) . "%'";
 		$sql .= " OR body LIKE '%" . $this->db->escape_like_str($q) . "%')";
-		#$sql .= " AND dt_start >= NOW()";
+		$sql .= " AND dt_start >= NOW()";
 
 		return $this->db->query( $sql );		
 	}

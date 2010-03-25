@@ -17,7 +17,7 @@
 				<tr>
 					<td><label for="venue">Venue</label></td>
 					<td>
-						<select name="venue" id="fld_venue" >
+						<select name="venue" id="fld_venue" onchange="sel_venue();" >
 						  <option>cinema</option>
 						  <option>greenroom</option>
 						  <option>ebar</option>
@@ -27,7 +27,7 @@
 					</td>
 					<td><label for="category">Category</label></td>
 					<td>
-						<select name="category" id="fld_category" >
+						<select name="category" id="fld_category" onchange="sel_category();" >
 						  <option>film</option>
 						  <option>music</option>
 						  <option>reading</option>
@@ -37,7 +37,7 @@
 					</td>
 					<td><label for="audience">Audience</label></td>
 					<td>
-						<select name="audience" id="fld_audience" >
+						<select name="audience" id="fld_audience" onchange="sel_audience();" >
 						  <option value="general">general (all ages)</option>
 						  <option value="children">children</option>
 						  <option value="teen">young adult</option>
@@ -59,32 +59,6 @@
 		<td><input class="date-pick" name="event_date_start" size="12" onblur="" id="fld_event_date_start" value="<?=date('Y-m-d')?>"/><span class="small">yyyy-mm-dd<span></td>
 		<td><label for="event_time_start">Start Time</label></td>
 		<td>
-			<!--
-			<select name="event_time_start_hour" id="fld_event_time_start_hour">
-				<option>1</option>
-				<option>2</option>
-				<option>3</option>
-				<option>4</option>
-				<option>5</option>
-				<option>6</option>
-				<option>7</option>
-				<option>8</option>
-				<option>9</option>
-				<option>10</option>
-				<option>11</option>
-				<option>12</option>
-			</select>
-			<select name="event_time_start_min" id="fld_event_time_start_min">
-				<option>00</option>
-				<option>15</option>
-				<option>30</option>
-				<option>45</option>
-			</select>
-			<select name="event_time_start_am_pm" id="fld_event_time_start_am_pm">
-				<option>am</option>
-				<option>pm</option>
-			</select>
-			-->
 			<?=$start_time_widget?>
 		</td>
 	</tr>
@@ -93,33 +67,6 @@
 		<td><input class="date-pick" name="event_date_end" size="12" onblur="" id="fld_event_date_end" value="<?=date('Y-m-d')?>" /><span class="small">yyyy-mm-dd<span></td>
 		<td><label for="event_time_end">End Time</label></td>
 		<td>
-			<!-- <input name="event_time_end" size="5" onblur="" id="fld_event_time_end" value="12:00"/><span class="small">hh:mm</span>-->
-			<!--
-			<select name="event_time_end_hour" id="fld_event_time_end_hour">
-				<option>1</option>
-				<option>2</option>
-				<option>3</option>
-				<option>4</option>
-				<option>5</option>
-				<option>6</option>
-				<option>7</option>
-				<option>8</option>
-				<option>9</option>
-				<option>10</option>
-				<option>11</option>
-				<option>12</option>
-			</select>
-			<select name="event_time_end_min" id="fld_event_time_end_min">
-				<option>00</option>
-				<option>15</option>
-				<option>30</option>
-				<option>45</option>
-			</select>
-			<select name="event_time_end_am_pm" id="fld_event_time_end_am_pm">
-				<option>am</option>
-				<option>pm</option>
-			</select>
-			-->
 			<?=$end_time_widget?>
 		</td>
 	</tr>

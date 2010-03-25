@@ -15,16 +15,18 @@
 	<legend>Filter your search:</legend>
 	<h4 class="results">Filter your current results by:</h4>
 	<ul>
+		<form method="post" action="/search">
 		<li><label>Venue</label>
-			<select>
+			<select name="venue">
 				<option>EBAR</option>
 				<option>Cinema</option>
 				<option>St. George's Church</option>
 			</select>
 		</li>
 		
+		<!--
 		<li><label>Genre</label>
-			<select>
+			<select name="genre">
 				<option>All Genres</option>
 				<option>Alternative</option>
 				<option>Punk</option>
@@ -32,16 +34,17 @@
 				<option>Rap</option>
 			</select>
 		</li>
-		
+		-->
+			
 		<li><label>Keyword</label>
-			<input id="keyword" type="text" value="Search EBAR" />
+			<input id="keyword" name="q" type="text" value="<?=$results['query']?>" />
 		</li>
 		
-		<li class="radio_left"><input type="radio" /><label>New search</label></li>
-		
-		<li class="radio_right"><input type="radio" /><label>Search within results</label></li>
+		<li class="radio_left"><input type="radio" /><label>New search</label></li>		
+		<li class="radio_right"><input type="radio" checked="checked"/><label>Search within results</label></li>
 		
 	</ul>
 </fieldset>
 	    	
 	<input id="sidebar_search_button" name="button" type="image" src="i/sidebar_search_button.png" value="" />
+	</form>

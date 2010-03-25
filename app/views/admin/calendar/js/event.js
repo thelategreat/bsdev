@@ -44,6 +44,8 @@
 	});
 })(jQuery);
 
+var duration = null;
+
 /*
  * Validation for event add/edit view
  */
@@ -128,6 +130,7 @@ function fill( id, cat )
 			$(data).find('item').each(function() {
 				var item = $(this);
 				$('#fld_title').val(item.attr('title'));
+				duration = item.attr('time');
 				//$('#fld_body').val(item.find('description').text());
 				tinyMCE.activeEditor.setContent(item.find('description').text());
 			});
@@ -140,6 +143,38 @@ function leave_first_date()
 {
 	if( $('#fld_event_date_end').val() == '' ) {
 		$('#fld_event_date_end').val( $('#fld_event_date_start').val() );
+	}
+}
+// changed category
+function sel_category()
+{
+	duration = null;
+}
+// changed venue
+function sel_venue()
+{
+}
+// changed audience
+function sel_audience()
+{
+}
+
+function sel_event_time_start()
+{
+	if( duration ) {
+		var min = parseInt(duration);
+		var hour = parseInt(min / 60);
+		var min = Math.round(parseInt(min % 60)/5)*5;
+		var shour = parseInt($('#fld_event_time_start_hour').val());
+		var smin = parseInt($('#fld_event_time_start_min').val());
+		// TODO: this does not cross midnite properly
+		if( smin + min > 60 ) {
+			$('#fld_event_time_end_hour').val(''+(shour + hour + 1));			
+			$('#fld_event_time_end_min').val(''+(smin + min - 60 ));			
+		} else {
+			$('#fld_event_time_end_hour').val(''+(shour + hour));			
+			$('#fld_event_time_end_min').val(''+(smin + min));			
+		}
 	}
 }
 

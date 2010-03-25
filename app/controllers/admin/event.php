@@ -153,11 +153,12 @@ class Event extends Controller
 		$xml .= '<results>';
 		
 		if( $id && $cat ) {
-			$res = $this->db->query("select id, title, description from films where id = $id");
+			$res = $this->db->query("select id, title, description, running_time from films where id = $id");
 			foreach( $res->result() as $row ) {
 				$xml .= '<item ';
 				$xml .= "id='" . htmlentities($row->id) . "' ";
-				$xml .= "title='" . htmlentities($row->title) . "' >";
+				$xml .= "title='" . htmlentities($row->title) . "' ";
+				$xml .= "time='" . htmlentities($row->running_time) . "' >";
 				$xml .= '<description>' . htmlentities($row->description) . '</description>';
 				$xml .= "</item>";
 			}
@@ -201,7 +202,7 @@ class Event extends Controller
 		}
 		
 		$s = "";
-		$s .= '<select name="'.$name.'_hour" id="fld_'.$name.'_hour">';
+		$s .= '<select name="'.$name.'_hour" id="fld_'.$name.'_hour" onchange="sel_'.$name.'();">';
 		for( $i = 1; $i < 13; $i++ ) {
 			$s .= "<option";
 			if( $hr && $i == $hr ) {
@@ -211,16 +212,17 @@ class Event extends Controller
 		}
 		$s .= '</select>';
 		
-		$s .= '<select name="'.$name.'_min" id="fld_'.$name.'_min">';
-		foreach(array("00","15","30","45") as $mint ) {
+		$s .= '<select name="'.$name.'_min" id="fld_'.$name.'_min" onchange="sel_'.$name.'();">';
+		//foreach(array("00","15","30","45") as $mint ) {
+		for( $mint = 0; $mint < 60; $mint += 5 ) {
 			$s .= "<option";
 			if( $min && $mint == $min ) {
 				$s .= ' selected="selected"';
 			}
-			$s .= ">$mint</option>";
+			$s .= ">".sprintf("%02d",$mint)."</option>";
 		}
 		
-		$s .= '<select name="'.$name.'_am_pm" id="fld_'.$name.'_am_pm">';
+		$s .= '<select name="'.$name.'_am_pm" id="fld_'.$name.'_am_pm" onchange="sel_'.$name.'();">';
 		foreach( array("am","pm") as $zone ) {
 			$s .= "<option";
 			if( $ampm && $zone == $ampm ) {

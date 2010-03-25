@@ -13,14 +13,14 @@
 <div id="calendar_container">
 
 <ul class="calendar">
-	
 	<?php foreach( $calinfo as $event ) { ?>
 		<li class="day">
+			<a href="<?=$event["day_url"]?>"><span class="number"><?=$event["day_number"]?></span></a>
 			<?php if( $event["url"] != "" ) { ?>
 				<a href="<?=$event["url"]?>" title="<?=$event["description"]?>">
 			<?php } ?>
-				<a href="<?=$event["day_url"]?>"><span class="number"><?=$event["day_number"]?></span></a>
-				<img src="<?=$event["image"]?>" width="82" height="46" alt="" />
+				<!--<img src="<?=$event["image"]?>" width="82" height="46" alt="" /> -->
+				<?=$event["description"]?>
 			<?php if( $event["url"] != "" ) { ?>
 				</a>			
 			<?php } ?>

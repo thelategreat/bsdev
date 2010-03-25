@@ -1287,6 +1287,11 @@ ul#weekday li {
 	overflow: hidden;
 }
 
+#calendar_container a {
+	color: #eee;
+	font-size: 9px;
+}
+
 ul.calendar {
 	width: 602px;
 	height: 308px;

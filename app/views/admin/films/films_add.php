@@ -50,6 +50,12 @@ function do_link_lookup()
 	});
 }
 
+function lookup()
+{
+	var url = "http://www.imdb.com/find?s=all&q=" + escape($("#title").val());
+	window.open(url,"imdb");
+	return false;
+}
 
 </script>
 
@@ -67,7 +73,8 @@ function do_link_lookup()
 			</tr>
 			<tr>
 				<td><label for="title" onclick="do_lookup()">title</label><br/>
-				<input name="title" id="title" type="text" size="50" class="required" value="<?=set_value('title')?>"/></td>
+				<input name="title" id="title" type="text" size="50" class="required" value="<?=set_value('title')?>"/>
+				<button onclick="return lookup();">IMDB</button></td>
 				<td class="form_error"><?=form_error('title')?></td>
 			</tr>
 			<tr>

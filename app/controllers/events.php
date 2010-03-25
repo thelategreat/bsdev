@@ -54,27 +54,22 @@ class Events extends MY_Controller
 		$last_day_of_this_month = date('t',$ts);
 		$last_day_of_last_month = date('t',$last_month);
 		
-		// fill with empty
+		// fill array with empty values
 		for( $i = 0; $i < 7*6; $i++ ) {
 			$event_info = array();
+			$event_info["title"] = "";
+			$event_info["description"] = "";
 			$event_info['day_url'] = '/events/calendar/';
+			$event_info["url"] = "";
+			$event_info["image"] = "/i/calendar/cal_no_image.jpg";			  
 			if( $i < $startday ) {
   			$event_info["day_number"] = $last_day_of_last_month - $i - $startday + 1;
-  			$event_info["description"] = "";
-  			$event_info["url"] = "";
-  			$event_info["image"] = "/i/calendar/cal_no_image.jpg";
 				$event_info['day_url'] = '/events/calendar/' . date('M',$last_month) . ($last_day_of_last_month - $i - $startday + 1) ;
 			} else if( $i - $startday + 1 > $last_day_of_this_month ) {
   			$event_info["day_number"] = $i - $startday - $last_day_of_this_month + 1;
-  			$event_info["description"] = "";
-  			$event_info["url"] = "";
-  			$event_info["image"] = "/i/calendar/cal_no_image.jpg";			  				
 				$event_info['day_url'] = '/events/calendar/' . date('M',$next_month) . ($i - $startday - $last_day_of_this_month + 1);
 			} else {
   			$event_info["day_number"] = $i - $startday + 1;
-  			$event_info["description"] = "";
-  			$event_info["url"] = "";
-  			$event_info["image"] = "/i/calendar/cal_no_image.jpg";			  
 				$event_info['day_url'] = '/events/calendar/' . date('M',$ts) . ($i - $startday + 1);
 			}
 			$cal_info[] = $event_info;
@@ -82,15 +77,15 @@ class Events extends MY_Controller
 		
 		foreach( $items->result() as $event ) {
 			$dt = date_parse($event->dt_start);
-			$cal_info[$dt['day']+1]['url'] = '/events/details/' . $event->id;
-			$cal_info[$dt['day']+1]['description'] = $event->title;
-			$image_path = 'pubmedia/films/' . strtolower($event->title) . '.jpg';
-			$image_path = str_replace( ' ', '-', $image_path );
-			if( file_exists( $image_path )) {	
-				$cal_info[$dt['day']+1]["image"] = '/' . $image_path;
-			}
+			$cal_info[$dt['day']]['url'] = '/events/details/' . $event->id;
+			$cal_info[$dt['day']]['description'] = $event->title;
+			//$image_path = 'pubmedia/films/' . strtolower($event->title) . '.jpg';
+			//$image_path = str_replace( ' ', '-', $image_path );
+			//if( file_exists( $image_path )) {	
+			//	$cal_info[$dt['day']+1]["image"] = '/' . $image_path;
+			//}
 		}
-		
+				
 		$main_content_nav = '
 			<ul id="main_content_nav">
 				<li class="calendar_month selected"><a class="cufon" href="page-event-calendar.html">'.$first_day['month'].' '.$first_day['year'].'</a></li>

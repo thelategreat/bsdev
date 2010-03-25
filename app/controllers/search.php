@@ -33,7 +33,7 @@ class Search extends MY_Controller
 		$results['count'] = $results['results']->num_rows();
 		
 		$main_content_nav = '<ul id="main_content_nav">
-  		<li class="search_results selected"><a class="cufon" href="page-search-results.html">Search Results</a></li>
+  		<li class="search_results selected"><a class="cufon" href="#">Search Results</a></li>
   		<li class="results_meta">Showing 1-6 of '.$results['count'].' results found. Click arrows to view additional results.</li>
   	</ul>';
 		
