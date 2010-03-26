@@ -56,14 +56,18 @@ var MediaBrowser = function()
 						$(this).attr('title','Click to insert media');
                         $(this).bind('click', function() {
                            items = href.split('/');
-                   			$.post('/admin/media/add', 
+                   		   $.post('/admin/media/add', 
                    				{ path: _P.params['path'], 
                    				 uuid : items[items.length-1], 
                    				 slot : $('#slot_select').val() },
                    				function(data) {
-                   				    //alert(data);
+									// this click func needs to return false 
+									// to give the ajax call a chance to complete
+									$.modal.close();
+									// TODO: this kind defeats the purpose of ajax however
+									window.location.reload();
                 				} );
-                				return true;
+                				return false;
                         });
                     });
 				}
@@ -85,14 +89,6 @@ var MediaBrowser = function()
 		 */
 		reload : function() {
 		    this.search_view();
-		    /*
-			$.post('/admin/media/browser', 
-				{ path: _P.params.path },
-				function(data) {
-					$('#modal_content').html( data );
-				}
-			);
-			*/			
 		},
 
 
@@ -107,22 +103,6 @@ var MediaBrowser = function()
 			dialog.overlay.fadeIn('fast', function() {
 				dialog.container.fadeIn('slow',function() {
 					dialog.data.hide().slideDown('fast');
-
-                    
-					/* http://valums.com/ajax-upload/ 
-					if( typeof AjaxUpload != "undefined" ) {
-    				    new AjaxUpload('upload_button', 
-    						{
-    							action: '/admin/media/upload/',
-    							data: {
-    								path: _P.params.path
-    							},
-    							onComplete: function( file, response ) {
-    								_P.reload();
-    							}
-    						});
-					}
-					*/
 				});	
 			});				
 		},

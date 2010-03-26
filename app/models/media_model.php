@@ -170,9 +170,9 @@ class media_model extends Tag_Model
 	{
 		$this->db->where('uuid', $uuid);
 		$item = $this->db->get('media')->row();
-		if( count($item) == 0 ) {
-			return;
-		}
+		//if( count($item) == 0 ) {
+		//	return;
+		//}
 		
 		$query = "SELECT max(sort_order) as maxso FROM media_map WHERE path = '$path' AND slot = '$slot'";
 		//echo $query;
