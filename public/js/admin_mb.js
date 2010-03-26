@@ -64,7 +64,7 @@ var MediaBrowser = function()
 									// this click func needs to return false 
 									// to give the ajax call a chance to complete
 									$.modal.close();
-									// TODO: this kind defeats the purpose of ajax however
+									// TODO: this kindo defeats the purpose of ajax however
 									window.location.reload();
                 				} );
                 				return false;

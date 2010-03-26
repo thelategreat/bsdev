@@ -49,24 +49,37 @@
 	<input style="background-color: #9f9" type="submit" name="save" value="Save" />
 	<input type="submit" name="cancel" value="Cancel" />
 	&nbsp;&nbsp;&nbsp;&nbsp;
-	<input onclick="return confirm('Really delete this?');" style="background-color: #f99" type="submit" name="delete" value="Delete" />
+	<?php if( $used->num_rows() == 0 ) { ?>
+ 	  <input onclick="return confirm('Really delete this?');" style="background-color: #f99" type="submit" name="delete" value="Delete" />
+	<?php } else { ?>
+		<p class="info">this media is in use and can't be deleted</p>
+	<?php } ?>
 </form>
 <p/>
+
 <script type="text/javascript">
+
 function loadImage() {
 	var cvs = $('#theCanvas')[0];
 	if( !cvs ) return;
 	var ctx = cvs.getContext('2d');
 	var img = $('#theImage')[0];
 	if( ctx && img ) {
-		cvs.setAttribute('width', '300px' );
-		cvs.setAttribute('height', '200px' );
 		$(img).hide();
-		ctx.drawImage(img, 0, 0, 300, 200 );		
+		//
+		img.onload = function() {
+			//alert( this.width + ' ' + this.height );			
+			var width = this.width;
+			var height = this.height;
+			cvs.setAttribute('width', '' + width + 'px' );
+			cvs.setAttribute('height', '' + height + 'px' );
+			ctx.drawImage(img, 0, 0, width, height );		
+		};
+		img.src = img.src;
+		
 	} else {
 		alert('no image');
-	}
-	
+	}	
 }
 
 $(document).ready(function() {

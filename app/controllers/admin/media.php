@@ -167,9 +167,11 @@ class Media extends Controller
 			redirect('/admin/media');
 		}
 		$item = $this->media_model->get_media( $uuid );
+		$used = $this->media_model->get_media_usage( $uuid );
 				
 		$data = array(
 			'item' => $item[0],
+			'used' => $used,
 			'errors' => $errors
 			);
 		

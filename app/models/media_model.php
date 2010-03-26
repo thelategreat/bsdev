@@ -128,6 +128,13 @@ class media_model extends Tag_Model
 		return $items;
 	}
 	
+	function get_media_usage( $uuid )
+	{
+		$query = "select * from media as m, media_map as mm where m.id = mm.media_id and m.uuid = '$uuid'";
+		$res = $this->db->query( $query );
+		return $res;
+	}
+	
 	function get_media_for_path( $path, $slot = 'general' )
 	{
 		$files = array();
@@ -140,6 +147,19 @@ class media_model extends Tag_Model
 			$info['uuid'] = $row->uuid;
 			$info['date'] = '-';
 			$info['size'] = '-';
+			
+			switch( $info['type'] ) {
+				case 'link':
+				  if( isset($info['thumbnail']) && strlen($info['thumbnail'])) {
+						//$info['thumbnail'] = '<img src="' . $info['thumbnail'] . '" width="70" />';											
+				  } else {
+						$info['thumbnail'] = "/media/logos/youtube.jpg";					
+					}
+					break;
+				default:
+					$info['thumbnail'] = '/media/' . $info['uuid'];
+		  }
+						
 			$files[] = $info;
 		}
 		return $files;
