@@ -17,10 +17,10 @@
 		<li class="day">
 			<a href="<?=$event["day_url"]?>"><span class="number"><?=$event["day_number"]?></span></a>
 			<?php if( $event["url"] != "" ) { ?>
-				<a href="<?=$event["url"]?>" title="<?=$event["description"]?>">
+				<a href="<?=$event["url"]?>" title="<?=isset($event["count"]) ? $event["count"] . " events" : "" ?>">
 			<?php } ?>
-				<img src="<?=$event["image"]?>" width="82" height="46" alt="" /> 
-				<?=$event["description"]?>
+				<!--<img src="<?=$event["image"]?>" width="82" height="46" alt="" />--> 
+				<?=isset($event["count"]) ? "&nbsp;(" . $event["count"] . ")" : "" ?>
 			<?php if( $event["url"] != "" ) { ?>
 				</a>			
 			<?php } ?>

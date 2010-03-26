@@ -59,19 +59,23 @@ class Media extends Controller
 			$conf['allowed_types'] = 'jpg|png';
 			$conf['upload_path'] = $my_root;
 			$uuid = $this->up($my_root, $conf );
-			if( $this->input->post('next') ) {
-				$next = $this->input->post('next'); 
-				$slot = $this->input->post('slot');
-				if( empty($slot)) {
-					$slot = 'general';
-				} else {
-					$next .= '/' . $slot;
+			if( !$uuid ) {
+				$errors = '<p class="error">There was trouble uploading the image. Perhaps it is too big? Images must be less than 100k and smaller then 1024x768.</p>';
+			} else {
+				if( $this->input->post('next') ) {
+					$next = $this->input->post('next'); 
+					$slot = $this->input->post('slot');
+					if( empty($slot)) {
+						$slot = 'general';
+					} else {
+						$next .= '/' . $slot;
+					}
+					$path = $this->input->post('path');
+					$this->media_model->add_media_for_path( $path, $uuid, $slot );
+					redirect( $next );
 				}
-				$path = $this->input->post('path');
-				$this->media_model->add_media_for_path( $path, $uuid, $slot );
-				redirect( $next );
+				redirect('/admin/media/edit/' . $uuid );
 			}
-			redirect('/admin/media/edit/' . $uuid );
 		}
 		if( $this->input->post("link")) {
 			$uuid = gen_uuid();
@@ -273,15 +277,19 @@ class Media extends Controller
 		}
 	}
 	
+	/* Handle an upload */
 	private function up( $path, $conf )
 	{
 		$uuid = gen_uuid();
 		$conf['file_name'] = $uuid;
+		$conf['max_size'] = 100;
+		$conf['max_width'] = 1024;
+		$conf['max_height'] = 768;
 		$this->load->library('upload', $conf );
 		$this->upload->initialize($conf);
 		
 		if( !$this->upload->do_upload('userfile')) {
-			return $uuid;
+			return NULL;
 		} else {
 			$data = $this->upload->data();
 			rename( $data['full_path'], $data['file_path'] . '/' . $uuid );

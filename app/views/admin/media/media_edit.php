@@ -16,10 +16,6 @@
 <form method="post" >
 	<table>
 		<tr>
-			<td><label for="title"><?= $item->type == "link" ? "Link" : "Title" ?></label></td>
-			<td><input name="title" size="50" value="<?= $item->title ?>" /></td>
-		</tr>
-		<tr>
 			<td><label for="caption">Caption</label></td>
 			<td><input name="caption" size="50" value="<?= $item->caption ?>" /></td>
 		</tr>
@@ -43,6 +39,10 @@
 					<option value="open">Open</option>
 				</select>
 			</td>
+		</tr>
+		<tr>
+			<td><label for="title"><?= $item->type == "link" ? "Link" : "File" ?></label></td>
+			<td><input name="title" size="50" value="<?= $item->title ?>" readonly="readonly"/></td>
 		</tr>
 	</table>
 	<hr />

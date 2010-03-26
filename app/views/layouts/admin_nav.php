@@ -14,7 +14,7 @@
 		<a href="/admin">Data</a>
 		<ul>
 			<li><a href="/admin/media">Media Library</a></li>
-			<li><a href="/admin/cinema">Films</a></li>
+			<li><a href="/admin/films">Films</a></li>
 		<!--	<li><a href="/admin/imdb">IMDB</a></li> -->
 			<li><a href="/admin/venues">Venues</a></li>
 		</ul>

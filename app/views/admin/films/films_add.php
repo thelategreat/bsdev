@@ -7,7 +7,7 @@ function do_lookup()
 		return;
 	}
 	alert("search: " + title );
-	$.post('/admin/cinema/imdb_lookup', {t: title, fo: 'json'}, function(data) {
+	$.post('/admin/films/imdb_lookup', {t: title, fo: 'json'}, function(data) {
 		alert(data);
 		var film = eval("(" + data + ")");
 		if( film['trynt'] && film['trynt']['movie-imdb']['error']) {
@@ -31,7 +31,7 @@ function do_link_lookup()
 		alert('Please input a link');
 		return;
 	}
-	$.post('/admin/cinema/imdb_search', {u: link, fo: 'json'}, function(data) {
+	$.post('/admin/films/imdb_search', {u: link, fo: 'json'}, function(data) {
 		alert(data);
 		var film = eval("(" + data + ")");
 		if( film['trynt'] && film['trynt']['movie-imdb']['error']) {
@@ -61,7 +61,7 @@ function lookup()
 
 <h3>Add Film</h3>
 
-<?= form_open('admin/cinema/add', array('class'=>'general')); ?>
+<?= form_open('admin/films/add', array('class'=>'general')); ?>
 <table style="border: 0">
 	<tr><td valign="top">
 		<fieldset><legend>Details</legend>
@@ -73,7 +73,7 @@ function lookup()
 			</tr>
 			<tr>
 				<td><label for="title" onclick="do_lookup()">title</label><br/>
-				<input name="title" id="title" type="text" size="50" class="required" value="<?=set_value('title')?>"/>
+				<input name="title" id="title" type="text" size="40" class="required" value="<?=set_value('title')?>"/>
 				<button onclick="return lookup();">IMDB</button></td>
 				<td class="form_error"><?=form_error('title')?></td>
 			</tr>
@@ -114,7 +114,7 @@ function lookup()
 	</td>
 	<td valign="top">
 		<fieldset><legend>Description</legend>
-			<textarea name="description" id="description" cols="60" rows="20"><?=set_value('description')?></textarea>
+			<textarea name="description" id="description" cols="60" rows="25"><?=set_value('description')?></textarea>
 		</fieldset>
 	</td>
 	</tr>

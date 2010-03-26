@@ -77,6 +77,10 @@ class Events extends MY_Controller
 		
 		foreach( $items->result() as $event ) {
 			$dt = date_parse($event->dt_start);
+			if( !isset($cal_info[$dt['day']]['count'])) {
+				$cal_info[$dt['day']]['count'] = 0;
+			}
+			$cal_info[$dt['day']]['count']++;
 			$cal_info[$dt['day']]['url'] = '/events/details/' . $event->id;
 			$cal_info[$dt['day']]['description'] = $event->title;
 			//$image_path = 'pubmedia/films/' . strtolower($event->title) . '.jpg';

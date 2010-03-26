@@ -176,6 +176,7 @@ function sel_event_time_start()
 			$('#fld_event_time_end_min').val(''+(smin + min));			
 		}
 	}
+	$('#fld_event_time_end_am_pm').val($('#fld_event_time_start_am_pm').val());
 }
 
 $(function()

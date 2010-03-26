@@ -8,12 +8,12 @@ function lookup()
 }
 </script>
 
-<h3>Edit Film</h3>
+<?= $tabs ?>
 
-<?= form_open('admin/cinema/edit/' . $film->id, array('class'=>'general')); ?>
+<?= form_open('admin/films/edit/' . $film->id, array('class'=>'general')); ?>
 <table style="border: 0">
 	<tr><td valign="top">
-		<fieldset><legend>Details</legend>
+		<fieldset><legend>Film Details</legend>
 		<table style="border: 0">
 			<tr>
 				<td><label for="ttno">tt#</label><br/>
@@ -68,19 +68,9 @@ function lookup()
 	    <tr>
 	      <td>
       		<fieldset><legend>Description</legend>
-      		<textarea name="description" cols="60" rows="15"><?=set_value('description',$film->description)?></textarea>
+      		<textarea name="description" cols="60" rows="25"><?=set_value('description',$film->description)?></textarea>
       		</fieldset>
     		</td>
-    	</tr>
-    	<tr>
-    	  <td valign="top">
-					<fieldset><legend>Media</legend>
-						<div id="media_preview">
-							<a href="#" onclick="MediaBrowser.init({path: '/films/<?=$film->id?>'});"><img src="/pubmedia/library/no_image.jpg" height="80" /></a>
-							<br><small>no image assigned</small>
-						</div>
-					</fieldset>
-    	  </td>
     	</tr>
 		</table>
 	</td>

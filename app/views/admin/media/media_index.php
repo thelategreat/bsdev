@@ -37,7 +37,7 @@
 			<p/>
 			<span class="field_tip"><?= $item->uuid ?></span>
 		</td>
-		<td><?= $item->title ?><br/><em><?= $item->caption ?></em></td>
+		<td><?= $item->caption ?><br/><em><?= $item->title ?></em></td>
 		<td><?= $item->description ?></td>
 		<td><?= $item->type ?></td>
 		<td><?= $item->tags ?></td>
@@ -48,7 +48,11 @@
 <div class="pager">
 	<table>
 		<tr>
-			<td><a href="/admin/media/index/<?=$page-1?>">⇐ prev</a></td>
+			<td>
+				<?php if( $page-1 != 0 ) { ?>
+				  <a href="/admin/media/index/<?=$page-1?>">⇐ prev</a>
+				<?php } ?>
+			</td>
 			<td align="right"><a href="/admin/media/index/<?=$page+1?>">next ⇒</a></td>
 		</tr>
 	</table>
