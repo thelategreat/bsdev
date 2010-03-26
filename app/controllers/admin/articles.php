@@ -113,6 +113,7 @@ class Articles extends Controller
 		
 		$view_data = array( 
 			'article' => $article, 
+			'slot' => 'general',
 			'category_select' => $this->articles_model->category_select( $article->category ),
 			'status_select' => $this->articles_model->status_select( $article->status ),
 			'tabs' => $this->tabs->gen_tabs(array('Article','Media'), 'Article', '/admin/articles/edit/' . $article_id)
@@ -137,6 +138,7 @@ class Articles extends Controller
 		$view_data = array( 
 			'title' => "Media for article: $article->title",
 			'article' => $article, 
+			'slot' => 'general',
 			'path' => '/articles/' . $article->id,
 			'next' => "/admin/articles/edit/$article->id/media",
 			'tabs' => $this->tabs->gen_tabs(array('Article','Media'), 'Media', '/admin/articles/edit/' . $article->id)
