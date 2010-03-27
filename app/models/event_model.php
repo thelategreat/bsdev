@@ -22,13 +22,27 @@ class event_model extends Model
 	
 	function get_events( $filter )
 	{
-
 		$start = sprintf('%04d-%02d-%02d', $filter['year'],$filter['month'],$filter['day']);
+		$end = sprintf('%04d-%02d-%02d', $filter['year'],$filter['month'],$filter['day']);
 		$view = $filter['view'];
 		
 		$query =<<<EOF
 SELECT * FROM events 
-	WHERE dt_start BETWEEN date('$start') AND DATE_ADD(DATE('$start'), INTERVAL + 1 $view)
+	WHERE dt_start BETWEEN date('$start') AND DATE_ADD(DATE('$end'), INTERVAL + 1 $view)
+	ORDER BY dt_start ASC
+EOF;
+		return $this->db->query( $query );
+	}
+	
+	/* date in long format */
+	function get_events_by_date_range( $start, $end )
+	{
+		$start = date('Y-m-d', $start);
+		$end = date('Y-m-d', $end);
+		
+		$query =<<<EOF
+SELECT * FROM events 
+	WHERE dt_start BETWEEN date('$start') AND DATE('$end')
 	ORDER BY dt_start ASC
 EOF;
 		return $this->db->query( $query );

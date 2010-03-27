@@ -1317,10 +1317,14 @@ ul.calendar li.day .number {
 	padding-top: 7px;
 	width: 24px;
 	height: 17px;
-	background: #000;
+	background-color: #000;
 	font: normal 10px "Trebuchet MS", Helvetica, Arial;
 	color: #fff;
 	text-align: center;
+	background-color: rgba(0,0,0,0.5);
+	-moz-border-radius-bottomleft: 8px;
+	-webkit-border-bottom-left-radius: 8px;
+	border-bottom-left-radius: 8px;
 }
 
 ul.calendar li.day .number.selected {

@@ -29,32 +29,33 @@ class Events extends MY_Controller
 	function calendar()
 	{
 		$today = $this->get_cal_date();
+		
 		$ts = mktime( 0, 0, 0, date('n',$today), 1, date('Y',$today));
 		$manday = date('t', $ts );
 		$first_day = getdate($ts);
-		//$today = time();
-		
-		$when = $this->uri->segment(3);
-		switch( $when ) {
-			case 'tomorrow':
-			//$today = strtotime("+1 day");
-			break;
-			default:
-			//$today = time();
-		}
 		
 		$startday = $first_day['wday'];
-		$cal_info = array();
-		
-		$filter = array('day' => 1, 'month' => $first_day['mon'], 'year' => $first_day['year'], 'view' => 'month');
-		$items = $this->event_model->get_events( $filter );
-		
+				
 		$next_month = strtotime("+1 month", $ts);
 		$last_month = strtotime("-1 month", $ts);
 		$last_day_of_this_month = date('t',$ts);
 		$last_day_of_last_month = date('t',$last_month);
 		
+		$lm = $last_day_of_last_month - $startday + 1 . ' ' .date('F',$last_month) . ' ' .  date('Y',$last_month);
+		if( $startday == 0 ) {
+			$lm =  date('d F Y', $ts);
+		}
+		$start_date = strtotime(  $lm  );
+		$end_date = strtotime("+41 days", $start_date );
+		/*
+		echo '<span style="color: white;">';
+		echo date('Y M d', $start_date ) . '<br/>';
+		echo date('Y M d', $end_date ) . '<br/>';
+		echo '</span>';
+		*/
+		$cal_info = array();
 		// fill array with empty values
+		// TODO: this could be way simpler
 		for( $i = 0; $i < 7*6; $i++ ) {
 			$event_info = array();
 			$event_info["title"] = "";
@@ -63,7 +64,7 @@ class Events extends MY_Controller
 			$event_info["url"] = "";
 			$event_info["image"] = "/i/calendar/cal_no_image.jpg";			  
 			if( $i < $startday ) {
-  			$event_info["day_number"] = $last_day_of_last_month - $i - $startday + 1;
+  			$event_info["day_number"] = $last_day_of_last_month + $i - $startday + 1;
 				$event_info['day_url'] = '/events/calendar/' . date('M',$last_month) . ($last_day_of_last_month - $i - $startday + 1) ;
 			} else if( $i - $startday + 1 > $last_day_of_this_month ) {
   			$event_info["day_number"] = $i - $startday - $last_day_of_this_month + 1;
@@ -75,19 +76,16 @@ class Events extends MY_Controller
 			$cal_info[] = $event_info;
 		}
 		
-		foreach( $items->result() as $event ) {
-			$dt = date_parse($event->dt_start);
-			if( !isset($cal_info[$dt['day']]['count'])) {
-				$cal_info[$dt['day']]['count'] = 0;
+		// put the events in the appropriate slot
+		// for now we just count
+		$events = $this->event_model->get_events_by_date_range( $start_date, $end_date );		
+		foreach( $events->result() as $event ) {
+			$dt = strtotime($event->dt_start);
+			$offs = ($dt - $start_date) / (60*60*24);
+			if( !isset($cal_info[$offs]['count'])) {
+				$cal_info[$offs]['count'] = 0;
 			}
-			$cal_info[$dt['day']]['count']++;
-			$cal_info[$dt['day']]['url'] = '/events/details/' . $event->id;
-			$cal_info[$dt['day']]['description'] = $event->title;
-			//$image_path = 'pubmedia/films/' . strtolower($event->title) . '.jpg';
-			//$image_path = str_replace( ' ', '-', $image_path );
-			//if( file_exists( $image_path )) {	
-			//	$cal_info[$dt['day']+1]["image"] = '/' . $image_path;
-			//}
+			$cal_info[$offs]['count']++;
 		}
 				
 		$main_content_nav = '
