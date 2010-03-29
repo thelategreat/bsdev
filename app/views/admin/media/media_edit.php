@@ -1,18 +1,22 @@
-<h2>Edit Meta</h2>
-
+<table>
+	<tr>
+		<td style="width: 80%;">
+				<div style="background-color: #888; padding: 15px; text-align: center; border-bottom: 2px solid #333; border-right: 2px solid #333;">
 <?php if( $item->type == "link") { 
 	
 	echo get_embed_object( $item->title );
 	
 } else { ?>
-	<a href="#" id="toggle_size" onclick="toggle_size(); return false;" title="toggle view" style="font-size: .8em;">[+]</a><br/>
+	<a style="float: right" href="#" id="toggle_size" onclick="toggle_size(); return false;" title="toggle view" style="font-size: .8em;">[+]</a><br/>
 	<img id="theImage" src="/media/<?= $item->uuid ?>" />
 	<canvas id="theCanvas" style="border: 1px solid #000;"></canvas>
 <?php } ?>
-
+			</div>
+			
 <?php echo validation_errors('<div class="error">', '</div>'); ?>
-
 <form method="post" >
+	<h3>Media Info</h3>
+	<hr />
 	<table>
 		<tr>
 			<td><label for="caption">Caption</label></td>
@@ -50,11 +54,22 @@
 	&nbsp;&nbsp;&nbsp;&nbsp;
 	<?php if( $used->num_rows() == 0 ) { ?>
  	  <input onclick="return confirm('Really delete this?');" style="background-color: #f99" type="submit" name="delete" value="Delete" />
-	<?php } else { ?>
-		<p class="info">this media is in use and can't be deleted</p>
+	<?php } ?>
+	<?php if( $page && isset( $page )) { ?>
+		<input type="hidden" name="page" value="<?=$page?>" />
 	<?php } ?>
 </form>
 <p/>
+		</td>
+		<td valign="top">
+			<div id="media-info">
+			</div>
+			<?php if( $used->num_rows() != 0 ) { ?>
+				<p class="info small">this media is in use and can't be deleted</p>
+			<?php } ?>
+		</td>
+	</tr>
+</table>
 
 <script type="text/javascript">
 
@@ -72,10 +87,12 @@ function toggle_size()
 			width = 200;
 			height = 100;
 			$('#toggle_size').html('[+]');
+			$('#toggle_size').attr('title',"full size");
 		} else {
 			width = parseInt(img.width);
 			height = parseInt(img.height);			
 			$('#toggle_size').html('[-]');
+			$('#toggle_size').attr('title',"smaller view");
 		}
 		cvs.setAttribute('width', '' + width + 'px' );
 		cvs.setAttribute('height', '' + height + 'px' );

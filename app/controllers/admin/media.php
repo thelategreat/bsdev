@@ -39,7 +39,7 @@ class Media extends Controller
 		$page_size = 10;
 		$stags = array();
 		$page = 1;
-		
+				
 		// the first segment might be a page number
 		$offs = 4;
 		if( $this->uri->segment(4) && is_numeric($this->uri->segment(4))) {
@@ -179,33 +179,57 @@ class Media extends Controller
 		$errors = '';
 		$this->load->library('form_validation');
 		$uuid = $this->uri->segment(4);
+
+		$page = NULL;
+		// the page number, maybe
+		if( $this->uri->segment(6) && is_numeric($this->uri->segment(6))) {
+			$page = $this->uri->segment(6);
+			if( $page < 1 ) {
+				$page = 1;
+			}
+		}
 		
 		$this->form_validation->set_rules('title','Title','required');
+		$this->form_validation->set_rules('caption','Caption','required');
 		
+		// S A V E
+		// -----------
 		if( $this->input->post('save') && $this->form_validation->run()) {
 			$meta['title'] = $this->input->post('title');
 			$meta['caption'] = $this->input->post('caption');
 			$meta['description'] = $this->input->post('description');
 			$meta['license'] = $this->input->post('license');
-			$this->media_model->update_media( $uuid, $meta, $this->input->post('tags') );
+			$this->media_model->update_media( $uuid, $meta, $this->input->post('tags') );			
 			redirect('/admin/media');
 		}
+		// D E L E T E
+		// -----------
 		if( $this->input->post('delete')) {
 			$this->media_model->remove_upload( $uuid );
 			if( file_exists( './media/' . $uuid )) {
 				unlink( './media/' . $uuid );
 			}
+			if( $this->input->post('page')) {
+				redirect('/admin/media/index/' . $this->input->post('page'));				
+			}
 			redirect('/admin/media');
 		}
+		// C A N C E L
+		// -----------
 		if( $this->input->post('cancel')) {
+			if( $this->input->post('page')) {
+				redirect('/admin/media/index/' . $this->input->post('page'));				
+			}
 			redirect('/admin/media');
 		}
+		
 		$item = $this->media_model->get_media( $uuid );
 		$used = $this->media_model->get_media_usage( $uuid );
 				
 		$data = array(
 			'item' => $item[0],
 			'used' => $used,
+			'page' => $page,
 			'errors' => $errors
 			);
 		

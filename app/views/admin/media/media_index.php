@@ -19,7 +19,7 @@
 <?php $count = 0; foreach( $items as $item ) { ?>
 	<tr <?= ($count++ % 2 ) ? "class='odd'" : '' ?>>
 		<td align="center">
-			<a href="/admin/media/edit/<?= $item->uuid ?>" title="click to edit meta">
+			<a href="/admin/media/edit/<?= $item->uuid ?>/pg/<?= $page ?>" title="click to edit meta">
 			<?php
 				switch( $item->type ) {
 					case 'link':
