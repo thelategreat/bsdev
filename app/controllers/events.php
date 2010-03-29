@@ -46,7 +46,7 @@ class Events extends MY_Controller
 			$lm =  date('d F Y', $ts);
 		}
 		$start_date = strtotime(  $lm  );
-		$end_date = strtotime("+41 days", $start_date );
+		$end_date = strtotime("+42 days", $start_date );
 		/*
 		echo '<span style="color: white;">';
 		echo date('Y M d', $start_date ) . '<br/>';

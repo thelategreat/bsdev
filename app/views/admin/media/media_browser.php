@@ -28,7 +28,7 @@ $(function() {
 		</td>
   	<td></td>
   	<td><?=$file['author']?></td>
-	  <td><?=$file['date']?><br/><?=$file['size']?></td>
+	  <td><small><?=$file['date']?><br/><?=$file['size']?></small></td>
 		<td>
 			<?php if( $count != 0 ) { ?>
 			<a href="/admin/media/move/up/<?= $file['url'] . '/' . $slot . $media_path ?>">

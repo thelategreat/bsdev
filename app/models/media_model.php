@@ -145,8 +145,10 @@ class media_model extends Tag_Model
 			$info['author'] = $row->user;
 			$info['type'] = $row->type;
 			$info['uuid'] = $row->uuid;
-			$info['date'] = '-';
-			$info['size'] = '-';
+			$info['date'] = $row->updated_on;
+			$info['size'] = '<p class="error">missing</p>';
+			if( file_exists('media/' . $row->uuid ))
+				$info['size'] = $this->pretty_file_size(filesize('media/' . $row->uuid ));
 			
 			switch( $info['type'] ) {
 				case 'link':
@@ -237,14 +239,21 @@ class media_model extends Tag_Model
 		}
 	}
 		
-	function migrate()
+	/**
+	 * Returns a file size (or any number) as english with bytes, kb, mb
+	 * appended.
+	 *
+	 * $size the number
+	 * @return a string with english size
+	 */
+	function pretty_file_size( $size )
 	{
-		$items = array(
-			"ALTER TABLE `media_map` ADD `slot` varchar(128) NULL DEFAULT 'general'  AFTER `order`",
-			"ALTER TABLE `media_map` ADD `title` varchar(256) NOT NULL AFTER `slot`",
-			"ALTER TABLE `pages` ADD `slots` varchar(256) NULL DEFAULT NULL  AFTER `deletable`",
-			"ALTER TABLE `media_map` CHANGE `order` `sort_order` int(11) NULL DEFAULT '0'"			
-		);
-	}
-		
+	  // i dont think php can handle a number beyond tera ;)
+	  foreach(array('b','kb','mb','gb','tb','pb','eb','zb','yb') as $sz ) {
+	    if( $size < 1024.0 ) {
+	      return sprintf("%3.1f %s", $size, $sz );
+	    }
+	    $size /= 1024.0;
+	  }	
+	}		
 }

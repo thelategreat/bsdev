@@ -44,13 +44,27 @@ class Event extends Controller
 			$data['category'] = $this->input->post('category');
 			$data['audience'] = $this->input->post('audience');
 			$data['body'] = $this->input->post('body');
-			$data['dt_start'] = $this->input->post('event_date_start') . " " . 
-				($this->input->post('event_time_start_am_pm') == "am" ? $this->input->post('event_time_start_hour') : 12 + $this->input->post('event_time_start_hour') ) . 
-				":" . $this->input->post('event_time_start_min');
-			$data['dt_end'] = $this->input->post('event_date_end') . " " . 
-				($this->input->post('event_time_end_am_pm') == "am" ? $this->input->post('event_time_end_hour') : 12 + $this->input->post('event_time_end_hour')) . 
-				":" . $this->input->post('event_time_end_min');
+			$data['dt_start'] = $this->input->post('event_date_start') . " " . $this->get_time_post('event_time_start');
+			//	($this->input->post('event_time_start_am_pm') == "am" ? $this->input->post('event_time_start_hour') : 12 + $this->input->post('event_time_start_hour') ) . 
+			//	":" . $this->input->post('event_time_start_min');
+			$data['dt_end'] = $this->input->post('event_date_end') . " " . $this->get_time_post('event_time_end');
+//				($this->input->post('event_time_end_am_pm') == "am" ? $this->input->post('event_time_end_hour') : 12 + $this->input->post('event_time_end_hour')) . 
+//				":" . $this->input->post('event_time_end_min');
 			$id = $this->event_model->add_event( $data );
+			
+			// make link to existing media, if film
+			if( $data['category'] == 'film' ) {
+				$film = $this->db->query("SELECT * FROM films WHERE title = " . $this->db->escape($data['title']));
+				if( $film->num_rows() == 1 ) {
+					$film = $film->row();
+					$mmid = $this->db->query("SELECT * FROM media_map WHERE path = '/films/" . $film->id . "' ORDER BY sort_order" );
+					if( $mmid->num_rows()) {
+						$mmid = $mmid->row();
+						$this->db->query('INSERT INTO media_map (media_id,path,sort_order,slot) VALUES ('.$mmid->media_id.",'/event/$id',0,'general')");
+					}
+				}
+			}
+			
 			if( $this->input->post('addedit')) {
 				redirect('/admin/event/edit/' . $id . '/media' );
 			} else {
@@ -86,6 +100,9 @@ class Event extends Controller
 		if( $this->input->post('rm')) {
 			$this->db->where('id',$event_id);
 			$this->db->delete('events');
+			// delete media links
+			$this->db->where('path','/event/'.$event_id);
+			$this->db->delete('media_map');
 			redirect('/admin/calendar');			
 		}
 
@@ -95,7 +112,7 @@ class Event extends Controller
 		}
 		
 		if( $cur_tab == 'media' ) {
-			
+			// handled by media contraller
 		} else {
 			$this->form_validation->set_error_delimiters('','');
 			$this->form_validation->set_rules('title', 'title', 'trim|required');
@@ -110,14 +127,12 @@ class Event extends Controller
 				$data['category'] = $this->input->post('category');
 				$data['audience'] = $this->input->post('audience');
 				$data['body'] = $this->input->post('body');
-				//$data['dt_start'] = $this->input->post('event_date_start') . " " . $this->input->post('event_time_start');
-				//$data['dt_end'] = $this->input->post('event_date_end') . " " . $this->input->post('event_time_end');
-				$data['dt_start'] = $this->input->post('event_date_start') . " " . 
-					($this->input->post('event_time_start_am_pm') == "am" ? $this->input->post('event_time_start_hour') : 12 + $this->input->post('event_time_start_hour') ) . 
-					":" . $this->input->post('event_time_start_min');
-				$data['dt_end'] = $this->input->post('event_date_end') . " " . 
-					($this->input->post('event_time_end_am_pm') == "am" ? $this->input->post('event_time_end_hour') : 12 + $this->input->post('event_time_end_hour')) . 
-					":" . $this->input->post('event_time_end_min');
+				$data['dt_start'] = $this->input->post('event_date_start') . " " . $this->get_time_post('event_time_start');
+//					($this->input->post('event_time_start_am_pm') == "am" ? $this->input->post('event_time_start_hour') : 12 + $this->input->post('event_time_start_hour') ) . 
+//					":" . $this->input->post('event_time_start_min');
+				$data['dt_end'] = $this->input->post('event_date_end') . " " . $this->get_time_post('event_time_end');
+//					($this->input->post('event_time_end_am_pm') == "am" ? $this->input->post('event_time_end_hour') : 12 + $this->input->post('event_time_end_hour')) . 
+//					":" . $this->input->post('event_time_end_min');
 				$this->event_model->update_event( $event_id, $data );
 				redirect('/admin/calendar');
 			}
@@ -179,6 +194,25 @@ class Event extends Controller
 		$xml .= '</results>';		
 		header('content-type: text/xml');
 		echo $xml;
+	}
+
+	function get_time_post( $name )
+	{
+		$hour = $this->input->post($name . "_hour");
+		$min = $this->input->post($name . "_min");
+		$ampm = $this->input->post($name . "_ampm");
+		if( $ampm == 'pm' ) {
+			$hour += 12;
+		}
+		return sprintf("%02d:%02d", $hour, $min );
+		/*
+		$data['dt_start'] = $this->input->post('event_date_start') . " " . 
+			($this->input->post('event_time_start_am_pm') == "am" ? $this->input->post('event_time_start_hour') : 12 + $this->input->post('event_time_start_hour') ) . 
+			":" . $this->input->post('event_time_start_min');
+		$data['dt_end'] = $this->input->post('event_date_end') . " " . 
+			($this->input->post('event_time_end_am_pm') == "am" ? $this->input->post('event_time_end_hour') : 12 + $this->input->post('event_time_end_hour')) . 
+			":" . $this->input->post('event_time_end_min');
+		*/
 	}
 
 	function get_time_widget($name, $time = NULL )

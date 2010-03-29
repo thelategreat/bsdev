@@ -54,14 +54,31 @@ class Media extends Controller
 			$stags[] = $this->uri->segment($i);
 		}
 		
-		
+		$next = $this->input->post('next');
+		$slot = 'general';
+		if( $next ) {
+			if( $this->input->post('slot')) {
+				$slot = $this->input->post('slot');
+				$next .= "/$slot";
+			}
+		}
+				
 		if( $this->input->post("upload")) {
 			$conf['allowed_types'] = 'jpg|png';
 			$conf['upload_path'] = $my_root;
 			$uuid = $this->up($my_root, $conf );
 			if( !$uuid ) {
-				$errors = '<p class="error">There was trouble uploading the image. Perhaps it is too big? Images must be less than 100k and smaller then 1024x768.</p>';
+				$errors = '<p class="error">';
+				$errors .= 'There was trouble uploading the image. Perhaps it is too big?<br/>';
+				$errors .= 'Images must be less than '.$this->config->item('max_image_size').'kbytes ';
+				$errors .= 'and smaller than '.$this->config->item('max_image_width').'x'.$this->config->item('max_image_height');
+				if( $this->input->post('next') ) {
+					$next = $this->input->post('next');
+					$errors .= " [<a href='$next'>return</a>]";
+				}
+				$errors .= '</p>';
 			} else {
+				/*
 				if( $this->input->post('next') ) {
 					$next = $this->input->post('next'); 
 					$slot = $this->input->post('slot');
@@ -74,12 +91,19 @@ class Media extends Controller
 					$this->media_model->add_media_for_path( $path, $uuid, $slot );
 					redirect( $next );
 				}
+				*/
+				if( $next ) {
+					$path = $this->input->post('path');
+					$this->media_model->add_media_for_path( $path, $uuid, $slot );
+					redirect( $next );					
+				}
 				redirect('/admin/media/edit/' . $uuid );
 			}
 		}
 		if( $this->input->post("link")) {
 			$uuid = gen_uuid();
 			$this->media_model->add_link( $uuid, $this->input->post('url'), $this->session->userdata('logged_user'));
+			/*
 			if( $this->input->post('next') ) {
 				$next = $this->input->post('next'); 
 				$slot = $this->input->post('slot');
@@ -91,6 +115,12 @@ class Media extends Controller
 				$path = $this->input->post('path');
 				$this->media_model->add_media_for_path( $path, $uuid, $slot );
 				redirect( $next );
+			}
+			*/
+			if( $next ) {
+				$path = $this->input->post('path');
+				$this->media_model->add_media_for_path( $path, $uuid, $slot );
+				redirect( $next );					
 			}
 			redirect('/admin/media/edit/' . $uuid );
 		}
@@ -282,9 +312,9 @@ class Media extends Controller
 	{
 		$uuid = gen_uuid();
 		$conf['file_name'] = $uuid;
-		$conf['max_size'] = 100;
-		$conf['max_width'] = 1024;
-		$conf['max_height'] = 768;
+		$conf['max_size'] = $this->config->item('max_image_size');
+		$conf['max_width'] = $this->config->item('max_image_width');
+		$conf['max_height'] = $this->config->item('max_image_height');
 		$this->load->library('upload', $conf );
 		$this->upload->initialize($conf);
 		

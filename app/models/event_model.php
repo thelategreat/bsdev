@@ -24,7 +24,7 @@ class event_model extends Model
 	{
 		$start = sprintf('%04d-%02d-%02d', $filter['year'],$filter['month'],$filter['day']);
 		$end = sprintf('%04d-%02d-%02d', $filter['year'],$filter['month'],$filter['day']);
-		$view = $filter['view'];
+		$view = $this->db->escape_str($filter['view']);
 		
 		$query =<<<EOF
 SELECT * FROM events 
@@ -49,9 +49,7 @@ EOF;
 	}
 	
 	function search_events($q)
-	{
-		
-		
+	{		
 		$sql = "SELECT * FROM events WHERE (title LIKE '%" . $this->db->escape_like_str($q) . "%'";
 		$sql .= " OR body LIKE '%" . $this->db->escape_like_str($q) . "%')";
 		$sql .= " AND dt_start >= NOW()";
