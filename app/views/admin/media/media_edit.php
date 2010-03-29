@@ -5,10 +5,9 @@
 	echo get_embed_object( $item->title );
 	
 } else { ?>
-	
+	<a href="#" id="toggle_size" onclick="toggle_size(); return false;" title="toggle view" style="font-size: .8em;">[+]</a><br/>
 	<img id="theImage" src="/media/<?= $item->uuid ?>" />
 	<canvas id="theCanvas" style="border: 1px solid #000;"></canvas>
-
 <?php } ?>
 
 <?php echo validation_errors('<div class="error">', '</div>'); ?>
@@ -59,6 +58,31 @@
 
 <script type="text/javascript">
 
+function toggle_size()
+{
+	var cvs = $('#theCanvas')[0];
+	if( !cvs ) return;
+	var ctx = cvs.getContext('2d');
+	var img = $('#theImage')[0];
+	if( ctx && img ) {
+		var width = parseInt($(cvs).attr('width'));
+		var height = parseInt($(cvs).attr('height'));
+		//alert( '' + img.width + ' ' + width );
+		if( parseInt(img.width) == parseInt($(cvs).attr('width'))) {
+			width = 200;
+			height = 100;
+			$('#toggle_size').html('[+]');
+		} else {
+			width = parseInt(img.width);
+			height = parseInt(img.height);			
+			$('#toggle_size').html('[-]');
+		}
+		cvs.setAttribute('width', '' + width + 'px' );
+		cvs.setAttribute('height', '' + height + 'px' );
+		ctx.drawImage(img, 0, 0, width, height );		
+	}
+}
+
 function loadImage() {
 	var cvs = $('#theCanvas')[0];
 	if( !cvs ) return;
@@ -74,6 +98,7 @@ function loadImage() {
 			cvs.setAttribute('width', '' + width + 'px' );
 			cvs.setAttribute('height', '' + height + 'px' );
 			ctx.drawImage(img, 0, 0, width, height );		
+			toggle_size();
 		};
 		img.src = img.src;
 		
