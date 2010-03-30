@@ -16,6 +16,12 @@ img {
     border: none;
 }
 
+ul.picklist {
+	list-style: none;
+	list-style-type: disc;
+	padding-left: 1em;
+}
+
 #container {
     min-height:100%;
     position:relative;

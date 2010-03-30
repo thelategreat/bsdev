@@ -25,12 +25,15 @@ class Media extends Controller
 
 	function index()
 	{
-		if( $this->input->post("q")) {
+		if( $this->input->post("q") !== FALSE ) {
 			$url = '/admin/media/index';
-			$params = explode(' ', $this->input->post("q"));
-			foreach( $params as $p ) {
-				$url .= '/' . $p;
-			}
+			
+			if( trim($this->input->post("q")) != '') {
+				$params = explode(' ', $this->input->post("q"));
+				foreach( $params as $p ) {
+					$url .= '/' . $p;
+				}
+			}			
 			redirect( $url );
 		}
 		
@@ -158,10 +161,11 @@ class Media extends Controller
 		if( $this->input->post("pg")) {
 			$page = $this->input->post("pg");
 		}
+		
 		if( $this->input->post("q")) {
 			$stags = explode(' ', $this->input->post("q"));
 		}
-								
+																
 		$results = $this->media_model->get_media( null, $stags, $page, $page_size );
 		
 		$data = array(

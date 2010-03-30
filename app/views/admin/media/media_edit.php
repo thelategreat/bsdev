@@ -61,11 +61,21 @@
 </form>
 <p/>
 		</td>
-		<td valign="top">
+		<td valign="top" style="padding-left: 10px;">
 			<div id="media-info">
 			</div>
 			<?php if( $used->num_rows() != 0 ) { ?>
 				<p class="info small">this media is in use and can't be deleted</p>
+				<h4>Links</h4>
+				<table style="margin-top: -10px;">
+					<?php foreach( $used->result() as $row ) { 
+						$tmp = explode('/', $row->path );
+						array_splice( $tmp, 2, 0, 'edit');
+						$path = implode('/', $tmp );
+						?>
+						<tr><td><a href="/admin<?=$path?>/media"><?=$path?></a></td></tr>
+					<?php } ?>
+				</table>
 			<?php } ?>
 		</td>
 	</tr>
