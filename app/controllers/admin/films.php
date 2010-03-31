@@ -139,7 +139,15 @@ class Films extends Controller {
 		$tabs = $tabs = $this->tabs->gen_tabs(array('Details','Media'), $cur_tab, '/admin/films/edit/' . $id);
 		
 		if( $cur_tab == 'media' ) {
-			$content = $this->load->view('admin/films/films_media', array('film' => $film, 'tabs' => $tabs ), true );
+			$data = array(
+				'film' => $film,
+				'tabs' => $tabs,
+				'title' => "Media for: $film->title",											// the page title
+				'path' => '/films/' . $film->id,								// the page in the db for this
+				'next' => "/admin/films/edit/$film->id/media",  // the web path to this tab		
+				);
+			//$content = $this->load->view('admin/films/films_media', array('film' => $film, 'tabs' => $tabs ), true );
+			$content = $this->load->view('admin/media/media_tab', $data, true );
 		} else {
 			$content = $this->load->view('admin/films/films_edit', array('film' => $film, 'tabs' => $tabs ), true );
 		}

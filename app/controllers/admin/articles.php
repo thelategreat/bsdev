@@ -149,7 +149,6 @@ class Articles extends Controller
 			'nav' => $this->load->view('layouts/admin_nav', '', true),
 			'footer' => $this->load->view('layouts/admin_footer', '', true),
 			'content' => $this->load->view('admin/media/media_tab', $view_data, true)
-			//'content' => $this->load->view('admin/articles/article_media', $view_data, true)
 		);
 		$this->load->view('layouts/admin_page', $pg_data );		
 		

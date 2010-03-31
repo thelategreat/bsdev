@@ -1,12 +1,18 @@
 <?php
 if (!defined('BASEPATH')) exit('No direct script access allowed');   
 
+/**
+ *
+ */
 class Event extends Controller 
 {
 
 	protected $day_names = array("Sun","Mon","Tue","Wed","Thu","Fri","Sat");
 	protected $month_names = array("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec");
 
+	/**
+	 *
+	 */
 	function Event()
 	{
 		parent::Controller();
@@ -16,11 +22,17 @@ class Event extends Controller
 		$this->load->library('tabs');		
 	}
 	
+	/**
+	 *
+	 */
 	function index()
 	{
 		redirect('/admin/calendar');			
 	}
 
+	/**
+	 *
+	 */
 	function add()
 	{
 		$this->load->helper('form');
@@ -45,11 +57,7 @@ class Event extends Controller
 			$data['audience'] = $this->input->post('audience');
 			$data['body'] = $this->input->post('body');
 			$data['dt_start'] = $this->input->post('event_date_start') . " " . $this->get_time_post('event_time_start');
-			//	($this->input->post('event_time_start_am_pm') == "am" ? $this->input->post('event_time_start_hour') : 12 + $this->input->post('event_time_start_hour') ) . 
-			//	":" . $this->input->post('event_time_start_min');
 			$data['dt_end'] = $this->input->post('event_date_end') . " " . $this->get_time_post('event_time_end');
-//				($this->input->post('event_time_end_am_pm') == "am" ? $this->input->post('event_time_end_hour') : 12 + $this->input->post('event_time_end_hour')) . 
-//				":" . $this->input->post('event_time_end_min');
 			$id = $this->event_model->add_event( $data );
 			
 			// make link to existing media, if film
@@ -87,6 +95,9 @@ class Event extends Controller
 		
 	}
 	
+	/**
+	 *
+	 */
 	function edit()
 	{
 		$event_id = $this->uri->segment(4);
@@ -128,11 +139,7 @@ class Event extends Controller
 				$data['audience'] = $this->input->post('audience');
 				$data['body'] = $this->input->post('body');
 				$data['dt_start'] = $this->input->post('event_date_start') . " " . $this->get_time_post('event_time_start');
-//					($this->input->post('event_time_start_am_pm') == "am" ? $this->input->post('event_time_start_hour') : 12 + $this->input->post('event_time_start_hour') ) . 
-//					":" . $this->input->post('event_time_start_min');
 				$data['dt_end'] = $this->input->post('event_date_end') . " " . $this->get_time_post('event_time_end');
-//					($this->input->post('event_time_end_am_pm') == "am" ? $this->input->post('event_time_end_hour') : 12 + $this->input->post('event_time_end_hour')) . 
-//					":" . $this->input->post('event_time_end_min');
 				$this->event_model->update_event( $event_id, $data );
 				redirect('/admin/calendar');
 			}
@@ -150,7 +157,10 @@ class Event extends Controller
 			);
 		
 		if( $cur_tab == 'media' ) {
-			$content = $this->load->view('admin/calendar/event_media', $data, true );
+			$data['title'] = "Media for: $event->title";
+			$data['path'] = '/event/' . $event->id;
+			$data['next'] = "/admin/event/edit/$event->id/media";
+			$content = $this->load->view('admin/media/media_tab', $data, true );
 		} else {
 			$content = $this->load->view('admin/calendar/event_edit', $data, true );
 		}
@@ -164,6 +174,9 @@ class Event extends Controller
 		$this->load->view('layouts/admin_page', $pg_data );				
 	}
 
+	/**
+	 *
+	 */
 	function lookup()
 	{
 		$xml = '';
@@ -196,7 +209,10 @@ class Event extends Controller
 		echo $xml;
 	}
 
-	function get_time_post( $name )
+	/**
+	 *
+	 */
+	private function get_time_post( $name )
 	{
 		$hour = $this->input->post($name . "_hour");
 		$min = $this->input->post($name . "_min");
@@ -205,17 +221,12 @@ class Event extends Controller
 			$hour += 12;
 		}
 		return sprintf("%02d:%02d", $hour, $min );
-		/*
-		$data['dt_start'] = $this->input->post('event_date_start') . " " . 
-			($this->input->post('event_time_start_am_pm') == "am" ? $this->input->post('event_time_start_hour') : 12 + $this->input->post('event_time_start_hour') ) . 
-			":" . $this->input->post('event_time_start_min');
-		$data['dt_end'] = $this->input->post('event_date_end') . " " . 
-			($this->input->post('event_time_end_am_pm') == "am" ? $this->input->post('event_time_end_hour') : 12 + $this->input->post('event_time_end_hour')) . 
-			":" . $this->input->post('event_time_end_min');
-		*/
 	}
 
-	function get_time_widget($name, $time = NULL )
+	/**
+	 *
+	 */
+	private function get_time_widget($name, $time = NULL )
 	{
 		$hr = NULL;
 		$min = NULL;
@@ -274,7 +285,10 @@ class Event extends Controller
 		return $s;
 	}
 
-	function check_date( $dt )
+	/**
+	 *
+	 */
+	protected function check_date( $dt )
 	{
 		if( strlen($dt) != 10 ) {
 			$this->form_validation->set_message('check_date','The %s field must be a date');
@@ -283,7 +297,10 @@ class Event extends Controller
 		return true;
 	}
 
-	function check_time( $ti )
+	/**
+	 *
+	 */
+	protected unction check_time( $ti )
 	{
 		if( strlen($ti) != 5 ) {
 			$this->form_validation->set_message('check_time','The %s field must be a time');

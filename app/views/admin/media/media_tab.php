@@ -50,8 +50,9 @@ $(function() {
 
 <h3><?=$title?></h3>
 
-<?php if( !isset($slot)) { $slot = 'general'; } else { ?>
-	<input type="hidden" name="slot" value="general" />
+<?php if( !isset($slot)) { $slot = 'general'; ?>
+  <input type="hidden" id="slot_select" name="slot" value="general" />
+<?php } else { ?>
 Slot: <select id="slot_select" name="slot" onchange="reload()">
 	<option <?=$slot == 'general' ? 'selected' : ''?>>general</option>
 <?php foreach( explode(",", $slots) as $s ) { 

@@ -119,7 +119,6 @@ class Pages extends Controller
 				'tabs' => $this->tabs->gen_tabs(array('Details','Media'), 'Media', '/admin/pages/edit/' . $page->id)
 			);
 			$page = $this->load->view('admin/media/media_tab', $view_data, true );
-			//$page = $this->load->view('admin/pages/pages_media', $data, true );
 			break;
 			default:
 			$page = $this->load->view('admin/pages/pages_edit', $data, true );
