@@ -99,7 +99,10 @@ class Venues extends Controller {
 
 		switch( $cur_tab ) {
 			case 'media':
-			$page = $this->load->view('admin/venues/venue_media', $content, true );
+			$content['title'] = "Media for venue: $venue->name";
+			$content['path'] = '/venues/' . $venue->id;
+			$content['next'] = "/admin/venues/edit/$venue->id/media";
+			$page = $this->load->view('admin/media/media_tab', $content, true );
 			break;
 			default:
 			$page = $this->load->view('admin/venues/venue_edit', $content, true );

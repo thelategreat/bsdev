@@ -153,7 +153,7 @@ class media_model extends Tag_Model
 			$info['date'] = $row->updated_on;
 			$info['size'] = '<p class="error">missing</p>';
 			if( file_exists('media/' . $row->uuid ))
-				$info['size'] = $this->pretty_file_size(filesize('media/' . $row->uuid ));
+				$info['size'] = pretty_file_size(filesize('media/' . $row->uuid ));
 			
 			switch( $info['type'] ) {
 				case 'link':
@@ -243,22 +243,4 @@ class media_model extends Tag_Model
 			}
 		}
 	}
-		
-	/**
-	 * Returns a file size (or any number) as english with bytes, kb, mb
-	 * appended.
-	 *
-	 * $size the number
-	 * @return a string with english size
-	 */
-	function pretty_file_size( $size )
-	{
-	  // i dont think php can handle a number beyond tera ;)
-	  foreach(array('b','kb','mb','gb','tb','pb','eb','zb','yb') as $sz ) {
-	    if( $size < 1024.0 ) {
-	      return sprintf("%3.1f %s", $size, $sz );
-	    }
-	    $size /= 1024.0;
-	  }	
-	}		
 }

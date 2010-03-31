@@ -1,16 +1,15 @@
 <?php
 if (!defined('BASEPATH')) exit('No direct script access allowed');   
 
-/*
-vimeo
-<object width="400" height="225"><param name="allowfullscreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="movie" value="http://vimeo.com/moogaloop.swf?clip_id=7874398&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1" /><embed src="http://vimeo.com/moogaloop.swf?clip_id=7874398&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1" type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="always" width="400" height="225"></embed></object><p><a href="http://vimeo.com/7874398">Drive (2009)</a> from <a href="http://vimeo.com/mikecelona">Mike Celona</a> on <a href="http://vimeo.com">Vimeo</a>.</p>
-youtube
-<object width="425" height="344"><param name="movie" value="http://www.youtube.com/v/ta7q15OZg4c&hl=en_US&fs=1&rel=0"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/ta7q15OZg4c&hl=en_US&fs=1&rel=0" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="425" height="344"></embed></object>
-*/
-
+/**
+ *
+ */
 class Media extends Controller 
 {
 
+	/**
+	 *
+	 */
 	function Media()
 	{
 		parent::Controller();
@@ -19,19 +18,20 @@ class Media extends Controller
 		$this->load->library('tabs');
 		$this->load->library('form_validation');
 		$this->load->model('media_model');
-		
-		//$this->output->enable_profiler(TRUE);		
 	}
 
+	/**
+	 *
+	 */
 	function index()
 	{
 		if( $this->input->post("q") !== FALSE ) {
 			$url = '/admin/media/index';
-			
+			// if we have a query			
 			if( trim($this->input->post("q")) != '') {
 				$params = explode(' ', $this->input->post("q"));
 				foreach( $params as $p ) {
-					$url .= '/' . $p;
+					$url .= '/' . urlencode($p);
 				}
 			}			
 			redirect( $url );
@@ -57,6 +57,8 @@ class Media extends Controller
 			$stags[] = $this->uri->segment($i);
 		}
 		
+		// this is sent by other controller pages so we can get
+		// back there once we are done here
 		$next = $this->input->post('next');
 		$slot = 'general';
 		if( $next ) {
@@ -65,7 +67,10 @@ class Media extends Controller
 				$next .= "/$slot";
 			}
 		}
-				
+		
+		// ------------
+		// U P L O A D
+		// ------------
 		if( $this->input->post("upload")) {
 			$conf['allowed_types'] = 'jpg|png';
 			$conf['upload_path'] = $my_root;
@@ -81,20 +86,6 @@ class Media extends Controller
 				}
 				$errors .= '</p>';
 			} else {
-				/*
-				if( $this->input->post('next') ) {
-					$next = $this->input->post('next'); 
-					$slot = $this->input->post('slot');
-					if( empty($slot)) {
-						$slot = 'general';
-					} else {
-						$next .= '/' . $slot;
-					}
-					$path = $this->input->post('path');
-					$this->media_model->add_media_for_path( $path, $uuid, $slot );
-					redirect( $next );
-				}
-				*/
 				if( $next ) {
 					$path = $this->input->post('path');
 					$this->media_model->add_media_for_path( $path, $uuid, $slot );
@@ -103,23 +94,12 @@ class Media extends Controller
 				redirect('/admin/media/edit/' . $uuid );
 			}
 		}
+		// ------------
+		// L I N K
+		// ------------
 		if( $this->input->post("link")) {
 			$uuid = gen_uuid();
 			$this->media_model->add_link( $uuid, $this->input->post('url'), $this->session->userdata('logged_user'));
-			/*
-			if( $this->input->post('next') ) {
-				$next = $this->input->post('next'); 
-				$slot = $this->input->post('slot');
-				if( empty($slot)) {
-					$slot = 'general';
-				} else {
-					$next .= '/' . $slot;
-				}
-				$path = $this->input->post('path');
-				$this->media_model->add_media_for_path( $path, $uuid, $slot );
-				redirect( $next );
-			}
-			*/
 			if( $next ) {
 				$path = $this->input->post('path');
 				$this->media_model->add_media_for_path( $path, $uuid, $slot );
@@ -150,6 +130,9 @@ class Media extends Controller
 		}
 	}
 
+	/**
+	 *
+	 */
 	function search()
 	{
 		$errors = '';
@@ -178,6 +161,9 @@ class Media extends Controller
 		$this->load->view('admin/media/media_search', $data );			
 	}
 
+	/**
+	 *
+	 */
 	function edit()
 	{
 		$errors = '';
@@ -196,6 +182,7 @@ class Media extends Controller
 		$this->form_validation->set_rules('title','Title','required');
 		$this->form_validation->set_rules('caption','Caption','required');
 		
+		// -----------
 		// S A V E
 		// -----------
 		if( $this->input->post('save') && $this->form_validation->run()) {
@@ -206,6 +193,7 @@ class Media extends Controller
 			$this->media_model->update_media( $uuid, $meta, $this->input->post('tags') );			
 			redirect('/admin/media');
 		}
+		// -----------
 		// D E L E T E
 		// -----------
 		if( $this->input->post('delete')) {
@@ -218,6 +206,7 @@ class Media extends Controller
 			}
 			redirect('/admin/media');
 		}
+		// -----------
 		// C A N C E L
 		// -----------
 		if( $this->input->post('cancel')) {
@@ -246,6 +235,9 @@ class Media extends Controller
 		$this->load->view('layouts/admin_page', $pg_data );						
 	}
 
+	/**
+	 *
+	 */
 	function browser()
 	{
 		$is_ajax = true;
@@ -278,6 +270,9 @@ class Media extends Controller
 		}
 	}
 
+	/**
+	 * Add media
+	 */
 	function add()
 	{
 		if( $this->input->post('path') && $this->input->post('uuid')) {
@@ -288,6 +283,9 @@ class Media extends Controller
 		}
 	}
 
+	/**
+	 * Remove a link
+	 */
 	function rmlink()
 	{
 		$uuid = $this->uri->segment(4);
@@ -308,6 +306,9 @@ class Media extends Controller
 	}
 
 
+	/**
+	 * Change the sort order
+	 */
 	function move()
 	{
 		$dir = $this->uri->segment(4);
@@ -326,6 +327,9 @@ class Media extends Controller
 	}
 
 
+	/**
+	 * Remove a file
+	 */
 	private function rm( $path, $uuid )
 	{
 		$thepath = $path . '/' . $fname;
@@ -335,7 +339,9 @@ class Media extends Controller
 		}
 	}
 	
-	/* Handle an upload */
+	/**
+	 * Handle an upload 
+	 */
 	private function up( $path, $conf )
 	{
 		$uuid = gen_uuid();
@@ -355,5 +361,4 @@ class Media extends Controller
 			return $uuid;
 		}
 	}
-
 }

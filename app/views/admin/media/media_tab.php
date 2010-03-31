@@ -1,3 +1,27 @@
+<?php
+/*
+Generic media tab for system
+
+pass in the following minimum:
+
+$page_data = array(
+'tabs' => $this->tabs->gen_tabs($this->page_tabs, $cur_tab, '/admin/venues/edit/' . $venue->id),
+'title' => "The Tab Title",											// the page title
+'path' => '/pages/' . $page->id,								// the page in the db for this
+'next' => "/admin/pages/edit/$page->id/media",  // the web path to this tab
+);
+
+optionally you can pass in:
+
+$page_data['slot'] = 'general';									// the current page slot
+$page_data['slots] = 'front,back';              // any extra slots required. comma sep
+
+- slots are simply sub categories. the default is 'general' They can be used as
+  bin on the page, layouts oriented stuff
+
+*/
+?>
+
 <script type="text/javascript" src="/js/ajaxupload.js" ></script>
 <script type="text/javascript" src="/js/admin_mb.js" ></script>
 
@@ -5,11 +29,12 @@
 
 function reload()
 {
-	
-	$('#slot_field').val($('#slot_select').val());
-	$('#slot_field1').val($('#slot_select').val());
+	var slot = 'general';
+	if( $('#slot_select')) {
+		slot = $('#slot_select').val();
+	}	
 	$.post('/admin/media/browser', 
-		{ path: '<?= $path ?>', 'slot': $('#slot_select').val() },
+		{ path: '<?= $path ?>', 'slot': slot },
 		function(data) {
 			$('#media_area').html( data );
 		}
@@ -25,12 +50,15 @@ $(function() {
 
 <h3><?=$title?></h3>
 
+<?php if( !isset($slot)) { $slot = 'general'; } else { ?>
+	<input type="hidden" name="slot" value="general" />
 Slot: <select id="slot_select" name="slot" onchange="reload()">
 	<option <?=$slot == 'general' ? 'selected' : ''?>>general</option>
 <?php foreach( explode(",", $slots) as $s ) { 
 	if( !empty($s) && strlen(trim($s)) ) { ?>
 			<option <?=$slot == $s ? 'selected' : ''?>><?=$s?></option>
 <?php } 
+  }
 } ?>
 </select><button onclick="reload()"><img width="16" src="/img/reload.png" /></button>
 <button onclick="MediaBrowser.init({path: '<?=$path?>'});"><img src="/img/add.png" /></button>

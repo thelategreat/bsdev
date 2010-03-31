@@ -1,9 +1,7 @@
-<h3>Edit Venue</h3>
-
 <?=$tabs?>
 
 <form method="post">
-<fieldset>
+<fieldset><legend>Venue Details</legend>
 <table style="border:0">
 <input type="hidden" name="id" value="<?=$venue->id?>" />
 <tr>

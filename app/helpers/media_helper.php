@@ -80,4 +80,23 @@ function get_embed_object( $url, $width="425", $height="344" )
 	return $s;
 }
 
+
+/**
+ * Returns a file size (or any number) as english with bytes, kb, mb
+ * appended.
+ *
+ * $size the number
+ * @return a string with english size
+ */
+function pretty_file_size( $size )
+{
+  // i dont think php can handle a number beyond tera ;)
+	// i think these should be capitalized too
+  foreach(array('b','kb','mb','gb','tb','pb','eb','zb','yb') as $sz ) {
+    if( $size < 1024.0 ) {
+      return sprintf("%3.1f %s", $size, $sz );
+    }
+    $size /= 1024.0;
+  }	
+}
 ?>
