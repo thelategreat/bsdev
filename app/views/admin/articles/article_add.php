@@ -23,7 +23,7 @@
 	  <tr>
 			<td>
 				<hr/>
-				<input type="submit" style="background-color: #9f9;" name="save" value="Post Article" />
+				<input type="submit" style="background-color: #9f9;" name="save" value="Add" />
 				<input type="submit" name="cancel" value="Cancel" />
 			</td>
 		</tr>
@@ -43,11 +43,9 @@
     <br/><?=form_error('body')?></td>
   </tr>
   <tr>
-		<table style="width: 0"><tr><th>Excerpt</th><th>Media</th></tr>
+		<table style="width: 0"><tr><th>Excerpt</th></tr>
 			<tr>
 				<td><textarea name="excerpt" class="mceNoEditor" rows="5" cols="60"></textarea></td>
-				<td><a href="#" onclick="alert('image library here');"><img src="/pubmedia/library/no_image.jpg" height="80" /></a>
-				<br><small>no image assigned</small>
 			</tr>
 		</table>
   <td/>

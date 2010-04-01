@@ -300,7 +300,7 @@ class Event extends Controller
 	/**
 	 *
 	 */
-	protected unction check_time( $ti )
+	protected function check_time( $ti )
 	{
 		if( strlen($ti) != 5 ) {
 			$this->form_validation->set_message('check_time','The %s field must be a time');

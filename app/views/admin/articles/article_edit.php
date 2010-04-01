@@ -66,15 +66,9 @@
   </tr>
   <tr>
     <td>
-		<table><tr><th>Excerpt</th><th>Media</th></tr>
+		<table><tr><th>Excerpt</th></tr>
 			<tr>
 				<td><textarea name="excerpt" class="mceNoEditor" rows="5" cols="60"><?=$article->excerpt?></textarea></td>
-			  <td>
-					<div id="media_preview">
-						<a href="#" onclick="MediaBrowser.init({path: '/articles/<?=$article->id?>'});"><img src="/pubmedia/library/no_image.jpg" height="80" /></a>
-						<br><small>no image assigned</small>
-					</div>
-				</td>
 			</tr>
 		</table>
 		<td valign="top">
@@ -83,14 +77,3 @@
 </table>
 </fieldset>
 </form>
-
-<div id="editModalDiv">
- <div id="modal_title">
-	<span style="float: right">
-		<img onclick="$.modal.close()" src="/img/close.png" title="Close" style="cursor: pointer;"/>
-	</span>
-    <h3>Media Browser</h3>
- </div>
- <div id="modal_content">
- </div>
-</div>
