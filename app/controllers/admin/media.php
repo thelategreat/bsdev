@@ -242,7 +242,7 @@ class Media extends Controller
 	{
 		$is_ajax = true;
 		$path = $this->input->post('path');
-		$slot = $this->input->post('slot') ?  $this->input->post('slot') : 'general' ;
+		$slot = $this->input->post('slot') ? $this->input->post('slot') : 'general' ;
 		
 		if( !$path ) {
 			$is_ajax = false;
@@ -269,6 +269,43 @@ class Media extends Controller
 			$this->load->view('admin/media/media_browser', $view_data );						
 		}
 	}
+
+	/**
+	 * TinyMCE popup thing
+	 */
+	function mce()
+	{
+		$errors = '';
+		$my_root = './media/';
+		$page_size = 10;
+		$stags = array();
+		$page = 1;
+				
+		// the first segment might be a page number
+		$offs = 4;
+		if( $this->uri->segment(4) && is_numeric($this->uri->segment(4))) {
+			$page = $this->uri->segment(4);
+			$offs = 5;
+			if( $page < 1 ) {
+				$page = 1;
+			}
+		}
+		// the rest of the segments are search tags
+		for( $i = $offs; $i <= $this->uri->total_segments(); $i++ ) {
+			$stags[] = $this->uri->segment($i);
+		}
+		
+		$results = $this->media_model->get_media( null, $stags, $page, $page_size );
+		
+		$view_data = array(
+			'items' => $results,
+			'page' => $page,
+			'stags' => $stags,
+			'errors' => $errors
+			);
+		$this->load->view('admin/media/media_mce', $view_data );						
+	}
+
 
 	/**
 	 * Add media

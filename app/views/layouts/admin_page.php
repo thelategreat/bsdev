@@ -35,17 +35,24 @@
 		        }); 
 	});
 
+	function mediaBrowserCallback( field_name, url, type, win ) {
+		browserField = field_name;
+		browserWin = win;
+		window.open('/admin/media/mce','browserWindow','modal,width=600,height=600,scrollbars=yes');
+	}
+
 	tinyMCE.init({
 		mode : "textareas",
 		editor_deselector : "mceNoEditor",
 		theme : "advanced",
-		plugins : "safari,spellchecker,fullscreen,paste",
-		theme_advanced_buttons1 : "mybutton,bold,italic,underline,separator,strikethrough,justifyleft,justifycenter,justifyright,justifyfull,bullist,numlist,|,link,unlink,|,spellchecker,fullscreen",
+		plugins : "safari,spellchecker,fullscreen,paste,advimage",
+		theme_advanced_buttons1 : "mybutton,bold,italic,underline,separator,strikethrough,justifyleft,justifycenter,justifyright,justifyfull,bullist,numlist,|,link,unlink,image,|,spellchecker,fullscreen",
 		theme_advanced_buttons2 : "formatselect,forecolor,|,cut,copy,paste,pastetext,pasteword,|,undo,redo",
 		theme_advanced_buttons3 : "",
 		theme_advanced_toolbar_location : "top",
 		theme_advanced_toolbar_align : "left",
 		theme_advanced_statusbar_location : "bottom",		
+		file_browser_callback: 'mediaBrowserCallback',
 	});
 
 	</script>
