@@ -1,0 +1,37 @@
+
+div.poll {
+	border: 3px solid #666;
+	padding: 10px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
+div.poll p.question {
+	margin-bottom: 5px;
+	font-weight: bold;
+}
+
+div.poll ul {
+	margin-left: 20px;
+	list-style: none;
+}
+
+div.poll li {
+}
+
+.article {
+	
+}
+
+.article h3 {
+	padding-top: 15px;
+}
+
+.article a {
+	font-style: italic;
+	text-decoration: none;
+}
+
+.article img {
+	padding: 5px;
+}

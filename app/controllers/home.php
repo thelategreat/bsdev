@@ -11,6 +11,7 @@ class Home extends MY_Controller
 	function __construct()
 	{
 		parent::Controller();
+		$this->load->model('articles_model');
 	}
 	
 	/**
@@ -40,11 +41,19 @@ class Home extends MY_Controller
 		foreach( $res as $row ) {
 			$images[] = '/media/' . $row['url'];
 		}
+
+		$res = $this->articles_model->get_article_list('Books');
+
+		$view_data = array(
+			'view_title' => 'Bookstore',
+			'articles' => $res
+			);
+
 		
 		$pg_data = $this->get_page_data('Bookshelf - Home', 'home' );
 		$pg_data['section'] = 'books';
 		$pg_data['style'] = '/css/green.css';
-		$pg_data['content'] = $this->load->view('home/home_page', array('images' => $images), true);
+		$pg_data['content'] = $this->load->view('home/home_articles', $view_data, true);
 		$this->load->view('layouts/standard_page', $pg_data );
 		
 	}
@@ -58,10 +67,17 @@ class Home extends MY_Controller
 			$images[] = '/media/' . $row['url'];
 		}
 		
+		$res = $this->articles_model->get_article_list('eBar');
+
+		$view_data = array(
+			'view_title' => 'eBar',
+			'articles' => $res
+			);
+		
 		$pg_data = $this->get_page_data('Bookshelf - Home', 'home' );
 		$pg_data['section'] = 'ebar';
 		$pg_data['style'] = '/css/blue.css';
-		$pg_data['content'] = $this->load->view('home/home_page', array('images' => $images), true);
+		$pg_data['content'] = $this->load->view('home/home_articles', $view_data, true);
 		$this->load->view('layouts/standard_page', $pg_data );
 		
 	}
@@ -75,10 +91,17 @@ class Home extends MY_Controller
 			$images[] = '/media/' . $row['url'];
 		}
 		
+		$res = $this->articles_model->get_article_list('Cinema');
+
+		$view_data = array(
+			'view_title' => 'Cinema',
+			'articles' => $res
+			);
+		
 		$pg_data = $this->get_page_data('Bookshelf - Home', 'home' );
 		$pg_data['section'] = 'cinema';
 		$pg_data['style'] = '/css/purple.css';
-		$pg_data['content'] = $this->load->view('home/home_page', array('images' => $images), true);
+		$pg_data['content'] = $this->load->view('home/home_articles', $view_data, true);
 		$this->load->view('layouts/standard_page', $pg_data );		
 	}
 		

@@ -9,15 +9,34 @@ class articles_model extends Model
     parent::Model();
   }
 
-	function get_article_list()
+	function get_article_list( $category = NULL )
 	{
 		$q =<<<EOF
-SELECT a.id, title, ac.category, updated_on, author, ast.status 
+SELECT a.id, title, fnStripTags(body) as body, excerpt, ac.category, updated_on, author, ast.status 
 	FROM articles as a, article_categories as ac, article_statuses as ast
 	WHERE a.category = ac.id AND a.status = ast.id
 EOF;
+
+	if( $category ) {
+		$q .= " AND (ac.category = " . $this->db->escape($category) . " OR ac.category = 'General')";
+	}
+		
+	$q .= " ORDER BY updated_on DESC";
 		
 		return $this->db->query( $q );
+	}
+
+	function get_article( $id )
+	{
+		$q =<<<EOF
+SELECT a.id, title, body, ac.category, updated_on, author, ast.status 
+	FROM articles as a, article_categories as ac, article_statuses as ast
+	WHERE a.category = ac.id AND a.status = ast.id 
+EOF;
+	
+		$q .= " AND a.id = " . $this->db->escape(intval($id));
+		return $this->db->query( $q );
+		
 	}
 
 	function category_select( $default = 0 )

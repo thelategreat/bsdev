@@ -10,6 +10,8 @@
 
 *************************************************/
 
+@import "common.css";
+
 /********** BASIC STYLES **********/
 html {
 	background: transparent url(../i/gradient_body_bg.jpg) repeat-x 0 0 !important;	
@@ -1461,24 +1463,4 @@ ul#stylesheet a {
 	padding-bottom: 5px;
 	padding-top: 5px;
 	border-bottom: 1px solid #ddd;
-}
-
-div.poll {
-	border: 3px solid #666;
-	padding: 10px;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-}
-
-div.poll p.question {
-	margin-bottom: 5px;
-	font-weight: bold;
-}
-
-div.poll ul {
-	margin-left: 20px;
-	list-style: none;
-}
-
-div.poll li {
 }

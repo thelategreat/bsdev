@@ -50,6 +50,7 @@ class Articles extends Controller
 				$this->db->set('tags', $this->input->post('tags'));
 				$this->db->set('author', $this->session->userdata('logged_user'));
 				$this->db->set('created_on', "NOW()", false);
+				$this->db->set('status', 1);
 				$this->db->insert("articles");
 				redirect("/admin/articles");
 			}

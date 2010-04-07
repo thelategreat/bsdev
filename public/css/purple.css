@@ -6,6 +6,8 @@
 
 *************************************************/
 
+@import "common.css";
+
 /********** BASIC STYLES **********/
 html {
 	background: transparent url(../i/gradient_body_bg.jpg) repeat-x 0 0 !important;	
