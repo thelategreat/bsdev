@@ -17,6 +17,7 @@
 			<li><a href="/admin/films">Films</a></li>
 		<!--	<li><a href="/admin/imdb">IMDB</a></li> -->
 			<li><a href="/admin/venues">Venues</a></li>
+			<li><a href="/admin/polls">Polls</a></li>
 		</ul>
 	</li>
 	<li>
@@ -37,6 +38,7 @@
 			<li><a href="/admin/maillist/logs">Mail Logs</a></li>
 			<li><a href="/admin/logs">Web Logs</a></li>
 			<li><a href="/admin/archive">Backup/Restore</a></li>
+			<li><a href="/admin/stats/about">About</a></li>
 		</ul>
 	</li>
 </ul>

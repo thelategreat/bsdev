@@ -138,7 +138,6 @@ class Articles extends Controller
 		$view_data = array( 
 			'title' => "Media for article: $article->title",
 			'article' => $article, 
-			'slot' => 'general',
 			'path' => '/articles/' . $article->id,
 			'next' => "/admin/articles/edit/$article->id/media",
 			'tabs' => $this->tabs->gen_tabs(array('Article','Media'), 'Media', '/admin/articles/edit/' . $article->id)

@@ -19,9 +19,9 @@ class Films extends Controller {
 
 	function view()
 	{
+		$limit = 25;
 		$filter = array(
-			'page' => 0,
-			'limit' => 200
+			'page' => 1
 			);
 			
 		$segs = $this->uri->uri_to_assoc(4);
@@ -30,10 +30,21 @@ class Films extends Controller {
 		}
 		
 		$this->db->order_by('title');
-		$this->db->limit( $filter['limit'], $filter['page'] * $filter['limit'] );  // limit, offset
+		$this->db->limit( $limit, (intval($filter['page'])-1) * $limit );  // limit, offset
 		$films = $this->db->get('films');
 		
 		$data = array('films' => $films );
+		if( $films->num_rows() == $limit ) {
+			$data['next'] = "<a href='/admin/films/view/page/".($filter['page']+1)."'>next</a>";
+		} else {
+			$data['next'] = '';
+		}
+		
+		if( $filter['page'] > 1 ) {
+			$data['prev'] = "<a href='/admin/films/view/page/".($filter['page']-1)."'>prev</a>";
+		} else {
+			$data['prev'] = '';
+		}
 		
 		$pg_data = array(
 			'title' => 'Admin - Cinema',

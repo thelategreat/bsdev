@@ -44,7 +44,7 @@ a img {
 /********** COMMON LAYOUT **********/
 #site_wrapper {
 	position: relative;
-	top: 36px;
+	top: 10px;  /* was 36 */
 	margin: 0 auto 0;	
 	padding: 11px 0 0 0;
 	width: 945px;
@@ -1461,4 +1461,24 @@ ul#stylesheet a {
 	padding-bottom: 5px;
 	padding-top: 5px;
 	border-bottom: 1px solid #ddd;
+}
+
+div.poll {
+	border: 3px solid #666;
+	padding: 10px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
+div.poll p.question {
+	margin-bottom: 5px;
+	font-weight: bold;
+}
+
+div.poll ul {
+	margin-left: 20px;
+	list-style: none;
+}
+
+div.poll li {
 }

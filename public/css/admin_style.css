@@ -379,7 +379,7 @@ input, button {
      -webkit-border-radius: 5px;
  }
 
- input:focus, textarea:focus {
+input:focus, textarea:focus {
      border: 1px solid #666;
      background-color: #dfdfdf;
  }
@@ -411,6 +411,10 @@ span.field_tip {
 
 .small {
     font-size: 0.8em;
+}
+
+.italic {
+    font-style: italic;
 }
  
 form.general {
@@ -512,7 +516,7 @@ ul.event_list li span.event_date {
 }
 
 #media .float_left,
-#media ul, li {
+#media ul, #media li {
 	float: left;
 	display: inline;
 }
@@ -612,3 +616,30 @@ ul.event_list li span.event_date {
 	background-color: #659CD8;
 }
 
+.ok {
+	background-color: #9f9;
+}
+
+/* dragable list */
+ul.draggable-list {
+	list-style-type: none; 
+	margin: 0; 
+	padding: 0; 
+	width: 60%;
+}
+
+ul.draggable-list li {
+	display: block;
+	margin: 5px;
+	padding-left: 5px;
+	border: 1px solid #ddd;
+}
+
+ul.draggable-list li span {
+	position: absolute; 
+	margin-left: -1.3em;
+}
+
+#sortable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
+#sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.0em; height: 18px; }
+#sortable li span { position: absolute; margin-left: -1.3em; }

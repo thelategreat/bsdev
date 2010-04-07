@@ -12,7 +12,7 @@ function gen_uuid( $prefix = '' )
 }	
 
 /**
- * Modifies a string to remove al non ASCII characters and spaces.
+ * Modifies a string to remove all non ASCII characters and spaces.
  */
 function slugify($text)
 {

@@ -25,3 +25,10 @@
 	$i++;
 	endforeach; ?>
 </table>
+
+<table>
+	<tr>
+		<td><?=$prev?></td>
+		<td align="right"><?=$next?></td>
+	</tr>
+</table>

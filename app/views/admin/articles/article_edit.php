@@ -21,6 +21,16 @@
 	  <tr>
 			<td>
 			<table>
+				<tr><th>Pub Date</th></tr>
+				<tr><td>
+					TBD
+				</td></tr>
+			</table>
+			</td>
+		</tr>
+	  <tr>
+			<td>
+			<table>
 				<tr><th>Category</th></tr>
 				<tr><td><?= $category_select ?></td></tr>
 			</table>
@@ -31,7 +41,7 @@
 			<table>
 				<tr><th>Tags</th></tr>
 				<tr>
-					<td><textarea name="tags" class="mceNoEditor" cols="20" rows="5"><?=$article->tags?></textarea>
+					<td><textarea name="tags" class="mceNoEditor" cols="20" rows="3"><?=$article->tags?></textarea>
 					</td>
 				</tr>
 			</table>
@@ -51,7 +61,7 @@
 <fieldset><legend>Edit Article</legend>
 <table style="border: 0">
   <tr>
-    <td><input name="title" size="50" value="<?=$article->title?>"/>
+    <td><label for="title">Title</labsl><input name="title" size="60" value="<?=$article->title?>"/>
 		<br/><?=form_error('title')?>
     <td valign="top"></td>
   </tr>

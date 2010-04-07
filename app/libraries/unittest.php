@@ -15,19 +15,36 @@
  * } 
  * </code> 
  *
- * - adapted for CodeIgniter - 20090130 - jk
+ * test files should be called Test[*].php and should have a class of the same
+ * name that extends UnitTest within. Individual methods that should be run
+ * begin with a lower cast test*. Methods 'setUp' and 'tearDown' are run before
+ * and after all test are run.
+ *
+ * TestSomething.php
+ * <code>
+ * class TestSomething extends UnitTest
+ * {
+ *    function testStuff()
+ *    {
+ *       $this->assertEqual( 1, 1 );
+ *    }
+ * }
+ * </code>
+ *
+ * - updated naming scheme to match pythons - 20100401 - jk
+ * - adapted for CodeIgniter 								- 20090130 - jk
  *
  * @category       UnitTesting
  * @package        Talon
  * @author         J. Knight <jim at talonedge dot com>
- * @copyright      Copyright (c) 2006-2009, J. Knight
+ * @copyright      Copyright (c) 2006-2010, J. Knight
  */
 
 /** **********************************************************************
  * Base class for a unit test
  *
  * Tests should extend this class. The file the test resides in should
- * be called [SomeName]Test.php and the class called SomeNameTest.
+ * be called Test[SomeName].php and the class called TestSomeName.
  *
  * Individual test methods inside the class should begin with the word "test"
  * e.g. <code>function testMyFunkyThang()</code>
@@ -298,11 +315,11 @@ class UnitTestSuite
 	{
 		$result = array();
 	
-		include_once( $testfile );
+		//include_once( $testfile );
 		$fname = basename( $testfile );
-		// print "$fname\n";
-		$class = substr( $fname, 0, strlen( $fname ) - 8 );
-		$cname = $class . 'Test';
+		//print "$fname\n";
+		$class = substr( $fname, 4, strlen( $fname ) - 8 );
+		$cname = 'Test' . $class;
 		//print $cname . "\n";
 		if( class_exists( $cname )) {
 			$test = new $cname();
@@ -372,14 +389,13 @@ class UnitTestSuite
 		while(($file = readdir($dh)) !== false ) {
 			if( strlen( $file ) > 8 && substr( $file, -3 ) == 'php' && $file[0] != '.' ) {
 				include_once( $this->dir . "/" . $file );
-				$class = substr( $file, 0, strlen($file) - 8 );
-				$cname = $class . 'Test';
+				$class = substr( $file, 4, strlen($file) - 8 );
+				$cname = 'Test' . $class;
 				if( class_exists( $cname )) {
 					$tests[] = "$this->dir/$file";
 				}
 			}
 		}
-		
 		return $tests;
 	}	
 }

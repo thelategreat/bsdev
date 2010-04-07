@@ -15,8 +15,18 @@
 	  <tr>
 			<td>
 			<table>
+				<tr><th>Pub Date</th></tr>
+				<tr><td>
+					TBD
+				</td></tr>
+			</table>
+			</td>
+		</tr>
+	  <tr>
+			<td>
+			<table>
 				<tr><th>Tags</th></tr>
-				<tr><td><textarea name="tags" class="mceNoEditor" cols="20" rows="5"></textarea></td></tr>
+				<tr><td><textarea name="tags" class="mceNoEditor" cols="20" rows="3"></textarea></td></tr>
 			</table>
 			</td>
 		</tr>
@@ -35,7 +45,7 @@
 <fieldset><legend>Add Article</legend>
 <table style="border: 0">
   <tr>
-    <td><input name="title" size="50" value="<?=set_value('title')?>"/>
+    <td><label for="title">Title</labsl><input name="title" size="60" value="<?=set_value('title')?>"/>
 		<br/><?=form_error('title')?></td>
   </tr>
   <tr>

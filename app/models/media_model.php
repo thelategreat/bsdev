@@ -151,9 +151,13 @@ class media_model extends Tag_Model
 			$info['type'] = $row->type;
 			$info['uuid'] = $row->uuid;
 			$info['date'] = $row->updated_on;
-			$info['size'] = '<p class="error">missing</p>';
-			if( file_exists('media/' . $row->uuid ))
-				$info['size'] = pretty_file_size(filesize('media/' . $row->uuid ));
+			$info['size'] = '';
+			if( $info['type'] != 'link') {
+				$info['size'] = '<p class="error">missing</p>';
+					if( file_exists('media/' . $row->uuid )) {
+						$info['size'] = pretty_file_size(filesize('media/' . $row->uuid ));
+					}
+			}
 			
 			switch( $info['type'] ) {
 				case 'link':
