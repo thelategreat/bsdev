@@ -29,7 +29,9 @@
 				<th>type</th>
 				<th>tags</th>
 			</tr>
-			<?php $count = 0; foreach( $items as $item ) { ?>
+			<?php $count = 0; foreach( $items as $item ) { 
+				if( $item->type == 'link') continue;
+				?>
 				<tr <?= ($count++ % 2 ) ? "class='odd'" : '' ?>>
 					<td align="center">
 						<?php
