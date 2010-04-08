@@ -4,8 +4,7 @@
 <h2>Your Bookshelf</h2>
 
 <p>
-Hi! This is your profile page. Can't do much here yet, but
-it's coming!
+Hi <?=$firstname?>! This is your profile page.
 </p>
 
 <hr/>
@@ -28,11 +27,20 @@ it's coming!
 		<tr>
 			<td>Last Name</td><td><input name="lastname" value="<?=$lastname?>"/></td>
 		</tr>
+	</table>
+	<a href="#" onclick="$('#pass').toggle('slow');">Change Password</a>
+	<table id="pass" style="display: none">
 		<tr>
-			<td>Password</td>
+			<td>Currrent Password</td>
 			<td>
-				<input name="password" type="password" /><br/>
+				<input name="cpassword" type="password" /><br/>
 				<small>just leave this blank if you don't want to change your password</small>
+			</td>
+		</tr>
+		<tr>
+			<td>New Password</td>
+			<td>
+				<input name="password" type="password" />
 			</td>
 		</tr>
 		<tr>

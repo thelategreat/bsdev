@@ -1,4 +1,4 @@
-
+/* P O L L S */
 div.poll {
 	border: 3px solid #666;
 	padding: 10px;
@@ -19,15 +19,25 @@ div.poll ul {
 div.poll li {
 }
 
+/* A R T I C L E S */
 .article {
-	
+	border-bottom: 2px solid #ddd;
+	padding-bottom: 5px;
 }
 
 .article h3 {
-	padding-top: 15px;
+	padding-top: 5px;
 }
 
-.article a {
+.article span.date {
+	color: #888;
+	font-weight: bold;
+	font-style: italic;
+	border-bottom: 1px solid #ddd;
+	float: right;
+}
+
+.article a.read-more {
 	font-style: italic;
 	text-decoration: none;
 }

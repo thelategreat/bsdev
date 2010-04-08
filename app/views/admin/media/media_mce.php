@@ -17,10 +17,15 @@
 	<link rel="stylesheet" href="/css/admin_style.css" type="text/css"  media="screen" />
 	<div id="container">
 	   <div id="nav">
+			<div style="float: right">
+				<form id="search_form" method="post">
+					<input id="query" name="q" value="<?foreach($stags as $tag){ echo $tag . " ";}?>" />
+				</form>
+			</div>
 			<h3>Media Browser</h3>
 	   </div>	
 	   <div id="content">
-			<p style="clear:both;">
+			<p style="clear:both;"/>
 			<table class='media_table'>
 			<tr>
 				<th></th>
@@ -44,7 +49,7 @@
 									}
 									break;
 								default:
-									echo "<a href=\"#\" onclick=\"selectUrl('/media/{$item->uuid}');\" title=\"click to insert\">";
+									echo "<a href=\"#\" onclick=\"selectUrl('".site_url('/media/'.$item->uuid)."');\" title=\"click to insert\">";
 									echo '<img src="/media/'. $item->uuid . '" width="70" />';					
 									echo "</a>";
 						}
@@ -63,12 +68,8 @@
 			<div class="pager">
 				<table>
 					<tr>
-						<td>
-							<?php if( $page-1 != 0 ) { ?>
-							  <a href="/admin/media/mce/<?=$page-1?>">⇐ prev</a>
-							<?php } ?>
-						</td>
-						<td align="right"><a href="/admin/media/mce/<?=$page+1?>">next ⇒</a></td>
+						<td><?=$prev_page?></td>
+						<td align="right"><?=$next_page?></td>
 					</tr>
 				</table>
 			</div>

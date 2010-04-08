@@ -275,6 +275,18 @@ class Media extends Controller
 	 */
 	function mce()
 	{
+		if( $this->input->post("q") !== FALSE ) {
+			$url = '/admin/media/mce';
+			// if we have a query			
+			if( trim($this->input->post("q")) != '') {
+				$params = explode(' ', $this->input->post("q"));
+				foreach( $params as $p ) {
+					$url .= '/' . urlencode($p);
+				}
+			}			
+			redirect( $url );
+		}
+		
 		$errors = '';
 		$my_root = './media/';
 		$page_size = 10;
@@ -297,11 +309,22 @@ class Media extends Controller
 		
 		$results = $this->media_model->get_media( null, $stags, $page, $page_size );
 		
+		$next_page = '';
+		$prev_page = '';
+		if( $page > 1) {
+			$prev_page = "<a class='small' href='/admin/media/mce/".($page-1)."'>⇐ prev</a>";
+		}
+		if( count($results) == $page_size ) {
+			$next_page = "<a class='small' href='/admin/media/mce/".($page+1)."'>next ⇒</a>";
+		}
+		
 		$view_data = array(
 			'items' => $results,
 			'page' => $page,
 			'stags' => $stags,
-			'errors' => $errors
+			'errors' => $errors,
+			'prev_page' => $prev_page,
+			'next_page' => $next_page
 			);
 		$this->load->view('admin/media/media_mce', $view_data );						
 	}

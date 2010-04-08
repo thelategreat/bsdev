@@ -1,25 +1,40 @@
 <?php
 if (!defined('BASEPATH')) exit('No direct script access allowed');   
 
+/**
+ * 
+ */
 class event_model extends Model
 {
+	/**
+	 * 
+	 */
 	function __constructor()
 	{
 		parent::Model();
 	}
 	
+	/**
+	 * 
+	 */
 	function get_event( $id )
 	{
 		$this->db->where('id', intval($id) );
 		return $this->db->get('events');
 	}
 	
+	/**
+	 * 
+	 */
 	function get_event_media( $id )
 	{
 		$res = $this->db->query("SELECT m.uuid FROM media_map as mm, media as m WHERE mm.path = '/event/" . intval($id) . "' AND m.id = mm.media_id ORDER BY mm.sort_order");
 		return $res;
 	}
 	
+	/**
+	 * 
+	 */
 	function get_events( $filter )
 	{
 		$start = sprintf('%04d-%02d-%02d', $filter['year'],$filter['month'],$filter['day']);
@@ -34,7 +49,9 @@ EOF;
 		return $this->db->query( $query );
 	}
 	
-	/* date in long format */
+	/**
+	 * date in long format 
+	 */
 	function get_events_by_date_range( $start, $end )
 	{
 		$start = date('Y-m-d', $start);
@@ -48,6 +65,9 @@ EOF;
 		return $this->db->query( $query );
 	}
 	
+	/**
+	 * Search from the front end
+	 */
 	function search_events($q)
 	{		
 		$sql = "SELECT * FROM events WHERE (title LIKE '%" . $this->db->escape_like_str($q) . "%'";
@@ -57,6 +77,9 @@ EOF;
 		return $this->db->query( $sql );		
 	}
 	
+	/**
+	 * 
+	 */
 	function add_event( $data )
 	{
 		// required
@@ -75,6 +98,9 @@ EOF;
 		return $this->db->insert_id();
 	}
 	
+	/**
+	 * 
+	 */
 	function update_event( $id, $data )
 	{
 		$this->db->set('title', $data['title']);
@@ -91,6 +117,9 @@ EOF;
 		
 	}
 	
+	/**
+	 * 
+	 */
 	function delete_event( $data )
 	{
 		$this->db->where('id', $data['id']);
