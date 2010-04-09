@@ -181,6 +181,7 @@ class Media extends Controller
 		
 		$this->form_validation->set_rules('title','Title','required');
 		$this->form_validation->set_rules('caption','Caption','required');
+		$this->form_validation->set_rules('tt_isbn','tt#/isbn','callback_tt_isbn_check');
 		
 		// -----------
 		// S A V E
@@ -188,6 +189,7 @@ class Media extends Controller
 		if( $this->input->post('save') && $this->form_validation->run()) {
 			$meta['title'] = $this->input->post('title');
 			$meta['caption'] = $this->input->post('caption');
+			$meta['tt_isbn'] = trim(str_replace('-','',$this->input->post('tt_isbn')));
 			$meta['description'] = $this->input->post('description');
 			$meta['license'] = $this->input->post('license');
 			$this->media_model->update_media( $uuid, $meta, $this->input->post('tags') );			
@@ -309,9 +311,10 @@ class Media extends Controller
 		
 		$results = $this->media_model->get_media( null, $stags, $page, $page_size );
 		
+		// pagination
 		$next_page = '';
 		$prev_page = '';
-		if( $page > 1) {
+		if( $page > 1 ) {
 			$prev_page = "<a class='small' href='/admin/media/mce/".($page-1)."'>⇐ prev</a>";
 		}
 		if( count($results) == $page_size ) {
@@ -421,4 +424,22 @@ class Media extends Controller
 			return $uuid;
 		}
 	}
+	
+	public function tt_isbn_check( $str ) 
+	{
+		// tt number
+		if( preg_match('/tt[0-9]{7}/', $str )) {
+			return TRUE;
+		}
+		
+		// isbn
+		$str = trim(str_replace('-','',$str));
+		if(strlen($str) == 13) && preg_match('/\d+/', $str) ) {
+			return TRUE;
+		} 
+		
+		$this->form_validation->set_message('tt_isbn_check','The %s field must be either tt# or an isbn');
+		return FALSE;
+	}
+	
 }

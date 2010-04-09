@@ -14,6 +14,7 @@
 			</div>
 			
 <?php echo validation_errors('<div class="error">', '</div>'); ?>
+
 <form method="post" >
 	<h3>Media Info</h3>
 	<hr />
@@ -21,6 +22,12 @@
 		<tr>
 			<td><label for="caption">Caption</label></td>
 			<td><input name="caption" size="50" value="<?= $item->caption ?>" /></td>
+		</tr>
+		<tr>
+			<td><label for="tt_isbn">tt#/isbn</label></td>
+			<td><input name="tt_isbn" size="17" value="<?= $item->tt_isbn ?>" /><br/>
+				<span class="field_tip">tt1234567 or 13 digit ISBN</span>
+			</td>
 		</tr>
 		<tr>
 			<td><label for="description">Description</label></td>

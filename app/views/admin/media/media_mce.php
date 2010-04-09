@@ -19,9 +19,19 @@
 	   <div id="nav">
 			<div style="float: right">
 				<form id="search_form" method="post">
-					<input id="query" name="q" value="<?foreach($stags as $tag){ echo $tag . " ";}?>" />
+					<?php
+					$query = '';
+					foreach($stags as $tag) { 
+						$query .= $tag . " ";
+					}
+					if( strlen(trim($query)) == 0 ) {
+						$query = 'search...';
+					}
+					?>
+					<input id="query" style="font-size: 0.8em;" name="q" value="<?=$query?>" size="15" onblur="if(this.value=='') this.value='search...';" onfocus="if(this.value == 'search...') this.value='';"/>
 				</form>
 			</div>
+
 			<h3>Media Browser</h3>
 	   </div>	
 	   <div id="content">
