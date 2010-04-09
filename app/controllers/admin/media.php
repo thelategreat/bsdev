@@ -427,6 +427,10 @@ class Media extends Controller
 	
 	public function tt_isbn_check( $str ) 
 	{
+		if( strlen(trim($str)) == 0 ) {
+			return TRUE;
+		}
+		
 		// tt number
 		if( preg_match('/tt[0-9]{7}/', $str )) {
 			return TRUE;
@@ -434,7 +438,7 @@ class Media extends Controller
 		
 		// isbn
 		$str = trim(str_replace('-','',$str));
-		if(strlen($str) == 13) && preg_match('/\d+/', $str) ) {
+		if(strlen($str) == 13 && preg_match('/\d+/', $str) ) {
 			return TRUE;
 		} 
 		
