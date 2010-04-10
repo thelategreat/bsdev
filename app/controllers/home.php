@@ -28,8 +28,12 @@ class Home extends MY_Controller
 			$images[] = '/media/' . $row['url'];
 		}
 		
+		$view_data = array(
+			'images' => $images
+			);
+		
 		$pg_data = $this->get_page_data('Bookshelf - Home', 'home' );
-		$pg_data['content'] = $this->load->view('home/home_page', array('images' => $images), true);
+		$pg_data['content'] = $this->load->view('home/home_page', $view_data, true);
 		$this->load->view('layouts/standard_page', $pg_data );
 	}
 	
