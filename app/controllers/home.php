@@ -42,7 +42,7 @@ class Home extends MY_Controller
 			$images[] = '/media/' . $row['url'];
 		}
 
-		$res = $this->articles_model->get_article_list('Books');
+		$res = $this->articles_model->get_published_article_list('Books');
 
 		$view_data = array(
 			'view_title' => 'Bookstore',

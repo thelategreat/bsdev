@@ -1,9 +1,26 @@
+<script>
+$(function()
+{
+	Date.format = "yyyy-mm-dd";
+	$('.date-pick').datePicker({horizontalPosition: $.dpConst.POS_RIGHT });
+});
+</script>
 
 <form class="general" action="/admin/articles/add" method="post">
 
 <div style="float: right">
 	<fieldset><legend>Meta</legend>
 	<table style="border: 0">
+	  <tr>
+			<td>
+			<table>
+				<tr><th>Status</th></tr>
+				<tr><td>
+					Draft
+				</td></tr>
+			</table>
+			</td>
+		</tr>
 	  <tr>
 			<td>
 			<table>
@@ -17,7 +34,8 @@
 			<table>
 				<tr><th>Pub Date</th></tr>
 				<tr><td>
-					TBD
+					<input class="date-pick" name="publish_on" size="12" onblur="" id="fld_publish_on" value="<?=date('Y-m-d')?>"/>
+					<br/><span class="small">yyyy-mm-dd<span>
 				</td></tr>
 			</table>
 			</td>

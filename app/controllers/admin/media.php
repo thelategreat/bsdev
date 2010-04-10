@@ -425,6 +425,7 @@ class Media extends Controller
 		}
 	}
 	
+	// check the input looks like one of, blank, tt number or isbn
 	public function tt_isbn_check( $str ) 
 	{
 		if( strlen(trim($str)) == 0 ) {

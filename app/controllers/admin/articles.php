@@ -45,6 +45,7 @@ class Articles extends Controller
 			if( $this->form_validation->run()) {
 				$this->db->set('title', $this->input->post('title'));
 				$this->db->set('category', $this->input->post('category'), false);
+				$this->db->set('publish_on', $this->input->post('publish_on'));
 				$this->db->set('body', $this->input->post('body'));
 				$this->db->set('excerpt', $this->input->post('excerpt'));
 				$this->db->set('tags', $this->input->post('tags'));
@@ -96,6 +97,7 @@ class Articles extends Controller
 				$this->db->set('title', $this->input->post('title'));
 				$this->db->set('category', $this->input->post('category'), false);
 				$this->db->set('status', $this->input->post('status'), false);
+				$this->db->set('publish_on', $this->input->post('publish_on'));
 				$this->db->set('body', $this->input->post('body'));
 				$this->db->set('excerpt', $this->input->post('excerpt'));
 				$this->db->set('tags', $this->input->post('tags'));
