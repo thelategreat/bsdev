@@ -8,7 +8,7 @@
   <th width="50%">Title</th>
   <th>Author</th>
   <th>Category</th>
-  <th>Last update</th>
+  <th>Publish</th>
   <th>Status</th>
   <th>Comments</th>
 </tr>
@@ -19,7 +19,7 @@
 	  <td><a href="/admin/articles/edit/<?= $article->id ?>"><?= $article->title ?></a></td>
 	  <td><small><?= $article->author ?></small></td>
 	  <td><small><?= $article->category ?></small></td>
-	  <td><small><?= $article->updated_on ?></small></td>
+	  <td><small><?= date('Y-m-d',strtotime($article->publish_on)) ?></small></td>
 		<td><small><?= $article->status ?></small></td>
 		<td>-</td>
 </tr>

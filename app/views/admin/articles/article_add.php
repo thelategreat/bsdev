@@ -3,6 +3,7 @@ $(function()
 {
 	Date.format = "yyyy-mm-dd";
 	$('.date-pick').datePicker({horizontalPosition: $.dpConst.POS_RIGHT });
+	$('.date-pick').dpSetStartDate('2000-01-01');
 });
 </script>
 

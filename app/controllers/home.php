@@ -67,7 +67,7 @@ class Home extends MY_Controller
 			$images[] = '/media/' . $row['url'];
 		}
 		
-		$res = $this->articles_model->get_article_list('eBar');
+		$res = $this->articles_model->get_published_article_list('eBar');
 
 		$view_data = array(
 			'view_title' => 'eBar',
@@ -91,7 +91,7 @@ class Home extends MY_Controller
 			$images[] = '/media/' . $row['url'];
 		}
 		
-		$res = $this->articles_model->get_article_list('Cinema');
+		$res = $this->articles_model->get_published_article_list('Cinema');
 
 		$view_data = array(
 			'view_title' => 'Cinema',
