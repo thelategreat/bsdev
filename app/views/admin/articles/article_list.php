@@ -15,7 +15,7 @@
 <?php
  	$cnt = 0;
 	foreach( $articles->result() as $article ) { ?>
-	<tr <?= $cnt != 0 ? 'class="odd"' : ''?> >
+	<tr <?= ($cnt % 2) != 0 ? 'class="odd"' : ''?> >
 	  <td><a href="/admin/articles/edit/<?= $article->id ?>"><?= $article->title ?></a></td>
 	  <td><small><?= $article->author ?></small></td>
 	  <td><small><?= $article->category ?></small></td>

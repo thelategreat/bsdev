@@ -12,6 +12,15 @@
 		    padding-right: 40px;
 		    min-height: 34px;
 		}
+		li .icon {
+	    display: block;
+	    position: absolute;
+	    margin: 0;
+	    left: 6px;
+	    top: 7px;
+	    text-align: center;
+			background-color: #999;
+		}
 		li .event-time {
 	    display: block;
 	    position: absolute;
@@ -49,9 +58,9 @@
 	  </div>
 
     <ul id="home" title="The Bookshelf" selected="true">
-        <li><a href="/iph/cal">Cinema</a></li>
-        <li><a href="/iph/ebar">eBar</a></li>
-        <li><a href="/iph/books">Bookstore</a></li>
+        <li><img class="icon" src="/img/icons/icon_cinema.gif" /><a href="/iph/cal">Cinema</a></li>
+        <li><img class="icon" src="/img/icons/icon_ebar.gif" /><a href="/iph/ebar">eBar</a></li>
+        <li><img class="icon" src="/img/icons/icon_greenroom.gif" /><a href="/iph/books">Bookstore</a></li>
         <li><a href="#about">About</a></li>
     </ul>
 

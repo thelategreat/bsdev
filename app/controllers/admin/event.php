@@ -216,7 +216,7 @@ class Event extends Controller
 	{
 		$hour = $this->input->post($name . "_hour");
 		$min = $this->input->post($name . "_min");
-		$ampm = $this->input->post($name . "_ampm");
+		$ampm = $this->input->post($name . "_am_pm");
 		if( $ampm == 'pm' ) {
 			$hour += 12;
 		}
@@ -288,8 +288,8 @@ class Event extends Controller
 	/**
 	 *
 	 */
-	protected function check_date( $dt )
-	{
+	public function check_date( $dt )
+	{					
 		if( strlen($dt) != 10 ) {
 			$this->form_validation->set_message('check_date','The %s field must be a date');
 			return false;
@@ -300,8 +300,8 @@ class Event extends Controller
 	/**
 	 *
 	 */
-	protected function check_time( $ti )
-	{
+	public function check_time( $ti )
+	{			
 		if( strlen($ti) != 5 ) {
 			$this->form_validation->set_message('check_time','The %s field must be a time');
 			return false;
