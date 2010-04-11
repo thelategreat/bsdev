@@ -61,7 +61,24 @@ class iph extends MY_Controller
 
 	function event()
 	{
-		echo "<h3>Event details go here</h3>";				
+		$id = $this->uri->segment(3);		
+		$this->load->model('event_model');
+		$res = $this->event_model->get_event( $id );
+		if( $res->num_rows() ) {
+			$event = $res->row();
+			$media = $this->media_model->get_media_for_path('/event/' . $event->id );			
+			echo "<div title='Film'>";
+			if( count($media) ) {
+				$media = $media[0];
+				echo '<img style="float: right; width: 150px" src="/media/' . $media['uuid'] . '" />';
+			}
+			echo "<h3>" . $event->title . "</h3>";
+			echo "<p class='event-date'>" . date('D M d, Y @ g:i a', strtotime($event->dt_start)) . "</p>";
+			echo $event->body; 
+			echo '</div>';
+		} else {			
+			echo "<h3>Event not found :/</h3>";				
+		}
 	}
 
 	function ebar()

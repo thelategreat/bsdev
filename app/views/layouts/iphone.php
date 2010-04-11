@@ -38,6 +38,12 @@
 	    padding: 3px 0 0 0;		
 			background: url(/iui/shade-compact.gif) no-repeat;	
 		}
+		.event-date {
+			font-size: 0.9em;
+			font-weight: bold;
+			font-style: italic;
+			color: #666;
+		}
 		h2 {
 		    margin: 10px;
 		    color: slateblue;
