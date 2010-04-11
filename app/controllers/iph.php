@@ -14,7 +14,8 @@ class iph extends MY_Controller
 	}
 	
 	/**
-	 * Home page
+	 * AT the top, we have the home page. This points at
+	 * the other links and content os automatically added.
 	 *
 	 * @return void
 	 **/
@@ -28,14 +29,23 @@ class iph extends MY_Controller
 		$this->load->model('event_model');
 		$monday = strtotime('-' . (date('w') == 0 ? "6" : date("w") -1) . " days");	
 		
+		
 		$events = array();
 		$today = $monday;
 		for( $i = 0; $i < 7; $i++ ) {
 			$dt = date('D M d, Y', $today);
 			$events[$dt] = array();
-			$evt = new stdClass();
-			$evt->title = "Dummy";
-			$events[$dt][] = $evt;
+			$filter = array(
+				'year' => date('Y',$today),
+				'month' => date('m',$today),
+				'day' => date('d',$today),
+				'view' => 'day'
+			);
+			$res = $this->event_model->get_events( $filter );
+			foreach( $res->result() as $row ) {
+				$item = "<a href='/iph/event/$row->id'>$row->title</a> @ ".date('g:i a',strtotime($row->dt_start));
+				$events[$dt][] = $item;
+			}
 			$today = strtotime( "+1 day",  $today );
 		}
 		
@@ -45,6 +55,12 @@ class iph extends MY_Controller
 			);
 			
 		$this->load->view('iphone/list', $page_data );
+	}
+
+
+	function event()
+	{
+		echo "<h3>Event details go here</h3>";				
 	}
 
 	function ebar()

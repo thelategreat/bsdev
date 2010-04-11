@@ -17,10 +17,18 @@
         <li><a href="/iph/cal">Cinema</a></li>
         <li><a href="/iph/ebar">eBar</a></li>
         <li><a href="/iph/books">Bookstore</a></li>
-        <li><a href="/iph/about">About</a></li>
+        <li><a href="#about">About</a></li>
     </ul>
 
-
+		<div id="about">
+			<h3>About the Bookshelf</h3>
+			<p>The Bookshelf is located at 
+			<a target="_self" href="http://maps.google.ca/maps?f=q&source=s_q&hl=en&geocode=&q=bookshelf,+41+quebec+street,+guelph,+ont&sll=43.546775,-80.250642&sspn=0.009005,0.014527&ie=UTF8&hq=bookshelf,&hnear=41+Quebec+St,+Guelph,+ON&ll=43.545686,-80.250642&spn=0.009005,0.014527&z=16">
+				41 Quebec Street, Guelph, Ontario, Canada.</a>
+			</p>
+			<p>Other stuff would be here</p>
+		</div>
+				
     <form id="searchForm" class="dialog" action="/iph/search">
         <fieldset>
             <h1>Bookshelf Search</h1>
