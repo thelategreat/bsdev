@@ -3,6 +3,41 @@
 <title>iBookshelf</title>
 		<meta name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
 		<style type="text/css" media="screen">@import "/iui/iui.css";</style>
+		<style type="text/css">
+		body > ul > li {
+		    font-size: 14px;
+		}
+		body > ul > li > a {
+		    padding-left: 54px;
+		    padding-right: 40px;
+		    min-height: 34px;
+		}
+		li .event-time {
+	    display: block;
+	    position: absolute;
+	    margin: 0;
+	    left: 6px;
+	    top: 7px;
+	    text-align: center;
+	    font-size: 90%;
+	    letter-spacing: -0.07em;
+	    color: #93883F;
+	    font-weight: bold;
+	    text-decoration: none;
+	    width: 36px;
+	    height: 30px;
+	    padding: 3px 0 0 0;		
+			background: url(/iui/shade-compact.gif) no-repeat;	
+		}
+		h2 {
+		    margin: 10px;
+		    color: slateblue;
+		}
+
+		p {
+		    margin: 10px;
+		}
+		</style>
 		<script type="application/x-javascript" src="/iui/iui.js"></script>
 </head>
 

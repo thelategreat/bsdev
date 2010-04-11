@@ -43,7 +43,8 @@ class iph extends MY_Controller
 			);
 			$res = $this->event_model->get_events( $filter );
 			foreach( $res->result() as $row ) {
-				$item = "<a href='/iph/event/$row->id'>$row->title</a> @ ".date('g:i a',strtotime($row->dt_start));
+				$item = '<a class="event-time">' . date('g:i a',strtotime($row->dt_start)) . '</a>';
+				$item .= "<a href='/iph/event/$row->id'>$row->title</a>";
 				$events[$dt][] = $item;
 			}
 			$today = strtotime( "+1 day",  $today );
