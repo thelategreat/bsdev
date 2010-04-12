@@ -42,6 +42,7 @@ class Articles extends Controller
 			$this->form_validation->set_error_delimiters('<span class="form_error">','</span>');
 			$this->form_validation->set_rules('title','Title','trim|required');
 			$this->form_validation->set_rules('body','Body','trim|required');
+			$this->form_validation->set_rules('author','Author','trim|required');
 			if( $this->form_validation->run()) {
 				$this->db->set('title', $this->input->post('title'));
 				$this->db->set('category', $this->input->post('category'), false);
@@ -49,7 +50,8 @@ class Articles extends Controller
 				$this->db->set('body', $this->input->post('body'));
 				$this->db->set('excerpt', $this->input->post('excerpt'));
 				$this->db->set('tags', $this->input->post('tags'));
-				$this->db->set('author', $this->session->userdata('logged_user'));
+				$this->db->set('author', $this->input->post('author'));
+				$this->db->set('owner', $this->session->userdata('logged_user'));
 				$this->db->set('created_on', "NOW()", false);
 				$this->db->set('status', 1);
 				$this->db->insert("articles");
@@ -92,6 +94,7 @@ class Articles extends Controller
 			$this->form_validation->set_error_delimiters('<span class="form_error">','</span>');
 			$this->form_validation->set_rules('title','Title','trim|required');
 			$this->form_validation->set_rules('body','Body','trim|required');
+			$this->form_validation->set_rules('author','Author','trim|required');
 			if( $this->form_validation->run()) {
 				$this->db->where('id', $article_id);
 				$this->db->set('title', $this->input->post('title'));
@@ -99,6 +102,7 @@ class Articles extends Controller
 				$this->db->set('status', $this->input->post('status'), false);
 				$this->db->set('publish_on', $this->input->post('publish_on'));
 				$this->db->set('body', $this->input->post('body'));
+				$this->db->set('author', $this->input->post('author'));
 				$this->db->set('excerpt', $this->input->post('excerpt'));
 				$this->db->set('tags', $this->input->post('tags'));
 				$this->db->update("articles");

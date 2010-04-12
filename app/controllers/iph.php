@@ -70,7 +70,7 @@ class iph extends MY_Controller
 			echo "<div title='Film'>";
 			if( count($media) ) {
 				$media = $media[0];
-				echo '<img style="float: right; width: 150px" src="/media/' . $media['uuid'] . '" />';
+				echo '<img style="float: right; width: 150px; padding: 5px" src="/media/' . $media['uuid'] . '" />';
 			}
 			echo "<h3>" . $event->title . "</h3>";
 			echo "<p class='event-date'>" . date('D M d, Y @ g:i a', strtotime($event->dt_start)) . "</p>";

@@ -8,16 +8,17 @@
 		    font-size: 14px;
 		}
 		body > ul > li > a {
-		    padding-left: 54px;
+		    padding-left: 50px;
 		    padding-right: 40px;
-		    min-height: 34px;
+		    min-height: 37px;
+				padding-bottom: 0;
 		}
 		li .icon {
 	    display: block;
 	    position: absolute;
 	    margin: 0;
-	    left: 6px;
-	    top: 7px;
+	    left: 10px;
+	    top: 10px;
 	    text-align: center;
 			background-color: #999;
 		}
@@ -44,6 +45,12 @@
 			font-style: italic;
 			color: #666;
 		}
+		.desc {
+			padding-top: -10px;
+	    padding-left: 43px;
+			font-size: 0.8em;
+			color: #666;
+		}
 		h2 {
 		    margin: 10px;
 		    color: slateblue;
@@ -56,7 +63,7 @@
 		<script type="application/x-javascript" src="/iui/iui.js"></script>
 </head>
 
-<body>
+<body onload="setTimeout(function() { window.scrollTo(0, 1) }, 100);">
     <div class="toolbar">
         <h1 id="pageTitle">The Bookshelf</h1>
         <a id="backButton" class="button" href="/iph/"></a>
@@ -64,10 +71,14 @@
 	  </div>
 
     <ul id="home" title="The Bookshelf" selected="true">
-        <li><img class="icon" src="/img/icons/icon_cinema.gif" /><a href="/iph/cal">Cinema</a></li>
-        <li><img class="icon" src="/img/icons/icon_ebar.gif" /><a href="/iph/ebar">eBar</a></li>
-        <li><img class="icon" src="/img/icons/icon_greenroom.gif" /><a href="/iph/books">Bookstore</a></li>
-        <li><a href="#about">About</a></li>
+        <li><img class="icon" src="/img/icons/icon_cinema.gif" /><a href="/iph/cal">Cinema</a>
+				</li>
+        <li><img class="icon" src="/img/icons/icon_ebar.gif" /><a href="/iph/ebar">eBar</a>
+				</li>
+        <li><img class="icon" src="/img/icons/icon_greenroom.gif" /><a href="/iph/books">Bookstore</a>
+				</li>
+        <li><a href="#about">About</a>
+				</li>
     </ul>
 
 		<div id="about">

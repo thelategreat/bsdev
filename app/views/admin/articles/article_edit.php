@@ -9,8 +9,9 @@ $(function()
 	$('.date-pick').dpSetStartDate('2000-01-01');
 });
 </script>
-
+<!--
 <?= $tabs ?>
+-->
 
 <form class="general" action="/admin/articles/edit/<?=$article->id?>" method="post">
 
@@ -71,9 +72,24 @@ $(function()
 <fieldset><legend>Edit Article</legend>
 <table style="border: 0">
   <tr>
-    <td><label for="title">Title</labsl><input name="title" size="60" value="<?=$article->title?>"/>
-		<br/><?=form_error('title')?>
-    <td valign="top"></td>
+		<table style="margin-top: -10px;">
+			<tr>
+    		<td><label for="title">Title</label></td>
+				<td><input name="title" size="60" value="<?=$article->title?>"/></td>
+			</tr>
+			<tr>
+				<td/>
+				<td><?=form_error('title')?></td>
+			</tr>
+			<tr>
+    		<td><label for="author">Author</label></td>
+				<td><input name="author" size="60" value="<?=$article->author?>"/></td>
+			</tr>
+			<tr>
+				<td/>
+				<td><?=form_error('author')?></td>
+			</tr>
+		</table>
   </tr>
   <tr>
     <td/>

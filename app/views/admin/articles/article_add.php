@@ -64,8 +64,24 @@ $(function()
 <fieldset><legend>Add Article</legend>
 <table style="border: 0">
   <tr>
-    <td><label for="title">Title</labsl><input name="title" size="60" value="<?=set_value('title')?>"/>
-		<br/><?=form_error('title')?></td>
+		<table style="margin-top: -10px;">
+			<tr>
+    		<td><label for="title">Title</label></td>
+				<td><input name="title" size="60" value="<?=set_value('title')?>"/></td>
+			</tr>
+			<tr>
+				<td/>
+				<td><?=form_error('title')?></td>
+			</tr>
+			<tr>
+    		<td><label for="author">Author</label></td>
+				<td><input name="author" size="60" value="<?=set_value('author')?>"/></td>
+			</tr>
+			<tr>
+				<td/>
+				<td><?=form_error('author')?></td>
+			</tr>
+		</table>
   </tr>
   <tr>
     <td><textarea name="body" rows="15" cols="80"></textarea>
