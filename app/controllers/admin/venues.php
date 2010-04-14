@@ -1,18 +1,18 @@
 <?php
 if (!defined('BASEPATH')) exit('No direct script access allowed');   
 
-class Venues extends Controller {
+include("admin_controller.php");
+
+class Venues extends Admin_Controller 
+{
 
 	function Venues()
 	{
-		parent::Controller();
-		$this->auth->restrict_role('admin');
-		$this->load->helper('url');
-		$this->load->library('tabs');
+		parent::__construct();
 
-      $this->page_tabs = array(
-        'Details', 'Media'
-        );
+    $this->page_tabs = array(
+			'Details', 'Media'
+			);
 
 	}
 	
@@ -20,17 +20,11 @@ class Venues extends Controller {
 	{
 		$venues = $this->db->get("venues")->result();
 		
-		$content = array(
+		$pg_data = array(
 			'venues' => $venues 
 			);
 		
-		$pg_data = array(
-			'title' => 'Admin - Venues',
-			'nav' => $this->load->view('layouts/admin_nav', '', true),
-			'content' => $this->load->view('admin/venues/venue_list', $content, true ),
-			'footer' => $this->load->view('layouts/admin_footer', '', true)
-		);
-		$this->load->view('layouts/admin_page', $pg_data );
+		$this->gen_page('Admin - Venues', 'admin/venues/venue_list', $pg_data );
 	}
 
 
@@ -54,18 +48,13 @@ class Venues extends Controller {
 
 		$venues = $this->db->get("venues")->result();
 		
-		$content = array(
+		$pg_data = array(
 			'venues' => $venues,
 			'error_msg' => $error_msg,
 			);
 		
-		$pg_data = array(
-			'title' => 'Admin - Venues',
-			'nav' => $this->load->view('layouts/admin_nav', '', true),
-			'content' => $this->load->view('admin/venues/venue_add', $content, true ),
-			'footer' => $this->load->view('layouts/admin_footer', '', true)
-		);
-		$this->load->view('layouts/admin_page', $pg_data );
+		
+		$this->gen_page('Admin - Venues','admin/venues/venue_add', $pg_data );
 	}
 
 
@@ -108,14 +97,7 @@ class Venues extends Controller {
 			$page = $this->load->view('admin/venues/venue_edit', $content, true );
 		}
 		
-		
-		$pg_data = array(
-			'title' => 'Admin - Venues',
-			'nav' => $this->load->view('layouts/admin_nav', '', true),
-			'content' => $page,
-			'footer' => $this->load->view('layouts/admin_footer', '', true)
-		);
-		$this->load->view('layouts/admin_page', $pg_data );
+		$this->gen_page('Admin - Venues', $page );
 	}
 	
 }

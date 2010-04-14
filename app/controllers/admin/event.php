@@ -1,10 +1,12 @@
 <?php
 if (!defined('BASEPATH')) exit('No direct script access allowed');   
 
+include("admin_controller.php");
+
 /**
  *
  */
-class Event extends Controller 
+class Event extends Admin_Controller 
 {
 
 	protected $day_names = array("Sun","Mon","Tue","Wed","Thu","Fri","Sat");
@@ -15,11 +17,9 @@ class Event extends Controller
 	 */
 	function Event()
 	{
-		parent::Controller();
+		parent::__construct();
 		
-		$this->auth->restrict_role('admin');
 		$this->load->model('event_model');
-		$this->load->library('tabs');		
 	}
 	
 	/**
@@ -85,14 +85,7 @@ class Event extends Controller
 			"end_time_widget" => $this->get_time_widget('event_time_end', time() + 60*60),
 			);
 		
-		$pg_data = array(
-			'title' => 'Admin - Event',
-			'nav' => $this->load->view('layouts/admin_nav', '', true),
-			'content' => $this->load->view('admin/calendar/event_add', $widgets, true ),
-			'footer' => $this->load->view('layouts/admin_footer', '', true)
-		);
-		$this->load->view('layouts/admin_page', $pg_data );		
-		
+		$this->gen_page('Admin - Event', 'admin/calendar/event_add', $widgets );
 	}
 	
 	/**
@@ -165,13 +158,7 @@ class Event extends Controller
 			$content = $this->load->view('admin/calendar/event_edit', $data, true );
 		}
 		
-		$pg_data = array(
-			'title' => 'Admin - Event',
-			'nav' => $this->load->view('layouts/admin_nav', '', true),
-			'content' => $content,
-			'footer' => $this->load->view('layouts/admin_footer', '', true)
-		);
-		$this->load->view('layouts/admin_page', $pg_data );				
+		$this->gen_page('Admin - Event', $content );
 	}
 
 	/**

@@ -19,16 +19,15 @@ http://fireblast.sumeffect.com/
 	through the user profile tool.
 */
 
-class Maillist extends Controller {
+include("admin_controller.php");
+
+class Maillist extends Admin_Controller {
 
 	function Maillist()
 	{
-		parent::Controller();
-		$this->auth->restrict_role('admin');
-		$this->load->helper('url');
+		parent::__construct();
 		$this->load->helper('misc');
 		$this->load->model('maillist_model');
-		$this->load->library('form_validation');
 	}
 	
 	function index()
@@ -47,13 +46,7 @@ class Maillist extends Controller {
 			'tmpls' => $tmpls
 			);
 			
-		$pg_data = array(
-			'title' => 'Admin - Mailing List Templates',
-			'nav' => $this->load->view('layouts/admin_nav', '', true),
-			'content' => $this->load->view('admin/maillist/tmpl_list', $content, true ),
-			'footer' => $this->load->view('layouts/admin_footer', '', true)
-		);
-		$this->load->view('layouts/admin_page', $pg_data );		
+		$this->gen_page('Admin - Mailing List Templates', 'admin/maillist/tmpl_list', $content );
 	}
 	
 	function tmpladd()
@@ -72,15 +65,8 @@ class Maillist extends Controller {
 		$content = array(
 			'error_msg' => $error_msg
 			);
-			
-		$pg_data = array(
-			'title' => 'Admin - Mail List - Add Template',
-			'nav' => $this->load->view('layouts/admin_nav', '', true),
-			'content' => $this->load->view('admin/maillist/tmpl_add', $content, true ),
-			'footer' => $this->load->view('layouts/admin_footer', '', true)
-		);
-		$this->load->view('layouts/admin_page', $pg_data );
-				
+		
+		$this->gen_page('Admin - Mail List - Add Template', 'admin/maillist/tmpl_add', $content );		
 	}
 	
 	function tmpledit()
@@ -107,14 +93,8 @@ class Maillist extends Controller {
 			'error_msg' => $error_msg
 			);
 			
-		$pg_data = array(
-			'title' => 'Admin - Mailing List Newsletters',
-			'nav' => $this->load->view('layouts/admin_nav', '', true),
-			'content' => $this->load->view('admin/maillist/tmpl_edit', $content, true ),
-			'footer' => $this->load->view('layouts/admin_footer', '', true)
-		);
-		$this->load->view('layouts/admin_page', $pg_data );
-		
+		$this->gen_page('Admin - Mailing List - Edit Template',
+			'admin/maillist/tmpl_edit', $content );
 	}
 	
 	function tmplrm()
@@ -137,15 +117,8 @@ class Maillist extends Controller {
 		$content = array(
 			'msgs' => $msgs
 			);
-			
-		$pg_data = array(
-			'title' => 'Admin - Mailing List Newsletters',
-			'nav' => $this->load->view('layouts/admin_nav', '', true),
-			'content' => $this->load->view('admin/maillist/msg_list', $content, true ),
-			'footer' => $this->load->view('layouts/admin_footer', '', true)
-		);
-		$this->load->view('layouts/admin_page', $pg_data );
 		
+		$this->gen_page('Admin - Mailing List Newsletters', 'admin/maillist/msg_list', $content );
 	}
 
 	function msgadd()
@@ -170,14 +143,8 @@ class Maillist extends Controller {
 			'error_msg' => $error_msg
 			);
 			
-		$pg_data = array(
-			'title' => 'Admin - Mailing List Newsletters',
-			'nav' => $this->load->view('layouts/admin_nav', '', true),
-			'content' => $this->load->view('admin/maillist/msg_add', $content, true ),
-			'footer' => $this->load->view('layouts/admin_footer', '', true)
-		);
-		$this->load->view('layouts/admin_page', $pg_data );
-		
+		$this->gen_page('Admin - Mailing List Newsletters', 'admin/maillist/msg_add', $content );
+			
 	}
 
 	function msgedit()
@@ -227,15 +194,8 @@ class Maillist extends Controller {
 			'template_list' => $this->maillist_model->get_template_select(),
 			'error_msg' => $error_msg
 			);
-			
-		$pg_data = array(
-			'title' => 'Admin - Mailing List Newsletters',
-			'nav' => $this->load->view('layouts/admin_nav', '', true),
-			'content' => $this->load->view('admin/maillist/msg_edit', $content, true ),
-			'footer' => $this->load->view('layouts/admin_footer', '', true)
-		);
-		$this->load->view('layouts/admin_page', $pg_data );
 		
+		$this->gen_page('Admin - Mailing List Newsletters', 'admin/maillist/msg_edit', $content );	
 	}
 
 	// ---------
@@ -249,13 +209,7 @@ class Maillist extends Controller {
 			'lists' => $lists
 			);
 		
-		$pg_data = array(
-			'title' => 'Admin - Mailing Lists',
-			'nav' => $this->load->view('layouts/admin_nav', '', true),
-			'content' => $this->load->view('admin/maillist/list_list', $content, true ),
-			'footer' => $this->load->view('layouts/admin_footer', '', true)
-		);
-		$this->load->view('layouts/admin_page', $pg_data );
+		$this->gen_page('Admin - Mailing Lists', 'admin/maillist/list_list', $content );
 	}
 
 	function listadd()
@@ -279,14 +233,7 @@ class Maillist extends Controller {
 			'error_msg' => $error_msg
 			);
 		
-		$pg_data = array(
-			'title' => 'Admin - Mailing List Groups',
-			'nav' => $this->load->view('layouts/admin_nav', '', true),
-			'content' => $this->load->view('admin/maillist/list_add', $content, true ),
-			'footer' => $this->load->view('layouts/admin_footer', '', true)
-		);
-		$this->load->view('layouts/admin_page', $pg_data );
-		
+		$this->gen_page('Admin - Mailing List Groups', 'admin/maillist/list_add', $content );
 	}
 
 	function listedit()
@@ -312,14 +259,7 @@ class Maillist extends Controller {
 			'error_msg' => $error_msg
 			);
 		
-		$pg_data = array(
-			'title' => 'Admin - Mailing List Groups',
-			'nav' => $this->load->view('layouts/admin_nav', '', true),
-			'content' => $this->load->view('admin/maillist/list_edit', $content, true ),
-			'footer' => $this->load->view('layouts/admin_footer', '', true)
-		);
-		$this->load->view('layouts/admin_page', $pg_data );
-		
+		$this->gen_page('Admin - Mailing List Groups', 'admin/maillist/list_edit', $content );
 	}
 
 	// ---------------------
@@ -342,13 +282,8 @@ class Maillist extends Controller {
 			'query' => $query
 			);
 		
-		$pg_data = array(
-			'title' => 'Admin - Mailing List Subscribers',
-			'nav' => $this->load->view('layouts/admin_nav', '', true),
-			'content' => $this->load->view('admin/maillist/subscr_list', $content, true ),
-			'footer' => $this->load->view('layouts/admin_footer', '', true)
-		);
-		$this->load->view('layouts/admin_page', $pg_data );
+		$this->gen_page('Admin - Mailing List Subscribers', 'admin/maillist/subscr_list', $content );
+		
 	}
 
 	function subscradd()
@@ -372,14 +307,7 @@ class Maillist extends Controller {
 			'error_msg' => $error_msg
 			);
 		
-		$pg_data = array(
-			'title' => 'Admin - Mailing List Subscribers',
-			'nav' => $this->load->view('layouts/admin_nav', '', true),
-			'content' => $this->load->view('admin/maillist/subscr_add', $content, true ),
-			'footer' => $this->load->view('layouts/admin_footer', '', true)
-		);
-		$this->load->view('layouts/admin_page', $pg_data );
-		
+		$this->gen_page('Admin - Mailing List Subscribers', 'admin/maillist/subscr_add', $content );
 	}
 
 	function subscredit()
@@ -437,14 +365,7 @@ class Maillist extends Controller {
 			'error_msg' => $error_msg
 			);
 		
-		$pg_data = array(
-			'title' => 'Admin - Mailing List Subscribers',
-			'nav' => $this->load->view('layouts/admin_nav', '', true),
-			'content' => $this->load->view('admin/maillist/subscr_edit', $content, true ),
-			'footer' => $this->load->view('layouts/admin_footer', '', true)
-		);
-		$this->load->view('layouts/admin_page', $pg_data );
-		
+		$this->gen_page('Admin - Mailing List Subscribers', 'admin/maillist/subscr_edit', $content );		
 	}
 
 	/* export the subscriber list */
@@ -532,13 +453,7 @@ class Maillist extends Controller {
 			'error_msg' => $error_msg
 			);
 		
-		$pg_data = array(
-			'title' => 'Admin - Import Subscriber List',
-			'nav' => $this->load->view('layouts/admin_nav', '', true),
-			'content' => $this->load->view('admin/maillist/subscr_import', $content, true ),
-			'footer' => $this->load->view('layouts/admin_footer', '', true)
-		);
-		$this->load->view('layouts/admin_page', $pg_data );
+		$this->gen_page('Admin - Import Subscriber List', 'admin/maillist/subscr_import', $content );
 	}
 
 
@@ -565,13 +480,7 @@ class Maillist extends Controller {
 			'error_msg' => $error_msg
 			);
 		
-		$pg_data = array(
-			'title' => 'Admin - Black List',
-			'nav' => $this->load->view('layouts/admin_nav', '', true),
-			'content' => $this->load->view('admin/maillist/bl_list', $content, true ),
-			'footer' => $this->load->view('layouts/admin_footer', '', true)
-		);
-		$this->load->view('layouts/admin_page', $pg_data );
+		$this->gen_page('Admin - Black List', 'admin/maillist/bl_list', $content );
 		
 	}
 
@@ -584,14 +493,7 @@ class Maillist extends Controller {
 			'error_msg' => $error_msg
 			);
 		
-		$pg_data = array(
-			'title' => 'Admin - Mail Logs',
-			'nav' => $this->load->view('layouts/admin_nav', '', true),
-			'content' => $this->load->view('admin/maillist/logs_list', $content, true ),
-			'footer' => $this->load->view('layouts/admin_footer', '', true)
-		);
-		$this->load->view('layouts/admin_page', $pg_data );
-		
+		$this->gen_page('Admin - Mail Logs', 'admin/maillist/logs_list', $content );		
 	}
 
 
@@ -613,20 +515,5 @@ class Maillist extends Controller {
 		echo json_encode($res);
 		exit();
 	}
-
-	/*
-	function bogus()
-	{
-		$names = array("joe","fred","mary","jack","jake","claire","lindsay","lola","apu");
-		$domains = array("fud.com","bogus.com","nowhere.ca","fake.org","uhuh.net","fubar.com","empty.ca","notright.pl","nomail.com","nomail.ca");
-		
-		foreach( $names as $name ) {
-			foreach( $domains as $domain ) {
-				$this->db->insert("ml_subscr", array("email"=>$name.'@'.$domain, 'fullname' => $name . ' bogus'));
-			}
-		}
-		
-	}
-	*/
 }
 

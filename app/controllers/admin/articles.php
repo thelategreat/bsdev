@@ -1,7 +1,9 @@
 <?php
 if (!defined('BASEPATH')) exit('No direct script access allowed');   
 
-class Articles extends Controller 
+include("admin_controller.php");
+
+class Articles extends Admin_Controller 
 {
 	/**
 	 * CTOR
@@ -10,11 +12,7 @@ class Articles extends Controller
 	 **/
 	function __construct()
 	{
-		parent::Controller();
-		$this->auth->restrict_role(array('admin','editor'));
-		$this->load->helper('url','form');
-		$this->load->library('tabs');
-		$this->load->library('form_validation');
+		parent::__construct();
 		$this->load->model('articles_model');
 	}
 	
@@ -25,15 +23,11 @@ class Articles extends Controller
 	{
 		$articles = $this->articles_model->get_article_list();
 		
-		$view_data = array( 'articles' => $articles );
+		$view_data = array( 
+			'articles' => $articles 
+			);
 		
-		$pg_data = array(
-			'title' => 'Admin - Articles',
-			'nav' => $this->load->view('layouts/admin_nav', '', true),
-			'footer' => $this->load->view('layouts/admin_footer', '', true),
-			'content' => $this->load->view('admin/articles/article_list', $view_data, true)
-		);
-		$this->load->view('layouts/admin_page', $pg_data );
+		$this->gen_page('Admin - Articles', 'admin/articles/article_list', $view_data );
 	}
 	
 	function add()
@@ -67,13 +61,7 @@ class Articles extends Controller
 			'category_select' => $this->articles_model->category_select(),
 			);
 		
-		$pg_data = array(
-			'title' => 'Admin - Articles',
-			'nav' => $this->load->view('layouts/admin_nav', '', true),
-			'footer' => $this->load->view('layouts/admin_footer', '', true),
-			'content' => $this->load->view('admin/articles/article_add', $view_data, true)
-		);
-		$this->load->view('layouts/admin_page', $pg_data );		
+		$this->gen_page('Admin - Articles', 'admin/articles/article_add', $view_data );
 	}
 
 	function edit()
@@ -126,13 +114,7 @@ class Articles extends Controller
 			'tabs' => $this->tabs->gen_tabs(array('Article','Media'), 'Article', '/admin/articles/edit/' . $article_id)
 		);
 		
-		$pg_data = array(
-			'title' => 'Admin - Articles',
-			'nav' => $this->load->view('layouts/admin_nav', '', true),
-			'footer' => $this->load->view('layouts/admin_footer', '', true),
-			'content' => $this->load->view('admin/articles/article_edit', $view_data, true)
-		);
-		$this->load->view('layouts/admin_page', $pg_data );		
+		$this->gen_page('Admin - Articles', 'admin/articles/article_edit', $view_data );
 	}
 
 	function edit_media()
@@ -150,13 +132,6 @@ class Articles extends Controller
 			'tabs' => $this->tabs->gen_tabs(array('Article','Media'), 'Media', '/admin/articles/edit/' . $article->id)
 		);
 		
-		$pg_data = array(
-			'title' => 'Admin - Articles',
-			'nav' => $this->load->view('layouts/admin_nav', '', true),
-			'footer' => $this->load->view('layouts/admin_footer', '', true),
-			'content' => $this->load->view('admin/media/media_tab', $view_data, true)
-		);
-		$this->load->view('layouts/admin_page', $pg_data );		
-		
+		$this->gen_page('Admin - Articles', 'admin/media/media_tab', $view_data );		
 	}
 }

@@ -1,13 +1,13 @@
 <script type="text/javascript">
 
-function select_role()
+function select_role(  )
 {
 	$('#matrix').html( '<div style="text-align: center;"><p>loading...</p><img src="/img/ajax-loader.gif" /></div>' );
 	$.post('/admin/perms/get_matrix', { role: $('#role-sel').val()},
 		function(data) {
-			$('#matrix').hide();
+			//$('#matrix').hide();
 			$('#matrix').html( data );
-			$('#matrix').show('slow');
+			//$('#matrix').show('slow');
 		}
 	);
 }
@@ -37,11 +37,18 @@ function toggle_perm( id, obj )
 {
 	var tmp = id.split(":")
 	$.post('/admin/perms/toggle_perm', {role_id: tmp[0], route_id: tmp[1], allow: $(obj).attr('checked') ? 1 : 0 },
-		function(data) {
-			
+		function(data) {			
+			select_role();
 		}
 	);
-	select_role();
+}
+
+function rm_route( id )
+{
+	if( confirm('Really remove this route? (' + id + ')')) {
+		$.post('/admin/perms/rm_route', {route_id: id});
+		select_role();
+	}
 }
 
 $(document).ready( function() {

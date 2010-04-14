@@ -1,12 +1,14 @@
 <?php
 if (!defined('BASEPATH')) exit('No direct script access allowed');   
 
-class Imdb extends Controller {
+include("admin_controller.php");
+
+class Imdb extends Admin_Controller {
 
 	function Imdb()
 	{
-		parent::Controller();
-		$this->auth->restrict_role('admin');
+		parent::__construct();
+		//$this->auth->restrict_role('admin');
 		$this->load->database();
 		$this->load->helper('markdown');
 	}

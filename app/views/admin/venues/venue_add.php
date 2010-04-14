@@ -1,8 +1,5 @@
 <h3>Add Venue</h3>
 <?=$error_msg?>
-<div id="map_div" style="float:right; width: 300px; height: 300px; border: 1px solid #ccc">
-<h3>Images</h3>
-</div>
 
 <form method="post">
 <fieldset><legend>Details</legend>

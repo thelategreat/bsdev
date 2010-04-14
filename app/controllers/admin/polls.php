@@ -1,7 +1,9 @@
 <?php
 if (!defined('BASEPATH')) exit('No direct script access allowed');   
 
-class Polls extends Controller 
+include("admin_controller.php");
+
+class Polls extends Admin_Controller 
 {
 	/**
 	 * CTOR
@@ -10,11 +12,7 @@ class Polls extends Controller
 	 **/
 	function __construct()
 	{
-		parent::Controller();
-		$this->auth->restrict_role(array('admin','editor'));
-		$this->load->helper('url','form');
-		$this->load->library('tabs');
-		$this->load->library('form_validation');
+		parent::__construct();
 		$this->load->model('polls_model');
 	}
 	
@@ -27,13 +25,7 @@ class Polls extends Controller
 		
 		$view_data = array( 'polls' => $polls );
 		
-		$pg_data = array(
-			'title' => 'Admin - Polls',
-			'nav' => $this->load->view('layouts/admin_nav', '', true),
-			'footer' => $this->load->view('layouts/admin_footer', '', true),
-			'content' => $this->load->view('admin/polls/polls_index', $view_data, true)
-		);
-		$this->load->view('layouts/admin_page', $pg_data );
+		$this->gen_page('Admin - Polls', 'admin/polls/polls_index', $view_data );
 	}
 
 	/**
@@ -48,13 +40,7 @@ class Polls extends Controller
 		
 		$view_data = array( 'poll' => $poll );
 		
-		$pg_data = array(
-			'title' => 'Admin - Polls',
-			'nav' => $this->load->view('layouts/admin_nav', '', true),
-			'footer' => $this->load->view('layouts/admin_footer', '', true),
-			'content' => $this->load->view('admin/polls/poll_edit', $view_data, true)
-		);
-		$this->load->view('layouts/admin_page', $pg_data );
+		$this->gen_page('Admin - Polls', 'admin/polls/poll_edit', $view_data );		
 	}
 
 	/**
@@ -66,13 +52,7 @@ class Polls extends Controller
 		
 		$view_data = array( 'poll' => $poll );
 		
-		$pg_data = array(
-			'title' => 'Admin - Polls',
-			'nav' => $this->load->view('layouts/admin_nav', '', true),
-			'footer' => $this->load->view('layouts/admin_footer', '', true),
-			'content' => $this->load->view('admin/polls/poll_edit', $view_data, true)
-		);
-		$this->load->view('layouts/admin_page', $pg_data );
+		$this->gen_page('Admin - Polls', 'admin/polls/poll_edit', $view_data );
 	}
 
 	/**

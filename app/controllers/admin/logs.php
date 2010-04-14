@@ -1,7 +1,9 @@
 <?php
 if (!defined('BASEPATH')) exit('No direct script access allowed');   
 
-class Logs extends Controller 
+include("admin_controller.php");
+
+class Logs extends Admin_Controller 
 {
 	/**
 	 * CTOR
@@ -10,8 +12,7 @@ class Logs extends Controller
 	 **/
 	function __construct()
 	{
-		parent::Controller();
-		$this->auth->restrict_role(array('admin','editor'));
+		parent::__construct();
 	}
 	
 	/**
@@ -19,12 +20,6 @@ class Logs extends Controller
 	 */
 	function index()
 	{		
-		$pg_data = array(
-			'title' => 'Admin',
-			'nav' => $this->load->view('layouts/admin_nav', '', true),
-			'footer' => $this->load->view('layouts/admin_footer', '', true),
-			'content' => '<h3>Logs</h3>'
-		);
-		$this->load->view('layouts/admin_page', $pg_data );
+		$this->gen_page('Admin - Logs', '<h3>Logs</h3>' );		
 	}
 }

@@ -1,13 +1,14 @@
 <?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
 
+include("admin_controller.php");
+
 include_once( APPPATH . '/libraries/unittest.php');
 
-class TestSuite extends Controller
+class TestSuite extends Admin_Controller
 {
 	function __construct()
 	{
 		parent::__construct();
-		$this->auth->restrict_role('admin');
 	}
 
 	function index()

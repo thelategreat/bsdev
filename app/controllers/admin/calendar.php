@@ -1,7 +1,9 @@
 <?php
 if (!defined('BASEPATH')) exit('No direct script access allowed');   
 
-class Calendar extends Controller 
+include("admin_controller.php");
+
+class Calendar extends Admin_Controller 
 {
 
 	protected $day_names = array("Sun","Mon","Tue","Wed","Thu","Fri","Sat");
@@ -9,11 +11,9 @@ class Calendar extends Controller
 
 	function Calendar()
 	{
-		parent::Controller();
+		parent::__construct();
 		
-		$this->auth->restrict_role('admin');
-		$this->load->model('event_model');
-		
+		$this->load->model('event_model');		
 	}
 	
 	function index()
@@ -119,14 +119,8 @@ class Calendar extends Controller
 		$data['cal'] = $s;
 		$data['tabs'] = $tabs;
 		$data['events'] = $this->event_model->get_events( $filter );
-	
-		$pg_data = array(
-			'title' => 'Admin - Calendar',
-			'nav' => $this->load->view('layouts/admin_nav', '', true),
-			'content' => $this->load->view('admin/calendar/calendar', $data, true ),
-			'footer' => $this->load->view('layouts/admin_footer', '', true)
-		);
-		$this->load->view('layouts/admin_page', $pg_data );		
+		
+		$this->gen_page('Admin - Calendar', 'admin/calendar/calendar', $data );
 	}
 	
 	function week()
@@ -264,13 +258,7 @@ class Calendar extends Controller
 		$data['tabs'] = $tabs;
 		$data['events'] = $events;
 	
-		$pg_data = array(
-			'title' => 'Admin - Calendar',
-			'nav' => $this->load->view('layouts/admin_nav', '', true),
-			'content' => $this->load->view('admin/calendar/calendar', $data, true ),
-			'footer' => $this->load->view('layouts/admin_footer', '', true)
-		);
-		$this->load->view('layouts/admin_page', $pg_data );				
+		$this->gen_page('Admin - Calendar', 'admin/calendar/calendar', $data );
 	}
 	
 	function day()
@@ -337,13 +325,7 @@ class Calendar extends Controller
 		$data['tabs'] = $tabs;
 		$data['events'] = $this->event_model->get_events( $filter );
 	
-		$pg_data = array(
-			'title' => 'Admin - Calendar',
-			'nav' => $this->load->view('layouts/admin_nav', '', true),
-			'content' => $this->load->view('admin/calendar/calendar', $data, true ),
-			'footer' => $this->load->view('layouts/admin_footer', '', true)
-		);
-		$this->load->view('layouts/admin_page', $pg_data );						
+		$this->gen_page('Admin - Calendar', 'admin/calendar/calendar', $data );
 	}
 	
 	

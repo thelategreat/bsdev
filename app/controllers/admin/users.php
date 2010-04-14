@@ -1,15 +1,14 @@
 <?php
 if (!defined('BASEPATH')) exit('No direct script access allowed');   
 
-class Users extends Controller 
+include("admin_controller.php");
+
+class Users extends Admin_Controller 
 {
 
 	function Users()
 	{
-		parent::Controller();
-		$this->auth->restrict_role(array('admin'));
-		$this->load->helper('url','form');
-		$this->load->library('form_validation');
+		parent::__construct();
 		$this->load->model('users_model');
 	}
 	
@@ -22,13 +21,7 @@ class Users extends Controller
 	{
 		$data = $this->users_model->get_users('users')->result();
 		
-		$pg_data = array(
-			'title' => 'Admin - Users',
-			'nav' => $this->load->view('layouts/admin_nav', '', true),
-			'content' => $this->load->view('admin/users/users_list', array('users' => $data), true ),
-			'footer' => $this->load->view('layouts/admin_footer', '', true)
-		);
-		$this->load->view('layouts/admin_page', $pg_data );
+		$this->gen_page('Admin - Users', 'admin/users/users_list', array('users' => $data));		
 	}
 	
 	/**
@@ -63,14 +56,7 @@ class Users extends Controller
 			'role_select' => $this->users_model->role_select()
 			);
 		
-		$pg_data = array(
-			'title' => 'Admin - Users',
-			'nav' => $this->load->view('layouts/admin_nav', '', true),
-			'content' => $this->load->view('admin/users/users_add', $content, true ),
-			'footer' => $this->load->view('layouts/admin_footer', '', true)
-		);
-		$this->load->view('layouts/admin_page', $pg_data );
-		
+		$this->gen_page('Admin - Users', 'admin/users/users_add', $content );
 	}
 	
 	/**
@@ -133,14 +119,7 @@ class Users extends Controller
 			'role_select' => $this->users_model->role_select($user->role_id)
 			);
 		
-		$pg_data = array(
-			'title' => 'Admin - Users',
-			'nav' => $this->load->view('layouts/admin_nav', '', true),
-			'content' => $this->load->view('admin/users/users_edit', $content, true ),
-			'footer' => $this->load->view('layouts/admin_footer', '', true)
-		);
-		$this->load->view('layouts/admin_page', $pg_data );
-		
+		$this->gen_page('Admin - Users', 'admin/users/users_edit', $content );		
 	}
 	
 	/**

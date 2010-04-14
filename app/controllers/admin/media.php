@@ -1,10 +1,13 @@
 <?php
 if (!defined('BASEPATH')) exit('No direct script access allowed');   
 
+include("admin_controller.php");
+
+
 /**
  *
  */
-class Media extends Controller 
+class Media extends Admin_Controller 
 {
 
 	/**
@@ -12,11 +15,8 @@ class Media extends Controller
 	 */
 	function Media()
 	{
-		parent::Controller();
-		$this->auth->restrict_role(array('admin'));
+		parent::__construct();
 		$this->load->helper('media');
-		$this->load->library('tabs');
-		$this->load->library('form_validation');
 		$this->load->model('media_model');
 	}
 
@@ -119,14 +119,8 @@ class Media extends Controller
 		
 		if( $this->input->post('ajax')) {
 			$this->load->view('admin/media/media_index', $data );			
-		} else {
-			$pg_data = array(
-				'title' => 'Admin - Media',
-				'nav' => $this->load->view('layouts/admin_nav', '', true),
-				'content' => $this->load->view('admin/media/media_index', $data, true),
-				'footer' => $this->load->view('layouts/admin_footer', '', true)
-			);
-			$this->load->view('layouts/admin_page', $pg_data );				
+		} else {			
+			$this->gen_page('Admin - Media', 'admin/media/media_index', $data );
 		}
 	}
 
@@ -228,13 +222,7 @@ class Media extends Controller
 			'errors' => $errors
 			);
 		
-		$pg_data = array(
-			'title' => 'Admin - Media',
-			'nav' => $this->load->view('layouts/admin_nav', '', true),
-			'content' => $this->load->view('admin/media/media_edit', $data, true),
-			'footer' => $this->load->view('layouts/admin_footer', '', true)
-		);
-		$this->load->view('layouts/admin_page', $pg_data );						
+		$this->gen_page('Admin - Media', 'admin/media/media_edit', $data );
 	}
 
 	/**

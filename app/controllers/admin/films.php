@@ -1,15 +1,14 @@
 <?php
 if (!defined('BASEPATH')) exit('No direct script access allowed');   
 
-class Films extends Controller {
+include("admin_controller.php");
+
+class Films extends Admin_Controller 
+{
 
 	function Films()
 	{
-		parent::Controller();
-		$this->auth->restrict_role('admin');
-		$this->load->helper('url');
-		$this->load->library('tabs');		
-		$this->load->database();
+		parent::__construct();
 	}
 	
 	function index()
@@ -46,14 +45,7 @@ class Films extends Controller {
 			$data['prev'] = '';
 		}
 		
-		$pg_data = array(
-			'title' => 'Admin - Cinema',
-			'nav' => $this->load->view('layouts/admin_nav', '', true),
-			'content' => $this->load->view('admin/films/films_list', $data, true ),
-			'footer' => $this->load->view('layouts/admin_footer', '', true)
-		);
-		$this->load->view('layouts/admin_page', $pg_data );
-		
+		$this->gen_page('Admin - Films', 'admin/films/films_list', $data );
 	}
 
 	function add()
@@ -90,13 +82,7 @@ class Films extends Controller {
 			}
 		}
 		
-		$pg_data = array(
-			'title' => 'Admin - Cinema',
-			'nav' => $this->load->view('layouts/admin_nav', '', true),
-			'content' => $this->load->view('admin/films/films_add', '', true ),
-			'footer' => $this->load->view('layouts/admin_footer', '', true)
-		);
-		$this->load->view('layouts/admin_page', $pg_data );		
+		$this->gen_page('Admin - Films', 'admin/films/films_add', array());
 	}
 	
 	function edit()
@@ -163,13 +149,7 @@ class Films extends Controller {
 			$content = $this->load->view('admin/films/films_edit', array('film' => $film, 'tabs' => $tabs ), true );
 		}
 		
-		$pg_data = array(
-			'title' => 'Admin - Cinema',
-			'nav' => $this->load->view('layouts/admin_nav', '', true),
-			'content' => $content,
-			'footer' => $this->load->view('layouts/admin_footer', '', true)
-		);
-		$this->load->view('layouts/admin_page', $pg_data );		
+		$this->gen_page('Admin - Films', $content );
 	}
 	
 	/* NOTE: I think nothing below here is used anymore */

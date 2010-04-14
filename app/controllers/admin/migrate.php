@@ -1,13 +1,15 @@
 <?php
 if (!defined('BASEPATH')) exit('No direct script access allowed');   
 
+include("admin_controller.php");
+
 /**
  * Front page
  *
  * @package default
  * @author J Knight
  **/
-class Migrate extends Controller 
+class Migrate extends Admin_Controller 
 {
   /**
    * CTOR
@@ -16,10 +18,7 @@ class Migrate extends Controller
    **/
 	function Migrate()
 	{
-		parent::Controller();
-		$this->auth->restrict_role('admin');
-		$this->load->helper('url');  
-    
+		parent::__construct();    
 	}
 	
 	function index()
@@ -27,16 +26,7 @@ class Migrate extends Controller
 		require( APPPATH . '/config/database.php');
 		$keys = array_keys($db);
 
-		$this->load->view('layouts/admin_nav', '', true);
-		
-		$pg_data = array(
-			'title' => 'Admin',
-			'nav' => $this->load->view('layouts/admin_nav', '', true),
-			'footer' => $this->load->view('layouts/admin_footer', '', true),
-			'content' => $this->load->view('admin/admin_migrate', array('keys' => $keys), true)
-		);
-		$this->load->view('layouts/admin_page', $pg_data );
-		
+		$this->gen_page('Admin - Migrate', 'admin/admin_migrate', array('keys' => $keys));
 	}
 	
 	function run()

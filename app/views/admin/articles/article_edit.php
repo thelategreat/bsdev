@@ -9,9 +9,8 @@ $(function()
 	$('.date-pick').dpSetStartDate('2000-01-01');
 });
 </script>
-<!--
+
 <?= $tabs ?>
--->
 
 <form class="general" action="/admin/articles/edit/<?=$article->id?>" method="post">
 

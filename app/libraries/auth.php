@@ -124,9 +124,66 @@ class Auth {
 					return;
       	}
 			}
-  		redirect($this->login_page);
+			
+			if( $this->logged_in() ) {
+				show_error('You do not have permission to view that resource');
+			} else {
+	  		redirect($this->login_page);				
+			}
      }
      
+		/**
+		 * Check against database if a user has permissions to view a resource
+		 *
+		 * TODO: document the db end of this
+		 *
+		 * Return boolean
+		 */
+		function restrict_role_db( $do_redirect = TRUE )
+		{
+			if( !$this->logged_in() ) {
+				if( $do_redirect )
+					redirect($this->login_page);
+				else
+					return FALSE;
+			}
+			
+			$user = $this->CI->session->userdata('logged_user');
+			
+			$q =<<<ELF
+				SELECT u.id, u.username, ur.role, r.route, rrm.allow FROM 
+						users as u, 
+						user_roles as ur,
+						route_role_map as rrm,
+						routes as r
+					WHERE
+						r.id = rrm.route_id AND
+						rrm.role_id = ur.id AND
+						u.role_id = ur.id AND
+						u.username = '$user'
+ELF;
+
+			$res = $this->CI->db->query($q);
+			$uri = trim(uri_string());
+			// get rid of the trailing slash if there is one
+			if( substr($uri, -1) == '/' )
+				$uri = substr($uri, 0, -1);
+			//echo '<br/>--&gt;' . $uri;
+			if( $res->num_rows()) {
+				foreach( $res->result() as $row ) {
+					// admin user can see anything
+					if( $row->id == 1 ) {
+						return TRUE;
+				  }
+					//echo '<br/>[' . $row->route . "]";
+					if( preg_match( '#^' . $row->route . '$#', $uri) && $row->allow == 1 ) {
+						return TRUE;
+					}
+				}
+			}
+			return FALSE;
+		}
+
     /** 
      * 
      * Checks if a user is logged in 

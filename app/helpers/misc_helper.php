@@ -132,3 +132,12 @@ function generatePassword($length=6, $strength=0)
 	}
 	return $password;
 }
+
+
+function ends_with( $subj, $str  )
+{
+	$end = substr($subj, strlen($subj) - strlen($str));
+	return $end == $str;
+}
+
+

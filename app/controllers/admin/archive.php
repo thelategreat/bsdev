@@ -1,7 +1,10 @@
 <?php
 if (!defined('BASEPATH')) exit('No direct script access allowed');   
 
-class Archive extends Controller 
+include("admin_controller.php");
+
+
+class Archive extends Admin_Controller 
 {
 	/**
 	 * CTOR
@@ -10,8 +13,7 @@ class Archive extends Controller
 	 **/
 	function __construct()
 	{
-		parent::Controller();
-		$this->auth->restrict_role(array('admin','editor'));
+		parent::__construct();
 	}
 	
 	/**
@@ -19,12 +21,6 @@ class Archive extends Controller
 	 */
 	function index()
 	{ 		
-		$pg_data = array(
-			'title' => 'Admin',
-			'nav' => $this->load->view('layouts/admin_nav', '', true),
-			'footer' => $this->load->view('layouts/admin_footer', '', true),
-			'content' => '<h3>Archive</h3>'
-		);
-		$this->load->view('layouts/admin_page', $pg_data );
+		$this->gen_page('Admin - Archive', '<h3>Archive</h3>');		
 	}
 }

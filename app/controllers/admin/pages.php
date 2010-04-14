@@ -1,7 +1,9 @@
 <?php
 if (!defined('BASEPATH')) exit('No direct script access allowed');   
 
-class Pages extends Controller 
+include("admin_controller.php");
+
+class Pages extends Admin_Controller 
 {
 	/**
 	 * CTOR
@@ -10,12 +12,8 @@ class Pages extends Controller
 	 **/
 	function __construct()
 	{
-		parent::Controller();
-		$this->auth->restrict_role('admin');
+		parent::__construct();
 		$this->load->library('pagination');
-		$this->load->library('tabs');
-		$this->load->helper('url');		
-		$this->load->helper('form');	
 		$this->load->helper('media');	
 		$this->load->helper('pages');	
 		$this->load->model( 'pages_model' );	
@@ -33,13 +31,7 @@ class Pages extends Controller
 		$data['pages'] = $this->db->get('pages');
 		$data['titles'] = $this->pages_model->getPageTitles();
 		
-		$pg_data = array(
-			'title' => 'Admin - Pages',
-			'nav' => $this->load->view('layouts/admin_nav', '', true),
-			'content' => $this->load->view('admin/pages/pages_list', $data, true),
-			'footer' => $this->load->view('layouts/admin_footer', '', true)
-		);
-		$this->load->view('layouts/admin_page', $pg_data );
+		$this->gen_page('Admin - Pages', 'admin/pages/pages_list', $data );
 	}
 	
 	function add()
@@ -59,15 +51,7 @@ class Pages extends Controller
 		$data['parent_select'] = $this->mk_nested_select($data['titles']);
 		$data['page_types'] = $this->mk_types_select( 'page' );
 						
-		$pg_data = array(
-			'title' => 'Admin - Pages',
-			'nav' => $this->load->view('layouts/admin_nav', '', true),
-			'content' => $this->load->view('admin/pages/pages_add', $data, true),
-			'footer' => $this->load->view('layouts/admin_footer', '', true)
-		);
-		$this->load->view('layouts/admin_page', $pg_data );
-		
-		
+		$this->gen_page('Admin - Pages', 'admin/pages/pages_add', $data );		
 	}
 
 	function edit()
@@ -123,17 +107,8 @@ class Pages extends Controller
 			default:
 			$page = $this->load->view('admin/pages/pages_edit', $data, true );
 		}
-
 						
-		$pg_data = array(
-			'title' => 'Admin - Pages',
-			'nav' => $this->load->view('layouts/admin_nav', '', true),
-			'content' => $page, //$this->load->view('admin/pages/pages_edit', $data, true),
-			'footer' => $this->load->view('layouts/admin_footer', '', true)
-		);
-		$this->load->view('layouts/admin_page', $pg_data );
-		
-		
+		$this->gen_page( 'Admin - Pages', $page );
 	}
 
 	function rm()

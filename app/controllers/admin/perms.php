@@ -1,7 +1,9 @@
 <?php
 if (!defined('BASEPATH')) exit('No direct script access allowed');   
 
-class Perms extends Controller 
+include("admin_controller.php");
+
+class Perms extends Admin_Controller 
 {
 	/**
 	 * CTOR
@@ -10,8 +12,8 @@ class Perms extends Controller
 	 **/
 	function __construct()
 	{
-		parent::Controller();
-		$this->auth->restrict_role(array('admin'));
+		parent::__construct();
+		//$this->auth->restrict_role(array('admin'));
 	}
 	
 	/**
@@ -31,13 +33,7 @@ class Perms extends Controller
 		
 		$content = $this->load->view('admin/users/perms_list', $view_data, true );
 		
-		$pg_data = array(
-			'title' => 'Admin',
-			'nav' => $this->load->view('layouts/admin_nav', '', true),
-			'footer' => $this->load->view('layouts/admin_footer', '', true),
-			'content' => $content
-		);
-		$this->load->view('layouts/admin_page', $pg_data );
+		$this->gen_page('Admin - Permissions', $content );
 	}
 	
 	function add_route()
@@ -46,7 +42,11 @@ class Perms extends Controller
 			if( $this->db->query("select * from routes where route = " . $this->db->escape($this->input->post('route')))->num_rows()) {
 				echo json_encode(array('ok' => false, 'message' => 'Route exists'));				
 			} else {
-				$this->db->set('route', $this->input->post('route'));
+				$uri = trim($this->input->post('route'));
+				// get rid of the trailing slash if there is one
+				if( substr($uri, -1) == '/' )
+					$uri = substr($uri, 0, -1);				
+				$this->db->set('route', $uri );
 				$this->db->set('description', $this->input->post('desc'));
 				$this->db->insert('routes');
 				echo json_encode(array('ok' => true, 'message' => 'Route added'));
@@ -56,13 +56,29 @@ class Perms extends Controller
 		}
  	}
 	
+	function rm_route()
+	{
+		if( $this->input->post('route_id')) {
+			$id = intval($this->input->post('route_id'));
+			$this->db->query("DELETE FROM routes WHERE id = $id");
+			$this->db->query("DELETE FROM route_role_map WHERE route_id = $id");
+		}
+	}
+	
 	function get_matrix()
 	{
 		$role_id = $this->input->post('role');
 		
-		$res = $this->db->query("SELECT * FROM routes LEFT JOIN route_role_map ON routes.id = route_role_map.route_id AND role_id = $role_id ORDER BY routes.route");
+		$q =<<<ELF
+			SELECT * FROM routes 
+				LEFT JOIN route_role_map 
+					ON routes.id = route_role_map.route_id AND role_id = $role_id 
+				ORDER BY routes.route
+ELF;
+		
+		$res = $this->db->query($q);
 		$html = '<table>';
-		$html .= '<tr><th style="width: 70%">route</th><th>allow</th>';
+		$html .= '<tr><th style="width: 70%">route</th><th>allow</th><th/>';
 		$i = 0;
 		foreach( $res->result() as $row ) {
 			$html .= '<tr' . (($i % 2) != 0 ? ' class="odd"' : "") . '>';
@@ -70,8 +86,11 @@ class Perms extends Controller
 			$html .= $row->description . ' <span style="color: #666" class="small">('.$row->route.')</span>';
 			$html .= '</td>';
 			$html .= '<td>';
-			$html .= '<input onclick="toggle_perm(\''.$role_id.':'.$row->id.'\', this)"';
+			$html .= '<input title="foo" onclick="toggle_perm(\''.$role_id.':'.$row->id.'\', this)"';
   			$html .= ' type="checkbox" ' . ($role_id == $row->role_id && $row->allow ? " checked" : "") . '/>';
+			$html .= '</td>';
+			$html .= '<td>';
+			$html .= '<a href="#" onclick="rm_route('.$row->id.')">del</a>';
 			$html .= '</td>';
 			$html .= '</tr>';
 			$i++;

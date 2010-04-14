@@ -1,7 +1,10 @@
 <?php
 if (!defined('BASEPATH')) exit('No direct script access allowed');   
 
-class Home extends Controller 
+include("admin_controller.php");
+
+
+class Home extends Admin_Controller 
 {
 	/**
 	 * CTOR
@@ -10,8 +13,7 @@ class Home extends Controller
 	 **/
 	function __construct()
 	{
-		parent::Controller();
-		$this->auth->restrict_role(array('admin','editor'));
+		parent::__construct();
 	}
 	
 	/**
@@ -20,14 +22,8 @@ class Home extends Controller
 	 * @return void
 	 **/
 	function index()
-	{		
-		$pg_data = array(
-			'title' => 'Admin',
-			'nav' => $this->load->view('layouts/admin_nav', '', true),
-			'footer' => $this->load->view('layouts/admin_footer', '', true),
-			'content' => $this->load->view('admin/index', '', true)
-		);
-		$this->load->view('layouts/admin_page', $pg_data );
+	{				
+		$this->gen_page('Admin', 'admin/index', array());
 	}
 }
 

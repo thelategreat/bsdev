@@ -1,7 +1,9 @@
 <?php
 if (!defined('BASEPATH')) exit('No direct script access allowed');   
 
-class Stats extends Controller 
+include("admin_controller.php");
+
+class Stats extends Admin_Controller 
 {
 	/**
 	 * CTOR
@@ -10,8 +12,7 @@ class Stats extends Controller
 	 **/
 	function __construct()
 	{
-		parent::Controller();
-		$this->auth->restrict_role(array('admin','editor'));
+		parent::__construct();
 		$this->load->helper('misc');
 	}
 	
@@ -32,15 +33,7 @@ class Stats extends Controller
 		$section[] = array('CI Version', CI_VERSION );
 		$data[] = array('General', $section );
 	
-		//$s .= html_table( $data, NULL, 'General' );
-				
-		$pg_data = array(
-			'title' => 'Admin',
-			'nav' => $this->load->view('layouts/admin_nav', '', true),
-			'footer' => $this->load->view('layouts/admin_footer', '', true),
-			'content' => $this->load->view('admin/stats/stats_about', array('info' => $data), true)
-		);
-		$this->load->view('layouts/admin_page', $pg_data );
+		$this->gen_page('Admin - Stats', 'admin/stats/stats_about', array('info' => $data));				
 	}
 	
 	
