@@ -113,7 +113,12 @@ class Users extends Controller
 				redirect('/admin/users');				
 			}
 		}
-		
+		// Delete
+		if( $this->input->post("rm") && $user_id > 1 ) {
+			$this->db->where('id', $user_id );
+			$this->db->delete('users');
+			redirect('/admin/users');				
+		}
 		// cancelled edit
 		if( $this->input->post("cancel")) {
 			redirect("/admin/users");			

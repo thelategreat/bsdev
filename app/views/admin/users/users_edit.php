@@ -49,7 +49,11 @@
   </tr>
 </table>
 </fieldset>
-<input type="submit" name="save" value="Update" />
+<input class="ok" type="submit" name="save" value="Update" />
 <input type="submit" name="cancel" value="Cancel" />
+&nbsp;&nbsp;
+<?php if( $user->id != 1 ) { ?>
+	<input style="background-color: #fbb" type="submit" name="rm" value="Delete" onclick="return confirm('Really delete this user?');" />
+<?php } ?>
 </form>
 <p/>

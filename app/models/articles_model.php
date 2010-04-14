@@ -12,7 +12,7 @@ class articles_model extends Model
 	function get_article_list( $category = NULL )
 	{
 		$q =<<<EOF
-SELECT a.id, title, fnStripTags(body) as body, excerpt, ac.category, publish_on, author, ast.status 
+SELECT a.id, title, fnStripTags(body) as body, excerpt, ac.category, publish_on, author, owner, ast.status 
 	FROM articles as a, article_categories as ac, article_statuses as ast
 	WHERE a.category = ac.id AND a.status = ast.id
 EOF;

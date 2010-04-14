@@ -201,8 +201,13 @@ class Profile extends MY_Controller
 					$this->db->set('updated_on', 'now()', false );
 					$this->db->set('created_on', 'now()', false );
 					$this->db->set('passwd', "PASSWORD(".$this->db->escape($passwd).")", false );
-					$this->db->insert('users', array('username' => $email, 'email' => $email, 'action_uuid' => 'register_' . $uuid, 'active' => 0, 'role_id' => 3 )); 
-				}
+					$this->db->set('username', $email );
+					$this->db->set('email', $email );
+					$this->db->set('action_uuid', 'register_' . $uuid );
+					$this->db->set('active', 0 );
+					$this->db->set('role_id', '(select id from user_roles where role = \'user\')', false );
+					$this->db->insert('users' );
+				}	
 			} else {
 				if( $ok )
 					$error = "<p class='error'>That seems to be an invalid email. Did you type it in correctly?</p>";
