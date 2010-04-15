@@ -148,6 +148,10 @@ class Auth {
 					return FALSE;
 			}
 			
+			// admin role can do anything
+			if( $this->CI->session->userdata('logged_user_role') == 'admin' )
+				return TRUE;
+			
 			$user = $this->CI->session->userdata('logged_user');
 			
 			$q =<<<ELF
@@ -167,14 +171,11 @@ ELF;
 			$uri = trim(uri_string());
 			// get rid of the trailing slash if there is one
 			if( substr($uri, -1) == '/' )
-				$uri = substr($uri, 0, -1);
+				$uri = substr($uri, 0, -1);				
 			//echo '<br/>--&gt;' . $uri;
+			
 			if( $res->num_rows()) {
 				foreach( $res->result() as $row ) {
-					// admin user can see anything
-					if( $row->id == 1 ) {
-						return TRUE;
-				  }
 					//echo '<br/>[' . $row->route . "]";
 					if( preg_match( '#^' . $row->route . '$#', $uri) && $row->allow == 1 ) {
 						return TRUE;

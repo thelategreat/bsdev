@@ -43,6 +43,9 @@
 
 	tinyMCE.init({
 		mode : "textareas",
+		remove_script_host : true,
+		relative_urls : false,
+		document_base_url : "<?=site_url()?>",
 		editor_deselector : "mceNoEditor",
 		theme : "advanced",
 		plugins : "safari,spellchecker,fullscreen,paste,advimage",

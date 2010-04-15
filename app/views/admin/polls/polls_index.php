@@ -5,6 +5,11 @@
 <h3>Polls</h3>
 
 <table>
+	<tr>
+		<th>title</th>
+		<th>date</th>
+		<th/>
+	</tr>
 	<?php $i = 0;
 	foreach( $polls->result() as $poll ) { ?>
 	<tr <?= ($i % 2) ? 'class="odd"' : ''?>>
