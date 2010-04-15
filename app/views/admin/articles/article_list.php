@@ -26,3 +26,9 @@
 </tr>
 <?php $cnt++; } ?>
 </table>
+<table>
+	<tr>
+		<td><?=$prev_page?></td>
+		<td align="right"><?=$next_page?></td>
+	</tr>
+</table>

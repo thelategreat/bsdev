@@ -9,7 +9,7 @@ class articles_model extends Model
     parent::Model();
   }
 
-	function get_article_list( $category = NULL )
+	function get_article_list( $category = NULL, $page = 1, $limit = NULL )
 	{
 		$q =<<<EOF
 SELECT a.id, title, fnStripTags(body) as body, excerpt, ac.category, publish_on, author, owner, ast.status 
@@ -22,6 +22,11 @@ EOF;
 	}
 		
 	$q .= " ORDER BY publish_on DESC";
+		
+		if( $limit ) {
+			$q .= " LIMIT $limit";
+			$q .= " OFFSET " . ($page - 1) * $limit;
+		}
 		
 		return $this->db->query( $q );
 	}

@@ -21,10 +21,33 @@ class Articles extends Admin_Controller
 	 */
 	function index()
 	{
-		$articles = $this->articles_model->get_article_list();
+		$page_size = $this->config->item('list_page_size');;
+		$page = 1;
+
+		if( $this->uri->segment(4) && is_numeric($this->uri->segment(4))) {
+			$page = $this->uri->segment(4);
+			if( $page < 1 ) {
+				$page = 1;
+			}
+		}
+		
+		$articles = $this->articles_model->get_article_list( NULL, $page, $page_size );
+		
+		// pagination
+		$next_page = '';
+		$prev_page = '';
+		if( $page > 1 ) {
+			$prev_page = "<a class='small' href='/admin/articles/index/".($page-1)."'>⇐ prev</a>";
+		}
+		if( $articles->num_rows() == $page_size ) {
+			$next_page = "<a class='small' href='/admin/articles/index/".($page+1)."'>next ⇒</a>";
+		}
+
 		
 		$view_data = array( 
-			'articles' => $articles 
+			'articles' => $articles,
+			'next_page' => $next_page,
+			'prev_page' => $prev_page
 			);
 		
 		$this->gen_page('Admin - Articles', 'admin/articles/article_list', $view_data );
