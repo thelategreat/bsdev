@@ -1,6 +1,6 @@
 
 <div style="float: right">
-<a href="/admin/users/add"><img src="/img/user_add.png" /> New User</a>
+<a class="small" href="/admin/users/add"><img src="/img/user_add.png" /> New User</a>
 </div>
 
 <h3><img src="/img/group.png" /> Site Users</h3>

@@ -1,5 +1,5 @@
 <div style="float: right">
-<a href="/admin/venues/add"><img src="/img/house_go.png" /> New Venue</a>
+<a class="small" href="/admin/venues/add"><img src="/img/house_go.png" /> New Venue</a>
 </div>
 
 <h3><img src="/img/house.png" /> Venues</h3>

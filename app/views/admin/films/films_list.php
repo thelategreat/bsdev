@@ -1,6 +1,6 @@
 
 <div style="float: right">
-	<a href="/admin/films/add/"><img src="/img/picture_add.png" /> Add Film</a>
+	<a class="small" href="/admin/films/add/"><img src="/img/picture_add.png" /> Add Film</a>
 </div>
 
 <h3><img src="/img/picture.png" /> Films</h3>

@@ -1,5 +1,5 @@
 <div style="float: right">
-	<a href="/admin/polls/add/"><img src="/img/picture_add.png" /> Add Poll</a>
+	<a class="small" href="/admin/polls/add/"><img src="/img/picture_add.png" /> Add Poll</a>
 </div>
 
 <h3>Polls</h3>
