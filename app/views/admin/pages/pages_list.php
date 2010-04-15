@@ -15,7 +15,7 @@ function deactivate( id )
 
 </script>
 <div style="float: right">
-	<a href="/admin/pages/add/"><img src="/img/page_white_add.png" /> Add Page</a>
+	<a class="small" href="/admin/pages/add/"><img src="/img/page_white_add.png" /> Add Page</a>
 </div>
 <h3><img src="/img/page_white.png" /> Pages</h3>
 <table>

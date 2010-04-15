@@ -9,7 +9,7 @@ class Articles extends Admin_Controller
 	 * CTOR
 	 *
 	 * @return void
-	 **/
+	 */
 	function __construct()
 	{
 		parent::__construct();
@@ -78,6 +78,8 @@ class Articles extends Admin_Controller
 	{
 		$article_id = $this->uri->segment(4);
 
+		// ------------
+		// U P D A T E
 		if( $this->input->post("save")) {
 			$this->form_validation->set_error_delimiters('<span class="form_error">','</span>');
 			$this->form_validation->set_rules('title','Title','trim|required');
@@ -97,7 +99,19 @@ class Articles extends Admin_Controller
 				redirect("/admin/articles");
 			}
 		}	
+
+		// ------------
+		// D E L E T E
+		if( $this->input->post("rm")) {
+			$this->db->where('id', $article_id);
+			$this->db->delete('articles');
+			$this->db->where('path', "/articles/$article_id");
+			$this->db->delete('media_map');
+			redirect("/admin/articles");			
+		}
 			
+		// -----------
+		// C A N C E L
 		if( $this->input->post("cancel")) {
 			redirect("/admin/articles");			
 		}

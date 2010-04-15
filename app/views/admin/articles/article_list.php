@@ -1,6 +1,7 @@
 <div style="float: right">
-<a href="/admin/articles/add"><img src="/img/add.png" /> Add Article</a>
+<a class="small" href="/admin/articles/add"><img src="/img/add.png" /> Add Article</a>
 </div>
+
 <h3>Articles</h3>
 
 <table>

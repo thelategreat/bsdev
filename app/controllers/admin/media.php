@@ -39,7 +39,7 @@ class Media extends Admin_Controller
 		
 		$errors = '';
 		$my_root = './media/';
-		$page_size = 10;
+		$page_size = $this->config->item('image_browser_page_size');
 		$stags = array();
 		$page = 1;
 				
@@ -131,7 +131,7 @@ class Media extends Admin_Controller
 	{
 		$errors = '';
 		$my_root = './media/';
-		$page_size = 10;
+		$page_size = $this->config->item('image_browser_page_size');;
 		$stags = array();
 		$page = 1;
 		
@@ -279,7 +279,7 @@ class Media extends Admin_Controller
 		
 		$errors = '';
 		$my_root = './media/';
-		$page_size = 10;
+		$page_size = $this->config->item('image_browser_page_size');;
 		$stags = array();
 		$page = 1;
 				

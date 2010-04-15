@@ -1,15 +1,18 @@
 <?php
 if (!defined('BASEPATH')) exit('No direct script access allowed');   
 
-class Admin_Controller extends Controller {
+class Admin_Controller extends Controller 
+{
 
 	function Admin_Controller()
 	{
 		parent::Controller();
+		
 		// check the permissions
 		if( !$this->auth->restrict_role_db()) 
 			$this->no_permission();
-			
+		
+		// load up
 		$this->load->helper('url','form');
 		$this->load->library('tabs');
 		$this->load->library('form_validation');

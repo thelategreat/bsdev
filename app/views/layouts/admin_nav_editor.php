@@ -24,9 +24,12 @@
 		<ul>
 			<li><a href="/admin/maillist">Newsletters</a></li>
 			<li><a href="/admin/maillist/lists">Mailing Lists</a></li>
-			<li><a href="/admin/maillist/subscr">List Subscribers</a></li>
-			<li><a href="/admin/maillist/tmpl">Templates</a></li>
-			<li><a href="/admin/maillist/blacklist">Black List</a></li>
+		</ul>
+	</li>
+	<li>
+		<a href="/admin">System</a>
+		<ul>
+			<li><a href="/admin/stats/about">About</a></li>
 		</ul>
 	</li>
 </ul>

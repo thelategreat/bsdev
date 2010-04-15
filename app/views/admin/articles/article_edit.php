@@ -60,8 +60,17 @@ $(function()
 	  <tr>
 			<td>
 				<hr/>
-				<input type="submit" style="background-color: #9f9;" name="save" value="Update" />
-				<input type="submit" name="cancel" value="Cancel" />
+				<table>
+					<tr>
+						<td>
+							<input type="submit" style="background-color: #9f9;" name="save" value="Update" />
+							<input type="submit" name="cancel" value="Cancel" />
+						</td>
+						<td align="right">
+							| <input style="background-color: #faa" type="submit" name="rm" value="Delete" onclick="return confirm('Realy delete this article?');" />
+						</td>
+					</tr>
+				</table>
 			</td>
 		</tr>
 	</table>
