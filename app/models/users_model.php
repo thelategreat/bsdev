@@ -8,8 +8,23 @@ class users_model extends Model
   {
     parent::Model();
   }
+
+  function get_users( $filter = NULL )
+	{
+		if( count($filter)) {
+			foreach( $filter as $q ) {
+				$this->db->or_like('username', $q );
+				$this->db->or_like('firstname', $q );
+				$this->db->or_like('lastname', $q );
+			}
+		}
+		$this->db->from('users');
+		$this->db->join('user_roles', 'users.role_id = user_roles.id');
+		return $this->db->get();
+	}
+
   
-  function get_users()
+  function get_users_old( $filter = NULL )
   {
     $query =<<<EOF
 SELECT u.id, u.username, u.firstname, u.lastname, u.active, u.last_login, u.email, r.role as role 

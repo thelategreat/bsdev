@@ -18,7 +18,8 @@ class Films extends Admin_Controller
 
 	function view()
 	{
-		$limit = 25;
+		$query = 'search...';
+		$limit = $this->config->item('list_page_size');
 		$filter = array(
 			'page' => 1
 			);
@@ -27,20 +28,29 @@ class Films extends Admin_Controller
 		foreach( $segs as $k => $v ) {
 			$filter[$k] = $v;
 		}
+
+		if( $this->input->post('q')) {
+			$tmp = explode(' ', $this->input->post('q'));
+			if( count($tmp)) {
+				foreach( $tmp as $q ) {
+					$this->db->or_like('title', $q );
+				}
+			}
+		}
 		
 		$this->db->order_by('title');
 		$this->db->limit( $limit, (intval($filter['page'])-1) * $limit );  // limit, offset
 		$films = $this->db->get('films');
 		
-		$data = array('films' => $films );
+		$data = array('films' => $films, 'query' => $query );
 		if( $films->num_rows() == $limit ) {
-			$data['next'] = "<a href='/admin/films/view/page/".($filter['page']+1)."'>next</a>";
+			$data['next'] = "<a href='/admin/films/view/page/".($filter['page']+1)."'>next ⇒</a>";
 		} else {
 			$data['next'] = '';
 		}
 		
 		if( $filter['page'] > 1 ) {
-			$data['prev'] = "<a href='/admin/films/view/page/".($filter['page']-1)."'>prev</a>";
+			$data['prev'] = "<a href='/admin/films/view/page/".($filter['page']-1)."'>⇐ prev</a>";
 		} else {
 			$data['prev'] = '';
 		}

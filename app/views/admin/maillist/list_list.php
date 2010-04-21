@@ -1,8 +1,7 @@
 <div style="float: right; font-size: 0.9em">
-<a href="/admin/maillist/listadd"><img src="/img/add.png" /> New List</a>
 </div>
 
-<h3><img src="/img/text_list_bullets.png" /> Mailing Lists</h3>
+<h3><a href="/admin/maillist/listadd" title="New List"><img src="/img/text_list_bullets.png" /></a> Mailing Lists</h3>
 <table>
 <tr>
   <th>name</th>

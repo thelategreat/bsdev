@@ -1,8 +1,10 @@
 <div style="float: right">
-<a class="small" href="/admin/articles/add"><img src="/img/add.png" /> Add Article</a>
+	<form method="post">
+		<input id="query" style="font-size: 0.8em;" name="q" value="<?=$query?>" size="15" onblur="if(this.value=='') this.value='search...';" onfocus="if(this.value == 'search...') this.value='';"/>
+	</form>
 </div>
 
-<h3>Articles</h3>
+<h3><a class="small" href="/admin/articles/add"><img src="/img/newspaper_add.png" title="Add Article"/></a> Articles</h3>
 
 <table>
 <tr>

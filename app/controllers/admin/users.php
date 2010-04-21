@@ -19,9 +19,22 @@ class Users extends Admin_Controller
 	 */
 	function index()
 	{
-		$data = $this->users_model->get_users('users')->result();
+		$query = 'search...';
+		$filter = array();
 		
-		$this->gen_page('Admin - Users', 'admin/users/users_list', array('users' => $data));		
+		if($this->input->post('q')) {
+			$query = $this->input->post('q');
+			$filter = explode(' ', $query);
+		}
+		
+		$data = $this->users_model->get_users($filter)->result();
+		
+		$pg_data = array(
+			'users' => $data,
+			'query' => $query
+			);
+		
+		$this->gen_page('Admin - Users', 'admin/users/users_list', $pg_data);		
 	}
 	
 	/**

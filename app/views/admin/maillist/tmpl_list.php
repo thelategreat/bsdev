@@ -1,7 +1,7 @@
 <div style="float: right; font-size: 0.9em">
-	<a href="/admin/maillist/tmpladd"><img src="/img/building_add.png" /> New Template</a>
 </div>
-<h3><img src="/img/building.png" /> Newsletter Templates</h3>
+
+<h3><a href="/admin/maillist/tmpladd" title="New Template"><img src="/img/building_add.png" /></a> Newsletter Templates</h3>
 
 <table>
 <?php foreach( $tmpls as $row ) { ?>

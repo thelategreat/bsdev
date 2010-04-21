@@ -130,7 +130,7 @@ function modal_close( dialog )
 
 <div class="leftCol">
 	<table><tr>
-	<td><h3>Calendar</h3></td><td><a href="/admin/event/add"><img src="/img/calendar_add.png" style="cursor: pointer" title="New Event"/></a></td>
+	<td><h3><a href="/admin/event/add"><img src="/img/calendar_add.png" style="cursor: pointer" title="New Event"/></a> Calendar</h3></td><td></td>
 	</tr></table>
 	<div class="scrollable" style="height: 500px">
 	<ul class="event_list">

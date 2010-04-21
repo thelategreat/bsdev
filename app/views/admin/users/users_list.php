@@ -1,9 +1,11 @@
 
 <div style="float: right">
-<a class="small" href="/admin/users/add"><img src="/img/user_add.png" /> New User</a>
+	<form method="post">
+		<input id="query" style="font-size: 0.8em;" name="q" value="<?=$query?>" size="15" onblur="if(this.value=='') this.value='search...';" onfocus="if(this.value == 'search...') this.value='';"/>
+	</form>
 </div>
 
-<h3><img src="/img/group.png" /> Site Users</h3>
+<h3><a class="small" href="/admin/users/add" title="New User"><img src="/img/user_add.png" /></a> Site Users</h3>
 <table>
 <tr>
   <th>username</th>

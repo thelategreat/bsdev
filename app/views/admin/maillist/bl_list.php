@@ -16,7 +16,7 @@
 			<hr/>
 		</td>
 		<td>
-			<p style="margin: 10px">
+			<p style="margin: 10px;" class="info small">
 				These email addresses are ignored for all communications. They cannot sign 
 				up for mailing lists and if they happen to be on a mailing list already,
 				they never receive and mail. If they are not registered they are unable 

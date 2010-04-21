@@ -21,7 +21,7 @@ class Articles extends Admin_Controller
 	 */
 	function index()
 	{
-		$page_size = $this->config->item('list_page_size');;
+		$page_size = $this->config->item('list_page_size');
 		$page = 1;
 
 		if( $this->uri->segment(4) && is_numeric($this->uri->segment(4))) {
@@ -30,6 +30,8 @@ class Articles extends Admin_Controller
 				$page = 1;
 			}
 		}
+		
+		$query = 'search...';
 		
 		$articles = $this->articles_model->get_article_list( NULL, $page, $page_size );
 		
@@ -47,7 +49,8 @@ class Articles extends Admin_Controller
 		$view_data = array( 
 			'articles' => $articles,
 			'next_page' => $next_page,
-			'prev_page' => $prev_page
+			'prev_page' => $prev_page,
+			'query' => $query
 			);
 		
 		$this->gen_page('Admin - Articles', 'admin/articles/article_list', $view_data );
