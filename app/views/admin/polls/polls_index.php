@@ -15,7 +15,7 @@
 	<tr <?= ($i % 2) ? 'class="odd"' : ''?>>
 		<td><a href="/admin/polls/edit/<?=$poll->id?>"><?=$poll->question?></a></td>
 		<td><?=$poll->poll_date?></td>
-		<td><a href="/admin/polls/rm/<?=$poll->id?>" title="delete poll" onclick="return confirm('Really delete?');"><img src="/img/cross.png"/></a></td>
+		<td></td>
 	</tr>
 	<?php $i++; } ?>
 </table>

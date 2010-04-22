@@ -478,6 +478,26 @@ ul.event_list li span.event_date {
     color: #aaa;
 }
 
+/* pager */
+table.pager 
+{
+	background-color: #ddf;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
+table.pager td 
+{
+	padding: 5px;
+}
+
+table.pager td a
+{
+	color: #333;
+	font-weight: bold;
+}
+
+
 #editModalDiv {
 	display: none; 
 	margin: 0; 

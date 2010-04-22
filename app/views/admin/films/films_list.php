@@ -9,10 +9,10 @@
 
 <table class="general">
 	<tr>
-		<th>Title</th>
-		<th>Director</th>
-		<th>Year</th>
-		<th>Rating</th>
+		<th>title</th>
+		<th>director</th>
+		<th>year</th>
+		<th>rating</th>
 	</tr>
 <?php
  	$i = 0;
@@ -28,7 +28,7 @@
 	endforeach; ?>
 </table>
 
-<table>
+<table class="pager">
 	<tr>
 		<td><?=$prev?></td>
 		<td align="right"><?=$next?></td>

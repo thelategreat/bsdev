@@ -35,6 +35,13 @@ function cancel()
 	window.location='/admin/polls';
 }
 
+function rm()
+{
+	if( confirm('Really delete this poll?')) {
+		window.location='/admin/polls/rm/' + $('#id').val();		
+	}
+}
+
 function add_line( obj )
 {
 	var txt = $(obj).val();
@@ -78,3 +85,5 @@ $(function() {
 <hr/>
 <button class="ok" onclick="do_save()">Save</button>
 <button onclick="cancel()">Cancel</button>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<button style="background-color: #f99;" onclick="rm()">Delete</button>

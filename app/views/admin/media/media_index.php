@@ -56,7 +56,7 @@
 </table>
 
 <div class="pager">
-	<table>
+	<table class="pager">
 		<tr>
 			<td>
 				<?php if( $page-1 != 0 ) { ?>
