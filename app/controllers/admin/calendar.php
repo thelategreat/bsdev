@@ -110,7 +110,7 @@ class Calendar extends Admin_Controller
 		$tabs .= '<ul>';
 		$tabs .= '<li><a href="/admin/calendar/month" class="selected">Month</a></li>';
 		$tabs .= '<li><a href="/admin/calendar/week" >Week</a></li>';
-		$tabs .= '<li><a href="/admin/calendar/day" >Day</a></li>';
+		//$tabs .= '<li><a href="/admin/calendar/day" >Day</a></li>';
 		$tabs .= '</ul>';
 		$tabs .= '</div>';
 
@@ -249,7 +249,7 @@ class Calendar extends Admin_Controller
 		$tabs .= '<ul>';
 		$tabs .= '<li><a href="/admin/calendar/month" >Month</a></li>';
 		$tabs .= '<li><a href="/admin/calendar/week" class="selected">Week</a></li>';
-		$tabs .= '<li><a href="/admin/calendar/day" >Day</a></li>';
+		//$tabs .= '<li><a href="/admin/calendar/day" >Day</a></li>';
 		$tabs .= '</ul>';
 		$tabs .= '</div>';
 

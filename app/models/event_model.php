@@ -37,6 +37,23 @@ class event_model extends Model
 	 */
 	function get_events( $filter )
 	{
+		$query = "SELECT * FROM events WHERE ";
+		
+		switch( $filter['view']) {
+			case 'day':
+			$start = sprintf('%04d-%02d-%02d', $filter['year'],$filter['month'],$filter['day']);
+			$query .= " dt_start BETWEEN DATE('$start') AND DATE_ADD(DATE('$start'), INTERVAL + 1 day)";
+			break;
+			case 'week':
+			$start = date('Y-m-d', strtotime($filter['year'] . 'W' . $filter['week'] . '0'));
+			$query .= " dt_start BETWEEN DATE('$start') AND DATE_ADD(DATE('$start'), INTERVAL + 1 week)";
+			break;
+			default:
+			$start = sprintf('%04d-%02d-%02d', $filter['year'],$filter['month'],1);
+			$query .= " dt_start BETWEEN DATE('$start') AND DATE_ADD(DATE('$start'), INTERVAL + 1 month)";
+		}
+		
+		/*
 		$start = sprintf('%04d-%02d-%02d', $filter['year'],$filter['month'],$filter['day']);
 		$end = sprintf('%04d-%02d-%02d', $filter['year'],$filter['month'],$filter['day']);
 		$view = $this->db->escape_str($filter['view']);
@@ -46,6 +63,11 @@ SELECT * FROM events
 	WHERE dt_start BETWEEN date('$start') AND DATE_ADD(DATE('$end'), INTERVAL + 1 $view)
 	ORDER BY dt_start ASC
 EOF;
+
+		*/
+		
+		$query .= " ORDER BY dt_start ASC";
+		
 		return $this->db->query( $query );
 	}
 	
