@@ -63,7 +63,7 @@ EOF;
 
 	function category_select( $default = 0 )
 	{
-		$s = '<select name="category">';
+		$s = '<select name="category" id="category-sel">';
 		$res = $this->db->query("SELECT * FROM article_categories ORDER BY id");
 		foreach( $res->result() as $row ) {
 			$s .= '<option value="' . $row->id . '" ';

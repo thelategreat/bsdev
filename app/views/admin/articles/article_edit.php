@@ -2,11 +2,35 @@
 <script type="text/javascript" src="/js/admin_mb.js" ></script>
 
 <script>
-$(function()
+function add_category()
 {
+	$('#new-cat-row').toggle('slow');
+	return false;
+}
+
+$(function()
+{	
 	Date.format = "yyyy-mm-dd";
 	$('.date-pick').datePicker({horizontalPosition: $.dpConst.POS_RIGHT });
 	$('.date-pick').dpSetStartDate('2000-01-01');
+	
+	$('#new-cat').keypress(function(event) {
+		if( event.keyCode == 13 ) {
+			event.preventDefault();
+			$('#new-cat-row').hide('slow');
+			$.post("/admin/articles/addcat", {cat: $('#new-cat').val() },
+				function( data ) {
+					if( data.ok ) {
+						$('#new-cat').val('');
+						var opts = $('#category-sel').attr('options');
+						opts[opts.length] = new Option(data.cat, data.id, true, true);
+					} else {
+						alert(data.msg);
+					}
+				}, 'json');
+		}
+	});
+	
 });
 </script>
 <!--
@@ -31,7 +55,8 @@ $(function()
 			<td>
 			<table>
 				<tr><th>Category</th></tr>
-				<tr><td><?= $category_select ?></td></tr>
+				<tr><td><?= $category_select ?>&nbsp;<a href="#" onclick="return add_category();"><img src="/img/add.png" /></a></td></tr>
+				<tr style="display: none;" id="new-cat-row"><td><input id="new-cat" /></td></tr>
 			</table>
 			</td>
 		</tr>

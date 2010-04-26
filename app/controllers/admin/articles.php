@@ -174,4 +174,22 @@ class Articles extends Admin_Controller
 		
 		$this->gen_page('Admin - Articles', 'admin/media/media_tab', $view_data );		
 	}
+	
+	function addcat()
+	{
+		$ret = array('ok' => false, 'msg' => 'Unable to add category' );
+		if( $this->input->post('cat')) {
+			$cat = trim($this->input->post('cat'));
+			if( strlen($cat)) {
+				$this->db->set('category', $cat);
+				$this->db->insert('article_categories');
+				$ret['id'] = $this->db->insert_id();
+				$ret['cat'] = $cat;
+				$ret['ok'] = true;
+				$ret['msg'] = '';
+			}
+		}
+		echo json_encode( $ret );
+	}
+	
 }

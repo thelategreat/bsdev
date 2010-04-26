@@ -243,7 +243,7 @@ class Calendar extends Admin_Controller
 		}
 		
 	
-	    $s .= '</div>';
+	  $s .= '</div>';
 		
 		$tabs = '<div class="tabs">';
 		$tabs .= '<ul>';
@@ -263,7 +263,7 @@ class Calendar extends Admin_Controller
 	
 	function day()
 	{
-	    $today = getdate(time());
+	 	$today = getdate(time());
 	
 		$filter = array(
 			'year' => $today['year'],
