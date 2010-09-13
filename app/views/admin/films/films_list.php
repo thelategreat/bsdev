@@ -5,7 +5,7 @@
 	</form>
 </div>
 
-<h3><a class="small" href="/admin/films/add/"><img src="/img/picture_add.png" title="Add Film"/></a> Films</h3>
+<h3><a class="small" href="/admin/films/add/"><img src="/img/admin/picture_add.png" title="Add Film"/></a> Films</h3>
 
 <table class="general">
 	<tr>

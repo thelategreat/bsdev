@@ -4,7 +4,7 @@
 	</form>
 </div>
 
-<h3><a class="small" href="/admin/articles/add"><img src="/img/newspaper_add.png" title="Add Article"/></a> Articles</h3>
+<h3><a class="small" href="/admin/articles/add"><img src="/img/admin/newspaper_add.png" title="Add Article"/></a> Articles</h3>
 
 <table>
 <tr>

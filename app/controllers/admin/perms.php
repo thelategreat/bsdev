@@ -90,7 +90,7 @@ ELF;
   			$html .= ' type="checkbox" ' . ($role_id == $row->role_id && $row->allow ? " checked" : "") . '/>';
 			$html .= '</td>';
 			$html .= '<td>';
-			$html .= '<a href="#" onclick="rm_route('.$row->id.')" title="remove route"><img src="/img/cross.png"/></a>';
+			$html .= '<a href="#" onclick="rm_route('.$row->id.')" title="remove route"><img src="/img/admin/cross.png"/></a>';
 			$html .= '</td>';
 			$html .= '</tr>';
 			$i++;

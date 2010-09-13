@@ -2,7 +2,7 @@
 
 function select_role(  )
 {
-	$('#matrix').html( '<div style="text-align: center;"><p>loading...</p><img src="/img/ajax-loader.gif" /></div>' );
+	$('#matrix').html( '<div style="text-align: center;"><p>loading...</p><img src="/img/admin/ajax-loader.gif" /></div>' );
 	$.post('/admin/perms/get_matrix', { role: $('#role-sel').val()},
 		function(data) {
 			//$('#matrix').hide();

@@ -19,19 +19,20 @@ class MY_Controller extends Controller
 		parent::__construct();	
 	}
 	
-	protected function get_page_data( $title, $css_name )
+	protected function get_page_data( $title, $css_name, $section = '' )
 	{
 		$featured = $this->get_featured();
 		
 		$pg_data = array(
 			'page_title' => $title,
 			'css_name' => $css_name,
+			'section' => $section,
 			'main_content_nav' => '<ul id="main_content_nav"><li></li></ul>',
 			'style' => '/css/screen.css',
-			'section' => '',
 			'content' => '',
 			'sidebar_nav' => $this->get_sidebar_nav(),
-			'sidebar' => $this->get_sidebar(),
+			'sidebar_left' => $this->get_sidebar('left'),
+			'sidebar_right' => $this->get_sidebar('right'),
 			'featured_top' => $this->load->view('home/featured_top', $featured, true),
 			'featured_bottom' => $this->load->view('home/featured_bottom', $featured, true),
 			'footer' => $this->load->view('layouts/standard_footer', '', true )
@@ -128,13 +129,16 @@ class MY_Controller extends Controller
 	/**
  	 *
  	 */
-	protected function get_sidebar()
+	protected function get_sidebar( $which )
 	{		
 		$today = $this->get_cal_date();
 		$filter = array('day' => date('d',$today), 'month' => date('m',$today), 'year' => date('Y',$today), 'view' => 'day');
 		$items = $this->event_model->get_events( $filter );
-
-		return $this->load->view('home/sidebar', array('events'=>$items), true );
+		if( $which == 'right' ) {
+			return $this->load->view('home/sidebar_right', array('events'=>$items), true );			
+		} else {
+			return $this->load->view('home/sidebar_left', array('events'=>$items), true );
+		}
 	}
 	
 	/**

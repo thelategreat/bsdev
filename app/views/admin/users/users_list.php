@@ -5,7 +5,7 @@
 	</form>
 </div>
 
-<h3><a class="small" href="/admin/users/add" title="New User"><img src="/img/user_add.png" /></a> Site Users</h3>
+<h3><a class="small" href="/admin/users/add" title="New User"><img src="/img/admin/user_add.png" /></a> Site Users</h3>
 <table>
 <tr>
   <th>username</th>
@@ -22,7 +22,7 @@
     <td><?= $row->firstname ?> <?= $row->lastname ?></td>
     <td><?= $row->role ?></td>
     <td><?= $row->email ?></td>
-    <td><?= $row->active ? '<img src="/img/tick.png" />' : '<img src="/img/cross.png" />'?></td>
+    <td><?= $row->active ? '<img src="/img/admin/tick.png" />' : '<img src="/img/admin/cross.png" />'?></td>
     <td><?= $row->last_login[0] == '0' ? 'never' : date("M j, y @ g:ia",strtotime($row->last_login))?></td>
   </tr>
 <?php $i++; } ?>

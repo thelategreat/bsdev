@@ -2,7 +2,7 @@
 
 </div>
 
-<h3><a class="small" href="/admin/polls/add/" title="Add Poll"><img src="/img/text_list_bullets.png" /></a> Polls</h3>
+<h3><a class="small" href="/admin/polls/add/" title="Add Poll"><img src="/img/admin/text_list_bullets.png" /></a> Polls</h3>
 
 <table>
 	<tr>

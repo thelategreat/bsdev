@@ -53,25 +53,25 @@ function emit_title_rows( $titles, $offset = 5 )
 		  	echo '<td style="width: 70%; padding-left: ' . $offset . 'px">';
 			switch( $page->page_type ) {
 				case 'link':
-				echo '<img src="/img/link.png" style="margin-bottom: -3px;"/> ';
+				echo '<img src="/img/admin/link.png" style="margin-bottom: -3px;"/> ';
 				break;
 				
 				default:
-				echo '<img src="/img/text-x-generic.png" style="margin-bottom: -3px;"/> ';				
+				echo '<img src="/img/admin/text-x-generic.png" style="margin-bottom: -3px;"/> ';				
 				break;				
 			}
 				echo '<a href="/admin/pages/edit/'.$page->id.'">'.$page->title.'</a>';
 			echo '</td>';
 			echo '<td>';
-			echo ($first ? '&nbsp;-&nbsp;' : '<a href="/admin/pages/sort/up/'.$page->id.'" title="move up"><img src="/img/go-up.png" class="icon" /></a>');
+			echo ($first ? '&nbsp;-&nbsp;' : '<a href="/admin/pages/sort/up/'.$page->id.'" title="move up"><img src="/img/admin/go-up.png" class="icon" /></a>');
 			echo '&nbsp;';
-			echo ($last ? '&nbsp;-&nbsp;' : '<a href="/admin/pages/sort/down/'.$page->id.'" title="move down"><img src="/img/go-down.png" class="icon" /></a>');
+			echo ($last ? '&nbsp;-&nbsp;' : '<a href="/admin/pages/sort/down/'.$page->id.'" title="move down"><img src="/img/admin/go-down.png" class="icon" /></a>');
 			echo '</td>';
 			echo '<td>';
-			echo ($page->active ? '<img src="/img/tick.png" onclick="deactivate(0);"/>' : '<img src="/img/cross.png" onclick="activate(0);" />');
+			echo ($page->active ? '<img src="/img/admin/tick.png" onclick="deactivate(0);"/>' : '<img src="/img/admin/cross.png" onclick="activate(0);" />');
 			echo '</td>';
 			if( $page->deletable ) {
-				echo '<td><a href="/admin/pages/rm/'.$page->id.'" title="delete" onclick="return confirm(\'Really delete this page?\');"><img src="/img/user-trash.png" /></a>';
+				echo '<td><a href="/admin/pages/rm/'.$page->id.'" title="delete" onclick="return confirm(\'Really delete this page?\');"><img src="/img/admin/user-trash.png" /></a>';
 			} else {
 				echo '<td/>';
 			}

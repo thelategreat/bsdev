@@ -56,9 +56,9 @@ class Calendar extends Admin_Controller
 			
 			$s .= '<table width="100%">';
 			$s .= '<tr>';
-			$s .= '<td><a title="Last Month" href="/admin/calendar/month/year/'.$prev[1].'/month/'.$prev[0].'"><img src="/img/16-arrow-left.png"/></a></td>';
+			$s .= '<td><a title="Last Month" href="/admin/calendar/month/year/'.$prev[1].'/month/'.$prev[0].'"><img src="/img/admin/16-arrow-left.png"/></a></td>';
 	    $s .= '<td align="center"><h3>' . $this->month_names[$month-1] . ' ' . $year . '</h3></td>';
-			$s .= '<td align="right"><a title="Next Month" href="/admin/calendar/month/year/'.$next[1].'/month/'.$next[0].'"><img src="/img/16-arrow-right.png"/></a></td>';
+			$s .= '<td align="right"><a title="Next Month" href="/admin/calendar/month/year/'.$next[1].'/month/'.$next[0].'"><img src="/img/admin/16-arrow-right.png"/></a></td>';
 			$s .= '</tr>';
 			$s .= '</table>';
 
@@ -187,8 +187,8 @@ class Calendar extends Admin_Controller
 	    $s .= '<thead>';
 	    $s .= '<tr>';
 	    $s .= '<td class="nav">';
-	    $s .= '<a href="/admin/calendar/week/'.$pweek.'/year/'.$pyear.'" title="Prev"><img src="/img/16-arrow-left.png"/></a>&nbsp;';
-	    $s .= '<a href="/admin/calendar/week/'.$nweek.'/year/'.$nyear.'" title="Next"><img src="/img/16-arrow-right.png" /></a>';
+	    $s .= '<a href="/admin/calendar/week/'.$pweek.'/year/'.$pyear.'" title="Prev"><img src="/img/admin/16-arrow-left.png"/></a>&nbsp;';
+	    $s .= '<a href="/admin/calendar/week/'.$nweek.'/year/'.$nyear.'" title="Next"><img src="/img/admin/16-arrow-right.png" /></a>';
 	    $s .= '</td>';
 	    for( $i = 0; $i < 7; $i++ ) {
 				if( $filter['day'] + $i > $days_in_month ) {

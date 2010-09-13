@@ -2,7 +2,7 @@
 
 </div>
 
-<h3><a href="/admin/maillist/msgadd" title="New Newsletter"><img src="/img/newspaper_add.png" /></a> Newsletters</h3>
+<h3><a href="/admin/maillist/msgadd" title="New Newsletter"><img src="/img/admin/newspaper_add.png" /></a> Newsletters</h3>
 <table>
 <tr>
   <th>subject</th>

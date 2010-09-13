@@ -50,7 +50,7 @@ class Auth {
       $password = $login[1];  
         
       // Query time  
-      $query = $this->CI->db->query("SELECT * FROM users WHERE username = " . $this->CI->db->escape($username) . ' AND passwd = password(' . $this->CI->db->escape($password) . ')');
+      $query = $this->CI->db->query("SELECT * FROM users WHERE username = " . $this->CI->db->escape($username) . ' AND passwd = ' . $this->CI->db->escape($this->hash_password($password)));
 			
 			log_message('debug', "Auth: request login with user: '$username' pass: '$password'");
 			
@@ -225,6 +225,36 @@ ELF;
 		function username()
 		{
 			return $this->CI->session->userdata('logged_user', NULL );
+		}
+
+		/**
+		 * Return the hashed password based on the algorithm specified in
+		 * the config via PASSWORD_HASH key.
+		 * Possible algorithms are:
+		 * - sha1 (default)
+		 * - md5
+		 * - none | plain
+		 *
+		 * @returns a value as a string (hex)
+		 */
+		function hash_password( $password )
+		{
+			$passtype = $this->CI->config->item('password_hash_type');
+			$cpasswd = 'NULL';
+
+			switch( $passtype ) {
+				case 'none':
+				case 'plain':
+				$cpasswd = $password;
+				break;
+				case 'md5':
+				$cpasswd = md5($password);
+				break;
+				default:
+				$cpasswd = sha1($password);
+			}
+
+			return $cpasswd;
 		}
 
 }

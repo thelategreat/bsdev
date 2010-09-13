@@ -1,6 +1,7 @@
 <div style="float: right; background-color: #000; color: #fff; padding: 10px;">
 	<a style="color: #fff;" href="/profile/logout">logout</a>
 </div>
+
 <h2>Your Bookshelf</h2>
 
 <p>
@@ -49,7 +50,7 @@ Hi <?=$firstname?>! This is your profile page.
 	</table>
 
 <hr/>
-<h3>Your Communications</h3>
+<h3>Your Subscriptions</h3>
 <table>
 	<? foreach( $maillists as $list ) { ?>
 	<tr>

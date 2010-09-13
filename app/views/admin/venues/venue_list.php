@@ -1,7 +1,7 @@
 <div style="float: right">
 </div>
 
-<h3><a class="small" href="/admin/venues/add" title="Add Venue"><img src="/img/house_go.png" /></a> Venues</h3>
+<h3><a class="small" href="/admin/venues/add" title="Add Venue"><img src="/img/admin/house_go.png" /></a> Venues</h3>
 <table>
 <tr>
   <th>name</th>
