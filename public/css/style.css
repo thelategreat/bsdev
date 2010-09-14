@@ -74,7 +74,7 @@ img {
 	background-color: #c9c;
 	background-color: #a82e24;
 	padding: 20px;
-	background-image: url('../img/header_bg.png');
+	background-image: url('../img/header_bg_x.png');
 	height: 35px;
 }
 
@@ -297,7 +297,8 @@ img {
 	clear: both;
 	background-color: #c9c;
 	background-color: #a82e24;
-	background-image: url('../img/header_bg_flip.png');
+	color: #fff;
+	background-image: url('../img/header_bg_flip_x.png');
 	text-align: right;
 	padding: 20px;
 	padding-left: 0;
@@ -314,7 +315,9 @@ img {
 	margin: 20px;	
 }
 
-/* calendar */
+/* calendar 
+ * http://www.stefanoverna.com/log/create-astonishing-ical-like-calendars-with-jquery
+ */
 #full-calendar {
 	float: left;
 }
