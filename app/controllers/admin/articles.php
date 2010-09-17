@@ -65,6 +65,7 @@ class Articles extends Admin_Controller
 			$this->form_validation->set_rules('author','Author','trim|required');
 			if( $this->form_validation->run()) {
 				$this->db->set('title', $this->input->post('title'));
+				$this->db->set('group', $this->input->post('group'), false);
 				$this->db->set('category', $this->input->post('category'), false);
 				$this->db->set('publish_on', $this->input->post('publish_on'));
 				$this->db->set('body', $this->input->post('body'));
@@ -84,6 +85,7 @@ class Articles extends Admin_Controller
 		}
 		
 		$view_data = array(
+			'group_select' => $this->articles_model->group_select(),
 			'category_select' => $this->articles_model->category_select(),
 			);
 		
@@ -114,6 +116,7 @@ class Articles extends Admin_Controller
 			if( $this->form_validation->run()) {
 				$this->db->where('id', $article_id);
 				$this->db->set('title', $this->input->post('title'));
+				$this->db->set('group', $this->input->post('group'), false);
 				$this->db->set('category', $this->input->post('category'), false);
 				$this->db->set('status', $this->input->post('status'), false);
 				$this->db->set('publish_on', $this->input->post('publish_on'));
@@ -149,6 +152,7 @@ class Articles extends Admin_Controller
 		$view_data = array( 
 			'article' => $article, 
 			'slot' => 'general',
+			'group_select' => $this->articles_model->group_select( $article->group ),
 			'category_select' => $this->articles_model->category_select( $article->category ),
 			'status_select' => $this->articles_model->status_select( $article->status ),
 			'tabs' => $this->tabs->gen_tabs(array('Article','Media'), 'Article', '/admin/articles/edit/' . $article_id)
@@ -185,6 +189,23 @@ class Articles extends Admin_Controller
 				$this->db->insert('article_categories');
 				$ret['id'] = $this->db->insert_id();
 				$ret['cat'] = $cat;
+				$ret['ok'] = true;
+				$ret['msg'] = '';
+			}
+		}
+		echo json_encode( $ret );
+	}
+
+	function addgroup()
+	{
+		$ret = array('ok' => false, 'msg' => 'Unable to add group' );
+		if( $this->input->post('group')) {
+			$group = trim($this->input->post('group'));
+			if( strlen($group)) {
+				$this->db->set('group', $group);
+				$this->db->insert('article_groups');
+				$ret['id'] = $this->db->insert_id();
+				$ret['group'] = $group;
 				$ret['ok'] = true;
 				$ret['msg'] = '';
 			}

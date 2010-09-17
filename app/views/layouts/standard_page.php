@@ -25,7 +25,7 @@
 	<div id="container">
 		<div id="header-nav">
 			<ul>
-				<li><a href="/cart" title="Shopping Cart: 0 items"><img src="/img/icons/shop_cart.png" style="height: 20px"/> 0 </a></li>
+				<li><a href="/cart" title="Shopping Cart: <?= $cart->total_items() ?> items"><img src="/img/icons/shop_cart.png" style="height: 20px"/> <?= $cart->total_items() ?> </a></li>
 				<li><a href="/profile" title="My Bookshelf"><img src="/img/icons/user.png" style="height: 20px"/></a></li>
 				<li><a href="/page/help" title="Help/FAQ"><img src="/img/icons/info.png" style="height: 20px"/> </a></li>
 			</ul>

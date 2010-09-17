@@ -31,6 +31,23 @@ ul.picklist {
 
 #header {
     padding:10px;
+	background-color: #666;
+	color: #fff;
+	
+   /* fallback (Opera) */
+    background: #666;
+    /* Mozilla: */
+    background: -moz-linear-gradient(top, #666, #000);
+    /* Chrome, Safari:*/
+    background: -webkit-gradient(linear,
+                left top, left bottom, from(#666), to(#000));
+    /* MSIE */
+    filter: progid:DXImageTransform.Microsoft.Gradient(
+                StartColorStr='#666', EndColorStr='#000', GradientType=0);		
+}
+
+#header a {
+	color: #fff;
 }
 
 #header h1 {
@@ -54,15 +71,16 @@ ul.picklist {
     line-height:1.5em; 
     z-index:300; 
     width:100%; 
-    background:#fff;
+    background:#fff; 
 } 
+
 #dropmenu a {
     display:block; 
     padding:0.25em 1em; 
     color:#444; 
     /*border-right:1px solid #c8c8c8;  */
     text-decoration:none; 
-    background:#fff;
+    background:#fff; 
 } 
 #dropmenu a:hover {
     background:#888; 
@@ -125,6 +143,21 @@ ul.picklist {
     font-size: 0.9em;
     text-align: center;
     padding-top: 5px;
+
+	background-color: #666;
+	color: #fff;
+
+   /* fallback (Opera) */
+    background: #666;
+    /* Mozilla: */
+    background: -moz-linear-gradient(top, #666, #000);
+    /* Chrome, Safari:*/
+    background: -webkit-gradient(linear,
+                left top, left bottom, from(#666), to(#000));
+    /* MSIE */
+    filter: progid:DXImageTransform.Microsoft.Gradient(
+                StartColorStr='#666', EndColorStr='#000', GradientType=0);		
+
 }
 
 table {

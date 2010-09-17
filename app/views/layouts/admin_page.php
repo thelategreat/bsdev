@@ -72,7 +72,7 @@
 	<div id="container">
 	   <div id="header">
 			<h1>Bookshelf - Admin</h1>
-			<div style="float: right"><small>
+			<div style="float: right; margin-top: -20px"><small>
 			  <a href="/">site</a> 
 			  <?php if( $this->auth->logged_in()) { ?>
 				 | <a href="/admin/login/logout">logout</a> 

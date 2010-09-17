@@ -30,6 +30,7 @@ class MY_Controller extends Controller
 			'main_content_nav' => '<ul id="main_content_nav"><li></li></ul>',
 			'style' => '/css/screen.css',
 			'content' => '',
+			'cart' => $this->cart,
 			'sidebar_nav' => $this->get_sidebar_nav(),
 			'sidebar_left' => $this->get_sidebar('left'),
 			'sidebar_right' => $this->get_sidebar('right'),

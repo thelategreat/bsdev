@@ -8,6 +8,12 @@ function add_category()
 	return false;
 }
 
+function add_group()
+{
+	$('#new-group-row').toggle('slow');
+	return false;
+}
+
 $(function()
 {	
 	Date.format = "yyyy-mm-dd";
@@ -30,6 +36,24 @@ $(function()
 				}, 'json');
 		}
 	});
+
+	$('#new-group').keypress(function(event) {
+		if( event.keyCode == 13 ) {
+			event.preventDefault();
+			$('#new-group-row').hide('slow');
+			$.post("/admin/articles/addgroup", { group: $('#new-group').val() },
+				function( data ) {
+					if( data.ok ) {
+						$('#new-group').val('');
+						var opts = $('#group-sel').attr('options');
+						opts[opts.length] = new Option(data.group, data.id, true, true);
+					} else {
+						alert(data.msg);
+					}
+				}, 'json');
+		}
+	});
+
 	
 });
 </script>
@@ -54,8 +78,17 @@ $(function()
 	  <tr>
 			<td>
 			<table>
+				<tr><th>Group</th></tr>
+				<tr><td><?= $group_select ?>&nbsp;<a href="#" onclick="return add_group();"><img src="/img/admin/add.png" /></a></td></tr>
+				<tr style="display: none;" id="new-group-row"><td><input id="new-group" /></td></tr>
+			</table>
+			</td>
+		</tr>
+	  <tr>
+			<td>
+			<table>
 				<tr><th>Category</th></tr>
-				<tr><td><?= $category_select ?>&nbsp;<a href="#" onclick="return add_category();"><img src="/img/add.png" /></a></td></tr>
+				<tr><td><?= $category_select ?>&nbsp;<a href="#" onclick="return add_category();"><img src="/img/admin/add.png" /></a></td></tr>
 				<tr style="display: none;" id="new-cat-row"><td><input id="new-cat" /></td></tr>
 			</table>
 			</td>

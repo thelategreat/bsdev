@@ -77,6 +77,22 @@ EOF;
 		return $s;
 	}
 
+	function group_select( $default = 0 )
+	{
+		$s = '<select name="group" id="group-sel">';
+		$res = $this->db->query("SELECT * FROM article_groups ORDER BY id");
+		foreach( $res->result() as $row ) {
+			$s .= '<option value="' . $row->id . '" ';
+			if( $default == $row->id ) {
+				$s .= " selected ";
+			}
+			$s .= '>' . $row->group . '</option>';
+		}
+		$s .= '</select>';
+		
+		return $s;
+	}
+	
 	function status_select( $default = 0 )
 	{
 		$s = '<select name="status">';

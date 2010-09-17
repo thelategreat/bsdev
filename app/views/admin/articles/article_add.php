@@ -25,6 +25,14 @@ $(function()
 	  <tr>
 			<td>
 			<table>
+				<tr><th>Group</th></tr>
+				<tr><td><?= $group_select ?></td></tr>
+			</table>
+			</td>
+		</tr>
+	  <tr>
+			<td>
+			<table>
 				<tr><th>Category</th></tr>
 				<tr><td><?= $category_select ?></td></tr>
 			</table>
