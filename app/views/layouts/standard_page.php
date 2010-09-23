@@ -30,7 +30,8 @@
 				<li><a href="/page/help" title="Help/FAQ"><img src="/img/icons/info.png" style="height: 20px"/> </a></li>
 			</ul>
 			<div id="search">
-				<select name="area">
+				<form id="main_search" action="/search" method="post">
+				<select name="group">
 					<option>all</option>
 					<option>books</option>
 					<option>cinema</option>
@@ -38,6 +39,7 @@
 				</select>
 				<input type="search" size="13" name="q" />
 				<img src="/img/icons/eye.png" style="height: 20px; margin-bottom: -5px"/>
+				</form>
 			</div>
 		</div>
 		<div id="header">
@@ -65,32 +67,7 @@
 					<?= $sidebar_right ?>
 				</div>
 				<div id="pre-footer">
-					<ul>
-						<li>
-							<h3>
-								Ad Blob 1
-							</h3>
-							<p>
-								Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan.
-							</p>
-						</li>
-						<li>
-							<h3>
-								Ad Blob 2
-							</h3>
-							<p>
-								Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan.
-							</p>
-						</li>
-						<li>
-							<h3>
-								Ad Blob 3
-							</h3>
-							<p>
-								Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan.
-							</p>
-						</li>
-					</ul>
+					<?= $ad_footer ?>
 				</div>
 				<div id="footer">
 					<div id="footer-nav">

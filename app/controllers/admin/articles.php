@@ -62,6 +62,7 @@ class Articles extends Admin_Controller
 			$this->form_validation->set_error_delimiters('<span class="form_error">','</span>');
 			$this->form_validation->set_rules('title','Title','trim|required');
 			$this->form_validation->set_rules('body','Body','trim|required');
+			$this->form_validation->set_rules('excerpt','Excerpt','trim|required');
 			$this->form_validation->set_rules('author','Author','trim|required');
 			if( $this->form_validation->run()) {
 				$this->db->set('title', $this->input->post('title'));
@@ -105,6 +106,11 @@ class Articles extends Admin_Controller
 	function edit_article()
 	{
 		$article_id = $this->uri->segment(4);
+
+		$cur_tab = 'details';
+		if( $this->uri->segment(5)) {
+			$cur_tab = strtolower($this->uri->segment(5));
+		}
 
 		// ------------
 		// U P D A T E

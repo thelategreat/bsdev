@@ -205,6 +205,21 @@ img {
 	padding-top: 15px;
 }
 
+.article a {
+	text-decoration: none;
+	color: #a82e24;
+	color: #466;
+}
+
+.read-more {
+	text-align: right;
+	font-size: 80%;
+}
+
+.read-more a {
+	color: #a82e24;
+}
+
 #sidebar-right
 {
 	float: right;
@@ -400,6 +415,24 @@ img {
 	color: #222;
 }
 
+#search_results {
+	
+}
+
+#search_results table {
+	font-size: 90%;	
+	width: 90%;	
+}
+
+#search_results table th {
+	height: auto;
+	background: none;
+	background-color: #666;
+	color: white;
+	text-align: left;
+}
+
+/* C A R T */
 #cart {
 	
 }

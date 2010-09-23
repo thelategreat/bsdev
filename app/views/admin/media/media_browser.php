@@ -32,13 +32,13 @@ $(function() {
 		<td>
 			<?php if( $count != 0 ) { ?>
 			<a href="/admin/media/move/up/<?= $file['url'] . '/' . $slot . $media_path ?>">
-				<img class="icon" src="/img/go-up.png" />
+				<img class="icon" src="/img/admin/go-up.png" />
 			<a/> 
 			<?php } else { echo "&nbsp;"; }?>
 			- 
 			<?php if( $count != count($files) - 1 ) { ?>
 			<a href="/admin/media/move/down/<?= $file['url'] . '/' . $slot . $media_path ?>">
-				<img class="icon" src="/img/go-down.png" /></td>
+				<img class="icon" src="/img/admin/go-down.png" /></td>
 			</a>
 			<?php } ?>
 	</tr>

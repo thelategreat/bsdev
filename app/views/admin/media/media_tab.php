@@ -61,8 +61,8 @@ Slot: <select id="slot_select" name="slot" onchange="reload()">
 <?php } 
   }
 } ?>
-</select><button onclick="reload()"><img width="16" src="/img/reload.png" /></button>
-<button onclick="MediaBrowser.init({path: '<?=$path?>'});"><img src="/img/add.png" /></button>
+</select><button onclick="reload()"><img width="16" src="/img/admin/reload.png" /></button>
+<button onclick="MediaBrowser.init({path: '<?=$path?>'});"><img src="/img/admin/add.png" /></button>
 
 <hr/>
 <div id="media_area" ></div>
@@ -95,7 +95,7 @@ Slot: <select id="slot_select" name="slot" onchange="reload()">
 <div id="editModalDiv">
  <div id="modal_title">
 	<span style="float: right">
-		<img onclick="$.modal.close()" src="/img/close.png" title="Close" style="cursor: pointer;"/>
+		<img onclick="$.modal.close()" src="/img/admin/close.png" title="Close" style="cursor: pointer;"/>
 	</span>
     <h3>Media Browser</h3>
  </div>

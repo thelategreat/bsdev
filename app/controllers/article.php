@@ -21,7 +21,7 @@ class Article extends MY_Controller
 	 **/
 	function index()
 	{
-		$this-view();
+		$this->view();
 	}
 	
 	

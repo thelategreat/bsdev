@@ -34,8 +34,9 @@ class MY_Controller extends Controller
 			'sidebar_nav' => $this->get_sidebar_nav(),
 			'sidebar_left' => $this->get_sidebar('left'),
 			'sidebar_right' => $this->get_sidebar('right'),
-			'featured_top' => $this->load->view('home/featured_top', $featured, true),
-			'featured_bottom' => $this->load->view('home/featured_bottom', $featured, true),
+			'ad_footer' => $this->get_sidebar('ad_footer'),
+			//'featured_top' => $this->load->view('home/featured_top', $featured, true),
+			//'featured_bottom' => $this->load->view('home/featured_bottom', $featured, true),
 			'footer' => $this->load->view('layouts/standard_footer', '', true )
 		);
 		
@@ -136,9 +137,13 @@ class MY_Controller extends Controller
 		$filter = array('day' => date('d',$today), 'month' => date('m',$today), 'year' => date('Y',$today), 'view' => 'day');
 		$items = $this->event_model->get_events( $filter );
 		if( $which == 'right' ) {
-			return $this->load->view('home/sidebar_right', array('events'=>$items), true );			
-		} else {
+			$ads = $this->ads_model->get_ads_for_section( 'home' );
+			return $this->load->view('home/sidebar_right', array('events'=>$items, 'ads' => $ads->result() ), true );			
+		} else if( $which == 'left' ) {
 			return $this->load->view('home/sidebar_left', array('events'=>$items), true );
+		} else if( $which == 'ad_footer' ) {
+			$ads = $this->ads_model->get_ads_for_section( 'home' );
+			return $this->load->view('home/ad_footer', array('events'=>$items, 'ads' => $ads->result()), true );
 		}
 	}
 	

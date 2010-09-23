@@ -31,15 +31,11 @@ class Home extends MY_Controller
 	
 	private function build_page( $section )
 	{
-		$this->load->model('media_model');
-		$res = $this->media_model->get_media_for_path('/pages/1', 'general');		
-		$images = array();
-		foreach( $res as $row ) {
-			$images[] = '/media/' . $row['url'];
-		}
+		$this->load->model('articles_model');
+		$articles = $this->articles_model->get_published_article_list();
 		
 		$view_data = array(
-			'images' => $images
+			'articles' => $articles
 			);
 		
 		$pg_data = $this->get_page_data('Bookshelf - ' . $section, 'home', $section );
