@@ -1,163 +1,99 @@
-<script type="text/javascript" src="/js/coda.js"></script>
-<script type="text/javascript">
-$(function () {
-	$('.date_has_event').each(function () {
-		// options
-		var distance = 10;
-		var time = 250;
-		var hideDelay = 500;
- 
-		var hideDelayTimer = null;
- 
-		// tracker
-		var beingShown = false;
-		var shown = false;
- 
-		var trigger = $(this);
-		var popup = $('.events ul', this).css('opacity', 0);
- 
-		// set the mouseover and mouseout on both element
-		$([trigger.get(0), popup.get(0)]).mouseover(function () {
-			// stops the hide event if we move from the trigger to the popup element
-			if (hideDelayTimer) clearTimeout(hideDelayTimer);
- 
-			// don't trigger the animation again if we're being shown, or already visible
-			if (beingShown || shown) {
-				return;
-			} else {
-				beingShown = true;
- 
-				// reset position of popup box
-				popup.css({
-					bottom: 20,
-					left: -76,
-					display: 'block' // brings the popup back in to view
-				})
- 
-				// (we're using chaining on the popup) now animate it's opacity and position
-				.animate({
-					bottom: '+=' + distance + 'px',
-					opacity: 1
-				}, time, 'swing', function() {
-					// once the animation is complete, set the tracker variables
-					beingShown = false;
-					shown = true;
-				});
-			}
-		}).mouseout(function () {
-			// reset the timer if we get fired again - avoids double animations
-			if (hideDelayTimer) clearTimeout(hideDelayTimer);
- 
-			// store the timer so that it can be cleared in the mouseover if required
-			hideDelayTimer = setTimeout(function () {
-				hideDelayTimer = null;
-				popup.animate({
-					bottom: '-=' + distance + 'px',
-					opacity: 0
-				}, time, 'swing', function () {
-					// once the animate is complete, set the tracker variables
-					shown = false;
-					// hide the popup entirely after the effect (opacity alone doesn't do the job)
-					popup.css('display', 'none');
-				});
-			}, hideDelay);
-		});
-	});
-});
-</script>
 
-<div id="full-calendar">
-<h3>Calendar: Sep 9, 2010</h3>
+<h2><?= date("F",mktime(0, 0, 0, $month, 1, $year))?> <?= $year ?></h2>
 
-<table cellspacing="0">
+<?= $view_menu ?>
+
+<table class="calendar-month">
 	<thead>
 		<tr>
-			<th>Mon</th><th>Tue</th><th>Wed</th>
-			<th>Thu</th><th>Fri</th><th>Sat</th>
-			<th>Sun</th>
+			<th>Sunday</th>
+			<th>Monday</th>
+			<th>Tuesday</th>
+			<th>Wednesday</th>
+			<th>Thursday</th>
+			<th>Friday</th>
+			<th>Saturday</th>
+		</tr>
+	</thead>
+	<tbody>
+
+		<?php foreach( $cal as $week ) {
+			echo '<tr>';
+			foreach( $week as $day ) { 
+				$class = '';
+				$dt = explode( '/', $day['date'] );
+				if( $dt[1] != $month ) {
+					$class = 'class="other"';					
+				}
+				?>
+				<td <?=$class?>><span class="day-num"><?= $day['num'] ?></span>
+				</td>
+			<?php }
+			echo '</tr>';
+		}?>
+
+	</tbody>
+</table>
+<!--
+<table class="calendar-month">
+	<thead>
+		<tr>
+			<th>Sunday</th>
+			<th>Monday</th>
+			<th>Tuesday</th>
+			<th>Wednesday</th>
+			<th>Thursday</th>
+			<th>Friday</th>
+			<th>Saturday</th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr>
-			<td class="padding" colspan="3"></td>
-			<td> 1</td>
-			<td> 2</td>
-			<td> 3</td>
-			<td> 4</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td><span class="day-num">1</span>Some Event</td>
+			<td><span class="day-num">2</span></td>
+			<td><span class="day-num">3</span></td>
+			<td><span class="day-num">4</span></td>
 		</tr>
 		<tr>
-			<td> 5</td>
-			<td> 6</td>
-			<td> 7</td>
-			<td> 8</td>
-			<td class="today"> 9</td>
-			<td>10</td>
-			<td>11</td>
+			<td><span class="day-num">5</span></td>
+			<td><span class="day-num">6</span></td>
+			<td><span class="day-num">7</span></td>
+			<td><span class="day-num">8</span>Some Event</td>
+			<td><span class="day-num">9</span></td>
+			<td><span class="day-num">10</span></td>
+			<td><span class="day-num">11</span></td>
 		</tr>
 		<tr>
-			<td>12</td>
-			<td class="date_has_event">
-				13
-				<div class="events">
-					<ul>
-						<li>
-							<span class="title">Event 1</span>
-							<span class="desc">Lorem ipsum dolor sit amet, consectetu adipisicing elit.</span>
-						</li>
-						<li>
-							<span class="title">Event 2</span>
-							<span class="desc">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span>
-						</li>
-						<li>
-							<span class="title">Event 3</span>
-							<span class="desc">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span>
-						</li>
-					</ul>
-				</div>				
-			</td>
-			<td>14</td>
-			<td>15</td>
-			<td>16</td>
-			<td>17</td>
-			<td>18</td>
+			<td><span class="day-num">12</span></td>
+			<td><span class="day-num">13</span></td>
+			<td><span class="day-num">14</span></td>
+			<td><span class="day-num">15</span>Some Event</td>
+			<td><span class="day-num">16</span></td>
+			<td><span class="day-num">17</span></td>
+			<td><span class="day-num">18</span></td>
 		</tr>
 		<tr>
-			<td>19</td>
-			<td>20</td>
-			<td>21</td>
-			<td class="date_has_event">
-				22
-				<div class="events">
-					<ul>
-						<li>
-							<span class="title">Event 1</span>
-							<span class="desc">Lorem ipsum dolor sit amet, consectetu adipisicing elit.</span>
-						</li>
-						<li>
-							<span class="title">Event 2</span>
-							<span class="desc">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span>
-						</li>
-					</ul>
-				</div>				
-			</td>
-			<td>23</td>
-			<td>24</td>
-			<td>25</td>
-		</tr>	
+			<td><span class="day-num">19</span></td>
+			<td><span class="day-num">20</span></td>
+			<td><span class="day-num">21</span></td>
+			<td><span class="day-num">22</span>Some Event</td>
+			<td><span class="day-num">23</span></td>
+			<td><span class="day-num">24</span></td>
+			<td><span class="day-num">25</span></td>
+		</tr>
 		<tr>
-			<td>26</td>
-			<td>27</td>
-			<td>28</td>
-			<td>29</td>
-			<td>30</td>
-			<td>31</td>
-			<td class="padding"></td>
+			<td><span class="day-num">26</span></td>
+			<td><span class="day-num">27</span></td>
+			<td><span class="day-num">28</span></td>
+			<td><span class="day-num">29</span>Some Event</td>
+			<td><span class="day-num">30</span></td>
+			<td></td>
+			<td></td>
 		</tr>
 	</tbody>
-	<tfoot>
-		<th>Mon</th><th>Tue</th><th>Wed</th>
-		<th>Thu</th><th>Fri</th><th>Sat</th>
-		<th>Sun</th>
-	</tfoot>
 </table>
-</div>
+
+-->

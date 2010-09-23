@@ -21,7 +21,7 @@
 	
 </head>
 
-<body>
+<body class="<?=$css_name?>">
 	<div id="container">
 		<div id="header-nav">
 			<ul>
@@ -57,9 +57,11 @@
 		</div>
 		<div id="content-container1">
 			<div id="content-container2">
+				<?php if( isset($sidebar_left)) { ?>
 				<div id="sidebar-left">
 					<?= $sidebar_left ?>
 				</div>
+				<?php } ?>
 				<div id="content">
 					<?= $content ?>
 				</div>
