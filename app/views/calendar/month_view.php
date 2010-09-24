@@ -20,6 +20,7 @@
 		<?php foreach( $cal as $week ) {
 			echo '<tr>';
 			foreach( $week as $day ) { 
+				// figure which month we are in and class day accordingly
 				$class = '';
 				$dt = explode( '/', $day['date'] );
 				if( $dt[1] != $month ) {

@@ -1,5 +1,5 @@
 
-<h2>September 2010</h2>
+<h2><?= date("F",mktime(0, 0, 0, $month, 1, $year))?> <?= $year ?></h2>
 
 <?= $view_menu ?>
 

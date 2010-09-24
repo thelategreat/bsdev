@@ -12,8 +12,7 @@
 <a href="#" title="RSS"><img src="/img/icons/icon_rss.png" /></a>
 
 <?php foreach( $ads as $ad ): ?>
-	<h3><?= $ad->title ?></h3>
-	<p>Ad Image goes here</p>
+	<img style="margin-bottom: 30px;" title="<?= $ad->title ?>" src="/img/junk/gallery_photo4.jpg" height="125px" width="125px"/>
 <?php endforeach; ?>
 <!--
 <h3>
