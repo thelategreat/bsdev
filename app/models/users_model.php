@@ -19,7 +19,9 @@ class users_model extends Model
 			}
 		}
 		$this->db->from('users');
-		$this->db->join('user_roles', 'users.role_id = user_roles.id');
+		$this->db->join('user_roles', 'user_roles.id = users.role_id');
+		$this->db->select('users.id, users.username, users.firstname, users.lastname, user_roles.role, users.email, users.active, users.last_login');
+		$this->db->order_by( 'users.username' );
 		return $this->db->get();
 	}
 

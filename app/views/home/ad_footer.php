@@ -2,7 +2,7 @@
 <?php foreach( $ads as $ad ): ?>
 	<li>
 	  <!--<h3><?= $ad->title ?></h3> -->
-		<img title="<?= $ad->title ?>" src="/img/junk/gallery_photo4.jpg" height="130px" width="275px"/>
+		<img title="<?= $ad->title ?>" src="/img/junk/gallery_photo4.jpg" height="130px" width="100%"/>
 	</li>
 <?php endforeach; ?>
 </ul>

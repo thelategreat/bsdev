@@ -25,9 +25,9 @@
 	<div id="container">
 		<div id="header-nav">
 			<ul>
-				<li><a href="/cart" title="Shopping Cart: <?= $cart->total_items() ?> items"><img src="/img/icons/shop_cart.png" style="height: 20px"/> <?= $cart->total_items() ?> </a></li>
-				<li><a href="/profile" title="My Bookshelf"><img src="/img/icons/user.png" style="height: 20px"/></a></li>
-				<li><a href="/page/help" title="Help/FAQ"><img src="/img/icons/info.png" style="height: 20px"/> </a></li>
+				<li><a href="/cart" title="Shopping Cart: <?= $cart->total_items() ?> items"><img src="/img/icons/black/shop_cart.png" style="height: 20px;"/> <?= $cart->total_items() ?> </a></li>
+				<li><a href="/profile" title="My Bookshelf"><img src="/img/icons/black/user.png" style="height: 20px"/></a></li>
+				<li><a href="/page/help" title="Help/FAQ"><img src="/img/icons/black/info.png" style="height: 20px"/> </a></li>
 			</ul>
 			<div id="search">
 				<form id="main_search" action="/search" method="post">
@@ -38,21 +38,22 @@
 					<option>ebar</option>
 				</select>
 				<input type="search" size="13" name="q" />
-				<img src="/img/icons/eye.png" style="height: 20px; margin-bottom: -5px"/>
+				<img src="/img/icons/black/zoom.png" style="height: 20px; margin-bottom: -5px"/>
 				</form>
 			</div>
 		</div>
 		<div id="header">
-			<h1>
+			<a href="/"><img style="float: left; height: 100px" src="/img/wv/wv_logo_100.png" /></a>
+			<a href="/"><img style="height: 60px; align: center;" src="/img/wv/wv_header_100.png" /></a>
+			<p style="margin-left: 150px; font-style: italic">Monday October 4th - Monday October 11th 2010</p>
 				<!-- Bookshelf -->
-				<a href="/">ook<span style="color: #fff">shelf</span></a>
-			</h1>
 		</div>
 		<div id="navigation">
 			<ul>
-				<li><a href="/home/section/books" <?= $section == "books" ? 'class="selected"' : ''?>><img src="/img/icons/book.png" style="height: 20px; margin-bottom: -5px"/> Books</a></li>
-				<li><a href="/home/section/cinema" <?= $section == "cinema" ? 'class="selected"' : ''?>><img src="/img/icons/movie.png" style="height: 20px; margin-bottom: -5px"/> Cinema</a></li>
-				<li><a href="/home/section/ebar" <?= $section == "ebar" ? 'class="selected"' : ''?>><img src="/img/icons/music.png" style="height: 20px; margin-bottom: -5px"/> eBar</a></li>
+				<li><a href="/" <?= $section == "home" ? 'class="selected"' : ''?>>Home</a></li>
+				<li><a href="/home/section/books" <?= $section == "books" ? 'class="selected"' : ''?>>Books</a></li>
+				<li><a href="/home/section/cinema" <?= $section == "cinema" ? 'class="selected"' : ''?>>Cinema</a></li>
+				<li><a href="/home/section/ebar" <?= $section == "ebar" ? 'class="selected"' : ''?>>eBar</a></li>
 			</ul>
 		</div>
 		<div id="content-container1">

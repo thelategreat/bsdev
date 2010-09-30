@@ -5,7 +5,7 @@
 @font-face { font-family: Goudy; src: url('../fonts/GoudyBookletter1911.otf'); } 
 
 body {
-	background-color: #000;
+	background-color: #fff;
 	font-family: Goudy, Georgia, Times, serif;
 	font-size: 11pt;
 	line-height: 140%;
@@ -71,11 +71,12 @@ img {
 
 #header
 {
-	background-color: #c9c;
 	background-color: #a82e24;
-	padding: 20px;
-	background-image: url('../img/header_bg_x.png');
-	height: 35px;
+	background-color: #fff;
+	padding: 0px;
+	height: 110px;
+	border-bottom: 1px solid #666;
+	margin-bottom: 5px;
 }
 
 #header h1 
@@ -92,44 +93,45 @@ img {
 {
 	float: left;
 	width: 100%;
-	background: #000;
-	margin-top: -5px;
+	background-color: #7C0507;
 }
 
 #navigation ul
 {
 	margin: 0;
 	padding: 0;
-	padding-left: 30px;
+	padding-left: 10px;
 }
 
 #navigation ul li
 {
 	list-style-type: none;
 	display: inline;
-	font-size: 90%;
+	font-size: 75%;
 	letter-spacing: 2px;
 	font-weight: bold;
+	text-transform: uppercase;
 }
 
 #navigation li a
 {
 	display: block;
 	float: left;
-	padding: 5px 10px;
+	padding: 2px 10px;
 	color: #fff;
 	text-decoration: none;
-	border-right: 1px solid #666;
+	border-right: 2px solid #fff;
+	font-family: Helvetica, sans-serif;
 }
 
 #navigation li a:hover 
 {	 
-	background: #a82e24;; 
+	background: #078C99;
 }
 
 #navigation li a.selected 
 {	 
-	background: #a82e24;; 
+	background: #078C99;
 }
 
 
@@ -273,6 +275,7 @@ body.calendar #content {
 	padding: 0px;
 	padding-bottom: 5px;
 	padding-top: 5px;
+	border-bottom: 1px solid #666;
 }
 
 #pre-footer ul {
@@ -291,6 +294,9 @@ body.calendar #content {
 {
 	float: left;
 	margin-top: -5px;
+	font-family: Helvetica, sans-serif;
+	text-transform: uppercase;
+	font-size: 90%;
 }
 
 #footer-nav ul
@@ -307,17 +313,15 @@ body.calendar #content {
 
 #footer-nav ul li a
 {
-	color: #fff;
+	color: #000;
 }
 
 #footer
 {
 	font-size: 80%;
 	clear: both;
-	background-color: #c9c;
-	background-color: #a82e24;
-	color: #fff;
-	background-image: url('../img/header_bg_flip_x.png');
+	background-color: #fff;
+	color: #000;
 	text-align: right;
 	padding: 20px;
 	padding-left: 0;
