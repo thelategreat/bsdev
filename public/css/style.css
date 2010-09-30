@@ -3,6 +3,7 @@
  */
 
 @font-face { font-family: Goudy; src: url('../fonts/GoudyBookletter1911.otf'); } 
+@font-face { font-family: Junction; src: url('../fonts/Junction 02/Junction 02.otf'); } 
 
 body {
 	background-color: #fff;
