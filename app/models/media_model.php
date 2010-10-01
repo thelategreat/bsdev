@@ -60,23 +60,41 @@ class media_model extends Tag_Model
 			$this->db->set('thumbnail',  $data->thumbnail_url );
 		}
 		// youtube thumbnail
-		else if($purl['host'] == "www.youtube.com" || $purl['host'] == "youtube.com") {
-			// TODO this need more robust parseing, urls are rarely in this form
-			$video_id = explode('/', $url);
-			$video_id = $video_id[count($video_id)-1];
+		else if($purl['host'] == "www.youtube.com" || $purl['host'] == "youtube.com") {			
+			// TODO this needs more robust parsing
+			$video_id = NULL;
 			
-			# use the v2 jsonc feed, much cleaner
-			$meta_url = 'http://gdata.youtube.com/feeds/api/videos/' . $video_id . '?alt=jsonc&v=2';
-			$curl = curl_init( $meta_url );
-			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-			curl_setopt($curl, CURLOPT_TIMEOUT, 10);
-			$ret = curl_exec($curl);
-			curl_close($curl);
+			// check for id in query params: http://www.youtube.com/watch?v=yjXY9kl2ljQ
+			$query = explode('&', $purl['query']);
+			foreach( $query as $qelem ) {
+				list($key, $value) = explode("=", $qelem);
+				if( $key == 'v' ) {
+					$video_id = $value;
+					break;
+				}
+			}
+			// check for id at tail: http://www.youtube.com/v/_sccg1CZzi4
+			if( $video_id == NULL ) {
+				$tmp = explode('/', $url);
+				if( count($tmp) > 2 && $tmp[count($tmp)-2] == 'v') {
+					$video_id = $tmp[count($tmp)-1];
+				}
+			}
+			// if we got something
+			if( $video_id != NULL ) {
+				# use the v2 jsonc feed, much cleaner
+				$meta_url = 'http://gdata.youtube.com/feeds/api/videos/' . $video_id . '?alt=jsonc&v=2';
+				$curl = curl_init( $meta_url );
+				curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+				curl_setopt($curl, CURLOPT_TIMEOUT, 10);
+				$ret = curl_exec($curl);
+				curl_close($curl);
 			
-			$data = json_decode( $ret );
-			//echo '<pre>' . $ret . '</pre>';	
-			$this->db->set('caption',  $data->data->title . " by: " . $data->data->uploader );
-			$this->db->set('thumbnail',  $data->data->thumbnail->sqDefault );			
+				$data = json_decode( $ret );
+				//echo '<pre>' . $ret . '</pre>';	
+				$this->db->set('caption',  $data->data->title . " by: " . $data->data->uploader );
+				$this->db->set('thumbnail',  $data->data->thumbnail->sqDefault );			
+			}
 		}
 				
 		$this->db->set('uuid',  $uuid );

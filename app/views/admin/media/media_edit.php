@@ -75,6 +75,7 @@
 		<td valign="top" style="padding-left: 10px;">
 			<div id="media-info">
 			</div>
+	 	  <input onclick="return confirm('Really delete this media and all references?');" style="background-color: #f99" type="submit" name="deleterefs" value="Delete All" />
 			<?php if( !file_exists('media/'. $item->uuid) && $item->type != "link") { 
 				$msg = "<b>This media is missing!</b>";
 				?>
@@ -89,7 +90,6 @@
 						<tr><td><a href="/admin<?=$path?>/media"><?=$path?></a></td></tr>
 					<?php } ?>
 				</table>
-		 	  <input onclick="return confirm('Really delete this media and all references?');" style="background-color: #f99" type="submit" name="deleterefs" value="Delete All" />
 
 				
 			<?php } else if( $used->num_rows() != 0 ) { ?>
