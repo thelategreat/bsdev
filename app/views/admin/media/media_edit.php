@@ -8,8 +8,13 @@
 	
 } else { ?>
 	<a style="float: right" href="#" id="toggle_size" onclick="toggle_size(); return false;" title="toggle view" style="font-size: .8em;">[+]</a><br/>
-	<img id="theImage" src="/media/<?= $item->uuid ?>" />
-	<canvas id="theCanvas" style="border: 1px solid #000;"></canvas>
+
+	<?php if( file_exists('media/'. $item->uuid)) { ?>
+		<img id="theImage" src="/media/<?= $item->uuid ?>" />
+	<?php } else { ?>
+		<img id="theImage" src="/img/image_not_found.jpg" />
+	<? } ?>
+	<!-- <canvas id="theCanvas" style="border: 1px solid #000;"></canvas> -->
 <?php } ?>
 			</div>
 			
@@ -65,15 +70,16 @@
 	<?php if( $page && isset( $page )) { ?>
 		<input type="hidden" name="page" value="<?=$page?>" />
 	<?php } ?>
-</form>
 <p/>
 		</td>
 		<td valign="top" style="padding-left: 10px;">
 			<div id="media-info">
 			</div>
-			<?php if( $used->num_rows() != 0 ) { ?>
-				<p class="info small">this media is in use and can't be deleted</p>
-				<h4>Links</h4>
+			<?php if( !file_exists('media/'. $item->uuid)) { 
+				$msg = "<b>This media is missing!</b>";
+				?>
+				<p class="error small"><?= $msg ?></p>
+				<h4>References</h4>
 				<table style="margin-top: -10px;">
 					<?php foreach( $used->result() as $row ) { 
 						$tmp = explode('/', $row->path );
@@ -83,6 +89,29 @@
 						<tr><td><a href="/admin<?=$path?>/media"><?=$path?></a></td></tr>
 					<?php } ?>
 				</table>
+		 	  <input onclick="return confirm('Really delete this media and all references?');" style="background-color: #f99" type="submit" name="deleterefs" value="Delete All" />
+
+				
+			<?php } else if( $used->num_rows() != 0 ) { ?>
+				<h4>References</h4>
+				<table style="margin-top: -10px;">
+					<?php foreach( $used->result() as $row ) { 
+						$tmp = explode('/', $row->path );
+						array_splice( $tmp, 2, 0, 'edit');
+						$path = implode('/', $tmp );
+						?>
+						<tr><td><a href="/admin<?=$path?>/media"><?=$path?></a></td></tr>
+					<?php } ?>
+				</table>
+			<?php } ?>
+</form>
+			
+			<?php if( $item->type != "link") { ?>			
+				<h4>Replace Image</h4>
+				<form method="post" action="" enctype="multipart/form-data" >
+					<input type="file" name="userfile" />
+					<input type="submit" name="upload" value="Upload" />
+				</form>
 			<?php } ?>
 		</td>
 	</tr>
@@ -142,6 +171,6 @@ function loadImage() {
 }
 
 $(document).ready(function() {
-	loadImage();
+	//loadImage();
 });
 </script>

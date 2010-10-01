@@ -80,6 +80,17 @@ class media_model extends Tag_Model
 		$this->db->where( 'uuid', $uuid );
 		$this->db->delete('media');
 	}
+
+
+	function remove_media( $uuid, $refs = false )
+	{
+		if( $refs ) {
+			//select * from media_map where media_id = (select id from media where uuid = 'f3fd4750-af0f-3f31-aeaf-73658836d23e')
+			$this->db->query("DELETE FROM media_map WHERE media_id = (SELECT id FROM media WHERE uuid = '$uuid')");
+		}		
+		$this->db->where( 'uuid', $uuid );
+		$this->db->delete('media');
+	}
 	
 	/**
 	 *

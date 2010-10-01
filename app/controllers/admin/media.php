@@ -176,6 +176,18 @@ class Media extends Admin_Controller
 		$this->form_validation->set_rules('title','Title','required');
 		$this->form_validation->set_rules('caption','Caption','required');
 		$this->form_validation->set_rules('tt_isbn','tt#/isbn','callback_tt_isbn_check');
+
+		// -----------
+		// U P L O A D
+		// -----------
+		$my_root = './media/';
+		if( $this->input->post("upload")) {
+			$conf['allowed_types'] = 'jpg|png';
+			$conf['upload_path'] = $my_root;
+			$uuid = $this->up($my_root, $conf, $uuid );
+			if( !$uuid ) {
+			}
+		}
 		
 		// -----------
 		// S A V E
@@ -202,6 +214,21 @@ class Media extends Admin_Controller
 			}
 			redirect('/admin/media');
 		}
+
+		// --------------------
+		// D E L E T E  R E F S
+		// ---------------------
+		if( $this->input->post('deleterefs')) {
+			$this->media_model->remove_media( $uuid, true );
+			if( file_exists( './media/' . $uuid )) {
+				unlink( './media/' . $uuid );
+			}
+			if( $this->input->post('page')) {
+				redirect('/admin/media/index/' . $this->input->post('page'));				
+			}
+			redirect('/admin/media');
+		}
+		
 		// -----------
 		// C A N C E L
 		// -----------
@@ -393,9 +420,12 @@ class Media extends Admin_Controller
 	/**
 	 * Handle an upload 
 	 */
-	private function up( $path, $conf )
+	private function up( $path, $conf, $uuid = NULL )
 	{
-		$uuid = gen_uuid();
+		# give a uuid will replace if exists
+		if( $uuid == NULL ) {
+			$uuid = gen_uuid();
+		}
 		$conf['file_name'] = $uuid;
 		$conf['max_size'] = $this->config->item('max_image_size');
 		$conf['max_width'] = $this->config->item('max_image_width');
@@ -408,7 +438,10 @@ class Media extends Admin_Controller
 		} else {
 			$data = $this->upload->data();
 			rename( $data['full_path'], $data['file_path'] . '/' . $uuid );
-			$this->media_model->add_upload($uuid, $data, $this->session->userdata('logged_user'));
+			# if a uuid is given we are simply replacing the disk file
+			if( $uuid == NULL ) {
+				$this->media_model->add_upload($uuid, $data, $this->session->userdata('logged_user'));
+			}
 			return $uuid;
 		}
 	}
