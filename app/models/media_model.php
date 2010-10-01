@@ -59,6 +59,25 @@ class media_model extends Tag_Model
 			$this->db->set('caption',  $data->title . " by: " . $data->author_name );
 			$this->db->set('thumbnail',  $data->thumbnail_url );
 		}
+		// youtube thumbnail
+		else if($purl['host'] == "www.youtube.com" || $purl['host'] == "youtube.com") {
+			// TODO this need more robust parseing, urls are rarely in this form
+			$video_id = explode('/', $url);
+			$video_id = $video_id[count($video_id)-1];
+			
+			# use the v2 jsonc feed, much cleaner
+			$meta_url = 'http://gdata.youtube.com/feeds/api/videos/' . $video_id . '?alt=jsonc&v=2';
+			$curl = curl_init( $meta_url );
+			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+			curl_setopt($curl, CURLOPT_TIMEOUT, 10);
+			$ret = curl_exec($curl);
+			curl_close($curl);
+			
+			$data = json_decode( $ret );
+			//echo '<pre>' . $ret . '</pre>';	
+			$this->db->set('caption',  $data->data->title . " by: " . $data->data->uploader );
+			$this->db->set('thumbnail',  $data->data->thumbnail->sqDefault );			
+		}
 				
 		$this->db->set('uuid',  $uuid );
 		$this->db->set('user', $user );

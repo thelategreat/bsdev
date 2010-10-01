@@ -178,14 +178,16 @@ class Media extends Admin_Controller
 		$this->form_validation->set_rules('tt_isbn','tt#/isbn','callback_tt_isbn_check');
 
 		// -----------
-		// U P L O A D
+		// R E P L A C E (upload)
 		// -----------
-		$my_root = './media/';
-		if( $this->input->post("upload")) {
+		if( $this->input->post("replace")) {
+			$my_root = './media/';
 			$conf['allowed_types'] = 'jpg|png';
 			$conf['upload_path'] = $my_root;
 			$uuid = $this->up($my_root, $conf, $uuid );
 			if( !$uuid ) {
+			} else {
+				redirect('/admin/media/edit/' . $uuid );
 			}
 		}
 		
@@ -422,9 +424,12 @@ class Media extends Admin_Controller
 	 */
 	private function up( $path, $conf, $uuid = NULL )
 	{
+		$is_replace = false;
 		# give a uuid will replace if exists
 		if( $uuid == NULL ) {
 			$uuid = gen_uuid();
+		} else {
+			$is_replace = true;
 		}
 		$conf['file_name'] = $uuid;
 		$conf['max_size'] = $this->config->item('max_image_size');
@@ -439,7 +444,7 @@ class Media extends Admin_Controller
 			$data = $this->upload->data();
 			rename( $data['full_path'], $data['file_path'] . '/' . $uuid );
 			# if a uuid is given we are simply replacing the disk file
-			if( $uuid == NULL ) {
+			if( !$is_replace ) {
 				$this->media_model->add_upload($uuid, $data, $this->session->userdata('logged_user'));
 			}
 			return $uuid;

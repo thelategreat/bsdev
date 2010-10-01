@@ -110,7 +110,7 @@
 				<h4>Replace Image</h4>
 				<form method="post" action="" enctype="multipart/form-data" >
 					<input type="file" name="userfile" />
-					<input type="submit" name="upload" value="Upload" />
+					<input type="submit" name="replace" value="Replace" />
 				</form>
 			<?php } ?>
 		</td>
