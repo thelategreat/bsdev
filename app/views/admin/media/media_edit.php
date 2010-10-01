@@ -75,7 +75,7 @@
 		<td valign="top" style="padding-left: 10px;">
 			<div id="media-info">
 			</div>
-			<?php if( !file_exists('media/'. $item->uuid)) { 
+			<?php if( !file_exists('media/'. $item->uuid) && $item->type != "link") { 
 				$msg = "<b>This media is missing!</b>";
 				?>
 				<p class="error small"><?= $msg ?></p>
