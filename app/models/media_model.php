@@ -163,8 +163,7 @@ class media_model extends Tag_Model
 			$this->db->distinct();
 			// seems like CI get involved here and checks the field names, so annoying.
 			// so we cant do db->select( 'media.*' )
-			$this->db->select('media.id, uuid, title, type, created_on, updated_on, user, caption, description, license');
-			
+			$this->db->select('media.id, uuid, title, type, created_on, updated_on, user, caption, description, license, thumbnail');			
 		}
 		
 		$this->db->offset( ($page - 1) * $limit );

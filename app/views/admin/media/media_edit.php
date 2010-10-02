@@ -1,3 +1,84 @@
+<script type="text/javascript">
+
+// foolin around
+function bw_filter()
+{
+	var cvs = $('#theCanvas')[0];
+	if( !cvs ) return;
+	var ctx = cvs.getContext('2d');
+	
+	var imgd = ctx.getImageData(0, 0, cvs.width, cvs.height);
+	var pix = imgd.data;
+	for (var i = 0, n = pix.length; i < n; i += 4) {
+		var grayscale = pix[i  ] * .3 + pix[i+1] * .59 + pix[i+2] * .11;
+		pix[i  ] = grayscale; 	// red
+		pix[i+1] = grayscale; 	// green
+		pix[i+2] = grayscale; 	// blue
+	// alpha
+	}
+	ctx.putImageData(imgd, 0, 0);
+}
+
+function toggle_size()
+{
+	var cvs = $('#theCanvas')[0];
+	if( !cvs ) return;
+	var ctx = cvs.getContext('2d');
+	var img = $('#theImage')[0];
+	if( ctx && img ) {
+		var width = parseInt($(cvs).attr('width'));
+		var height = parseInt($(cvs).attr('height'));
+		//alert( '' + img.width + ' ' + width );
+		if( parseInt(img.width) == parseInt($(cvs).attr('width'))) {
+			width = 200;
+			height = 100;
+			$('#toggle_size').html('[+]');
+			$('#toggle_size').attr('title',"full size");
+		} else {
+			width = parseInt(img.width);
+			height = parseInt(img.height);			
+			$('#toggle_size').html('[-]');
+			$('#toggle_size').attr('title',"smaller view");
+		}
+		cvs.setAttribute('width', '' + width + 'px' );
+		cvs.setAttribute('height', '' + height + 'px' );
+		ctx.drawImage(img, 0, 0, width, height );		
+	}
+}
+
+function loadImage() {
+	var cvs = $('#theCanvas')[0];
+	if( !cvs ) return;
+	var ctx = cvs.getContext('2d');
+	var img = $('#theImage')[0];
+	// we hide the orig image and create a new one with the hidden image src
+	// so that the onload trigger actually works when we set the src below
+	var cimg = new Image();
+	if( ctx && img ) {
+		$(img).hide();
+		//
+		cimg.onload = function() {
+			//alert( this.width + ' ' + this.height );			
+			var width = this.width;
+			var height = this.height;
+			cvs.setAttribute('width', '' + width + 'px' );
+			cvs.setAttribute('height', '' + height + 'px' );
+			ctx.drawImage(img, 0, 0, width, height );		
+			toggle_size();
+		};
+		cimg.src = img.src;
+		
+	} else {
+		alert('no image');
+	}	
+}
+
+$(document).ready(function() {
+	loadImage();
+});
+
+</script>
+
 <table>
 	<tr>
 		<td style="width: 80%;">
@@ -7,14 +88,22 @@
 	echo get_embed_object( $item->title );
 	
 } else { ?>
-	<a style="float: right" href="#" id="toggle_size" onclick="toggle_size(); return false;" title="toggle view" style="font-size: .8em;">[+]</a><br/>
-
 	<?php if( file_exists('media/'. $item->uuid)) { ?>
+		<div style="float: right">
+			<ul>
+				<li>
+					<a href="#" id="toggle_size" onclick="toggle_size(); return false;" title="toggle view" style="font-size: .8em;">[+]</a><br/>
+				</li>
+				<li>
+					<a href="#" id="bw_filter" onclick="bw_filter(); return false;" title="make b/w" style="font-size: .8em;">b/w</a><br/>
+				</li>
+			</ul>
+		</div>
 		<img id="theImage" src="/media/<?= $item->uuid ?>" />
+		<canvas id="theCanvas" style="border: 1px solid #000;"></canvas>
 	<?php } else { ?>
 		<img id="theImage" src="/img/image_not_found.jpg" />
 	<? } ?>
-	<!-- <canvas id="theCanvas" style="border: 1px solid #000;"></canvas> -->
 <?php } ?>
 			</div>
 			
@@ -75,7 +164,7 @@
 		<td valign="top" style="padding-left: 10px;">
 			<div id="media-info">
 			</div>
-	 	  <input onclick="return confirm('Really delete this media and all references?');" style="background-color: #f99" type="submit" name="deleterefs" value="Delete All" />
+			
 			<?php if( !file_exists('media/'. $item->uuid) && $item->type != "link") { 
 				$msg = "<b>This media is missing!</b>";
 				?>
@@ -91,6 +180,7 @@
 					<?php } ?>
 				</table>
 
+	 	  	<input onclick="return confirm('Really delete this media and all references?');" style="background-color: #f99" type="submit" name="deleterefs" value="Delete All" />
 				
 			<?php } else if( $used->num_rows() != 0 ) { ?>
 				<h4>References</h4>
@@ -103,7 +193,10 @@
 						<tr><td><a href="/admin<?=$path?>/media"><?=$path?></a></td></tr>
 					<?php } ?>
 				</table>
+
+	 	  	<input onclick="return confirm('Really delete this media and all references?');" style="background-color: #f99" type="submit" name="deleterefs" value="Delete All" />
 			<?php } ?>
+
 </form>
 			
 			<?php if( $item->type != "link") { ?>			
@@ -117,60 +210,4 @@
 	</tr>
 </table>
 
-<script type="text/javascript">
 
-function toggle_size()
-{
-	var cvs = $('#theCanvas')[0];
-	if( !cvs ) return;
-	var ctx = cvs.getContext('2d');
-	var img = $('#theImage')[0];
-	if( ctx && img ) {
-		var width = parseInt($(cvs).attr('width'));
-		var height = parseInt($(cvs).attr('height'));
-		//alert( '' + img.width + ' ' + width );
-		if( parseInt(img.width) == parseInt($(cvs).attr('width'))) {
-			width = 200;
-			height = 100;
-			$('#toggle_size').html('[+]');
-			$('#toggle_size').attr('title',"full size");
-		} else {
-			width = parseInt(img.width);
-			height = parseInt(img.height);			
-			$('#toggle_size').html('[-]');
-			$('#toggle_size').attr('title',"smaller view");
-		}
-		cvs.setAttribute('width', '' + width + 'px' );
-		cvs.setAttribute('height', '' + height + 'px' );
-		ctx.drawImage(img, 0, 0, width, height );		
-	}
-}
-
-function loadImage() {
-	var cvs = $('#theCanvas')[0];
-	if( !cvs ) return;
-	var ctx = cvs.getContext('2d');
-	var img = $('#theImage')[0];
-	if( ctx && img ) {
-		$(img).hide();
-		//
-		img.onload = function() {
-			//alert( this.width + ' ' + this.height );			
-			var width = this.width;
-			var height = this.height;
-			cvs.setAttribute('width', '' + width + 'px' );
-			cvs.setAttribute('height', '' + height + 'px' );
-			ctx.drawImage(img, 0, 0, width, height );		
-			toggle_size();
-		};
-		img.src = img.src;
-		
-	} else {
-		alert('no image');
-	}	
-}
-
-$(document).ready(function() {
-	//loadImage();
-});
-</script>
