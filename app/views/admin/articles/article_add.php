@@ -92,7 +92,7 @@ $(function()
 		</table>
   </tr>
   <tr>
-    <td><textarea name="body" rows="15" cols="80"></textarea>
+    <td><textarea name="body" rows="15" cols="80"><?=set_value('body')?></textarea>
     <br/><?=form_error('body')?></td>
   </tr>
   <tr>
