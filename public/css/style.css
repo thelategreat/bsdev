@@ -212,11 +212,10 @@ body.calendar #content {
 	padding-top: 15px;
 }
 
-.article .date {
+.article span.date {
 	color: #499;
 	font-family: Helvetica, sans-serif;
 	font-size: 75%;
-	float: right;
 }
 
 .article a {
