@@ -15,7 +15,7 @@
 				?>
 				<td valign="top">
 					<span class="date"><?= $day['date']?> @ <?= $event['start']?></span>
-					<img src="/img/junk/gallery_photo4.jpg" width="200px"/>
+					<img src="<?=$event['media']?>" width="200px"/>
 					<a href="/events/details/<?=$event['id']?>"><?=$event['title']?></a>					
 				</td>
 				

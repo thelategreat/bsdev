@@ -119,19 +119,9 @@ class Events extends MY_Controller
 		}
 		
 		$event_media = $this->event_model->get_event_media( $id );
-		
-	  $main_content_nav = '<ul id="main_content_nav">
-  		<li class="details selected"><a class="cufon" href="/events/details/'.$id.'">Details</a></li>
-<!--
-  		<li class="location"><a class="cufon" href="/events/location/'.$id.'">Location</a></li>
-  		<li class="media_gallery"><a class="cufon" href="/events/media/'.$id.'">Media Gallery</a></li>	
--->
-  	</ul>';
-		
-
+				
 		$pg_data = $this->get_page_data('Bookshelf - Event', 'event');
 		$pg_data['content'] = $this->load->view('events/details', array('event'=>$event, 'media'=>$event_media), true);
-		$pg_data['main_content_nav'] = $main_content_nav;
 		$this->load->view('layouts/standard_page', $pg_data );	  
 	}
 

@@ -72,10 +72,17 @@ EOF;
 					$edate = date('j/n/Y', strtotime($event->dt_start));
 					if( $edate == $day['date'] ) {
 						//echo $edate . '<br/>';
+						$media = $this->event_model->get_event_media( $event->id );
+						if( $media && $media->num_rows() > 0 ) {
+							$media = '/media/' . $media->row()->uuid;
+						} else {
+							$media = '/img/image_not_found.jpg';
+						}
 						array_push($day['events'], array('id' => $event->id, 
 																						 'title' => $event->title,
 																						 'start' => date('g:i a',strtotime($event->dt_start)),
-																						 'end' => date('g:i a',strtotime($event->dt_end))
+																						 'end' => date('g:i a',strtotime($event->dt_end)),
+																						 'media' => $media																						
 																						) );
 					}
 				}
