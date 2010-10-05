@@ -2,7 +2,8 @@
 <?php foreach( $articles->result() as $article ): ?>
 	<div class="article">
 		<h2><a href="/article/view/<?=$article->id?>"><?= $article->title ?></a></h2>
-		<p><?= $article->excerpt ?></p>
+		<span class="date">posted: <?=date('j M Y',strtotime($article->publish_on))?> by <?=$article->author?></span>
+		<p><?= strlen(trim($article->excerpt)) ? $article->excerpt : implode(' ', array_slice(explode( ' ', $article->body),0,100) ) . '...' ?>
 		<p class="read-more"><a href="/article/view/<?=$article->id?>"><em>read more...</em></a><p>
 	</div>
 <?php endforeach; ?>
