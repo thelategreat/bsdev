@@ -28,6 +28,11 @@
 				}
 				?>
 				<td <?=$class?>><span class="day-num"><?= $day['num'] ?></span>
+					<ul class="event-list">
+					<?php foreach( $day['events'] as $event ) { ?>
+						<li><a href="/events/details/<?= $event['id']?>"><?= $event['title'] ?></a></li>
+					<?php } ?>
+					</ul>
 				</td>
 			<?php }
 			echo '</tr>';

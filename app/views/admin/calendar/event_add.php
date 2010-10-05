@@ -78,8 +78,8 @@
 	</tr>
 </table>
 <p/>
-<span id='fld_event_date_startMsg'><p/></span>
-<span id='fld_event_date_endMsg'><p/></span>
+<span id='fld_event_date_startMsg'></span>
+<span id='fld_event_date_endMsg'></span>
 </fieldset>
 <table>
 	<tr>

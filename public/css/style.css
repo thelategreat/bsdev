@@ -15,6 +15,7 @@ body {
 
 a {
 	text-decoration: none;
+	color: #a82e24;
 }
 
 h2, h3 
@@ -345,6 +346,7 @@ body.calendar #content {
 	margin: 20px;	
 }
 
+/* L I S T  V I E W */
 ul.calendar-list {
 	margin: 0;	
 	width: 600px;
@@ -361,6 +363,7 @@ ul.calendar-list li span.date {
 	display: block;
 	font-style: italic;
 	color: #bbb;
+	font-size: 130%;
 }
 
 ul.calendar-list li p {
@@ -368,8 +371,9 @@ ul.calendar-list li p {
 	margin-left: 20px;
 }
 
+/* P O S T E R  V I E W */
 table.calendar-poster {
-	border-spacing: 1px 1px;
+	border-spacing: 10px 1px;
 	width: 100%;
 }
 
@@ -377,6 +381,13 @@ table.calendar-poster td {
 	width: 200px;
 }
 
+table.calendar-poster span.date {
+	padding: 3px;
+	border: 1px solid #666;
+	border-radius: 5px;
+}
+
+/* M O N T H  V I E W */
 table.calendar-month {
 	border-spacing: 1px 1px;
 }
@@ -407,6 +418,26 @@ table.calendar-month td span.day-num {
 	color: #bbb;
 	display: block;
 	font-size: 250%;
+}
+
+table.calendar-month ul.event-list {
+	margin: 0;
+	padding: 0;
+	margin-top: 10px;
+	list-style: none;
+}
+
+table.calendar-month ul.event-list li {
+	border: 1px solid #aaa;
+	border-radius: 5px;
+	width: 90%;
+	margin-left: 2px;
+	background-color: #cff;
+	text-align: left;
+	padding: 2px;
+}
+
+table.calendar-month ul.event-list li a {
 }
 
 /* calendar NUKE THIS

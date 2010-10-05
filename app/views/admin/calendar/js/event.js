@@ -22,7 +22,8 @@
 			}
 			var obj = $(this);
 			if( formats[options.format].test(obj.val())) {
-				return !/Invalid|NaN/.test(new Date(obj.val()));
+			  return Date.fromString(obj.val()) != false;
+				//return !/Invalid|NaN/.test(new Date(obj.val()));
 			}
 			return false;
 		},
@@ -177,6 +178,11 @@ function sel_event_time_start()
 		}
 	}
 	$('#fld_event_time_end_am_pm').val($('#fld_event_time_start_am_pm').val());
+}
+
+function sel_event_time_end()
+{
+  
 }
 
 $(function()

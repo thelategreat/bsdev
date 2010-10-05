@@ -270,6 +270,7 @@ class Event extends Admin_Controller
 			}
 			$s .= ">".sprintf("%02d",$mint)."</option>";
 		}
+		$s .= '</select>';
 		
 		$s .= '<select name="'.$name.'_am_pm" id="fld_'.$name.'_am_pm" onchange="sel_'.$name.'();">';
 		foreach( array("am","pm") as $zone ) {
@@ -279,6 +280,8 @@ class Event extends Admin_Controller
 			}
 			$s .= ">$zone</option>";
 		}			
+		$s .= '</select>';
+		
 		return $s;
 	}
 

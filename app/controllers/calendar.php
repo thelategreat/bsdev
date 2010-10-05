@@ -23,6 +23,7 @@ class Calendar extends MY_Controller
 		$this->load->helper('cal');
 		
 		$this->load->model('maillist_model');
+		$this->load->model('event_model');
 	}
 
 
@@ -58,6 +59,28 @@ EOF;
 		// gen the calendar grid		
 		$cal = cal_gen( $month, $year );
 		// TODO: fill $cal with events
+		$filter = array('view' => 'month', 'year' => $year, 'month' => $month);
+		$events = $this->event_model->get_events( $filter );
+
+		foreach( $events->result() as $event ) {
+			foreach( $cal as &$week ) {
+				foreach( $week as &$day ) {
+					if( !isset($day['events'])) {
+						$day['events'] = array();
+					}
+					// dd/mm/yyyy
+					$edate = date('j/n/Y', strtotime($event->dt_start));
+					if( $edate == $day['date'] ) {
+						//echo $edate . '<br/>';
+						array_push($day['events'], array('id' => $event->id, 
+																						 'title' => $event->title,
+																						 'start' => date('g:i a',strtotime($event->dt_start)),
+																						 'end' => date('g:i a',strtotime($event->dt_end))
+																						) );
+					}
+				}
+			}
+		}
 		
 		$view_data = array(
 			'view_menu' => $view_menu,
