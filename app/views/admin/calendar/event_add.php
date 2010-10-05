@@ -50,8 +50,8 @@
 	</tr>
 	<tr>
 		<td><label for="title">Title</label></td>
-		<td colspan="3"><input name="title" size="70" id="fld_title" onkeyup="lookup(this.value);" autocomplete="off" />
-		<br/><span id="title_error" class="form_error"><?=form_error('title')?></span>
+		<td colspan="3">
+			<input name="title" size="70" id="fld_title" onkeyup="lookup(this.value);" autocomplete="off" />
 		</td>
 	</tr>
 	<tr>

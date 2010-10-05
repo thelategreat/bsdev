@@ -159,7 +159,7 @@ class Ads extends Admin_Controller
 
 	function edit_media()
 	{
-		$ad_id = (iint)$this->uri->segment(4);
+		$ad_id = (int)$this->uri->segment(4);
 		
 		if( !$ad_id ) {
 			redirect("/admin/ads");			

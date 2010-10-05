@@ -75,17 +75,21 @@ function lookup()
 				<td><label for="title" onclick="do_lookup()">title</label><br/>
 				<input name="title" id="title" type="text" size="40" class="required" value="<?=set_value('title')?>"/>
 				<button onclick="return lookup();">IMDB</button></td>
-				<td class="form_error"><?=form_error('title')?></td>
+			</tr>
+			<tr>
+				<td> <span class="form_error"><?=form_error('title')?></span></td>
 			</tr>
 			<tr>
 				<td><label for="director">director</label><br/>
 				<input name="director" id="director" type="text" class="required" value="<?=set_value('director')?>"/></td>
-				<td class="form_error"><?=form_error('director')?></td>
+			</tr>
+			<tr>
+				<td><span class="form_error"><?=form_error('director')?></span></td>
 			</tr>
 			<tr>
 				<td><label for="country">country</label><br/>
 				<input name="country" id="country" type="text" value="<?=set_value('country')?>"/></td>
-				<td class="form_error"><?=form_error('country')?></td>
+				<td><span class="form_error"><?=form_error('country')?></span></td>
 			</tr>
 			<tr>
 				<td>
@@ -96,7 +100,7 @@ function lookup()
 							<td class="form_error"><?=form_error('year')?></td>
 							<td><label for="running_time">running time</label><br/>
 							<input name="running_time" id="running_time" type="text" size="4" value="<?=set_value('running_time')?>"/></td>
-							<td class="form_error"><?=form_error('running_time')?></td>
+							<td><span class="form_error"><?=form_error('running_time')?></span></td>
 						</tr>
 					</table>
 				</td>

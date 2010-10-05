@@ -433,6 +433,7 @@ td.form_error {
  
 span.form_error {
     font-size: 0.8em;
+	font-weight: bold;
     color: red;
 }
 
