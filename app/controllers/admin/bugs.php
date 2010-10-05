@@ -95,6 +95,10 @@ class Bugs extends Admin_Controller
 	{
 		$bug_id = $this->uri->segment(4);
 
+		if( !$bug_id ) {
+			redirect($this->page_root);			
+		}
+
 		// ------------
 		// U P D A T E
 		if( $this->input->post("save")) {
@@ -130,6 +134,10 @@ class Bugs extends Admin_Controller
 		
 		$this->db->where( 'id', $bug_id );
 		$bug = $this->db->get('bugs')->row();
+		if( !$bug ) {
+			redirect($this->page_root);			
+		}		
+				
 				
 		$view_data = array( 
 			'bug' => $bug,

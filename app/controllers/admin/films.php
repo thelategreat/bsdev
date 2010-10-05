@@ -97,7 +97,8 @@ class Films extends Admin_Controller
 	
 	function edit()
 	{
-		$id = $this->uri->segment(4);
+		$id = (int)$this->uri->segment(4);
+		
 		if( ! $id ) {
 			redirect("/admin/films");
 		}
@@ -142,6 +143,10 @@ class Films extends Admin_Controller
 
 		$this->db->where('id', $id );
 		$film = $this->db->get('films')->row();
+		if( !$film ) {
+			redirect('/admin/films');			
+		}
+		
 		
 		$tabs = $tabs = $this->tabs->gen_tabs(array('Details','Media'), $cur_tab, '/admin/films/edit/' . $id);
 		

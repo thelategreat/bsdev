@@ -60,8 +60,11 @@ class Venues extends Admin_Controller
 
 	function edit()
 	{
-		$venue_id = $this->uri->segment(4);
-		
+		$venue_id = (int)$this->uri->segment(4);
+		if( !$venue_id ) {
+			redirect("/admin/venues");						
+		}
+				
 		if( $this->input->post("save")) {
 			$this->db->where('id', $this->input->post('id'));
 			unset($_POST["save"]);
@@ -80,6 +83,10 @@ class Venues extends Admin_Controller
 
 		$this->db->where( 'id', $venue_id );
 		$venue = $this->db->get('venues')->row();
+
+		if( !$venue ) {
+			redirect("/admin/venues");						
+		}
 
 		$content = array(
 			'venue' => $venue,

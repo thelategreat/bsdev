@@ -109,7 +109,7 @@ $(function()
 			<table>
 				<tr><th>Tags</th></tr>
 				<tr>
-					<td><textarea name="tags" class="mceNoEditor" cols="20" rows="3"><?=$article->tags?></textarea>
+					<td><textarea name="tags" class="mceNoEditor" cols="20" rows="3"><?=set_value('tags',$article->tags)?></textarea>
 					</td>
 				</tr>
 			</table>
@@ -141,7 +141,7 @@ $(function()
 		<table style="margin-top: -10px;">
 			<tr>
     		<td><label for="title">Title</label></td>
-				<td><input name="title" size="60" value="<?=$article->title?>"/></td>
+				<td><input name="title" size="60" value="<?= set_value('title',$article->title)?>"/></td>
 			</tr>
 			<tr>
 				<td/>
@@ -149,7 +149,7 @@ $(function()
 			</tr>
 			<tr>
     		<td><label for="author">Author</label></td>
-				<td><input name="author" size="60" value="<?=$article->author?>"/></td>
+				<td><input name="author" size="60" value="<?= set_value('author',$article->author)?>"/></td>
 			</tr>
 			<tr>
 				<td/>
@@ -161,7 +161,7 @@ $(function()
     <td/>
   </tr>
   <tr>
-    <td><textarea name="body" rows="15" cols="80"><?=$article->body?></textarea>
+    <td><textarea name="body" rows="15" cols="80"><?= set_value('body',$article->body)?></textarea>
     <br/><?=form_error('body')?></td>
     <td valign="top">
 		</td>		
@@ -171,7 +171,7 @@ $(function()
 		<table><tr><th>Excerpt</th></tr>
 			<tr>
 				<td>
-					<textarea name="excerpt" class="mceNoEditor" rows="5" cols="80"><?=$article->excerpt?></textarea>
+					<textarea name="excerpt" class="mceNoEditor" rows="5" cols="80"><?= set_value('excerpt',$article->excerpt)?></textarea>
 					<br/><?=form_error('excerpt')?></td>
 			</tr>
 		</table>

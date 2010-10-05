@@ -98,7 +98,11 @@ class Ads extends Admin_Controller
 
 	function edit_ad()
 	{
-		$ad_id = $this->uri->segment(4);
+		$ad_id = (int)$this->uri->segment(4);
+
+		if( !$ad_id ) {
+			redirect("/admin/ads");			
+		}
 
 		$cur_tab = 'details';
 		if( $this->uri->segment(5)) {
@@ -155,10 +159,18 @@ class Ads extends Admin_Controller
 
 	function edit_media()
 	{
-		$ad_id = $this->uri->segment(4);
+		$ad_id = (iint)$this->uri->segment(4);
+		
+		if( !$ad_id ) {
+			redirect("/admin/ads");			
+		}
 		
 		$this->db->where( 'id', $ad_id );
 		$ad = $this->db->get('ads')->row();
+		if( !$ad ) {
+			redirect("/admin/ads");						
+		}		
+				
 				
 		$view_data = array( 
 			'title' => "Media for Ad: $ad->title",

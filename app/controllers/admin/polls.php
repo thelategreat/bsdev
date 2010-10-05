@@ -48,8 +48,17 @@ class Polls extends Admin_Controller
 	 */
 	function edit()
 	{
-		$poll = $this->polls_model->get_poll( $this->uri->segment(4) );
+		$id = (int)$this->uri->segment(4);
+		if( !$id ) {
+			redirect('/admin/polls');
+		}
 		
+		$poll = $this->polls_model->get_poll( $id );
+		
+		if( !$poll ) {
+			redirect('/admin/polls');			
+		}
+				
 		$view_data = array( 'poll' => $poll );
 		
 		$this->gen_page('Admin - Polls', 'admin/polls/poll_edit', $view_data );
@@ -60,7 +69,12 @@ class Polls extends Admin_Controller
 	 */
 	function rm()
 	{
-		$this->polls_model->rm_poll( $this->uri->segment(4) );
+		$id = (int)$this->uri->segment(4);
+		if( !$id ) {
+			redirect('/admin/polls');
+		}
+		
+		$this->polls_model->rm_poll( $id );
 		redirect('/admin/polls');
 	}
 
@@ -71,6 +85,7 @@ class Polls extends Admin_Controller
 	{		
 		$error = '';
 		$id = $this->input->post('id');
+		
 		$ques = $this->input->post('question');
 		$ans = $this->input->post('answers');
 		if( $id && $ques && $ans ) {

@@ -71,7 +71,10 @@ class Maillist extends Admin_Controller {
 	
 	function tmpledit()
 	{
-		$id = $this->uri->segment(4);
+		$id = (int)$this->uri->segment(4);
+		if( !$id ) {
+			redirect("/admin/maillist/tmpl");			
+		}
 		$error_msg = '';
 
 		if( $this->input->post("save")) {
@@ -149,7 +152,10 @@ class Maillist extends Admin_Controller {
 
 	function msgedit()
 	{
-		$msg_id = $this->uri->segment(4);
+		$msg_id = (int)$this->uri->segment(4);
+		if( !$msg_id ) {
+			redirect("/admin/maillist/msg");			
+		}
 		$error_msg = '';
 
 		if( $this->input->post("save")) {
@@ -239,7 +245,10 @@ class Maillist extends Admin_Controller {
 	function listedit()
 	{
 		$error_msg = '';
-		$msg_id = $this->uri->segment(4);
+		$msg_id = (int)$this->uri->segment(4);
+		if( !$msg_id ) {
+			redirect("/admin/maillist/lists");			
+		}
 		
 		if( $this->input->post("save")) {
 			$this->db->where('id', $this->input->post('id'));
@@ -313,7 +322,10 @@ class Maillist extends Admin_Controller {
 	function subscredit()
 	{
 		$error_msg = '';
-		$msg_id = $this->uri->segment(4);
+		$msg_id = (int)$this->uri->segment(4);
+		if( !$msg_id ) {
+			redirect("/admin/maillist/subscr");			
+		}
 		
 		if( $this->input->post("save")) {
 			$id = $this->input->post('id');

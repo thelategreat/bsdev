@@ -93,7 +93,12 @@ class Event extends Admin_Controller
 	 */
 	function edit()
 	{
-		$event_id = $this->uri->segment(4);
+		$event_id = (int)$this->uri->segment(4);
+		
+		if( !$event_id ) {
+			redirect('/admin/calendar');						
+		}
+		
 		
 		$this->load->helper('form');
 		$this->load->library('form_validation');
@@ -140,6 +145,11 @@ class Event extends Admin_Controller
 	
 		$this->db->where('id', $event_id);
 		$event = $this->db->get('events')->row();
+		if( !$event ) {
+			redirect('/admin/calendar');			
+		}
+		
+		
 		$tabs = $this->tabs->gen_tabs(array('Details','Media'), $cur_tab, '/admin/event/edit/' . $event_id);
 		
 		$data = array(

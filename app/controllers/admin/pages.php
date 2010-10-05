@@ -56,10 +56,16 @@ class Pages extends Admin_Controller
 
 	function edit()
 	{
+		
+		$id = (int)$this->uri->segment(4);
+		if( !$id ) {
+			redirect('/admin/pages');						
+		}
+		
 		if( $this->input->post('save') ) {
 			unset($_POST["save"]);
 			$this->input->post('title');
-			$this->db->where('id', $this->uri->segment(4));
+			$this->db->where('id', $id );
 			if( !isset($_POST['active'])) {
 				$_POST['active'] = 0;
 			} else {
@@ -78,9 +84,15 @@ class Pages extends Admin_Controller
 			$cur_tab = strtolower($this->uri->segment(5));
 		}
 		
-		$id = $this->uri->segment(4);
 		$this->db->where('id', $id );
-		$data['page'] = $this->db->get('pages')->row();
+		$pg = $this->db->get('pages')->row();
+		
+		if( !$pg ) {
+			redirect('/admin/pages');						
+		}
+		
+		
+		$data['page'] = $pg;
 		$data['titles'] = $this->pages_model->getPageTitles();
 		$data['parent_select'] = $this->mk_nested_select($data['titles'], $data['page']->parent_id );
 		$data['page_types'] = $this->mk_types_select( $data['page']->page_type );

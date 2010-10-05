@@ -163,7 +163,11 @@ class Media extends Admin_Controller
 		$errors = '';
 		$this->load->library('form_validation');
 		$uuid = $this->uri->segment(4);
-
+		if( !$uuid ) {
+			redirect('/admin/media/edit/' . $uuid );			
+		}
+		
+		
 		$page = NULL;
 		// the page number, maybe
 		if( $this->uri->segment(6) && is_numeric($this->uri->segment(6))) {
@@ -242,6 +246,10 @@ class Media extends Admin_Controller
 		}
 		
 		$item = $this->media_model->get_media( $uuid );
+		if( !$item ) {
+			redirect('/admin/media');			
+		}
+		
 		$used = $this->media_model->get_media_usage( $uuid );
 				
 		$data = array(

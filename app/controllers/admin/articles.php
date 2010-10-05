@@ -105,7 +105,11 @@ class Articles extends Admin_Controller
 
 	function edit_article()
 	{
-		$article_id = $this->uri->segment(4);
+		$article_id = (int)$this->uri->segment(4);
+		
+		if( !$article_id ) {
+			redirect("/admin/articles");
+		}
 
 		$cur_tab = 'details';
 		if( $this->uri->segment(5)) {
@@ -155,6 +159,9 @@ class Articles extends Admin_Controller
 		
 		$this->db->where( 'id', $article_id );
 		$article = $this->db->get('articles')->row();
+		if( !$article ) {
+			redirect("/admin/articles");			
+		}
 		
 		$view_data = array( 
 			'article' => $article, 

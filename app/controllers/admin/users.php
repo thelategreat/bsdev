@@ -80,7 +80,11 @@ class Users extends Admin_Controller
 	function edit()
 	{
 
-		$user_id = $this->uri->segment(4);
+		$user_id = (int)$this->uri->segment(4);
+		if( !$user_id ) {
+			redirect('/admin/users');							
+		}
+		
 		
 		if( $this->input->post("save")) {
 			$this->form_validation->set_error_delimiters('<span class="form_error">','</span>');
@@ -126,6 +130,10 @@ class Users extends Admin_Controller
 		
 		$this->db->where( 'id', $user_id );
 		$user = $this->db->get('users')->row();
+				
+		if( !$user ) {
+			redirect('/admin/users');							
+		}		
 				
 		$content = array(
 			'user' => $user, 
