@@ -53,7 +53,7 @@ $(function()
 			<td>
 			<table>
 				<tr><th>Tags</th></tr>
-				<tr><td><textarea name="tags" class="mceNoEditor" cols="20" rows="3"></textarea></td></tr>
+				<tr><td><textarea name="tags" class="mceNoEditor" cols="20" rows="3"><?=set_value('tags')?></textarea></td></tr>
 			</table>
 			</td>
 		</tr>
@@ -99,7 +99,7 @@ $(function()
 		<table style="width: 0"><tr><th>Excerpt</th></tr>
 			<tr>
 				<td>
-					<textarea name="excerpt" class="mceNoEditor" rows="5" cols="60"></textarea>
+					<textarea name="excerpt" class="mceNoEditor" rows="5" cols="60"><?=set_value('excerpt')?></textarea>
 					<br/><?=form_error('excerpt')?></td>
 			</tr>
 		</table>
