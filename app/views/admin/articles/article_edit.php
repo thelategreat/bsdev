@@ -170,7 +170,9 @@ $(function()
     <td>
 		<table><tr><th>Excerpt</th></tr>
 			<tr>
-				<td><textarea name="excerpt" class="mceNoEditor" rows="5" cols="80"><?=$article->excerpt?></textarea></td>
+				<td>
+					<textarea name="excerpt" class="mceNoEditor" rows="5" cols="80"><?=$article->excerpt?></textarea>
+					<br/><?=form_error('excerpt')?></td>
 			</tr>
 		</table>
 		<td valign="top">

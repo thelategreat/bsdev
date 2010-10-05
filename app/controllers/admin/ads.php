@@ -126,7 +126,7 @@ class Ads extends Admin_Controller
 		// ------------
 		// D E L E T E
 		if( $this->input->post("rm")) {
-			$this->db->where('id', $article_id);
+			$this->db->where('id', $ad_id);
 			$this->db->delete('ads');
 			$this->db->where('path', "/ads/$ad_id");
 			$this->db->delete('media_map');

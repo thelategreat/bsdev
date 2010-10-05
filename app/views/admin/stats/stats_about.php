@@ -1,5 +1,7 @@
 <h3>About the System</h3>
 
+<?= $msg ?>
+
 <table>
 	<?php foreach( $info as $section) { ?>
 		<tr>

@@ -119,6 +119,7 @@ class Articles extends Admin_Controller
 			$this->form_validation->set_rules('title','Title','trim|required');
 			$this->form_validation->set_rules('body','Body','trim|required');
 			$this->form_validation->set_rules('author','Author','trim|required');
+			$this->form_validation->set_rules('excerpt','Excerpt','trim|required');
 			if( $this->form_validation->run()) {
 				$this->db->where('id', $article_id);
 				$this->db->set('title', $this->input->post('title'));

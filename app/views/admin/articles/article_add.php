@@ -98,7 +98,9 @@ $(function()
   <tr>
 		<table style="width: 0"><tr><th>Excerpt</th></tr>
 			<tr>
-				<td><textarea name="excerpt" class="mceNoEditor" rows="5" cols="60"></textarea></td>
+				<td>
+					<textarea name="excerpt" class="mceNoEditor" rows="5" cols="60"></textarea>
+					<br/><?=form_error('excerpt')?></td>
 			</tr>
 		</table>
   <td/>

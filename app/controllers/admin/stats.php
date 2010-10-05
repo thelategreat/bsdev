@@ -27,13 +27,17 @@ class Stats extends Admin_Controller
 	function about()
 	{
 		$s = '';
+		
+		$msg = '<p class="info">Bookshelf web system, build: ??? date: ???</p>';
 				
 		$data = array();
-		$section[] = array('PHP Version', phpversion());
-		$section[] = array('CI Version', CI_VERSION );
-		$data[] = array('General', $section );
+		$section[] = array('OS', php_uname('s') . ' v' . php_uname('r'));
+		$section[] = array('PHP', phpversion());
+		$section[] = array('CI', CI_VERSION );
+		$section[] = array('Database', $this->db->platform() . ' v' . $this->db->version() );
+		$data[] = array('System', $section );
 	
-		$this->gen_page('Admin - Stats', 'admin/stats/stats_about', array('info' => $data));				
+		$this->gen_page('Admin - Stats', 'admin/stats/stats_about', array('info' => $data, 'msg' => $msg ));				
 	}
 	
 	

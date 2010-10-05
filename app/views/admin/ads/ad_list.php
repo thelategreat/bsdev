@@ -28,6 +28,8 @@
 </tr>
 <?php $cnt++; } ?>
 </table>
+
+<!-- pagination -->
 <table>
 	<tr>
 		<td><?=$prev_page?></td>

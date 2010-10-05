@@ -9,7 +9,7 @@ class users_model extends Model
     parent::Model();
   }
 
-  function get_users( $filter = NULL )
+  function get_users( $filter = NULL, $role = NULL )
 	{
 		if( count($filter)) {
 			foreach( $filter as $q ) {
@@ -18,6 +18,11 @@ class users_model extends Model
 				$this->db->or_like('lastname', $q );
 			}
 		}
+		
+		if( $role ) {
+			$this->db->where( "users.role_id = (SELECT id FROM user_roles WHERE role = '$role')", NULL, FALSE);
+		}
+		
 		$this->db->from('users');
 		$this->db->join('user_roles', 'user_roles.id = users.role_id');
 		$this->db->select('users.id, users.username, users.firstname, users.lastname, user_roles.role, users.email, users.active, users.last_login');
