@@ -71,11 +71,12 @@ EOF;
 					// dd/mm/yyyy
 					$edate = date('j/n/Y', strtotime($event->dt_start));
 					if( $edate == $day['date'] ) {
-						//echo $edate . '<br/>';
+						// grab media
 						$media = $this->event_model->get_event_media( $event->id );
 						if( $media && $media->num_rows() > 0 ) {
 							$media = '/media/' . $media->row()->uuid;
 						} else {
+							// default image
 							$media = '/img/image_not_found.jpg';
 						}
 						array_push($day['events'], array('id' => $event->id, 

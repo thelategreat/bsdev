@@ -64,7 +64,7 @@
 	</tr>
 	<tr>
 		<td><label for="event_date_end">End Date</label></td>
-		<td><input class="date-pick" name="event_date_end" size="12" onblur="" id="fld_event_date_end" value="" /><span class="small">yyyy-mm-dd<span></td>
+		<td><input class="date-pick" name="event_date_end" size="12" onblur="" id="fld_event_date_end" value="<?=date('Y-m-d')?>" /><span class="small">yyyy-mm-dd<span></td>
 		<td><label for="event_time_end">End Time</label></td>
 		<td>
 			<?=$end_time_widget?>

@@ -79,8 +79,9 @@ function validate( thisForm, event )
 		return false;
 	}
 	// check the dates aren't stupid
-	var st = new Date($('#fld_event_date_start').val());
-	var en = new Date($('#fld_event_date_end').val());
+	Date.format = 'yyyy-mm-dd';
+	var st = new Date.fromString($('#fld_event_date_start').val());
+	var en = new Date.fromString($('#fld_event_date_end').val());
 	if( st > en ) {
 		alert('Start date is after the end date.');
 		return false;
@@ -104,7 +105,8 @@ function validate( thisForm, event )
 			return false;
 		}
 	}
-	return true;
+	alert('ok');
+	return false;
 }
 
 function lookup( inp )
@@ -145,7 +147,21 @@ function leave_first_date()
 	if( $('#fld_event_date_end').val() == '' ) {
 		$('#fld_event_date_end').val( $('#fld_event_date_start').val() );
 	}
+	Date.format = 'yyyy-mm-dd';
+	var st = new Date.fromString($('#fld_event_date_start').val());
+	var en = new Date.fromString($('#fld_event_date_end').val());
+	// if the start date is greater then the end date, make
+	// the end date the same
+	if( st > en ) {
+	  $('#fld_event_date_end').val( st.asString() );
+	}
 }
+
+function formatDate()
+{
+  
+}
+
 // changed category
 function sel_category()
 {
