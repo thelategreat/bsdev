@@ -78,7 +78,7 @@ EOF;
 						} else {
 							// default image
 							if( file_exists( 'img/defaults/' . $event->category . '.jpg'  )) {
-								$media = 'img/defaults/' . $event->category . '.jpg';								
+								$media = '/img/defaults/' . $event->category . '.jpg';								
 							} else {
 								$media = '/img/image_not_found.jpg';
 							}

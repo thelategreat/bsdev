@@ -387,6 +387,12 @@ table.calendar-poster td {
 	width: 200px;
 }
 
+table.calendar-poster td img {
+	-webkit-box-shadow: 10px 10px 5px #888; 
+	-moz-box-shadow: 10px 10px 5px #888; 
+	margin-bottom: 10px;
+}
+
 table.calendar-poster span.date {
 	padding: 3px;
 	border: 1px solid #666;
@@ -441,6 +447,8 @@ table.calendar-month ul.event-list li {
 	background-color: #ffc;
 	text-align: left;
 	padding: 2px;
+	-webkit-box-shadow: 5px 5px 5px #888; 
+	-moz-box-shadow: 5px 5px 5px #888; 
 }
 
 table.calendar-month ul.event-list li a {
