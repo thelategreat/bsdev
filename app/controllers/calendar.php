@@ -77,7 +77,11 @@ EOF;
 							$media = '/media/' . $media->row()->uuid;
 						} else {
 							// default image
-							$media = '/img/image_not_found.jpg';
+							if( file_exists( 'img/defaults/' . $event->category . '.jpg'  )) {
+								$media = 'img/defaults/' . $event->category . '.jpg';								
+							} else {
+								$media = '/img/image_not_found.jpg';
+							}
 						}
 						array_push($day['events'], array('id' => $event->id, 
 																						 'title' => $event->title,
