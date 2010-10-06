@@ -88,7 +88,7 @@
 			<input style="background-color: #6d6" type="submit" name="addedit" value="Save &amp; Add Media" />
 		</td>
 		<td>
-			<input type="submit" name="cancel" value="Cancel" />
+			<input type="submit" name="cancel" value="Cancel" onclick="cancelAction=true"/>
 		</td>
 	</tr>
 </table>

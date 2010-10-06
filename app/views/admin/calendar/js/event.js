@@ -46,6 +46,7 @@
 })(jQuery);
 
 var duration = null;
+var cancelAction = false;
 
 /*
  * Validation for event add/edit view
@@ -60,11 +61,15 @@ function validate( thisForm, event )
 	if (target.nodeType == 3) // defeat Safari bug
 			target = target.parentNode;
 
-  //alert(target);
+  //alert(event.srcElement);
 
 	// server side will ignore this
 	if( target.value == 'Cancel' )
 		return true;
+		
+	// safari is not nice
+	if( cancelAction )
+	  return true;
 	
 	if( $('#fld_title').is_empty() ) {
 		alert("The event title cannot be blank");
