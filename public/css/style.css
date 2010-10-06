@@ -472,6 +472,28 @@ table.calendar-month ul.event-list li.music {
 	text-align: left;
 }
 
+/* E V E N T */
+div.event-detail {
+	
+}
+
+div.event-detail img {
+	float: left;
+	margin-right: 20px;
+	margin-bottom: 20px;
+}
+
+div.event-detail h2 {
+	font-size: 150%;
+}
+
+div.event-detail p.event-time {
+	margin: 0;
+}
+
+div.event-detail div.event-description {
+
+}
 /* C A R T */
 #cart {
 	
