@@ -15,8 +15,9 @@
 				?>
 				<td valign="top">
 					<span class="date"><?= $day['date']?> @ <?= $event['start']?></span>
-					<img src="<?=$event['media']?>" width="200px"/>
-					<a href="/events/details/<?=$event['id']?>"><?=$event['title']?></a>					
+					<a href="/events/details/<?=$event['id']?>">
+						<img src="<?=$event['media']?>" width="200px"/>
+					<?=$event['title']?></a>					
 				</td>
 				
 		<?php
