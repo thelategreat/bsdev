@@ -90,11 +90,14 @@ EOF;
 	/**
 	 * Search from the front end
 	 */
-	function search_events($q)
+	function search_events($q, $page = 1, $limit = 10 )
 	{		
 		$sql = "SELECT * FROM events WHERE (title LIKE '%" . $this->db->escape_like_str($q) . "%'";
 		$sql .= " OR body LIKE '%" . $this->db->escape_like_str($q) . "%')";
-		$sql .= " AND dt_start >= NOW()";
+		//$sql .= " AND dt_start >= NOW()";
+
+		$sql .= " LIMIT " . $limit;
+		$sql .= " OFFSET " . (($page - 1) * $limit);
 
 		return $this->db->query( $sql );		
 	}

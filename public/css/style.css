@@ -234,6 +234,10 @@ body.calendar #content {
 	color: #a82e24;
 }
 
+.icon {
+	width: 16px;
+}
+
 #sidebar-right
 {
 	float: right;
@@ -357,12 +361,29 @@ ul.calendar-list li {
 	margin: 10px;
 	margin-left: 0px;
 	border-bottom: 2px solid #ddd;
+	border-left: 2px solid #ddd;
+	-webkit-box-shadow: 10px 10px 5px #888; 
+	-moz-box-shadow: 10px 10px 5px #888; 
+	border-radius: 5px;
+	padding: 5px;
+}
+
+ul.calendar-list li.film {
+	border-bottom: 2px solid #f99;
+	border-left: 2px solid #f99;
+	background-color: #fdd;
+}
+
+ul.calendar-list li.music {
+	border-bottom: 2px solid #9f9;
+	border-left: 2px solid #9f9;
+	background-color: #dfd;
 }
 
 ul.calendar-list li span.date {
 	display: block;
 	font-style: italic;
-	color: #bbb;
+	color: #999;
 	font-size: 130%;
 }
 
@@ -398,7 +419,7 @@ table.calendar-poster span.date {
 	padding-left: 5px;
 	width: 70%;
 	border-radius-top: 10px;
-	background-color: #ffe;
+	background-color: #fef;
 	font-size: 90%;
 	font-family: "Casual" "Comic Sans MS";
 	-webkit-box-shadow: 10px 10px 5px #888; 
@@ -463,10 +484,12 @@ table.calendar-month ul.event-list li a {
 /* can add a class to li with the event category */
 table.calendar-month ul.event-list li.film {
 	background-color: #fcc;
+	background: #fcc url('../img/icons/movie.png') no-repeat right top;
 }
 
 table.calendar-month ul.event-list li.music {
 	background-color: #cfc;
+	background: #cfc url('../img/icons/music.png') no-repeat right top;
 }
 
 #search_results {
@@ -538,4 +561,13 @@ div.event-detail div.event-description {
 #cart td.dark {
 	background-color: #666;
 	color: white;
+}
+
+/* P A G E R */
+div.pager {
+	background-color: #ddd;
+}
+
+div.pager table {
+	width: 100%;
 }

@@ -20,7 +20,11 @@
 				$day['day'] = $day['day'] . '<sup>th</sup>';
 			}
 			foreach( $day['events'] as $event ) { ?>
-				<li><span class="day"><?= $day['day']?></span><span class="date">@ <?= $event['start']?></span>
+				<li class="<?=$event['category']?>">
+					<?php if( file_exists('img/icons/black/' . $event['category'] . '.png')) { ?>
+						<img class="icon" style="float: right" src="'/img/icons/black/<?=$event['category']?>.png'" title="<?=$event['category']?>" />
+					<?php }?>
+						 <span class="day"><?= $day['day']?></span><span class="date">@ <?= $event['start']?></span>
 					   <p><a href="/events/details/<?=$event['id']?>"><?=$event['title']?></a></p>
 				</li>								
 	<?php
