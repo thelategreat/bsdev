@@ -39,16 +39,19 @@ function cal_gen( $month, $year )
 			if( $d < 1 ) {
 				$cal[$week][$i]['num'] = ($days_in_last_month + $d);
 				$adt = cal_adjust_date( $month - 1, $year );
-				$cal[$week][$i]['date'] = ($days_in_last_month + $d) . "/$adt[0]/$adt[1]" ;
+				$cal[$week][$i]['date'] = ($days_in_last_month + $d) . "/$adt[0]/$adt[1]";
+				$cal[$week][$i]['day'] = ($days_in_last_month + $d);
       }
       elseif( $d <= $days_in_month ) {
 				$cal[$week][$i]['num'] = $d;
 				$cal[$week][$i]['date'] = "$d/$month/$year";
+				$cal[$week][$i]['day'] = $d;
     	} 
 			elseif( $d > $days_in_month ) {
 				$cal[$week][$i]['num'] = ($d - $days_in_month);
 				$adt = cal_adjust_date( $month + 1, $year );
 				$cal[$week][$i]['date'] = ($d - $days_in_month) . "/$adt[0]/$adt[1]" ;
+				$cal[$week][$i]['day'] = ($d - $days_in_month);
   		}
       $d++;
 		}

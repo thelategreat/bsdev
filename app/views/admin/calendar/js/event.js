@@ -110,8 +110,7 @@ function validate( thisForm, event )
 			return false;
 		}
 	}
-	alert('ok');
-	return false;
+	return true;
 }
 
 function lookup( inp )

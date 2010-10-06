@@ -81,6 +81,7 @@ EOF;
 						}
 						array_push($day['events'], array('id' => $event->id, 
 																						 'title' => $event->title,
+																						 'category' => strtolower($event->category),
 																						 'start' => date('g:i a',strtotime($event->dt_start)),
 																						 'end' => date('g:i a',strtotime($event->dt_end)),
 																						 'media' => $media																						
