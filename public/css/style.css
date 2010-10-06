@@ -489,6 +489,8 @@ div.event-detail img {
 	float: left;
 	margin-right: 20px;
 	margin-bottom: 20px;
+	-webkit-box-shadow: 10px 10px 5px #888; 
+	-moz-box-shadow: 10px 10px 5px #888; 
 }
 
 div.event-detail h2 {
