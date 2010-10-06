@@ -8,16 +8,30 @@
 	$count = 0;
 	foreach( $cal as $week ) {
 		foreach( $week as $day ) {
+			switch( $day['day']) {
+				case 1:
+				$day['day'] = '1<sup>st</sup>';
+				break;
+				case 2:
+				$day['day'] = '2<sup>nd</sup>';
+				break;
+				case 3:
+				$day['day'] = '3<sup>rd</sup>';
+				break;
+				default:
+				$day['day'] = $day['day'] . '<sup>th</sup>';
+			}
 			foreach( $day['events'] as $event ) { 
 				if( $count % 3 == 0 ) {
 					echo '<tr>';
 				}
 				?>
 				<td valign="top">
-					<span class="date"><?= $day['date']?> @ <?= $event['start']?></span>
+					<span class="date"><?= $day['day']?> @ <?= $event['start']?> </span>
 					<a href="/events/details/<?=$event['id']?>">
 						<img src="<?=$event['media']?>" width="200px"/>
-					<?=$event['title']?></a>					
+						<?=$event['title']?>
+					</a>					
 				</td>
 				
 		<?php

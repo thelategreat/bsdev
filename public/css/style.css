@@ -394,9 +394,15 @@ table.calendar-poster td img {
 }
 
 table.calendar-poster span.date {
-	padding: 3px;
-	border: 1px solid #666;
-	border-radius: 5px;
+	display: block;
+	padding-left: 5px;
+	width: 70%;
+	border-radius-top: 10px;
+	background-color: #ffe;
+	font-size: 90%;
+	font-family: "Casual" "Comic Sans MS";
+	-webkit-box-shadow: 10px 10px 5px #888; 
+	-moz-box-shadow: 10px 10px 5px #888; 
 }
 
 /* M O N T H  V I E W */
