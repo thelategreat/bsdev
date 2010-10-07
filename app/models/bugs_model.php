@@ -17,6 +17,7 @@ class Bugs_model extends Model
 
 	function init_tables( $force = FALSE )
 	{
+		// see if the table is there first
 		if( !$force ) {
 			$res = $this->db->query("SHOW TABLES LIKE 'bugs'");
 			if( $res->num_rows() > 0 ) {
@@ -24,6 +25,7 @@ class Bugs_model extends Model
 			}
 		}
 		
+		// watch for AUTO_INCREMENT at end if cutting from SequelPro
 		$query = <<<EOQ
 		CREATE TABLE `bugs` (
 		  `id` int(11) NOT NULL AUTO_INCREMENT,

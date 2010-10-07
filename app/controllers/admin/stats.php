@@ -28,7 +28,13 @@ class Stats extends Admin_Controller
 	{
 		$s = '';
 		
-		$msg = '<p class="info">Bookshelf web system, build: ??? date: ???</p>';
+		$build_text = 'missing';
+		
+		if( file_exists( '../build.txt')) {
+			$build_text = 'Build: ' . file_get_contents('../build.txt');
+		}
+		
+		$msg = "<p class='info'>Bookshelf web system. ($build_text)</p>";
 				
 		$data = array();
 		$section[] = array('OS', php_uname('s') . ' v' . php_uname('r'));
