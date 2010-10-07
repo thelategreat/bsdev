@@ -25,6 +25,8 @@ class Bugs extends Admin_Controller
 	
 	function index()
 	{
+		$this->bugs_model->init_tables();
+		
 		$page_size = $this->config->item('list_page_size');
 		$page = 1;
 
@@ -50,14 +52,14 @@ class Bugs extends Admin_Controller
 			$next_page = "<a class='small' href='/admin/bugs/index/".($page+1)."'>next ⇒</a>";
 		}
 
-		
+	
 		$pg_data = array(
 			'next_page' => $next_page,
 			'prev_page' => $prev_page,
 			'query' => $query,
 			'bugs' => $bugs
 			);
-		
+	
 		$this->gen_page($this->page_title, 'admin/bugs/bug_list', $pg_data );
 	}
 
