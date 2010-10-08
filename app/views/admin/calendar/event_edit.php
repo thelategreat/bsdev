@@ -12,37 +12,17 @@
 <input type="hidden" name="id" id="fld_id" value="-1" />
 <table style="border: none;">
 <tr>
-	<td colspan="4">
+	<td/>
+	<td colspan="2">
 		<table>
 			<tr>
-				<td><label for="venue">Venue</label></td>
-				<td>
-					<select name="venue" id="fld_venue" onchange="sel_venue();">
-					  <option <?=set_select('venue','cinema', ($event->venue == 'cinema'))?>>cinema</option>
-					  <option <?=set_select('venue','greenroom', ($event->venue == 'greenroom'))?>>greenroom</option>
-					  <option <?=set_select('venue','ebar', ($event->venue == 'ebar'))?>>ebar</option>
-					  <option <?=set_select('venue','bookstore', ($event->venue == 'bookstore'))?>>bookstore</option>
-					  <option <?=set_select('venue','other', ($event->venue == 'other'))?>>other</option>
-					</select>
-				</td>
 				<td><label for="category">Category</label></td>
 				<td>
-					<select name="category" id="fld_category" onchange="sel_category();">
-					  <option <?=set_select('category','film', ($event->category == 'film'))?>>film</option>
-					  <option <?=set_select('category','music', ($event->category == 'music'))?>>music</option>
-					  <option <?=set_select('category','reading', ($event->category == 'reading'))?>>reading</option>
-					  <option <?=set_select('category','poetry', ($event->category == 'poetry'))?>>poetry</option>
-					  <option <?=set_select('category','lecture', ($event->category == 'lecture'))?>>lecture</option>
-					</select>
+					<?= $category_select ?>
 				</td>
 				<td><label for="audience">Audience</label></td>
 				<td>
-					<select name="audience" id="fld_audience" onchange="sel_audience();">
-					  <option <?=set_select('audience','general', ($event->audience == 'general'))?>>general (all ages)</option>
-					  <option <?=set_select('audience','children', ($event->audience == 'children'))?>>children</option>
-					  <option <?=set_select('audience','teen', ($event->audience == 'teen'))?>>young adult</option>
-					  <option <?=set_select('audience','adult', ($event->audience == 'adult'))?>>adult</option>
-					</select>
+					<?= $audience_select ?>
 				</td>
 			</tr>
 		</table>
@@ -52,6 +32,7 @@
 	<td><label for="title">Title</label></td>
 	<td colspan="3">
 		<input name="title" size="80" id="fld_title" value="<?=$event->title?>" onkeyup="lookup(this.value);" autocomplete="off"/>
+		<input name="event_ref" type="hidden" id="fld_event_ref" value="<?=$event->event_ref?>"/>
 	</td>
 </tr>
 <tr>
@@ -92,10 +73,15 @@
 	</td>
 </tr>
 <tr>
-  <td colspan="4">Description</td>
+	<td><label for="venue">Venue</label></td>
+	<td colspan="3">
+		<input name="venue" size="50" id="fld_venue" autocomplete="off" onkeyup="lookup_venue(this.value);" value="<?= $event->venue?>" />
+		<input name="venue_ref" type="hidden" id="fld_venue_ref" value="<?=$event->venue_ref?>" />
+	</td>
 </tr>
 <tr>
-  <td colspan="4"><textarea name="body" rows="10" cols="70" id="fld_body" ><?=$event->body?></textarea></td>
+  <td valign="top">Description</td>
+  <td colspan="3"><textarea name="body" rows="10" cols="70" id="fld_body" ><?=$event->body?></textarea></td>
   <!--
 	<td valign="top" align="center">
 		<fieldset><legend>Media</legend>

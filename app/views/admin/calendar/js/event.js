@@ -115,6 +115,9 @@ function validate( thisForm, event )
 
 function lookup( inp )
 {
+  // reset the ref if the user typed something
+  $('#fld_event_ref').val('0');
+  
 	if( inp.length == 0 ) {
 		$('#autoSuggestBox').hide();
 	} else {
@@ -130,6 +133,29 @@ function lookup( inp )
 	}
 }
 
+function lookup_venue( inp )
+{
+	if( inp.length == 0 ) {
+		$('#autoSuggestBox').hide();
+	} else {
+		$.post("/admin/event/lookup_venue", {query: ""+inp+"" },
+			function( data ) {
+				var ht = '';
+				$(data).find('item').each(function(foo) {
+					ht = ht + '<li onclick="fill_venue(\'' + $(this).attr('id') + '\',\''+$(this).attr('name')+'\')">' + $(this).attr('name') + '</li>';
+				});
+				$('#autoSuggestBox').show();
+				$('#autoSuggestList').html( ht );
+			}, 'xml');
+	}
+}
+
+function fill_venue( id, name )
+{
+  $('#fld_venue_ref').val(id);
+  $('#fld_venue').val(name);
+}
+
 function fill( id, cat )
 {
 	$.post("/admin/event/lookup", {id: ""+id+"", cat: ""+$('#fld_category').val()+"" },
@@ -137,6 +163,7 @@ function fill( id, cat )
 			$(data).find('item').each(function() {
 				var item = $(this);
 				$('#fld_title').val(item.attr('title'));
+				$('#fld_event_ref').val(item.attr('id'));
 				duration = item.attr('time');
 				//$('#fld_body').val(item.find('description').text());
 				tinyMCE.activeEditor.setContent(item.find('description').text());

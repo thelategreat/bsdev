@@ -56,6 +56,8 @@ class Event extends Admin_Controller
 			$data['category'] = $this->input->post('category');
 			$data['audience'] = $this->input->post('audience');
 			$data['body'] = $this->input->post('body');
+			$data['event_ref'] = $this->input->post('event_ref');
+			$data['venue_ref'] = $this->input->post('venue_ref');
 			$data['dt_start'] = $this->input->post('event_date_start') . " " . $this->get_time_post('event_time_start');
 			$data['dt_end'] = $this->input->post('event_date_end') . " " . $this->get_time_post('event_time_end');
 			$id = $this->event_model->add_event( $data );
@@ -83,6 +85,8 @@ class Event extends Admin_Controller
 		$widgets = array(
 			"start_time_widget" => $this->get_time_widget('event_time_start', time()),
 			"end_time_widget" => $this->get_time_widget('event_time_end', time() + 60*60),
+			"audience_select" => $this->get_audience_select(),
+			"category_select" => $this->get_category_select()
 			);
 		
 		$this->gen_page('Admin - Event', 'admin/calendar/event_add', $widgets );
@@ -135,6 +139,8 @@ class Event extends Admin_Controller
 				$data['venue'] = $this->input->post('venue');
 				$data['category'] = $this->input->post('category');
 				$data['audience'] = $this->input->post('audience');
+				$data['event_ref'] = $this->input->post('event_ref');
+				$data['venue_ref'] = $this->input->post('venue_ref');
 				$data['body'] = $this->input->post('body');
 				$data['dt_start'] = $this->input->post('event_date_start') . " " . $this->get_time_post('event_time_start');
 				$data['dt_end'] = $this->input->post('event_date_end') . " " . $this->get_time_post('event_time_end');
@@ -157,6 +163,9 @@ class Event extends Admin_Controller
 			'tabs' => $tabs,
 			"start_time_widget" => $this->get_time_widget('event_time_start', strtotime($event->dt_start)),
 			"end_time_widget" => $this->get_time_widget('event_time_end', strtotime($event->dt_end)),
+			"audience_select" => $this->get_audience_select($event->audience),
+			"category_select" => $this->get_category_select($event->category)
+			
 			);
 		
 		if( $cur_tab == 'media' ) {
@@ -185,19 +194,25 @@ class Event extends Admin_Controller
 		$xml .= '<results>';
 		
 		if( $id && $cat ) {
-			$res = $this->db->query("select id, title, description, running_time from films where id = $id");
-			foreach( $res->result() as $row ) {
-				$xml .= '<item ';
-				$xml .= "id='" . htmlentities($row->id) . "' ";
-				$xml .= "title='" . htmlentities($row->title) . "' ";
-				$xml .= "time='" . htmlentities($row->running_time) . "' >";
-				$xml .= '<description>' . htmlentities($row->description) . '</description>';
-				$xml .= "</item>";
+			// F I L M
+			if( $cat == "1" ) {
+				$res = $this->db->query("select id, title, description, running_time from films where id = $id");
+				foreach( $res->result() as $row ) {
+					$xml .= '<item ';
+					$xml .= "id='" . htmlentities($row->id) . "' ";
+					$xml .= "title='" . htmlentities($row->title) . "' ";
+					$xml .= "time='" . htmlentities($row->running_time) . "' >";
+					$xml .= '<description>' . htmlentities($row->description) . '</description>';
+					$xml .= "</item>";
+				}
 			}
 		} elseif( $query && $cat ) {
-			$res = $this->db->query("select id, title from films where title like '" . $query . "%'");
-			foreach( $res->result() as $row ) {
-				$xml .= '<item cat="'.$cat.'" id="'.$row->id.'" name="'. htmlentities($row->title) . '" />' ;
+			// F I L M
+			if( $cat == "1" ) {
+				$res = $this->db->query("select id, title from films where title like '" . $query . "%'");
+				foreach( $res->result() as $row ) {
+					$xml .= '<item cat="'.$cat.'" id="'.$row->id.'" name="'. htmlentities($row->title) . '" />' ;
+				}
 			}
 		}
 		
@@ -205,6 +220,28 @@ class Event extends Admin_Controller
 		header('content-type: text/xml');
 		echo $xml;
 	}
+
+	function lookup_venue()
+	{
+		$xml = '';
+		$query = $this->input->post("query");
+		$id = $this->input->post("id");
+		
+		$xml .= '<?xml version="1.0" encoding="UTF-8"?>';
+		$xml .= '<results>';
+		
+		if( $query ) {
+			$res = $this->db->query("select id, name from venues where lower(name) like '" . strtolower($query) . "%'");
+			foreach( $res->result() as $row ) {
+				$xml .= '<item id="'.$row->id.'" name="'. htmlentities($row->name) . '" />' ;
+			}
+		}
+		
+		$xml .= '</results>';		
+		header('content-type: text/xml');
+		echo $xml;
+	}
+
 
 	/**
 	 *
@@ -285,6 +322,7 @@ class Event extends Admin_Controller
 		return $s;
 	}
 
+
 	/**
 	 *
 	 */
@@ -309,4 +347,34 @@ class Event extends Admin_Controller
 		return true;
 	}
 
+	protected function get_category_select( $category = NULL )
+	{
+		$sel = '<select name="category" id="fld_category" onchange="sel_category();" >';
+		$cats = $this->event_model->get_categories();
+		foreach( $cats->result() as $cat ) {
+			$sel .= "<option value='$cat->id' ";
+			if( $category && $category == $cat->id ) {
+				$sel .= 'selected="selected"';
+			}
+			$sel .= ">$cat->category</option>";
+		}
+		$sel .= '</select>';		
+		return $sel;
+	}
+
+	protected function get_audience_select( $audience = NULL )
+	{
+		$sel = '<select name="audience" id="fld_audience" onchange="sel_audience();" >';
+		$auds = $this->event_model->get_audiences();
+		foreach( $auds->result() as $aud ) {
+			$sel .= "<option value='$aud->id' ";
+			if( $audience && $audience == $aud->id ) {
+				$sel .= 'selected="selected"';
+			}
+			$sel .= ">$aud->audience</option>";
+			
+		}
+		$sel .= '</select>';		
+		return $sel;
+	}
 }

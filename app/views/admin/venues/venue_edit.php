@@ -20,6 +20,10 @@
   <td valign="top"><label for="descrip">Description</label></td>
   <td><textarea name="descrip" rows="10" cols="50"><?=$venue->descrip?></textarea></td>
 </tr>
+<tr>
+  <td valign="top"><label for="more_info">Extra Info</label></td>
+  <td><textarea name="more_info" class="mceNoEditor" rows="10" cols="50"><?=$venue->more_info?></textarea></td>
+</tr>
 </table>
 </fieldset>
 <input type="submit" name="save" value="Save" />

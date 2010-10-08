@@ -30,6 +30,8 @@ class Stats extends Admin_Controller
 		
 		$build_text = 'missing';
 		
+		// this gets created automaticallt by git commit/pull process
+		// see: git-rev.sh
 		if( file_exists( '../build.txt')) {
 			$build_text = 'Build: ' . file_get_contents('../build.txt');
 		}

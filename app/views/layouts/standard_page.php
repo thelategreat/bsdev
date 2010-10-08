@@ -18,6 +18,7 @@
 	
 	<!-- javascript -->
 	<script type="text/javascript" src="/js/jquery-1.3.2.min.js" ></script>
+	<script type="text/javascript" src="/js/jqModal.js"></script>
 	
 </head>
 

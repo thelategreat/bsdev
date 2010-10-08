@@ -19,7 +19,8 @@ class event_model extends Model
 	 */
 	function get_event( $id )
 	{
-		$this->db->where('id', intval($id) );
+		$this->db->where('events.id', intval($id) );
+		$this->db->join('event_audience', 'events.audience = event_audience.id');
 		return $this->db->get('events');
 	}
 	
@@ -112,6 +113,8 @@ EOF;
 		$this->db->set('venue', $data['venue']);
 		$this->db->set('category', $data['category']);
 		$this->db->set('audience', $data['audience']);
+		$this->db->set('event_ref', $data['event_ref']);
+		$this->db->set('venue_ref', $data['venue_ref']);
 		$this->db->set('body', $data['body']);
 		$this->db->set('submitter_id', $data['submitter_id']);
 		$this->db->set('dt_start', $data['dt_start']);
@@ -132,6 +135,8 @@ EOF;
 		$this->db->set('venue', $data['venue']);
 		$this->db->set('category', $data['category']);
 		$this->db->set('audience', $data['audience']);
+		$this->db->set('event_ref', $data['event_ref']);
+		$this->db->set('venue_ref', $data['venue_ref']);
 		$this->db->set('body', $data['body']);
 		$this->db->set('dt_start', $data['dt_start']);
 		$this->db->set('dt_end', $data['dt_end']);
@@ -149,6 +154,16 @@ EOF;
 	{
 		$this->db->where('id', $data['id']);
 		$this->db->delete( 'events' );
+	}
+	
+	function get_categories( )
+	{
+		return $this->db->query("SELECT * FROM event_categories");
+	}
+
+	function get_audiences( )
+	{
+		return $this->db->query("SELECT * FROM event_audience");		
 	}
 	
 }

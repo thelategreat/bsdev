@@ -6,3 +6,5 @@ app/config/email.php
 bds_stuff/*
 public/media/*
 public/pubmedia/*
+build.txt
+bkups/

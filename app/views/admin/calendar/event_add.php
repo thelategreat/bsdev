@@ -6,43 +6,23 @@
 <h3>Add Event</h3>
 	
 <table>
-	<tr><td>
+	<tr><td valign="top">
 	<fieldset><legend>Details</legend>
 <form id="event_form" action="/admin/event/add" method="POST" onsubmit="return validate(this, event);">
 <input type="hidden" name="id" id="fld_id" value="-1" />
 <table>
 	<tr>
-		<td colspan="4">
+		<td/>
+		<td colspan="2">
 			<table>
 				<tr>
-					<td><label for="venue">Venue</label></td>
-					<td>
-						<select name="venue" id="fld_venue" onchange="sel_venue();" >
-						  <option>cinema</option>
-						  <option>greenroom</option>
-						  <option>ebar</option>
-						  <option>bookstore</option>
-						  <option>other</option>
-						</select>
-					</td>
 					<td><label for="category">Category</label></td>
 					<td>
-						<select name="category" id="fld_category" onchange="sel_category();" >
-						  <option>film</option>
-						  <option>music</option>
-						  <option>reading</option>
-						  <option>poetry</option>
-						  <option>lecture</option>
-						</select>
+						<?= $category_select ?>
 					</td>
 					<td><label for="audience">Audience</label></td>
 					<td>
-						<select name="audience" id="fld_audience" onchange="sel_audience();" >
-						  <option value="general">general (all ages)</option>
-						  <option value="children">children</option>
-						  <option value="teen">young adult</option>
-						  <option value="adult">adult</option>
-						</select>
+						<?= $audience_select ?>
 					</td>
 				</tr>
 			</table>
@@ -52,6 +32,7 @@
 		<td><label for="title">Title</label></td>
 		<td colspan="3">
 			<input name="title" size="70" id="fld_title" onkeyup="lookup(this.value);" autocomplete="off" />
+			<input name="event_ref" type="hidden" id="fld_event_ref" />
 		</td>
 	</tr>
 	<tr>
@@ -71,10 +52,15 @@
 		</td>
 	</tr>
 	<tr>
-	  <td colspan="4">Description</td>
+		<td><label for="venue">Venue</label></td>
+		<td colspan="3">
+			<input name="venue" size="50" id="fld_venue" onkeyup="lookup_venue(this.value);" autocomplete="off" />
+			<input name="venue_ref" type="hidden" id="fld_venue_ref" />
+		</td>
 	</tr>
 	<tr>
-	  <td colspan="4"><textarea name="body" rows="10" cols="70" id="fld_body"></textarea></td>
+		<td valign="top">Description</td>
+	  <td colspan="3"><textarea name="body" rows="10" cols="70" id="fld_body"></textarea></td>
 	</tr>
 </table>
 <p/>

@@ -58,22 +58,28 @@ class Events extends MY_Controller
 	function venue()
 	{
 		$id = (int)$this->uri->segment(3);
+		$ajax = $this->uri->segment(4);
 		
-		$event = $this->event_model->get_event( $id );
+		$venue = $this->db->query('SELECT * FROM venues WHERE id = ' . intval($id) );
 		
-		if( $event->num_rows() > 0 ) {
-			$event = $event->row();
+		if( $venue->num_rows() > 0 ) {
+			$venue = $venue->row();
 		} else {
-			$event = NULL;
+			$venue = NULL;
 		}
 
 		$view_data = array(
-			'event' => $event
+			'venue' => $venue,
+			'id' => $id
 			);
 
-		$pg_data = $this->get_page_data('Bookshelf - Event Location', 'event');
-		$pg_data['content'] = $this->load->view('events/venue', $view_data, true);
-		$this->load->view('layouts/standard_page', $pg_data );	  
+		if( $ajax ) {
+			$this->load->view('events/venue', $view_data );
+		} else {
+			$pg_data = $this->get_page_data('Bookshelf - Event Location', 'event');
+			$pg_data['content'] = $this->load->view('events/venue', $view_data, true);
+			$this->load->view('layouts/standard_page', $pg_data );	  			
+		}
 	}
 
 	/**
