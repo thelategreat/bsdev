@@ -1,7 +1,37 @@
 <script type="text/javascript">
 
+function add_item()
+{
+	$.post("/admin/lookups/additem", { item: $('#lookups').val(), value: $('#value').val() },
+		function( data ) {
+			if( data.ok ) {
+				$('#value').val('');
+				sel_section();
+			} else {
+				alert(data.msg);
+			}
+		}, 'json');
+}
+
+function remove_item( id )
+{
+	if( !confirm('Are you sure you want to try and delete this item?')) {
+		return;
+	}
+	
+	$.post("/admin/lookups/rmitem", { item: $('#lookups').val(), id: id },
+		function( data ) {
+			if( data.ok ) {
+				sel_section();
+			} else {
+				alert(data.msg);
+			}
+		}, 'json');
+}
+
 function sel_section()
 {
+	$('#cat-listing').html('<img src="/img/ajax-loader.gif" />');
 	$.post( '/admin/lookups/get_items', { item: $('#lookups').val()},
 		function( data ) {
 			$('#cat-listing').html(data);
@@ -25,3 +55,5 @@ $(document).ready( function() {
 <hr/>
 	
 <div id="cat-listing"></div>
+<hr/>
+<input name="value" id="value" size="20" /> <button onclick="add_item()">Add</button>

@@ -1,43 +1,6 @@
-media:
-- make only work with search (show empty page)
-- caption - mandatory
-- on upload - edit meta, verify save
-- youtube embedding working
 
-- 2 buttons on data screens
-  * 1 add link to media
-  * 2 popup in sep window, media library
-
-pages:
-- need to find a way to do upload from media popup rather then the editing
-  page itself. 
-
-event:
-- no validation until submit
-- use pick widget for date pick
-- pop end date with same
-- end hour later
-- venue lookup
-- browse months arrows, week arrows, day arrows
-
-films:
-- search
-- media
-- imdb lookup button
-
-comm
-- newletters
-- search subscribers
-- send/test button
-- scheduler
-- bouncing
-- assoc lists with subscribers
-- media handling
-- unsubscribe
-
--=-
-1. mail list
-2. media library
-3. embedding in static, articles, events, etc
-
-
+[ ] - lookup table management
+[ ] - ad rotation scheme
+[ ] - preview for full site/articles
+[ ] - finish mailing list management
+[ ] - 
