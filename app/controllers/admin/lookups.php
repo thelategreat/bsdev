@@ -44,7 +44,7 @@ class Lookups extends Admin_Controller
 			foreach( $res->result_array() as $row ) {
 				$val = $row[$this->lookup[$table][1]]; 
 				$s .= '<tr>';
-				$s .= '<td>' . $val . '</td>';
+				$s .= '<td class="inplace-edit" id="item_'.$row['id'].'">' . $val . '</td>';
 				$s .= '<td><a href="#" onclick="remove_item('.$row['id'].')" title="delete: '. $val . '"><img src="/img/admin/cross.png" /></a>';
 				$s .= '</tr>';
 			}
@@ -53,6 +53,29 @@ class Lookups extends Admin_Controller
 		} else {
 			echo '??';
 		}		
+	}
+	
+	function edititem()
+	{
+		$table = $this->input->post('item');
+		$id = $this->input->post('id');
+		$val = $this->input->post('value');
+
+		$res = array('ok' => false, 'msg' => 'Not saved.');
+				
+		if( $table && $id && $val ) {
+			$tmp = explode('_', $id );
+			$id = $tmp[1];
+			$field = $this->lookup[$table][1];
+			
+			$query = $this->db->update_string($table, array($field=>$val),"id = $id");
+			echo $query;
+			$this->db->query($query);
+			if( $this->db->affected_rows() == 1 ) {
+				$res['ok'] = true;
+				$res['msg'] = 'Ok';
+			}
+		}
 	}
 	
 	function additem()

@@ -1,3 +1,5 @@
+<script type="text/javascript" src="/js/jquery.editinplace.js"></script>
+
 <script type="text/javascript">
 
 function add_item()
@@ -35,7 +37,35 @@ function sel_section()
 	$.post( '/admin/lookups/get_items', { item: $('#lookups').val()},
 		function( data ) {
 			$('#cat-listing').html(data);
+			
+			// inplace editing
+			$('.inplace-edit').editInPlace({
+				callback: function (elem_id, newval, oldval) {
+					var edit_ok = true;
+					$.post("/admin/lookups/edititem", { item: $('#lookups').val(), id: elem_id, value: newval },
+						function( data ) {
+							if( !data.ok ) {
+								edit_ok = false;
+								alert(data.msg);
+							}							
+						}, 'json' );
+					if( edit_ok ) {
+						return( newval );
+					}
+				},
+				saving_text: "saving..."
+				/*
+				url: "/admin/lookups/edititem",
+				params: function() {
+					return 'item=' + $('#lookups').val();
+				},
+				success: function() { alert('ok'); },
+				error: function() { alert('error'); }
+			 */
+			});
+			
 		});
+		
 }
 
 $(document).ready( function() {
