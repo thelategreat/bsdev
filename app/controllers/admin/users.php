@@ -54,9 +54,11 @@ class Users extends Admin_Controller
 				$this->db->set('username', $this->input->post('username'));
 				$this->db->set('firstname', $this->input->post('firstname'));
 				$this->db->set('lastname', $this->input->post('lastname'));
-				$this->db->set('passwd', "PASSWORD(".$this->db->escape($this->input->post('passwd')).")", false);
+				$this->db->set('passwd', $this->auth->hash_password($this->input->post('passwd')));
+				//$this->db->set('passwd', "PASSWORD(".$this->db->escape($this->input->post('passwd')).")", false);
 				$this->db->set('role_id', $this->input->post('role_id'));
 				$this->db->set('email', $this->input->post('email'));
+				$this->db->set('created_on', 'NOW()', false);
 				$this->db->insert("users");
 				redirect("/admin/users");
 			}
@@ -97,7 +99,8 @@ class Users extends Admin_Controller
 				if( $this->input->post('passwd') === '') {
 				} else {
 					if( $this->input->post('passwd') == $this->input->post('vpasswd')) {
-						$this->db->set('passwd', "PASSWORD(".$this->db->escape($this->input->post('passwd')).")", false);				
+						//$this->db->set('passwd', "PASSWORD(".$this->db->escape($this->input->post('passwd')).")", false);				
+						$this->db->set('passwd', $this->auth->hash_password($this->input->post('passwd')));
 					} else {
 						$error_msg .= '<br/>passwords do not match';
 					}

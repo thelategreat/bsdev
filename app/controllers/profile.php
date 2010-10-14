@@ -200,7 +200,8 @@ class Profile extends MY_Controller
 				} else {
 					$this->db->set('updated_on', 'now()', false );
 					$this->db->set('created_on', 'now()', false );
-					$this->db->set('passwd', "PASSWORD(".$this->db->escape($passwd).")", false );
+					$this->db->set('passwd', $this->auth->hash_password($passwd));					
+					//$this->db->set('passwd', "PASSWORD(".$this->db->escape($passwd).")", false );
 					$this->db->set('username', $email );
 					$this->db->set('email', $email );
 					$this->db->set('action_uuid', 'register_' . $uuid );
@@ -240,7 +241,8 @@ class Profile extends MY_Controller
 				$this->db->where('id', $res->row()->id);
 				$this->db->set('action_uuid', 'NULL', false );
 				$this->db->set('updated_on', 'now()', false );
-				$this->db->set('passwd', "PASSWORD(".$this->db->escape($passwd).")", false );
+				$this->db->set('passwd', $this->auth->hash_password($passwd));					
+				//$this->db->set('passwd', "PASSWORD(".$this->db->escape($passwd).")", false );
 				$this->db->update('users');
 			}
 		}
