@@ -24,5 +24,5 @@ function deactivate( id )
   <th>active</th>
   <th></th>
 </tr>
-<?php emit_title_rows( $titles );?>
+<?php emit_tree_rows( '/admin/pages', $titles, 5, 'title' );?>
 </table>

@@ -15,8 +15,10 @@ class Pages extends Admin_Controller
 		parent::__construct();
 		$this->load->library('pagination');
 		$this->load->helper('media');	
-		$this->load->helper('pages');	
+		$this->load->helper('tree');	
 		$this->load->model( 'pages_model' );	
+		
+		$this->url = '/admin/pages';
 	}
 	
 	/**
@@ -28,27 +30,33 @@ class Pages extends Admin_Controller
 	{		
 		$this->load->helper('pages');
 		
-		$data['pages'] = $this->db->get('pages');
-		$data['titles'] = $this->pages_model->getPageTitles();
+		$data['titles'] = $this->pages_model->get_pages_tree();
 		
 		$this->gen_page('Admin - Pages', 'admin/pages/pages_list', $data );
 	}
 	
 	function add()
 	{
-		if( $this->input->post('save')) {
-			unset($_POST['save']);
-			$this->pages_model->add_page( $_POST );
-			redirect('/admin/pages');
-		}
-
 		if( $this->input->post('cancel')) {
-			redirect('/admin/pages');			
+			redirect($this->url);			
+		}
+		
+		$this->form_validation->set_error_delimiters('<span class="form-error">','</span>');
+		$this->form_validation->set_rules('title', 'Title', 'trim|required');
+		
+		if( $this->form_validation->run()) {
+			$data = array();
+			$data['parent_id'] = $this->input->post('parent_id');
+			$data['page_type'] = $this->input->post('page_type');
+			$data['title'] = $this->input->post('title');
+			$data['body'] = $this->input->post('body');
+			$this->pages_model->add( $data );
+			redirect($this->url);
 		}
 
 		$data['pages'] = $this->db->get('pages');
-		$data['titles'] = $this->pages_model->getPageTitles();
-		$data['parent_select'] = $this->mk_nested_select($data['titles']);
+		$data['titles'] = $this->pages_model->get_pages_tree();
+		$data['parent_select'] = $this->pages_model->mk_nested_select();
 		$data['page_types'] = $this->mk_types_select( 'page' );
 						
 		$this->gen_page('Admin - Pages', 'admin/pages/pages_add', $data );		
@@ -59,42 +67,41 @@ class Pages extends Admin_Controller
 		
 		$id = (int)$this->uri->segment(4);
 		if( !$id ) {
-			redirect('/admin/pages');						
-		}
-		
-		if( $this->input->post('save') ) {
-			unset($_POST["save"]);
-			$this->input->post('title');
-			$this->db->where('id', $id );
-			if( !isset($_POST['active'])) {
-				$_POST['active'] = 0;
-			} else {
-				$_POST['active'] = 1;
-			}
-			$this->db->update('pages', $_POST);
-			redirect('/admin/pages');
+			redirect($this->url);						
 		}
 		
 		if( $this->input->post('cancel')) {
-			redirect('/admin/pages');			
+			redirect($this->url);			
 		}
-
+		
+		$this->form_validation->set_error_delimiters('<span class="form-error">','</span>');
+		$this->form_validation->set_rules('title', 'Title', 'trim|required');
+		
 		$cur_tab = 'details';
 		if( $this->uri->segment(5)) {
 			$cur_tab = strtolower($this->uri->segment(5));
 		}
-		
-		$this->db->where('id', $id );
-		$pg = $this->db->get('pages')->row();
+				
+		if( $cur_tab == 'details' && $this->form_validation->run()) {
+			$data = array();
+			$data['parent_id'] = $this->input->post('parent_id');
+			$data['page_type'] = $this->input->post('page_type');
+			$data['title'] = $this->input->post('title');
+			$data['body'] = $this->input->post('body');
+			$this->pages_model->update( $id, $data );
+			redirect($this->url);
+		}
+
+		$pg = $this->pages_model->get($id);
 		
 		if( !$pg ) {
-			redirect('/admin/pages');						
+			redirect($this->url);						
 		}
 		
 		
 		$data['page'] = $pg;
-		$data['titles'] = $this->pages_model->getPageTitles();
-		$data['parent_select'] = $this->mk_nested_select($data['titles'], $data['page']->parent_id );
+		$data['titles'] = $this->pages_model->get_pages_tree();
+		$data['parent_select'] = $this->pages_model->mk_nested_select($data['page']->parent_id );
 		$data['page_types'] = $this->mk_types_select( $data['page']->page_type );
 		$data['tabs'] = $this->tabs->gen_tabs(array('Details','Media'), $cur_tab, '/admin/pages/edit/' . $id);
 		$slot = 'general';
@@ -125,15 +132,12 @@ class Pages extends Admin_Controller
 
 	function rm()
 	{
-		if( (int)$this->uri->segment(4) ) {
-			// delete children
-			$this->db->where('parent_id', (int)$this->uri->segment(4));
-			$this->db->delete('pages');
-			// and the page itself
-			$this->db->where('id', (int)$this->uri->segment(4));
-			$this->db->delete('pages');
+		$id = (int)$this->uri->segment(4);
+		
+		if( $id ) {
+			$this->pages_model->rm( $id );
 		}
-		redirect('/admin/pages');
+		redirect($this->url);
 	}
 
 	function sort()
@@ -150,7 +154,7 @@ class Pages extends Admin_Controller
 				break;
 			}
  		}
-		redirect('/admin/pages');
+		redirect($this->url);
 	}
 
 	function media()
@@ -205,29 +209,4 @@ class Pages extends Admin_Controller
 		$s .= '</select>';
 		return $s;
 	}
-
-	private function mk_nested_select( $data, $selected = 0, $offset = 0 )
-	{
-		$s = '';
-		$spcs = '';
-		for( $i = 0; $i < $offset; $i++ ) {
-			$spcs .= '&nbsp;';
-		}
-		foreach( $data as $page ): 
-			$s .= '<option value="' . $page->id . '"';
-			if( $page->id == $selected ) {
-				$s .= " selected ";
-			}
-			$s .= '>' . $spcs . $page->title . '</option>';
-			if( count($page->children) ) {
-				$s .= $this->mk_nested_select( $page->children, $selected, $offset + 4 );
-			} 
-		endforeach;
-		
-		return $s;
-	}
-
 }
-
-/* End of file welcome.php */
-/* Location: ./system/application/controllers/welcome.php */

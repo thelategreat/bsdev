@@ -168,7 +168,7 @@ class Articles extends Admin_Controller
 			'article' => $article, 
 			'slot' => 'general',
 			//'group_select' => $this->articles_model->group_select( $article->group ),
-			'group_select' => '<select name="group" id="group-sel">' . $this->groups_model->mk_nested_select($article->group) . '</select>',
+			'group_select' => '<select name="group" id="group-sel">' . $this->groups_model->mk_nested_select($article->group,0,false) . '</select>',
 			'category_select' => $this->articles_model->category_select( $article->category ),
 			'status_select' => $this->articles_model->status_select( $article->status ),
 			'tabs' => $this->tabs->gen_tabs(array('Article','Media'), 'Article', '/admin/articles/edit/' . $article_id)

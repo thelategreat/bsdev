@@ -490,6 +490,11 @@ form.general td.form_error {
     color: #900;
 }
 
+.form-error {
+	font-weight: bold;
+	color: #F00;
+}
+
 img.icon {
     width: 12px;
 	border: 0;

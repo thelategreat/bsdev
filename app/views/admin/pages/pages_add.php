@@ -59,11 +59,15 @@ function __inputIfy(element) {
 </tr>
 <tr>
 <td><label>Title</label></td>
-<td><input type="text" name="title" class="textbox" size="50" /></td>
+<td><input type="text" name="title" class="textbox" size="50" />
+	<?=form_error('title')?>
+</td>
 </tr>
 <tr>
 <td><label id="body_label">Body</label></td>
-<td><textarea name="body" id="page_body" rows="20" cols="60"></textarea></td>
+<td><textarea name="body" id="page_body" rows="20" cols="60"></textarea>
+	<?=form_error('body')?>
+	</td>
 </tr>
 </table>
 </fieldset>

@@ -61,15 +61,21 @@ function __inputIfy(element) {
 </tr>
 <tr>
 <td><label>Title</label></td>
-<td><input type="text" name="title" class="textbox" size="50" value="<?=$page->title?>" <?=$page->deletable ? "" : "readonly"?>/></td>
+<td><input type="text" name="title" class="textbox" size="50" value="<?=set_value('title', $page->title )?>" <?=$page->deletable ? "" : "readonly"?>/>
+	<?=form_error('title')?>
+	</td>
 </tr>
 <tr>
 <?php if( $page->page_type == 'page') {?>
 	<td><label id="body_label">Body</label></td>
-	<td><textarea name="body" id="page_body" rows="20" cols="60"><?=$page->body?></textarea></td>
+	<td><textarea name="body" id="page_body" rows="20" cols="60"><?=set_value('body', $page->body)?></textarea>
+		<?=form_error('body')?>
+		</td>
 <?php } else { ?>
 	<td><label id="body_label">URL</label></td>
-	<td><input type="text" name="body" id="page_body" size="50" value="<?=$page->body?>" /></td>
+	<td><input type="text" name="body" id="page_body" size="50" value="<?=set_value('body', $page->body)?>" />
+		<?=form_error('body')?>
+		</td>
 <?php } ?>
 </tr>
 <tr>
