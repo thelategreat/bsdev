@@ -48,7 +48,6 @@ class Event extends Admin_Controller
 		$this->form_validation->set_rules('event_date_end', 'End Date', 'trim');
 		
 		if( $this->form_validation->run()) {
-			$dts = 
 			$data = array();
 			$data['submitter_id'] = 1;
 			$data['title'] = $this->input->post('title');

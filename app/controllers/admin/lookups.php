@@ -20,7 +20,7 @@ class Lookups extends Admin_Controller
 			'event_categories' => array('Event Categories','category', array('events.category')),
 			'event_audience' => array('Event Audience','audience', array('events.audience')),
 			'article_categories' => array('Article Categories','category', array('articles.category')),
-			'article_groups' => array('Article Groups','group', array('articles.group')),
+			//'article_groups' => array('Article Groups','group', array('articles.group')),
 			'article_statuses' => array('Article Status','status', array('articles.status'))
 		);
 	}

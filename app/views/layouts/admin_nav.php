@@ -8,6 +8,7 @@
 			<li><a href="/admin/articles">Articles</a></li>
 			<li><a href="/admin/calendar">Calendar</a></li>
 			<li><a href="/admin/ads">Ads</a></li>
+			<li><a href="/admin/groups">Groups</a></li>
 			<li><a href="/admin/pages">Static Pages</a></li>
 		</ul>
 	</li>
@@ -18,7 +19,7 @@
 			<li><a href="/admin/films">Films</a></li>
 			<li><a href="/admin/venues">Venues</a></li>
 			<li><a href="/admin/polls">Polls</a></li>
-			<li><a href="/admin/lookups">Lookup Data</a></li>
+			<li><a href="/admin/lookups">Categories</a></li>
 		</ul>
 	</li>
 	<li>

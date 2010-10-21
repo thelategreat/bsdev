@@ -78,7 +78,7 @@ function __inputIfy(element) {
 </tr>
 </table>
 </fieldset>
-<input class="button" name="save" type="submit" value="Submit" />
+<input class="button" name="save" type="submit" value="Save" />
 <input class="button" name="cancel" type="submit" value="Cancel" />
 </p>
 </form>

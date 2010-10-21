@@ -125,8 +125,12 @@ class Pages extends Admin_Controller
 
 	function rm()
 	{
-		if( $this->uri->segment(4) ) {
-			$this->db->where('id', $this->uri->segment(4));
+		if( (int)$this->uri->segment(4) ) {
+			// delete children
+			$this->db->where('parent_id', (int)$this->uri->segment(4));
+			$this->db->delete('pages');
+			// and the page itself
+			$this->db->where('id', (int)$this->uri->segment(4));
 			$this->db->delete('pages');
 		}
 		redirect('/admin/pages');
