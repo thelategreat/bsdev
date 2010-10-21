@@ -19,17 +19,20 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
  */
 abstract class abstract_tree_model extends Model
 {
-	function __construct( $db_name, $tree_item_field_name = 'name' )
+	/**
+	 * $table_name - the table name
+	 * $tree_item_field_name - the field name from the table to display in the tree
+	 */
+	function __construct( $table_name, $tree_item_field_name = 'name' )
   {
     parent::__construct();
 		$this->tree_item_field_name = $tree_item_field_name;
-		$this->db_name = $db_name;
+		$this->table_name = $table_name;
 	}
 
 	protected function _get_tree( $flds = '*', $parent = 0, $recurse = true )
 	{		
-		//id, parent_id, deletable, 
-		$q = "SELECT $flds FROM $this->db_name WHERE parent_id = $parent ORDER BY sort_order";
+		$q = "SELECT $flds FROM $this->table_name WHERE parent_id = $parent ORDER BY sort_order";
 		$res = $this->db->query( $q );
 		
 		$ra = array();
@@ -51,42 +54,42 @@ abstract class abstract_tree_model extends Model
 	function get( $id )
 	{
 		$this->db->where('id', $id );
-		return $this->db->get($this->db_name)->row();		
+		return $this->db->get($this->table_name)->row();		
 	}
 
 	function add( $data )
 	{
-		$max = $this->db->query("SELECT MAX(sort_order) as m FROM $this->db_name")->row();
+		$max = $this->db->query("SELECT MAX(sort_order) as m FROM $this->table_name")->row();
 		$data['sort_order'] = $max->m + 1;
-		$this->db->insert($this->db_name, $data );				
+		$this->db->insert($this->table_name, $data );				
 	}
 
 	function update( $id, $data )
 	{
 		$this->db->where('id', $id );
-		$this->db->update( $this->db_name, $data );		
+		$this->db->update( $this->table_name, $data );		
 	}
 
 	function rm( $id )
 	{
 		// delete kids too
 		$this->db->where('parent_id', $id );
-		$this->db->delete($this->db_name);
+		$this->db->delete($this->table_name);
 		// and the parent
 		$this->db->where('id', $id );
-		$this->db->delete($this->db_name);
+		$this->db->delete($this->table_name);
 	}
 
 	function move_up( $id )
 	{
 		$this->db->where('id', $id);
-		$data = $this->db->get( $this->db_name )->row();
+		$data = $this->db->get( $this->table_name )->row();
 		
 		if( $data ) {
-			$swap = $this->db->query("SELECT id, sort_order FROM $this->db_name WHERE parent_id = $data->parent_id AND sort_order < $data->sort_order ORDER BY sort_order DESC LIMIT 1")->row();
+			$swap = $this->db->query("SELECT id, sort_order FROM $this->table_name WHERE parent_id = $data->parent_id AND sort_order < $data->sort_order ORDER BY sort_order DESC LIMIT 1")->row();
 			if( $swap ) {
-				$this->db->query("UPDATE $this->db_name SET sort_order = $swap->sort_order WHERE id = $data->id");
-				$this->db->query("UPDATE $this->db_name SET sort_order = $data->sort_order WHERE id = $swap->id");
+				$this->db->query("UPDATE $this->table_name SET sort_order = $swap->sort_order WHERE id = $data->id");
+				$this->db->query("UPDATE $this->table_name SET sort_order = $data->sort_order WHERE id = $swap->id");
 			}
 		}		
 	}
@@ -94,12 +97,12 @@ abstract class abstract_tree_model extends Model
 	function move_down( $id )
 	{
 		$this->db->where('id', $id);
-		$data = $this->db->get($this->db_name)->row();
+		$data = $this->db->get($this->table_name)->row();
 		if( $data ) {
-			$swap = $this->db->query("SELECT id, sort_order FROM $this->db_name WHERE parent_id = $data->parent_id AND sort_order > $data->sort_order ORDER BY sort_order DESC LIMIT 1")->row();
+			$swap = $this->db->query("SELECT id, sort_order FROM $this->table_name WHERE parent_id = $data->parent_id AND sort_order > $data->sort_order ORDER BY sort_order DESC LIMIT 1")->row();
 			if( $swap ) {
-				$this->db->query("UPDATE $this->db_name SET sort_order = $swap->sort_order WHERE id = $data->id");
-				$this->db->query("UPDATE $this->db_name SET sort_order = $data->sort_order WHERE id = $swap->id");
+				$this->db->query("UPDATE $this->table_name SET sort_order = $swap->sort_order WHERE id = $data->id");
+				$this->db->query("UPDATE $this->table_name SET sort_order = $data->sort_order WHERE id = $swap->id");
 			}
 		}		
 	}

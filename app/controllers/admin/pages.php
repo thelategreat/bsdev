@@ -6,7 +6,7 @@ include("admin_controller.php");
 class Pages extends Admin_Controller 
 {
 	/**
-	 * CTOR
+	 * CTORß
 	 *
 	 * @return void
 	 **/
@@ -28,7 +28,6 @@ class Pages extends Admin_Controller
 	 **/
 	function index()
 	{		
-		$this->load->helper('pages');
 		
 		$data['titles'] = $this->pages_model->get_pages_tree();
 		
@@ -56,7 +55,7 @@ class Pages extends Admin_Controller
 
 		$data['pages'] = $this->db->get('pages');
 		$data['titles'] = $this->pages_model->get_pages_tree();
-		$data['parent_select'] = $this->pages_model->mk_nested_select();
+		$data['parent_select'] = $this->pages_model->mk_nested_select(0,0,false);
 		$data['page_types'] = $this->mk_types_select( 'page' );
 						
 		$this->gen_page('Admin - Pages', 'admin/pages/pages_add', $data );		
@@ -101,7 +100,7 @@ class Pages extends Admin_Controller
 		
 		$data['page'] = $pg;
 		$data['titles'] = $this->pages_model->get_pages_tree();
-		$data['parent_select'] = $this->pages_model->mk_nested_select($data['page']->parent_id );
+		$data['parent_select'] = $this->pages_model->mk_nested_select($data['page']->parent_id,0,false );
 		$data['page_types'] = $this->mk_types_select( $data['page']->page_type );
 		$data['tabs'] = $this->tabs->gen_tabs(array('Details','Media'), $cur_tab, '/admin/pages/edit/' . $id);
 		$slot = 'general';
