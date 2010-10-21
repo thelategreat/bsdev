@@ -8,10 +8,11 @@
 
 <table>
 <tr>
-  <th width="50%">Title</th>
+  <th width="35%">Title</th>
   <th>Owner</th>
   <th>Author</th>
   <th>Category</th>
+  <th>Group</th>
   <th>Publish</th>
   <th>Status</th>
 </tr>
@@ -23,6 +24,7 @@
 	  <td><small><?= $article->owner ?></small></td>
 	  <td><small><?= $article->author ?></small></td>
 	  <td><small><?= $article->category ?></small></td>
+	  <td><small><?= $article->group_name ?></small></td>
 	  <td><small><?= date('Y-m-d',strtotime($article->publish_on)) ?></small></td>
 		<td><small><?= $article->status ?></small></td>
 </tr>

@@ -49,7 +49,7 @@ class Groups extends Admin_Controller
 		$data['tree'] = $this->groups_model->get_group_tree();
 		// don't show root item
 		$data['tree'] = $data['tree'][0]->children;
-		$data['parent_select'] = $this->mk_nested_select($data['tree']);
+		$data['parent_select'] = $this->groups_model->mk_nested_select();
 						
 		$this->gen_page('Admin - Groups', 'admin/groups/group_add', $data );		
 	}
@@ -89,7 +89,7 @@ class Groups extends Admin_Controller
 		$data['tree'] = $this->groups_model->get_group_tree();
 		// don't show root item
 		$data['tree'] = $data['tree'][0]->children;
-		$data['parent_select'] = $this->mk_nested_select($data['tree'], $data['group']->parent_id );
+		$data['parent_select'] = $this->groups_model->mk_nested_select($data['group']->parent_id );
 
 		$page = $this->load->view('admin/groups/group_edit', $data, true );
 						

@@ -84,5 +84,32 @@ class Groups_model extends Model
 		}		
 	}
 
+	function mk_nested_select( $selected = 0, $offset = 0 )
+	{
+		$data = $this->get_group_tree();
+		return $this->private_mk_nested_select( $data[0]->children , $selected, $offset );
+	}
+
+	private function private_mk_nested_select( $data, $selected = 0, $offset = 0 )
+	{
+		$s = '';
+		$spcs = '';
+		for( $i = 0; $i < $offset; $i++ ) {
+			$spcs .= '&nbsp;';
+		}
+		foreach( $data as $item ): 
+			$s .= '<option value="' . $item->id . '"';
+			if( $item->id == $selected ) {
+				$s .= " selected ";
+			}
+			$s .= '>' . $spcs . $item->name . '</option>';
+			if( count($item->children) ) {
+				$s .= $this->private_mk_nested_select( $item->children, $selected, $offset + 4 );
+			} 
+		endforeach;
+		
+		return $s;
+	}
+
 
 }
