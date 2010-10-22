@@ -26,27 +26,24 @@
 	<div id="container">
 		<div id="header-nav">
 			<ul>
-				<li><a href="/cart" title="Shopping Cart: <?= $cart->total_items() ?> items"><img src="/img/icons/black/shop_cart.png" style="height: 20px;"/> <?= $cart->total_items() ?> </a></li>
-				<li><a href="/profile" title="My Bookshelf"><img src="/img/icons/black/user.png" style="height: 20px"/></a></li>
-				<li><a href="/page/help" title="Help/FAQ"><img src="/img/icons/black/info.png" style="height: 20px"/> </a></li>
+				<li><a href="/cart" title="Shopping Cart: <?= $cart->total_items() ?> items"><img src="/img/icons/white/shop_cart.png" style="height: 20px;"/> <?= $cart->total_items() ?> </a></li>
+				<li><a href="/profile" title="My Bookshelf"><img src="/img/icons/white/user.png" style="height: 20px"/></a></li>
+				<li><a href="/page/help" title="Help/FAQ"><img src="/img/icons/white/info.png" style="height: 20px"/> </a></li>
 			</ul>
 			<div id="search">
 				<form id="main_search" action="/search" method="post">
-				<select name="group">
-					<option>all</option>
-					<option>books</option>
-					<option>cinema</option>
-					<option>ebar</option>
-				</select>
-				<input type="search" size="13" name="q" />
-				<img src="/img/icons/black/zoom.png" style="height: 20px; margin-bottom: -5px"/>
+				<input type="search" size="20" name="q" />
+				<img src="/img/icons/white/zoom.png" style="height: 20px; margin-bottom: -5px"/>
 				</form>
 			</div>
 		</div>
 		<div id="header">
+			<h1>ookshelf</h1>
+			<!--
 			<a href="/"><img style="float: left; height: 100px" src="/img/wv/wv_logo_100.png" /></a>
 			<a href="/"><img style="height: 60px; align: center;" src="/img/wv/wv_header_100.png" /></a>
-			<p style="margin-left: 150px; font-style: italic">Monday October 4th - Monday October 11th 2010</p>
+			<p>Monday October 4th - Monday October 11th 2010</p>
+			-->
 				<!-- Bookshelf -->
 		</div>
 		<div id="navigation">

@@ -6,7 +6,7 @@
 @font-face { font-family: Junction; src: url('../fonts/Junction 02/Junction 02.otf'); } 
 
 body {
-	background-color: #fff;
+	background-color: #000;
 	font-family: Goudy, Georgia, Times, serif;
 	font-size: 11pt;
 	line-height: 140%;
@@ -33,12 +33,51 @@ img {
 	width: 100%;
 	background: #fff;
 }
+/* H E A D E R */
+#header
+{
+	background-color: #a82e24;
+	background-color: #fff;
+	padding: 0px;
+	height: 110px;
+	border-bottom: 1px solid #666;
+	margin-bottom: 5px;
+}
+
+#header
+{
+	background-color: #c9c;
+	background-color: #a82e24;
+	padding: 20px;
+	background-image: url('../img/bs/header_bg_x.png');
+	height: 35px;
+	margin-bottom: -1px;
+}
+
+#header h1 
+{ 
+	margin: 0; 
+	padding-left: 22px;
+	font-family: Helvetica, sans-serif;
+	color: #000;
+	margin-top: 25px;
+	letter-spacing: 8px;
+	font-size: 30px;
+}
+
+#header p {
+	margin-top: 25px; 
+	margin-left: 30px; 
+	font-style: italic;
+	color: #eee;
+	font-size: 90%;
+}
 
 #header-nav
 {
 	text-align: right;
 	float: right;	
-	padding-right: 10px;
+	padding-right: 20px;
 	padding-top: 2px;
 }
 
@@ -70,27 +109,7 @@ img {
 	border-radius: 5px;
 }
 
-
-#header
-{
-	background-color: #a82e24;
-	background-color: #fff;
-	padding: 0px;
-	height: 110px;
-	border-bottom: 1px solid #666;
-	margin-bottom: 5px;
-}
-
-#header h1 
-{ 
-	margin: 0; 
-	padding-left: 25px;
-	font-family: Helvetica, sans-serif;
-	color: #000;
-	margin-top: 23px;
-	letter-spacing: 20px;
-}
-
+/* N A V */
 #navigation
 {
 	float: left;
@@ -102,7 +121,7 @@ img {
 {
 	margin: 0;
 	padding: 0;
-	padding-left: 10px;
+	padding-left: 33px;
 }
 
 #navigation ul li
@@ -122,21 +141,23 @@ img {
 	padding: 2px 10px;
 	color: #fff;
 	text-decoration: none;
-	border-right: 2px solid #fff;
+	border-right: 2px solid #000;
 	font-family: Helvetica, sans-serif;
 }
 
 #navigation li a:hover 
 {	 
 	background: #078C99;
+	background: #000;
 }
 
 #navigation li a.selected 
 {	 
 	background: #078C99;
+	background: #000;
 }
 
-
+/* C O N T E N T */
 #content-container1
 {
 	float: left;
@@ -339,6 +360,7 @@ body.calendar #content {
 	padding-left: 0;
 	height: 1%;
 	height: 30px;
+	padding-bottom: 10px;
 }
 
 /* specific pages */
