@@ -29,7 +29,7 @@ class Calendar extends MY_Controller
 
 	function index()
 	{
-		$this->do_view('poster');
+		$this->do_view('month');
 	}
 	
 	function view()
@@ -41,9 +41,9 @@ class Calendar extends MY_Controller
 	{
 		$view_menu = <<<EOF
 		View:
-		<a href="/calendar/view/poster">poster</a> |
-		<a href="/calendar/view/month">month</a> |
-		<a href="/calendar/view/list">list</a> 
+			<a href="/calendar/view/month">month</a> |
+			<a href="/calendar/view/poster">poster</a> |
+			<a href="/calendar/view/list">list</a> 
 		<p/>
 EOF;
 		
