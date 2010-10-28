@@ -56,20 +56,21 @@ EOF;
 	 */
 	function get_events( $filter )
 	{
-		$query = "SELECT * FROM events WHERE ";
+		$query = "SELECT e.id, e.created_on, e.updated_on, e.submitter_id, e.title, e.venue, e.dt_start, e.dt_end, e.body, e.rating, ec.category, e.audience, e.event_ref, e.venue_ref "; 
+		$query .= " FROM events AS e, event_categories as ec WHERE e.category = ec.id ";
 		
 		switch( $filter['view']) {
 			case 'day':
 			$start = sprintf('%04d-%02d-%02d', $filter['year'],$filter['month'],$filter['day']);
-			$query .= " dt_start BETWEEN DATE('$start') AND DATE_ADD(DATE('$start'), INTERVAL + 1 day)";
+			$query .= " AND dt_start BETWEEN DATE('$start') AND DATE_ADD(DATE('$start'), INTERVAL + 1 day)";
 			break;
 			case 'week':
 			$start = date('Y-m-d', strtotime($filter['year'] . 'W' . $filter['week'] . '0'));
-			$query .= " dt_start BETWEEN DATE('$start') AND DATE_ADD(DATE('$start'), INTERVAL + 1 week)";
+			$query .= " AND dt_start BETWEEN DATE('$start') AND DATE_ADD(DATE('$start'), INTERVAL + 1 week)";
 			break;
 			default:
 			$start = sprintf('%04d-%02d-%02d', $filter['year'],$filter['month'],1);
-			$query .= " dt_start BETWEEN DATE('$start') AND DATE_ADD(DATE('$start'), INTERVAL + 1 month)";
+			$query .= " AND dt_start BETWEEN DATE('$start') AND DATE_ADD(DATE('$start'), INTERVAL + 1 month)";
 		}
 		
 		/*
