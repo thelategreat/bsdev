@@ -12,6 +12,8 @@ class Home extends MY_Controller
 	{
 		parent::Controller();
 		$this->load->model('articles_model');
+		$this->load->model('event_model');
+		$this->load->model('groups_model');
 	}
 	
 	/**
@@ -21,26 +23,72 @@ class Home extends MY_Controller
 	 **/
 	function index()
 	{
-		$this->build_page('home');
+		$this->build_page(0);
 	}
 
 	function section()
 	{
-		$this->build_page($this->uri->segment(3));
+		$this->build_page((int)$this->uri->segment(4) ? (int)$this->uri->segment(4) : (int)$this->uri->segment(3));
 	}
 	
 	private function build_page( $section )
 	{
-		$this->load->model('articles_model');
-		$articles = $this->articles_model->get_published_article_list();
+		/*
+		if( (int)$section ) {
+			echo $section;
+			echo '<pre>' . var_export($this->groups_model->get_parents( $section ), true) . '</pre>';
+			exit;
+		}
+		*/
+		$parents = $this->groups_model->get_parents( $section );
+				
+		$events = NULL;
+		$articles = array();
+
+		$res = $this->articles_model->get_published_article_list($section);
+		if( $res->num_rows() > 0 ) {
+			$articles = $res->result();
+		} else {
+			$tree = $this->groups_model->get_tree( 'id', $section, false );
+			foreach( $tree as $tree_item ) {
+				$res = $this->articles_model->get_published_article_list($tree_item->id, 1 );
+				if( $res->num_rows() ) {
+					$articles[] = $res->row();
+				}			
+			}			
+		}
+
+		if( $section == 0) {
+			$events = $this->event_model->get_next_events( 7 );
+		}
 		
+		/*
+		if( $section == 0) {
+			$tree = $this->groups_model->get_tree( 'id', 1, false );
+			foreach( $tree as $tree_item ) {
+				$res = $this->articles_model->get_published_article_list($tree_item->id, 1 );
+				if( $res->num_rows() ) {
+					$articles[] = $res->row();
+				}			
+			}
+			$events = $this->event_model->get_next_events( 7 );
+		} else {
+			$articles = $this->articles_model->get_published_article_list($section)->result();			
+		}
+		*/
+		
+		//echo '<pre>' . var_export($articles, true) . '</pre>';
+		$parents = array_reverse($parents);
+		array_shift($parents);
 		$view_data = array(
-			'articles' => $articles
+			'parents' => $parents,
+			'articles' => $articles,
+			'events' => $events
 			);
 		
-		$pg_data = $this->get_page_data('Bookshelf - ' . $section, 'home', $section );
+		$pg_data = $this->get_page_data('Bookshelf', 'home', $section );
 		$pg_data['content'] = $this->load->view('home/home_page', $view_data, true);
-		$pg_data['section'] = $section;
+		$pg_data['section'] = $this->uri->segment(3);
 		$this->load->view('layouts/standard_page', $pg_data );		
 	}
 	

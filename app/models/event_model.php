@@ -32,6 +32,24 @@ class event_model extends Model
 		$res = $this->db->query("SELECT m.uuid FROM media_map as mm, media as m WHERE mm.path = '/event/" . intval($id) . "' AND m.id = mm.media_id ORDER BY mm.sort_order");
 		return $res;
 	}
+
+	function get_next_events( $count = 10 )
+	{
+		$query = "SELECT * FROM events WHERE dt_start >= NOW() ";
+
+		$query .= " ORDER BY dt_start ASC LIMIT $count";
+		
+		$query =<<< EOF
+		select events.id, events.title, events.dt_start, media.uuid 
+			FROM events, media_map, media 
+			WHERE media_map.path = CONCAT('/event/', events.id) 
+				AND media.id = media_map.media_id 
+				AND events.dt_start >= NOW()
+				ORDER BY events.dt_start LIMIT $count;
+EOF;
+		
+		return $this->db->query( $query );
+	}
 	
 	/**
 	 * 

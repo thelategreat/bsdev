@@ -16,8 +16,10 @@
 	<!-- style -->
 	<link rel="stylesheet" href="/css/style.css" type="text/css"  media="screen" />
 	
-	<!-- javascript -->
+	<!-- javascript
 	<script type="text/javascript" src="/js/jquery-1.3.2.min.js" ></script>
+	-->
+	<script type="text/javascript" src="/js/jquery.tools.min.js" ></script>
 	<script type="text/javascript" src="/js/jqModal.js"></script>
 	
 </head>
@@ -48,10 +50,15 @@
 		</div>
 		<div id="navigation">
 			<ul>
-				<li><a href="/" <?= $section == "home" ? 'class="selected"' : ''?>>Home</a></li>
+				<li><a href="/" <?= $section == 0 ? 'class="selected"' : ''?>>Home</a></li>
+				<?php foreach( $groups as $group ): ?>
+					<li><a href="/home/section/<?=$group[1]?>" <?= $section == $group[1] ? 'class="selected"' : ''?>><?=$group[0]?></a></li>
+				<?php endforeach; ?>
+				<!--
 				<li><a href="/home/section/books" <?= $section == "books" ? 'class="selected"' : ''?>>Books</a></li>
 				<li><a href="/home/section/cinema" <?= $section == "cinema" ? 'class="selected"' : ''?>>Cinema</a></li>
 				<li><a href="/home/section/ebar" <?= $section == "ebar" ? 'class="selected"' : ''?>>eBar</a></li>
+				-->
 			</ul>
 		</div>
 		<div id="content-container1">

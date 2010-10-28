@@ -1,8 +1,28 @@
+<script type="text/javascript">
+$(function(){
+	$("#events-preview a[title]").tooltip({ position: "top center", opacity: 0.99, offset: [-60,10], effect: "slide"});
+});
+</script>
 
-<?php foreach( $articles->result() as $article ): ?>
+<?php foreach( $parents as $parent ) { ?>
+	<?= $parent['name'] ?> ❖
+<?php } ?>
+
+<?php if( $events !== NULL ) { ?>
+	<div id="events-preview">
+		<h3>What's on...</h3>
+		<ul>
+		<?php foreach( $events->result() as $event ): ?>
+			<li><a href="" title="<?=$event->title . '<br/>' . date('M d', strtotime($event->dt_start)) . ' @ '. date('g:m a',strtotime($event->dt_start))?>"><img src="/media/<?=$event->uuid?>" width="70px"\></a></li>
+		<? endforeach; ?>
+		</ul>
+	</div>
+<? } ?>
+
+<?php foreach( $articles as $article ): ?>
 	<div class="article">
 		<h2><a href="/article/view/<?=$article->id?>"><?= $article->title ?></a></h2>
-		<span class="date">posted: <?=date('j M Y',strtotime($article->publish_on))?> by <?=$article->author?></span>
+		<span class="date">posted: <?=date('j M Y',strtotime($article->publish_on))?> by <?=$article->author?> under <?=$article->group ?></span>
 		<p><?= strlen(trim($article->excerpt)) ? $article->excerpt : implode(' ', array_slice(explode( ' ', $article->body),0,100) ) . '...' ?>
 		<p class="read-more"><a href="/article/view/<?=$article->id?>"><em>read more...</em></a><p>
 	</div>

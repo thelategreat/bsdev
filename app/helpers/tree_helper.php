@@ -11,14 +11,15 @@ function emit_tree_rows( $url, $data, $offset = 5, $fld_name = 'name' )
 {
 	$first = true;
 	$i = 0;
-	$count = 0;
+ 	$count = 0;
+
 	foreach( $data as $item ): 
 		$last = (count($data) == ($i + 1));
 		$style = ($count % 2) == 0 ? "" : 'class="odd"';
 		echo "<tr $style>";
 		  echo '<td style="width: 70%; padding-left: ' . $offset . 'px">';
 			echo '<img src="/img/admin/text-x-generic.png" style="margin-bottom: -3px;"/> ';				
-			echo '<a href="'.$url.'/edit/'.$item->id.'">'.$item->$fld_name.'</a>';
+			echo '<a href="'.$url.'/edit/'.$item->id.'">'.$item->$fld_name. "($item->id)</a>";
 			echo '</td>';
 			echo '<td>';
 			echo ($first ? '&nbsp;-&nbsp;' : '<a href="'.$url.'/sort/up/'.$item->id.'" title="move up"><img src="/img/admin/go-up.png" class="icon" /></a>');
@@ -35,8 +36,10 @@ function emit_tree_rows( $url, $data, $offset = 5, $fld_name = 'name' )
 		if( count($item->children) ) { 
 			emit_tree_rows( $url, $item->children, $offset + 30, $fld_name ); 
 		}
+		
 		$first = false;
 		$i++;
 		$count++;
+		
 	endforeach;
 }

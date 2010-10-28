@@ -33,6 +33,24 @@
 		        },function(){ 
 		        $(this).find('ul:first').css({visibility: "hidden"}); 
 		        }); 
+		
+			$.ajaxSetup({
+					error:function(x,e){
+						if(x.status==0){
+						alert('AJAX: You are offline!!\n Please Check Your Network.');
+						}else if(x.status==404){
+						alert('AJAX: Requested URL not found.');
+						}else if(x.status==500){
+						alert('AJAX: Internal Server Error. (500)');
+						}else if(e=='parsererror'){
+						alert('AJAX: Error.\nParsing JSON/XML Request failed.');
+						}else if(e=='timeout'){
+						alert('AJAX: Request Time out.');
+						}else {
+						alert('AJAX: Unknown Error.\n'+x.responseText);
+						}
+					}
+				});
 	});
 
 	function mediaBrowserCallback( field_name, url, type, win ) {

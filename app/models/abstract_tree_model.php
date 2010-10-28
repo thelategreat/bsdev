@@ -26,11 +26,12 @@ abstract class abstract_tree_model extends Model
 	function __construct( $table_name, $tree_item_field_name = 'name' )
   {
     parent::__construct();
+		// this is the field name is used to display the tree
 		$this->tree_item_field_name = $tree_item_field_name;
 		$this->table_name = $table_name;
 	}
 
-	protected function _get_tree( $flds = '*', $parent = 0, $recurse = true )
+	function get_tree( $flds = '*', $parent = 0, $recurse = true )
 	{		
 		$q = "SELECT $flds FROM $this->table_name WHERE parent_id = $parent ORDER BY sort_order";
 		$res = $this->db->query( $q );
@@ -43,7 +44,7 @@ abstract class abstract_tree_model extends Model
 		// walk though the rows grabbing children
 		if( $recurse ) {
 			foreach( $ra as $row ) {
-				$row->children = $this->_get_tree( $flds, $row->id, $recurse );
+				$row->children = $this->get_tree( $flds, $row->id, $recurse );
 			}
 		}
 		
@@ -55,6 +56,13 @@ abstract class abstract_tree_model extends Model
 	{
 		$this->db->where('id', $id );
 		return $this->db->get($this->table_name)->row();		
+	}
+
+	function get_items( $parent = 1 )
+	{
+		$query = "SELECT * FROM $this->table_name WHERE parent_id = $parent ORDER BY sort_order";
+		
+		return $this->db->query( $query );
 	}
 
 	function add( $data )
@@ -72,12 +80,19 @@ abstract class abstract_tree_model extends Model
 
 	function rm( $id )
 	{
-		// delete kids too
+		// walk the tree and nuke on our way back up
+		$tree = $this->get_tree('id, parent_id', $id );
+		foreach( $tree as $node ) {
+			if( $node->children ) {
+				$this->rm( $node->id );
+			}			
+		}
+		// the kids
 		$this->db->where('parent_id', $id );
 		$this->db->delete($this->table_name);
-		// and the parent
+		// and this node
 		$this->db->where('id', $id );
-		$this->db->delete($this->table_name);
+		$this->db->delete($this->table_name);		
 	}
 
 	function move_up( $id )
@@ -107,9 +122,23 @@ abstract class abstract_tree_model extends Model
 		}		
 	}
 
+	function get_parents( $id )
+	{
+		$parent_ids = array();
+		do {
+			$res = $this->db->query("SELECT id, parent_id, name FROM $this->table_name WHERE id = $id");
+			if( $res->num_rows() ) {
+				$row = $res->row();
+				$parent_ids[] = array('id' => $row->id, 'parent_id' => $row->parent_id, 'name' => $row->name);
+				$id = $row->parent_id;
+			}
+		} while( $res->num_rows() );
+		return $parent_ids;
+	}
+
 	function mk_nested_select( $selected = 0, $offset = 0, $show_root = true )
 	{
-		$data = $this->_get_tree();
+		$data = $this->get_tree();
 		
 		if( $show_root ) {
 			return $this->_mk_nested_select( $data, $selected, $offset );			

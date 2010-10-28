@@ -32,21 +32,27 @@ EOF;
 		return $this->db->query( $q );
 	}
 
-	function get_published_article_list( $category = NULL )
+	function get_published_article_list( $group = NULL, $limit = NULL )
 	{
 		$q =<<<EOF
-SELECT a.id, title, fnStripTags(body) as body, excerpt, ac.category, publish_on, author, ast.status 
-	FROM articles as a, article_categories as ac, article_statuses as ast
-	WHERE a.category = ac.id AND a.status = ast.id AND a.status = 3 AND publish_on <= NOW() 
+SELECT a.id, title, fnStripTags(body) as body, excerpt, ac.category, publish_on, author, ast.status, gt.name as `group`
+	FROM articles as a, article_categories as ac, article_statuses as ast, group_tree as gt
+	WHERE a.category = ac.id AND a.status = ast.id AND a.status = 3 AND gt.id = a.group AND publish_on <= NOW() 
 EOF;
 
-			if( $category ) {
-				$q .= " AND (ac.category = " . $this->db->escape($category) . " OR ac.category = 'General')";
+			if( $group ) {
+				$q .= " AND (a.group = $group)";
 			}
 
 			$q .= " ORDER BY publish_on DESC";
+			
+			if( $limit ) {
+				$q .= " LIMIT $limit";				
+			}
 
-				return $this->db->query( $q );		
+			//echo '<pre>' . $q . '</pre><br/>';
+
+			return $this->db->query( $q );		
 	}
 
 	function get_article( $id )

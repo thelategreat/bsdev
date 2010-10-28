@@ -198,19 +198,19 @@ class Event extends Admin_Controller
 				$res = $this->db->query("select id, title, description, running_time from films where id = $id");
 				foreach( $res->result() as $row ) {
 					$xml .= '<item ';
-					$xml .= "id='" . htmlentities($row->id) . "' ";
-					$xml .= "title='" . htmlentities($row->title) . "' ";
-					$xml .= "time='" . htmlentities($row->running_time) . "' >";
-					$xml .= '<description>' . htmlentities($row->description) . '</description>';
+					$xml .= "id='" . htmlspecialchars($row->id) . "' ";
+					$xml .= "title='" . htmlspecialchars($row->title) . "' ";
+					$xml .= "time='" . htmlspecialchars($row->running_time) . "' >";
+					$xml .= '<description>' . htmlspecialchars($row->description) . '</description>';
 					$xml .= "</item>";
 				}
 			}
 		} elseif( $query && $cat ) {
 			// F I L M
 			if( $cat == "1" ) {
-				$res = $this->db->query("select id, title from films where title like '" . $query . "%'");
+				$res = $this->db->query("select id, title from films where lower(title) like '%" . strtolower($query) . "%'");
 				foreach( $res->result() as $row ) {
-					$xml .= '<item cat="'.$cat.'" id="'.$row->id.'" name="'. htmlentities($row->title) . '" />' ;
+					$xml .= '<item cat="'.$cat.'" id="'.$row->id.'" name="'. htmlspecialchars($row->title) . '" />' ;
 				}
 			}
 		}
@@ -230,13 +230,14 @@ class Event extends Admin_Controller
 		$xml .= '<results>';
 		
 		if( $query ) {
-			$res = $this->db->query("select id, name from venues where lower(name) like '" . strtolower($query) . "%'");
+			$res = $this->db->query("select id, name from venues where lower(name) like '%" . strtolower($query) . "%'");
 			foreach( $res->result() as $row ) {
-				$xml .= '<item id="'.$row->id.'" name="'. htmlentities($row->name) . '" />' ;
+				$xml .= '<item id="'.$row->id.'" name="'. htmlspecialchars($row->name) . '" />' ;
 			}
 		}
 		
 		$xml .= '</results>';		
+		
 		header('content-type: text/xml');
 		echo $xml;
 	}

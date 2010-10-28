@@ -87,7 +87,7 @@ class Articles extends Admin_Controller
 		}
 		
 		$view_data = array(
-			'group_select' => '<select name="group" id="group-sel">' . $this->groups_model->mk_nested_select() . '</select>',
+			'group_select' => '<select name="group" id="group-sel">' . $this->groups_model->mk_nested_select(0,0,false) . '</select>',
 			'category_select' => $this->articles_model->category_select(),
 			);
 		

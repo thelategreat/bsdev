@@ -21,22 +21,27 @@ class MY_Controller extends Controller
 	
 	protected function get_page_data( $title, $css_name, $section = '' )
 	{
-		$featured = $this->get_featured();
+		//$featured = $this->get_featured();
+		$groups_result = $this->groups_model->get_items( );
+		$groups = array();
+		foreach( $groups_result->result() as $group ):
+			$groups[] = array($group->name, $group->id, $this->groups_model->get_items( $group->id ));
+		endforeach;
+		
 		
 		$pg_data = array(
 			'page_title' => $title,
 			'css_name' => $css_name,
 			'section' => $section,
+			'groups' => $groups,
 			'main_content_nav' => '<ul id="main_content_nav"><li></li></ul>',
 			'style' => '/css/screen.css',
 			'content' => '',
 			'cart' => $this->cart,
 			'sidebar_nav' => $this->get_sidebar_nav(),
-			'sidebar_left' => $this->get_sidebar('left'),
-			'sidebar_right' => $this->get_sidebar('right'),
-			'ad_footer' => $this->get_sidebar('ad_footer'),
-			//'featured_top' => $this->load->view('home/featured_top', $featured, true),
-			//'featured_bottom' => $this->load->view('home/featured_bottom', $featured, true),
+			'sidebar_left' => $this->get_sidebar('left', $groups ),
+			'sidebar_right' => $this->get_sidebar('right', $groups ),
+			'ad_footer' => $this->get_sidebar('ad_footer', $groups ),
 			'footer' => $this->load->view('layouts/standard_footer', '', true )
 		);
 		
@@ -131,16 +136,17 @@ class MY_Controller extends Controller
 	/**
  	 *
  	 */
-	protected function get_sidebar( $which )
+	protected function get_sidebar( $which, $groups )
 	{		
 		$today = $this->get_cal_date();
 		$filter = array('day' => date('d',$today), 'month' => date('m',$today), 'year' => date('Y',$today), 'view' => 'day');
 		$items = $this->event_model->get_events( $filter );
-		if( $which == 'right' ) {
+		
+		if( $which == 'right' ) {			
 			$ads = $this->ads_model->get_ads_for_section( 'home' );
 			return $this->load->view('home/sidebar_right', array('events'=>$items, 'ads' => $ads->result() ), true );			
 		} else if( $which == 'left' ) {
-			return $this->load->view('home/sidebar_left', array('events'=>$items), true );
+			return $this->load->view('home/sidebar_left', array('events'=>$items, 'groups' => $groups), true );
 		} else if( $which == 'ad_footer' ) {
 			$ads = $this->ads_model->get_ads_for_section( 'home' );
 			return $this->load->view('home/ad_footer', array('events'=>$items, 'ads' => $ads->result()), true );

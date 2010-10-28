@@ -1,8 +1,13 @@
 <ul>
 <?php foreach( $ads as $ad ): ?>
 	<li>
-	  <!--<h3><?= $ad->title ?></h3> -->
-		<img title="<?= $ad->title ?>" src="/img/junk/gallery_photo4.jpg" height="130px" width="100%"/>
+		<?php if( $ad->url ) { ?>
+			<a href="<?=$ad->url?>" target="_blank">
+		<?php } ?>
+		<img title="<?= $ad->title ?>" src="/media/<?=$ad->uuid?>" height="130px" width="100%"/>
+		<?php if( $ad->url ) { ?>
+			</a>
+		<?php } ?>
 	</li>
 <?php endforeach; ?>
 </ul>

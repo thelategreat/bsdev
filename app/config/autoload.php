@@ -108,7 +108,7 @@ $autoload['language'] = array();
 |
 */
 
-$autoload['model'] = array('media_model', 'event_model', 'ads_model');
+$autoload['model'] = array('media_model', 'event_model', 'ads_model', 'groups_model');
 
 
 /*
