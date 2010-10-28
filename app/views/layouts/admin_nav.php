@@ -42,7 +42,7 @@
 			<li><a href="/admin/logs">Web Logs</a></li>
 			<li><a href="/admin/archive">Backup/Restore</a></li>
 			-->
-			<!-- <li><a href="/admin/bugs">Issues</a></li> -->
+			<li><a href="/admin/bugs">Issues/Bugs</a></li>
 			<li><a href="/admin/stats/about">About</a></li>
 		</ul>
 	</li>
