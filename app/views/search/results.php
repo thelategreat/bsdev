@@ -16,7 +16,15 @@
 		foreach( $results['results']->result() as $event ) { ?>
 			<tr>
 				<td><?= $event->type ?></td>
-				<td><a href="/events/details/<?=$event->id?>"><?=$event->title?></a></td>
+				<td>
+					<?php if( $event->type == 'event') { ?>
+						<a href="/events/details/<?=$event->id?>"><?=$event->title?></a>
+					<?php } elseif( $event->type == 'article') { ?>
+						<a href="/article/view/<?=$event->id?>"><?=$event->title?></a>
+					<?php } else { ?>
+						<?=$event->title?>
+					<?php } ?>
+				</td>
 				<td><?=date('g:ia',strtotime($event->created_on))?></td>
 				<td><?=date('D M j, Y',strtotime($event->created_on))?></td>
 			</tr>
