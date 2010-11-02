@@ -221,13 +221,19 @@ function update_end_time()
 	  var ampm = $('#fld_event_time_start_am_pm').val();
 	  var ehour = shour + hour;
 	  var emin = smin + min;
-	  if( emin > 60 ) {
-	    ehour += emin / 60;
-	    emin = Math.round((min % 60)/5)*5;
+	  if( emin >= 60 ) {
+	    ehour += parseInt(emin / 60);
+	    emin = Math.round(((smin+min) % 60)/5)*5;
+  	  if( emin >= 60 ) {
+  	    ehour += parseInt(emin / 60);
+  	    emin = Math.round(((smin+min) % 60)/5)*5;
+  	  }
 	  }
 	  if( ehour > 12 ) {
+	    $('#fld_event_time_end_am_pm').val('pm');
 	    ehour -= 12;
 	  }
+	  //alert( ehour + ' ' + emin );
 		// TODO: this does not cross midnite properly
 		$('#fld_event_time_end_hour').val(''+ehour);			
 		$('#fld_event_time_end_min').val(''+emin);			

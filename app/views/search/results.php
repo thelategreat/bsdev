@@ -1,16 +1,29 @@
 	
 <div id="search_results">
 
+
 <h3> Search Results</h3>	
-	
-	
+
+<a href="#" onclick="$('#advanced-search').toggle('slow');">advanced search</a>
+<div id="advanced-search" style="display: none">
+<form method="post">
+	<label for="q">Query</label>	
+	<input name="q" value="<?= $query_string ?>" size="20"/>
+	<label for="type">Type</label>	
+	<select name="type">
+		<option value="events">events</option>
+		<option value="articles">articles</option>
+	</select>
+	<input type="submit" name="search" value="Go" />
+</form>
+</div>
+
 <table class="search-results">
 	<caption>Query: <em>&quot;<?= $query_string ?>&quot;</em> returned <?= $results['count']?> results</caption>
 	<tr>
 	  <th>Type</th>
 		<th>Title</th>
 	  <th>Date</th>
-	  <th>Time</th>
 	</tr>
   <?php if( $results['count'] > 0 ) { 
 		foreach( $results['results']->result() as $event ) { ?>
@@ -24,9 +37,12 @@
 					<?php } else { ?>
 						<?=$event->title?>
 					<?php } ?>
+				</td>				
+				<td class="small">
+					<?php if( $event->dt_start !== NULL ) { ?>
+						<?= fmt_date( $event->dt_start )?>
+					<?php } ?>
 				</td>
-				<td><?=date('g:ia',strtotime($event->created_on))?></td>
-				<td><?=date('D M j, Y',strtotime($event->created_on))?></td>
 			</tr>
   <?php }
 	} ?>
@@ -43,7 +59,7 @@
 				<?php } ?>
 			</td>
 			<td align="right">
-				<?php if( $results['results']->num_rows() == $page_size ) { ?>
+				<?php if( $results['count'] == $page_size ) { ?>
 					<a href="/search/results/<?=$page + 1?>/<?= urlencode($query_string)?>">next ⇒</a>
 				<?php } ?>
 			</td>

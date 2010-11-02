@@ -46,9 +46,13 @@ class Search extends MY_Controller
 		}
 		
 		$results = array();
-		$results['results'] = $this->search_model->search($query, $page, $page_size );
-		$results['count'] = $results['results']->num_rows();
-				
+		if( strlen(trim($query)) > 0 ) {
+			$results['results'] = $this->search_model->search($query, $page, $page_size );
+			$results['count'] = $results['results']->num_rows();
+		} else {
+			$results['count'] = 0;
+		}		
+		
 		$view_data = array(
 			'results' => $results,
 			'page' => $page,
@@ -56,7 +60,7 @@ class Search extends MY_Controller
 			'query_string' => $query
 			);		
 				
-		$pg_data = $this->get_page_data('Bookshelf - Search', 'search-results');
+		$pg_data = $this->get_page_data('Bookshelf - Search', 'search-results', 'search');
 		$pg_data['content'] = $this->load->view('search/results', $view_data, true);
 		$this->load->view('layouts/standard_page', $pg_data );	  
 	}

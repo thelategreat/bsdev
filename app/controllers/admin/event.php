@@ -303,7 +303,7 @@ class Event extends Admin_Controller
 		$s .= '<select name="'.$name.'_min" id="fld_'.$name.'_min" onchange="sel_'.$name.'();">';
 		//foreach(array("00","15","30","45") as $mint ) {
 		for( $mint = 0; $mint < 60; $mint += 5 ) {
-			$s .= "<option";
+			$s .= "<option value='$mint'";
 			if( $min && $mint == $min ) {
 				$s .= ' selected="selected"';
 			}

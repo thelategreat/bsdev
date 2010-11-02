@@ -10,6 +10,7 @@ function mk_linkable( $text, $link_name = NULL )
 		return $text;
 	}
 }
+
 // this is used to turn table field names form the database into
 // humban readbale, suitable for a lable.
 // used for event reference details
@@ -19,6 +20,20 @@ function mk_label( $text )
 	return ucwords($text);
 }
 
+// dates come from the database as strings
+// this formats them for site wide display usage
+function fmt_date( $dt, $long = true )
+{
+	if( $long ) {
+		// long format
+		return date('D M j, Y @ g:i a',strtotime($dt));	
+	} else {
+		// short format
+		return date('M j, Y @ g:i a',strtotime($dt));			
+	}
+}
+
+//
 function html_table( $data, $header = NULL, $caption = NULL )
 {
 	$s = '<table>';
