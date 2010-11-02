@@ -21,6 +21,7 @@ class Ads_model extends Model
 			select ads.id, ads.title, ads.url, media.uuid 
 				FROM ads, media_map, media 
 				WHERE media_map.path = CONCAT('/ads/', ads.id) 
+					AND NOW() BETWEEN ads.start_date AND ads.end_date
 					AND media.id = media_map.media_id ORDER BY rand() LIMIT $count;
 EOF;
 		return $this->db->query($query);

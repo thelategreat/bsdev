@@ -11,6 +11,7 @@ class Search extends MY_Controller
 	function __construct()
 	{
 		parent::Controller();
+		$this->load->model('search_model');
 	}
 	
 	function index()
@@ -45,7 +46,7 @@ class Search extends MY_Controller
 		}
 		
 		$results = array();
-		$results['results'] = $this->event_model->search_events($query, $page, $page_size );
+		$results['results'] = $this->search_model->search($query, $page, $page_size );
 		$results['count'] = $results['results']->num_rows();
 				
 		$view_data = array(

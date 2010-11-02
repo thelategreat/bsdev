@@ -383,26 +383,6 @@ body.calendar #content {
 	padding-bottom: 10px;
 }
 
-#events-preview {	
-	border-top: 1px solid #666;
-	border-bottom: 1px solid #666;
-	background-color: #eee;
-}
-
-#events-preview h3 {	
-	margin-top: 0;
-}
-
-#events-preview ul {
-	display: inline;
-}
-
-#events-preview ul li {
-	display: inline;
-	list-style: none;
-}
-
-
 /* specific pages */
 #profile {
 	margin: 20px;
@@ -572,6 +552,29 @@ table.calendar-month ul.event-list li.music {
 }
 
 /* E V E N T */
+/* home page */
+#events-preview {	
+	border-top: 1px solid #666;
+	border-bottom: 1px solid #666;
+	padding: 5px;
+}
+
+#events-preview h3 {	
+	margin: 0;
+	padding: 0;
+}
+
+#events-preview ul {
+	display: inline;
+	padding-top: 3px;
+}
+
+#events-preview ul li {
+	display: inline;
+	list-style: none;
+}
+
+/* regular event stuff */
 div.event-detail {
 	
 }
@@ -590,11 +593,34 @@ div.event-detail h2 {
 
 div.event-detail p.event-time {
 	margin: 0;
+	padding: 0;
+}
+
+div.event-detail p.event-location {
+	margin: 0;
+	padding: 0;
 }
 
 div.event-detail div.event-description {
 
 }
+
+table.event-extra {
+	width: auto;
+	padding: 0;
+	margin: 0;	
+}
+
+table.event-extra td {
+	border-right: 1px solid #C1DAD7;
+	border-bottom: 1px solid #C1DAD7;
+	background: #fff;
+	padding: 1px 1px 1px 12px;
+	color: #4f6b72;
+	font-size: 90%;
+}
+
+
 /* C A R T */
 #cart {
 	

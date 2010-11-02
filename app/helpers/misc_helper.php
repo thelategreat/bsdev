@@ -1,5 +1,24 @@
 <?php 
 
+// if the text starts with http, return a link text
+function mk_linkable( $text, $link_name = NULL )
+{
+	$text = trim($text);
+	if( strpos($text, 'http:') === 0 ) {
+		return "<a href='$text' target='_blank'>$text</a>";
+	} else {
+		return $text;
+	}
+}
+// this is used to turn table field names form the database into
+// humban readbale, suitable for a lable.
+// used for event reference details
+function mk_label( $text )
+{
+	$text = preg_replace('/_/', ' ', $text );
+	return ucwords($text);
+}
+
 function html_table( $data, $header = NULL, $caption = NULL )
 {
 	$s = '<table>';

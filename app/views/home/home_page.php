@@ -9,11 +9,12 @@ $(function(){
 <?php } ?>
 
 <?php if( $events !== NULL ) { ?>
+	<a style="float: right" href="/calendar">see the full calendar</a>
+	<h3 style="margin: 0; padding: 0; font-style: italic;">Coming up... </h3>
 	<div id="events-preview">
-		<h3>Coming up...</h3>
 		<ul>
 		<?php foreach( $events->result() as $event ): ?>
-			<li><a href="" title="<?=$event->title . '<br/>' . date('M d', strtotime($event->dt_start)) . ' @ '. date('g:m a',strtotime($event->dt_start))?>"><img src="/media/<?=$event->uuid?>" width="70px"\></a></li>
+			<li><a href="/events/details/<?=$event->id?>" title="<?=$event->title . '<br/>' . date('M d', strtotime($event->dt_start)) . ' @ '. date('g:m a',strtotime($event->dt_start))?>"><img src="/media/<?=$event->uuid?>" width="70px"\></a></li>
 		<? endforeach; ?>
 		</ul>
 	</div>
