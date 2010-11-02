@@ -7,14 +7,18 @@
 <a href="#" onclick="$('#advanced-search').toggle('slow');">advanced search</a>
 <div id="advanced-search" style="display: none">
 <form method="post">
-	<label for="q">Query</label>	
-	<input name="q" value="<?= $query_string ?>" size="20"/>
-	<label for="type">Type</label>	
-	<select name="type">
-		<option value="events">events</option>
-		<option value="articles">articles</option>
-	</select>
-	<input type="submit" name="search" value="Go" />
+	<fieldset>
+		<legend>Advanced Search</legend>
+		<label for="q">Find</label>	
+		<input name="q" value="<?= $query_string ?>" size="20"/>
+		<label for="type">Type</label>	
+		<select name="type">
+			<option value="all">all</option>
+			<option value="events">events</option>
+			<option value="articles">articles</option>
+		</select>
+		<input type="submit" name="search" value="Go" />
+	</fieldset>
 </form>
 </div>
 
