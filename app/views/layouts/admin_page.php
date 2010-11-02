@@ -67,7 +67,7 @@
 		editor_deselector : "mceNoEditor",
 		theme : "advanced",
 		plugins : "safari,spellchecker,fullscreen,paste,advimage",
-		theme_advanced_buttons1 : "mybutton,bold,italic,underline,separator,strikethrough,justifyleft,justifycenter,justifyright,justifyfull,bullist,numlist,|,link,unlink,image,|,spellchecker,fullscreen",
+		theme_advanced_buttons1 : "mybutton,bold,italic,underline,separator,strikethrough,justifyleft,justifycenter,justifyright,justifyfull,bullist,numlist,|,link,unlink,image,|,spellchecker,fullscreen,|,code",
 		theme_advanced_buttons2 : "formatselect,forecolor,|,cut,copy,paste,pastetext,pasteword,|,undo,redo",
 		theme_advanced_buttons3 : "",
 		theme_advanced_toolbar_location : "top",
