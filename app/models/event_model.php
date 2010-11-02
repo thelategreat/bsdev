@@ -112,12 +112,16 @@ EOF;
 	 */
 	function search_events($q, $page = 1, $limit = 10 )
 	{		
-		$sql = "SELECT * FROM events WHERE (title LIKE '%" . $this->db->escape_like_str($q) . "%'";
-		$sql .= " OR body LIKE '%" . $this->db->escape_like_str($q) . "%')";
-		//$sql .= " AND dt_start >= NOW()";
-
-		$sql .= " LIMIT " . $limit;
-		$sql .= " OFFSET " . (($page - 1) * $limit);
+		$term = $this->db->escape_like_str($q);
+		$offs = (($page - 1) * $limit);
+		
+		$sql =<<<EOF
+			SELECT e.id, e.title, e.dt_start, e.audience, ea.audience as audience_name, e.category, ec.category AS category_name
+			FROM events as e, event_audience as ea, event_categories as ec 
+				WHERE (title LIKE '%$term%' OR body LIKE '%$term%')
+				AND ea.id = e.audience AND ec.id = e.category
+				LIMIT $limit OFFSET $offs
+EOF;
 
 		return $this->db->query( $sql );		
 	}

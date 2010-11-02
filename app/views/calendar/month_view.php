@@ -1,4 +1,11 @@
 
+<div style="float: right">
+	<a href="<?=$prev_month_url?>" title="last month">
+		<img src="/img/cal/arrow_left.png" style="width: 24px; margin-bottom: -5px"/></a>&nbsp;
+	<a href="<?=$next_month_url?>" title="next month">
+		<img src="/img/cal/arrow_right.png" style="width: 24px; margin-bottom: -5px"/></a>
+</div>
+
 <h2><?= date("F",mktime(0, 0, 0, $month, 1, $year))?> <?= $year ?></h2>
 
 <?= $view_menu ?>

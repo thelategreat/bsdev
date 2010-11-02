@@ -95,11 +95,29 @@ EOF;
 			}
 		}
 		
+		$next_year = (int)$year;
+		$prev_year = (int)$year;
+		$next_month = (((int)$month)+1);
+		$prev_month = (((int)$month)-1);
+		
+		if( $next_month > 12 ) {
+			$next_month = 1;
+			$next_year++;
+		}
+		if( $prev_month < 1 ) {
+			$prev_month = 12;
+			$prev_year--;
+		}
+		$next_month_url = "/calendar/view/$which/$next_month/$next_year";
+		$prev_month_url = "/calendar/view/$which/$prev_month/$prev_year";
+		
 		$view_data = array(
 			'view_menu' => $view_menu,
 			'month' => $month,
 			'year' => $year,
-			'cal' => $cal
+			'cal' => $cal,
+			'next_month_url' => $next_month_url,
+			'prev_month_url' => $prev_month_url
 		);
 			
 		$pg_data = $this->get_page_data('Bookshelf - calendar', 'calendar' );

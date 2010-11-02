@@ -82,8 +82,8 @@ class Event extends Admin_Controller
 		}
 		
 		$widgets = array(
-			"start_time_widget" => $this->get_time_widget('event_time_start', time()),
-			"end_time_widget" => $this->get_time_widget('event_time_end', time() + 60*60),
+			"start_time_widget" => $this->get_time_widget('event_time_start', mktime( 12, 0, 0 )), //time()),
+			"end_time_widget" => $this->get_time_widget('event_time_end', mktime( 13, 0, 0 )),//time() + 60*60),
 			"audience_select" => $this->get_audience_select(),
 			"category_select" => $this->get_category_select()
 			);
@@ -208,9 +208,9 @@ class Event extends Admin_Controller
 		} elseif( $query && $cat ) {
 			// F I L M
 			if( $cat == "1" ) {
-				$res = $this->db->query("select id, title from films where lower(title) like '%" . strtolower($query) . "%'");
+				$res = $this->db->query("select id, title, running_time from films where lower(title) like '%" . strtolower($query) . "%'");
 				foreach( $res->result() as $row ) {
-					$xml .= '<item cat="'.$cat.'" id="'.$row->id.'" name="'. htmlspecialchars($row->title) . '" />' ;
+					$xml .= '<item cat="'.$cat.'" id="'.$row->id.'" name="'. htmlspecialchars($row->title) . '" time="' . $row->running_time . '" />' ;
 				}
 			}
 		}
@@ -282,8 +282,10 @@ class Event extends Admin_Controller
 				$min = 45;
 			} elseif( $min > 15 ) {
 				$min = 30;
-			} else {
+			} elseif( $min > 7 ) {
 				$min = 15;
+			} else {
+				$min = 0;
 			}
 		}
 		

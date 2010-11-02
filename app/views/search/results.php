@@ -3,30 +3,30 @@
 
 <h3> Search Results</h3>	
 	
-<p>Query: <em>&quot;<?= $query_string ?>&quot;</em> returned <?= $results['count']?> results</p>
 	
-<table>
+<table class="search-results">
+	<caption>Query: <em>&quot;<?= $query_string ?>&quot;</em> returned <?= $results['count']?> results</caption>
 	<tr>
-	  <th>Category</th>
 	  <th>Event</th>
 		<th>Time</th>
 	  <th>Date</th>
+	  <th>Category</th>
 		<th>Audience</th>
 	</tr>
   <?php if( $results['count'] > 0 ) { 
 		foreach( $results['results']->result() as $event ) { ?>
 			<tr>
-				<td>
-					<?php if( file_exists('img/icons/black/' . $event->category . '.png')) { ?>
-						<img class="icon" src="'/img/icons/black/<?=$event->category?>.png'" title="<?=$event->category?>" />
-					<?php } else { ?>
-						<?=$event->category?>
-					<?php } ?>
-				</td>
 				<td><a href="/events/details/<?=$event->id?>"><?=$event->title?></a></td>
 				<td><?=date('g:ia',strtotime($event->dt_start))?></td>
-				<td><?=date('D M n, Y',strtotime($event->dt_start))?></td>
-				<td><?=$event->audience?></td>
+				<td><?=date('D M j, Y',strtotime($event->dt_start))?></td>
+				<td>
+					<?php if( file_exists('img/icons/black/' . $event->category_name . '.png')) { ?>
+						<img class="icon" src="'/img/icons/black/<?=$event->category_name?>.png'" title="<?=$event->category_name?>" />
+					<?php } else { ?>
+						<?=$event->category_name?>
+					<?php } ?>
+				</td>
+				<td><?=$event->audience_name?></td>
 			</tr>
   <?php }
 	} ?>

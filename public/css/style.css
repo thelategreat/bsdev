@@ -648,6 +648,41 @@ div.pager table {
 	color:#DDD;	
 }
 
+/* search results */
+table.search-results {
+	width: 100%;
+	padding: 0;
+	margin: 0;
+}
+
+table.search-results caption {
+	padding: 0 0 5px 0;
+	font: italic 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	text-align: right;
+}
+
+table.search-results th {
+	font: bold 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	color: #4f6b72;
+	border-right: 1px solid #C1DAD7;
+	border-bottom: 1px solid #C1DAD7;
+	border-top: 1px solid #C1DAD7;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	text-align: left;
+	padding: 6px 6px 6px 12px;
+	background-color: #CAE8EA;	
+}
+
+table.search-results td {
+	border-right: 1px solid #C1DAD7;
+	border-bottom: 1px solid #C1DAD7;
+	background: #fff;
+	padding: 6px 6px 6px 12px;
+	color: #4f6b72;
+}
+
+
 /* Dialog window */
 .dialogWindow {
     display: none;

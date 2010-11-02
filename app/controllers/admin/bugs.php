@@ -21,6 +21,7 @@ class Bugs extends Admin_Controller
 			'Details', 'Media'
 			);
 
+		$this->bug_statuses = array('new','open','fixed','wontfix','closed');
 	}
 	
 	function index()

@@ -125,7 +125,7 @@ function lookup( inp )
 			function( data ) {
 				var ht = '';
 				$(data).find('item').each(function(foo) {
-					ht = ht + '<li onclick="fill(\'' + $(this).attr('id') + '\',\''+$(this).attr('cat')+'\')">' + $(this).attr('name') + '</li>';
+					ht = ht + '<li onclick="fill(\'' + $(this).attr('id') + '\',\''+$(this).attr('cat')+'\')">' + $(this).attr('name') + '<br/>(' + $(this).attr('time') + ' min)</li>';
 				});
 				$('#autoSuggestBox').show();
 				$('#autoSuggestList').html( ht );
@@ -165,6 +165,7 @@ function fill( id, cat )
 				$('#fld_title').val(item.attr('title'));
 				$('#fld_event_ref').val(item.attr('id'));
 				duration = item.attr('time');
+				update_end_time();
 				//$('#fld_body').val(item.find('description').text());
 				tinyMCE.activeEditor.setContent(item.find('description').text());
 			});
@@ -207,23 +208,35 @@ function sel_audience()
 {
 }
 
-function sel_event_time_start()
+function update_end_time()
 {
+  // duration is in minutes
 	if( duration ) {
 		var min = parseInt(duration);
 		var hour = parseInt(min / 60);
 		var min = Math.round(parseInt(min % 60)/5)*5;
+		
 		var shour = parseInt($('#fld_event_time_start_hour').val());
 		var smin = parseInt($('#fld_event_time_start_min').val());
+	  var ampm = $('#fld_event_time_start_am_pm').val();
+	  var ehour = shour + hour;
+	  var emin = smin + min;
+	  if( emin > 60 ) {
+	    ehour += emin / 60;
+	    emin = Math.round((min % 60)/5)*5;
+	  }
+	  if( ehour > 12 ) {
+	    ehour -= 12;
+	  }
 		// TODO: this does not cross midnite properly
-		if( smin + min > 60 ) {
-			$('#fld_event_time_end_hour').val(''+(shour + hour + 1));			
-			$('#fld_event_time_end_min').val(''+(smin + min - 60 ));			
-		} else {
-			$('#fld_event_time_end_hour').val(''+(shour + hour));			
-			$('#fld_event_time_end_min').val(''+(smin + min));			
-		}
-	}
+		$('#fld_event_time_end_hour').val(''+ehour);			
+		$('#fld_event_time_end_min').val(''+emin);			
+	}  
+}
+
+function sel_event_time_start()
+{
+  update_end_time();
 	$('#fld_event_time_end_am_pm').val($('#fld_event_time_start_am_pm').val());
 }
 
@@ -232,9 +245,16 @@ function sel_event_time_end()
   
 }
 
-$(function()
-{
+$(document).ready(function() {
 	Date.format = "yyyy-mm-dd";
-	$('.date-pick').datePicker();
+	$('.date-pick').datePicker({ firstDay: 0 });
 	$('#fld_event_date_start').blur( function() { leave_first_date(); });
+	// ??
+	$(window).keydown( function(event) {
+	  if((event.keyCode == 13) && (validate() == false)) {
+	    event.preventDefault($('#event_form'), event );
+	    return false;
+	  }
+	});
+	
 });

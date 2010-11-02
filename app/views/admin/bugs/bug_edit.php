@@ -34,8 +34,9 @@
 				<td><select name="status">
 							<option value="new" <?=$bug->status == "new" ? "selected" : ""?>>new</option>
 							<option value="open" <?=$bug->status == "open" ? "selected" : ""?>>open</option>
-							<option value="closed" <?=$bug->status == "closed" ? "selected" : ""?>>closed</option>
+							<option value="fixed" <?=$bug->status == "fixed" ? "selected" : ""?>>fixed</option>
 							<option value="wontfix" <?=$bug->status == "wontfix" ? "selected" : ""?>>wontfix</option>
+							<option value="closed" <?=$bug->status == "closed" ? "selected" : ""?>>closed</option>
 						</select>
 				</td>
 			</tr>

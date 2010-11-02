@@ -53,6 +53,7 @@ function cal_gen( $month, $year )
 				$cal[$week][$i]['date'] = ($d - $days_in_month) . "/$adt[0]/$adt[1]" ;
 				$cal[$week][$i]['day'] = ($d - $days_in_month);
   		}
+			$cal[$week][$i]['events'] = array();
       $d++;
 		}
 		$week++;

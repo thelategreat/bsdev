@@ -10,7 +10,7 @@ $(function(){
 
 <?php if( $events !== NULL ) { ?>
 	<div id="events-preview">
-		<h3>What's on...</h3>
+		<h3>Coming up...</h3>
 		<ul>
 		<?php foreach( $events->result() as $event ): ?>
 			<li><a href="" title="<?=$event->title . '<br/>' . date('M d', strtotime($event->dt_start)) . ' @ '. date('g:m a',strtotime($event->dt_start))?>"><img src="/media/<?=$event->uuid?>" width="70px"\></a></li>

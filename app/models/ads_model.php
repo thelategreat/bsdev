@@ -16,11 +16,12 @@ class Ads_model extends Model
 
 	function get_ads_for_section( $section, $format = 'vertical', $count = 3 )
 	{
+		// grab random records
 		$query =<<< EOF
 			select ads.id, ads.title, ads.url, media.uuid 
 				FROM ads, media_map, media 
 				WHERE media_map.path = CONCAT('/ads/', ads.id) 
-					AND media.id = media_map.media_id LIMIT $count;
+					AND media.id = media_map.media_id ORDER BY rand() LIMIT $count;
 EOF;
 		return $this->db->query($query);
 	}

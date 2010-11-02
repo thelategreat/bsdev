@@ -9,6 +9,7 @@ class Admin_Controller extends Controller
 		parent::Controller();
 		
 		// check the permissions
+		//if( !$this->auth->restrict_role('admin')) 
 		if( !$this->auth->restrict_role_db()) 
 			$this->no_permission();
 		
