@@ -32,6 +32,9 @@ class Search extends MY_Controller
 			$query = $this->uri->segment(4);
 		}
 		
+		// search type
+		$type = $this->input->post('type');
+		
 		// FIX ME for urlencode
 		$group = $this->input->post('group');
 		
@@ -47,7 +50,7 @@ class Search extends MY_Controller
 		
 		$results = array();
 		if( strlen(trim($query)) > 0 ) {
-			$results['results'] = $this->search_model->search($query, $page, $page_size );
+			$results['results'] = $this->search_model->search($query, $type, $page, $page_size );
 			$results['count'] = $results['results']->num_rows();
 		} else {
 			$results['count'] = 0;
