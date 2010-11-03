@@ -33,13 +33,6 @@ class Home extends MY_Controller
 	
 	private function build_page( $section )
 	{
-		/*
-		if( (int)$section ) {
-			echo $section;
-			echo '<pre>' . var_export($this->groups_model->get_parents( $section ), true) . '</pre>';
-			exit;
-		}
-		*/
 		$parents = $this->groups_model->get_parents( $section );
 				
 		$events = NULL;
@@ -47,16 +40,18 @@ class Home extends MY_Controller
 
 		$res = $this->articles_model->get_published_article_list($section);
 		if( $res->num_rows() > 0 ) {
-			$articles = $res->result();
+			foreach( $res->result() as $row ) {
+				$row->media = $this->media_model->get_media_for_path("/articles/$row->id", 'general', 1);
+				$articles[] = $row;				
+			}
 		} else {
 			$tree = $this->groups_model->get_tree( 'id', $section, false );
-			//echo '<pre>';
-			//var_dump( $tree );
-			//echo '</pre>';
 			foreach( $tree as $tree_item ) {
-				$res = $this->articles_model->get_published_article_list($tree_item->id, 5 );
+				$res = $this->articles_model->get_published_article_list($tree_item->id, 1 );
 				if( $res->num_rows() > 0 ) {
-					$articles[] = $res->row();
+					$row = $res->row();
+					$row->media = $this->media_model->get_media_for_path("/articles/$row->id", 'general', 1);
+					$articles[] = $row;				
 				}			
 			}			
 		}
@@ -65,22 +60,8 @@ class Home extends MY_Controller
 			$events = $this->event_model->get_next_events( 7 );
 		}
 		
-		/*
-		if( $section == 0) {
-			$tree = $this->groups_model->get_tree( 'id', 1, false );
-			foreach( $tree as $tree_item ) {
-				$res = $this->articles_model->get_published_article_list($tree_item->id, 1 );
-				if( $res->num_rows() ) {
-					$articles[] = $res->row();
-				}			
-			}
-			$events = $this->event_model->get_next_events( 7 );
-		} else {
-			$articles = $this->articles_model->get_published_article_list($section)->result();			
-		}
-		*/
+		//dbg( $articles );
 		
-		//echo '<pre>' . var_export($articles, true) . '</pre>';
 		$parents = array_reverse($parents);
 		array_shift($parents);
 		$view_data = array(

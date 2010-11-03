@@ -187,10 +187,14 @@ class media_model extends Tag_Model
 		return $res;
 	}
 	
-	function get_media_for_path( $path, $slot = 'general' )
+	function get_media_for_path( $path, $slot = 'general', $count = 0 )
 	{
+		$query = "SELECT m.* FROM media as m, media_map as mm WHERE mm.media_id = m.id AND mm.path = '$path' AND mm.slot = '$slot' ORDER BY mm.sort_order";
+		if( $count > 0 ) {
+			$query .= " LIMIT $count";
+		}
 		$files = array();
-		$results = $this->db->query("SELECT m.* FROM media as m, media_map as mm WHERE mm.media_id = m.id AND mm.path = '$path' AND mm.slot = '$slot' ORDER BY mm.sort_order");
+		$results = $this->db->query( $query );
 		foreach( $results->result() as $row ) {
 			$info['fname'] = $row->title;
 			$info['url'] =  $row->uuid;

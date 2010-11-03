@@ -1,5 +1,10 @@
 <?php 
 
+function dbg( $var )
+{
+	echo '<pre style="font-size: 10px; background-color: white; color: black;">' . var_export($var, true) . '</pre>';
+}
+
 // if the text starts with http, return a link text
 function mk_linkable( $text, $link_name = NULL )
 {

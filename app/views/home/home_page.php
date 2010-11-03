@@ -20,14 +20,20 @@ $(function(){
 	</div>
 <? } ?>
 
-<?php foreach( $articles as $article ): ?>
+<?php 
+	$count = 0;
+	foreach( $articles as $article ): ?>
 	<div class="article">
+		<?php if( count($article->media) > 0 ) { $uuid = $article->media[0]['uuid']; ?>
+			<img src="/media/<?=$uuid?>" style="float: <?= $count % 2 > 0 ? 'left' : 'right'?>; margin: 3px;" width="80px" />
+		<?php } ?>
 		<h2><a href="/article/view/<?=$article->id?>"><?= $article->title ?></a></h2>
-		<span class="date">posted: <?=date('j M Y',strtotime($article->publish_on))?> by <?=$article->author?> under <?=$article->group ?></span>
+		<span class="date">posted: <?=date('j M Y',strtotime($article->publish_on))?></spam> by <?=$article->author?>.<br/>filed under <?=$article->group ?></span>
 		<p><?= strlen(trim($article->excerpt)) ? $article->excerpt : implode(' ', array_slice(explode( ' ', $article->body),0,100) ) . '...' ?>
 		<p class="read-more"><a href="/article/view/<?=$article->id?>"><em>read more...</em></a><p>
 	</div>
-<?php endforeach; ?>
+<?php $count++;
+endforeach; ?>
 
 <!--
 <div class="article">
