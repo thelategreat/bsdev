@@ -42,6 +42,7 @@ class Groups extends Admin_Controller
 			$data['parent_id'] = $this->input->post('parent_id');
 			$data['name'] = $this->input->post('name');
 			$data['deletable'] = "1";
+			$data['active'] = $this->input->post('active') ? "1" : "0";
 			$this->groups_model->add( $data );
 			redirect($this->url);
 		}
@@ -74,6 +75,7 @@ class Groups extends Admin_Controller
 			$data = array();
 			$data['parent_id'] = $this->input->post('parent_id');
 			$data['name'] = $this->input->post('name');
+			$data['active'] = $this->input->post('active') ? "1" : "0";
 			$this->groups_model->update( $id, $data );
 			redirect($this->url);
 		}

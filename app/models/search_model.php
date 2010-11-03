@@ -30,7 +30,7 @@ EOE;
 		$article_sql =<<<EOA
 			SELECT id, title, updated_on, NULL as dt_start, 'article' AS type 
 				FROM articles 
-				WHERE (title LIKE '%$term%' OR body LIKE '%$term%')
+				WHERE (title LIKE '%$term%' OR body LIKE '%$term%') AND status = 3
 EOA;
 
 		switch( $which ) {

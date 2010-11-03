@@ -13,6 +13,11 @@
 			<?=form_error('name')?>
 		</td>
 	</tr>
+	<tr>
+		<td><label>Active</label></td>
+		<td><input type="checkbox" name="active"  <?= $group->active ? "checked='checked'" : '' ?>/>
+		</td>
+	</tr>
 </table>
 </fieldset>
 <input class="button" name="save" type="submit" value="Save" />

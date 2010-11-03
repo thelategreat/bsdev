@@ -107,6 +107,14 @@ $(function()
 	  <tr>
 			<td>
 			<table>
+				<tr><th>Display Priority</th></tr>
+				<tr><td><?= $priority_select ?></td></tr>
+			</table>
+			</td>
+		</tr>
+	  <tr>
+			<td>
+			<table>
 				<tr><th>Tags</th></tr>
 				<tr>
 					<td><textarea name="tags" class="mceNoEditor" cols="20" rows="3"><?=set_value('tags',$article->tags)?></textarea>

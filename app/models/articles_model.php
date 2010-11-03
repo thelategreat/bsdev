@@ -116,4 +116,20 @@ EOF;
 		return $s;		
 	}
 
+	function priority_select( $default = 2 )
+	{
+		$priorities = array( "1" => "high", "2" => "med", "3" => "low");
+		$s = '<select name="display_priority">';
+		foreach( $priorities as $k => $v ) {
+			$s .= '<option value="' . $k . '" ';
+			if( $default == $k ) {
+				$s .= " selected ";
+			}
+			$s .= '>' . $v . '</option>';
+		}
+		$s .= '</select>';
+		
+		return $s;				
+	}
+
 }

@@ -68,6 +68,7 @@ class Articles extends Admin_Controller
 			if( $this->form_validation->run()) {
 				$this->db->set('title', $this->input->post('title'));
 				$this->db->set('group', $this->input->post('group'), false);
+				$this->db->set('display_priority', $this->input->post('display_priority'), false);
 				$this->db->set('category', $this->input->post('category'), false);
 				$this->db->set('publish_on', $this->input->post('publish_on'));
 				$this->db->set('body', $this->input->post('body'));
@@ -89,6 +90,7 @@ class Articles extends Admin_Controller
 		$view_data = array(
 			'group_select' => '<select name="group" id="group-sel">' . $this->groups_model->mk_nested_select(0,0,false) . '</select>',
 			'category_select' => $this->articles_model->category_select(),
+			'priority_select' => $this->articles_model->priority_select()
 			);
 		
 		$this->gen_page('Admin - Articles', 'admin/articles/article_add', $view_data );
@@ -129,6 +131,7 @@ class Articles extends Admin_Controller
 				$this->db->where('id', $article_id);
 				$this->db->set('title', $this->input->post('title'));
 				$this->db->set('group', $this->input->post('group'), false);
+				$this->db->set('display_priority', $this->input->post('display_priority'), false);
 				$this->db->set('category', $this->input->post('category'), false);
 				$this->db->set('status', $this->input->post('status'), false);
 				$this->db->set('publish_on', $this->input->post('publish_on'));
@@ -171,6 +174,7 @@ class Articles extends Admin_Controller
 			'group_select' => '<select name="group" id="group-sel">' . $this->groups_model->mk_nested_select($article->group,0,false) . '</select>',
 			'category_select' => $this->articles_model->category_select( $article->category ),
 			'status_select' => $this->articles_model->status_select( $article->status ),
+			'priority_select' => $this->articles_model->priority_select( $article->display_priority ),			
 			'tabs' => $this->tabs->gen_tabs(array('Article','Media'), 'Article', '/admin/articles/edit/' . $article_id)
 		);
 		
