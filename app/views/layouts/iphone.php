@@ -2,7 +2,7 @@
 <head>
 <title>iBookshelf</title>
 		<meta name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
-		<style type="text/css" media="screen">@import "/iui/iui.css";</style>
+		<style type="text/css" media="screen">@import "/css/iui/iui.css";</style>
 		<style type="text/css">
 		body > ul > li {
 		    font-size: 14px;

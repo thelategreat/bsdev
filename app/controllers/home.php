@@ -50,9 +50,9 @@ class Home extends MY_Controller
 			$articles = $res->result();
 		} else {
 			$tree = $this->groups_model->get_tree( 'id', $section, false );
-			echo '<pre>';
-			var_dump( $tree );
-			echo '</pre>';
+			//echo '<pre>';
+			//var_dump( $tree );
+			//echo '</pre>';
 			foreach( $tree as $tree_item ) {
 				$res = $this->articles_model->get_published_article_list($tree_item->id, 5 );
 				if( $res->num_rows() > 0 ) {
