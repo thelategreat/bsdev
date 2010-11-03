@@ -2,7 +2,7 @@
 <head>
 <title>iBookshelf</title>
 		<meta name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
-		<style type="text/css" media="screen">@import "/css/iui/iui.css";</style>
+		<style type="text/css" media="screen">@import "/iui/iui.css";</style>
 		<style type="text/css">
 		body > ul > li {
 		    font-size: 14px;
@@ -20,7 +20,6 @@
 	    left: 10px;
 	    top: 10px;
 	    text-align: center;
-			background-color: #999;
 		}
 		li .event-time {
 	    display: block;
@@ -71,22 +70,24 @@
 	  </div>
 
     <ul id="home" title="The Bookshelf" selected="true">
-        <li><img class="icon" src="/img/icons/icon_cinema.gif" /><a href="/iph/cal">Cinema</a>
+        <li><img class="icon" src="/img/icons/calendar_1.png" /><a href="/iph/cal">Events</a>
 				</li>
-        <li><img class="icon" src="/img/icons/icon_ebar.gif" /><a href="/iph/ebar">eBar</a>
+        <li><img class="icon" src="/img/icons/black/the village.png" /><a href="#location">Location</a>
 				</li>
-        <li><img class="icon" src="/img/icons/icon_greenroom.gif" /><a href="/iph/books">Bookstore</a>
-				</li>
-        <li><a href="#about">About</a>
+        <li><img class="icon" src="/img/icons/black/info.png" /><a href="#about">About</a>
 				</li>
     </ul>
+
+		<div id="location">
+			<h3>How to find us</h3>
+			<a target="_self" href="http://maps.google.ca/maps?f=q&source=s_q&hl=en&geocode=&q=bookshelf,+41+quebec+street,+guelph,+ont&sll=43.546775,-80.250642&sspn=0.009005,0.014527&ie=UTF8&hq=bookshelf,&hnear=41+Quebec+St,+Guelph,+ON&ll=43.545686,-80.250642&spn=0.009005,0.014527&z=16">
+				41 Quebec Street, Guelph, Ontario, Canada.</a>
+			</p>
+		</div>
 
 		<div id="about">
 			<h3>About the Bookshelf</h3>
 			<p>The Bookshelf is located at 
-			<a target="_self" href="http://maps.google.ca/maps?f=q&source=s_q&hl=en&geocode=&q=bookshelf,+41+quebec+street,+guelph,+ont&sll=43.546775,-80.250642&sspn=0.009005,0.014527&ie=UTF8&hq=bookshelf,&hnear=41+Quebec+St,+Guelph,+ON&ll=43.545686,-80.250642&spn=0.009005,0.014527&z=16">
-				41 Quebec Street, Guelph, Ontario, Canada.</a>
-			</p>
 			<p>Other stuff would be here</p>
 		</div>
 				

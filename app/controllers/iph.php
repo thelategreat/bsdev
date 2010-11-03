@@ -51,7 +51,7 @@ class iph extends MY_Controller
 		}
 		
 		$page_data = array(
-			'title' => 'Cinema',
+			'title' => 'Events',
 			'events' => $events
 			);
 			
@@ -64,20 +64,23 @@ class iph extends MY_Controller
 		$id = $this->uri->segment(3);		
 		$this->load->model('event_model');
 		$res = $this->event_model->get_event( $id );
-		if( $res->num_rows() ) {
+		
+		
+		if( $res->num_rows() > 0 ) {
 			$event = $res->row();
-			$media = $this->media_model->get_media_for_path('/event/' . $event->id );			
+			$event_media = $this->event_model->get_event_media( $id );
+			$event_extra = $this->event_model->get_extra_info( $event );
 			echo "<div title='Film'>";
-			if( count($media) ) {
-				$media = $media[0];
-				echo '<img style="float: right; width: 150px; padding: 5px" src="/media/' . $media['uuid'] . '" />';
+			if( $event_media->num_rows() > 0 ) {
+				$media = $event_media->row()->uuid;
+				echo '<img style="float: right; width: 150px; padding: 5px" src="/media/' . $media . '" />';
 			}
-			echo "<h3>" . $event->title . "</h3>";
+			echo "<h3>$event->title $id</h3>";
 			echo "<p class='event-date'>" . date('D M d, Y @ g:i a', strtotime($event->dt_start)) . "</p>";
 			echo $event->body; 
 			echo '</div>';
 		} else {			
-			echo "<h3>Event not found :/</h3>";				
+			echo "<h3>Events not found :/</h3>";				
 		}
 	}
 
