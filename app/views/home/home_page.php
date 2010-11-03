@@ -9,7 +9,7 @@ $(function(){
 <?php } ?>
 
 <?php if( $events !== NULL ) { ?>
-	<a style="float: right" href="/calendar">see the full calendar</a>
+	<a style="float: right" href="/calendar">...see the full calendar <img src="/img/fancy_right.png" width="18px" style="margin-bottom: -5px"/></a>
 	<h3 style="margin: 0; padding: 0; font-style: italic;">Coming up... </h3>
 	<div id="events-preview">
 		<ul>
@@ -30,40 +30,7 @@ $(function(){
 		<h2><a href="/article/view/<?=$article->id?>"><?= $article->title ?></a></h2>
 		<span class="date"><?=$article->author?>. - <?=date('j M Y',strtotime($article->publish_on))?> - <?=$article->group ?></span>
 		<p><?= strlen(trim($article->excerpt)) ? $article->excerpt : implode(' ', array_slice(explode( ' ', $article->body),0,100) ) . '...' ?>
-		<p class="read-more"><a href="/article/view/<?=$article->id?>"><em>read more...</em></a><p>
+		<p class="read-more"><a href="/article/view/<?=$article->id?>"><em>read more...<img src="/img/big_feature_right_arrow.png" width="18px" style="margin-bottom: -4px"/></em></a><p>
 	</div>
 <?php $count++;
 endforeach; ?>
-
-<!--
-<div class="article">
-	<h2>
-		Heading
-	</h2>
-	<img src="/img/junk/gallery_photo4.jpg" style="float: right; margin: 5px; margin-top: 20px" />
-	<p>
-		Lorem ipsum dolor sit amet consect etuer adipi scing elit sed diam nonummy nibh euismod tinunt ut laoreet dolore magna aliquam erat volut. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
-	</p>
-	<p>
-		Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
-	</p>
-</div>
-<div class="article">
-	<h2>
-		Heading
-	</h2>
-	<img src="/img/junk/gallery_photo5.jpg" style="float: left; margin: 5px; margin-top: 20px" />
-	<p>
-		Lorem ipsum dolor sit amet consect etuer adipi scing elit sed diam nonummy nibh euismod tinunt ut laoreet dolore magna aliquam erat volut. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
-	</p>
-</div>
-<div class="article">
-	<h2>
-		Heading
-	</h2>
-	<img src="/img/junk/gallery_photo6.jpg" style="float: right; margin: 5px; margin-top: 20px" />
-	<p>
-		Lorem ipsum dolor sit amet consect etuer adipi scing elit sed diam nonummy nibh euismod tinunt ut laoreet dolore magna aliquam erat volut. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
-	</p>
-</div>
--->
