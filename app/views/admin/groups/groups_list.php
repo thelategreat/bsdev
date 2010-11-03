@@ -6,6 +6,7 @@
 <table>
 <tr>
   <th>name</th>
+  <th>active</th>
   <th>order</th>
   <th></th>
 </tr>

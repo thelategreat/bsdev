@@ -22,6 +22,9 @@ function emit_tree_rows( $url, $data, $offset = 5, $fld_name = 'name' )
 			echo '<a href="'.$url.'/edit/'.$item->id.'">'.$item->$fld_name. "</a>";
 			echo '</td>';
 			echo '<td>';
+			echo $item->active ? '<img src="/img/admin/tick.png" />' : '<img src="/img/admin/cross.png" />';
+			echo '</td>';
+			echo '<td>';
 			echo ($first ? '&nbsp;-&nbsp;' : '<a href="'.$url.'/sort/up/'.$item->id.'" title="move up"><img src="/img/admin/go-up.png" class="icon" /></a>');
 			echo '&nbsp;';
 			echo ($last ? '&nbsp;-&nbsp;' : '<a href="'.$url.'/sort/down/'.$item->id.'" title="move down"><img src="/img/admin/go-down.png" class="icon" /></a>');
