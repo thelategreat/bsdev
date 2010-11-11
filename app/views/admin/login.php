@@ -16,6 +16,7 @@
 	</td>
 </tr>
 </table>  
+	<input type="hidden" name="redir" value="<?=$login_redir?>" />
 </form>
 <script language="javascript" type="text/javascript">
 $("#username").focus();

@@ -24,6 +24,7 @@ $page_data['slots] = 'front,back';              // any extra slots required. com
 
 <script type="text/javascript" src="/js/ajaxupload.js" ></script>
 <script type="text/javascript" src="/js/admin_mb.js" ></script>
+<script type="text/javascript" src="/js/admin_media_gallery.js" ></script>
 
 <script language="javascript" type="text/javascript">
 
@@ -39,6 +40,17 @@ function reload()
 			$('#media_area').html( data );
 		}
 	);			
+}
+
+function check_upload()
+{
+	var blank=/^\s*$/;
+	if( blank.test($('#title-field').val()) ) {
+		alert("Please fill in the title field.");
+		$('#title-field').focus();
+		return false;
+	}
+	return true;
 }
 
 $(function() {		
@@ -62,33 +74,52 @@ Slot: <select id="slot_select" name="slot" onchange="reload()">
   }
 } ?>
 </select><button onclick="reload()"><img width="16" src="/img/admin/reload.png" /></button>
-<button onclick="MediaBrowser.init({path: '<?=$path?>'});"><img src="/img/admin/add.png" /></button>
+<button onclick="MediaBrowser.init({path: '<?=$path?>', width: 815, height: 300 });"><img src="/img/admin/add.png" /></button>
 
 <hr/>
 <div id="media_area" ></div>
 <hr/>
-<div id="upload_div" >
-	<table>
+
+<a href="#" onclick="$('#upload_div').toggle();"><img src="/img/admin/upload.png" /></a>
+<div id="upload_div" style="display: none;">
+	<form method="post" action="/admin/media" enctype="multipart/form-data" onsubmit="return check_upload();" >
+	<table style="width: auto">
 		<tr>
 			<td>
-	<form method="post" action="/admin/media" enctype="multipart/form-data" >
-		<label for="userfile">File</label> <input type="file" name="userfile" />
-		<input type="hidden" name="next" value="<?=$next?>" />
-		<input type="hidden" name="path" value="<?=$path?>" />
-		<input type="hidden" id="slot_field" name="slot" value="" />
-		<input type="submit" name="upload" value="Upload" />
-		</td>
-		<td> - or - </td>
-		<td>
-		<label for="url">Link</label> <input type="text" size="50" name="url" />
-		<input type="hidden" name="next" value="<?=$next?>" />
-		<input type="hidden" name="path" value="<?=$path?>" />
-		<input type="hidden" id="slot_field1" name="slot" value="" />
-		<input type="submit" name="link" value="Save" />		
+					<label for"type">Type</label>
+			</td>
+			<td>
+				<input type="radio" name="bogus" onclick="$('#file-input').toggle(); $('#link-input').toggle();" checked="checked"  /> Media
+				<input type="radio" name="bogus" onclick="$('#file-input').toggle(); $('#link-input').toggle();" /> Link
+			</td>
+		<tr>
+		<tr>
+			<td>
+					<label for"title">Title</label>
+			</td>
+			<td>
+					<input id="title-field" name="title" size="20" />
+			</td>
+		</tr>
+			<td colspan="2">
+				<div id="file-input">
+					<label for="userfile">File</label>&nbsp;&nbsp;&nbsp;&nbsp;<input type="file" name="userfile" />
+					<input type="hidden" name="next" value="<?=$next?>" />
+					<input type="hidden" name="path" value="<?=$path?>" />
+					<input type="hidden" id="slot_field" name="slot" value="" /><br/>
+					<input type="submit" name="upload" value="Upload" />
+				</div>
+				<div id="link-input" style="display: none;">
+					<label for="url">Link</label> <input type="text" size="30" name="url" />&nbsp;&nbsp;
+					<input type="hidden" name="next" value="<?=$next?>" />
+					<input type="hidden" name="path" value="<?=$path?>" />
+					<input type="hidden" id="slot_field1" name="slot" value="" /><br/>
+					<input type="submit" name="link" value="Save" />		
+				</div>
+			</td>
+		</tr>
+	</table>
 	</form>
-	</td>
-	</tr>
-</table>
 </div>
 
 

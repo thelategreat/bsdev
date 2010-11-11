@@ -18,6 +18,7 @@ class Media extends Admin_Controller
 		parent::__construct();
 		$this->load->helper('media');
 		$this->load->model('media_model');
+		$this->load->library('form_validation');
 	}
 
 	/**
@@ -25,6 +26,7 @@ class Media extends Admin_Controller
 	 */
 	function index()
 	{
+		
 		if( $this->input->post("q") !== FALSE ) {
 			$url = '/admin/media/index';
 			// if we have a query			
@@ -37,12 +39,13 @@ class Media extends Admin_Controller
 			redirect( $url );
 		}
 		
+		
 		$errors = '';
 		$my_root = './media/';
-		$page_size = $this->config->item('image_browser_page_size');
+		$page_size = 25; //$this->config->item('image_browser_page_size');
 		$stags = array();
 		$page = 1;
-				
+		
 		// the first segment might be a page number
 		$offs = 4;
 		if( $this->uri->segment(4) && is_numeric($this->uri->segment(4))) {
@@ -56,7 +59,7 @@ class Media extends Admin_Controller
 		for( $i = $offs; $i <= $this->uri->total_segments(); $i++ ) {
 			$stags[] = $this->uri->segment($i);
 		}
-		
+
 		// this is sent by other controller pages so we can get
 		// back there once we are done here
 		$next = $this->input->post('next');
@@ -74,7 +77,7 @@ class Media extends Admin_Controller
 		if( $this->input->post("upload")) {
 			$conf['allowed_types'] = 'jpg|png';
 			$conf['upload_path'] = $my_root;
-			$uuid = $this->up($my_root, $conf );
+			$uuid = $this->up($my_root, $conf, null, $this->input->post('title') );
 			if( !$uuid ) {
 				$errors = '<p class="error">';
 				$errors .= 'There was trouble uploading the image. Perhaps it is too big?<br/>';
@@ -91,7 +94,7 @@ class Media extends Admin_Controller
 					$this->media_model->add_media_for_path( $path, $uuid, $slot );
 					redirect( $next );					
 				}
-				redirect('/admin/media/edit/' . $uuid );
+				redirect('/admin/media/edit/' . $uuid . '/add' );
 			}
 		}
 		// ------------
@@ -105,7 +108,7 @@ class Media extends Admin_Controller
 				$this->media_model->add_media_for_path( $path, $uuid, $slot );
 				redirect( $next );					
 			}
-			redirect('/admin/media/edit/' . $uuid );
+			redirect('/admin/media/edit/' . $uuid . '/add' );
 		}
 		
 		$results = $this->media_model->get_media( null, $stags, $page, $page_size );
@@ -117,32 +120,15 @@ class Media extends Admin_Controller
 			'errors' => $errors
 			);
 		
-		if( $this->input->post('ajax')) {
-			$this->load->view('admin/media/media_index', $data );			
-		} else {			
-			$this->gen_page('Admin - Media', 'admin/media/media_index', $data );
-		}
+		$this->gen_page('Admin - Media', 'admin/media/media_index', $data );
 	}
 
-	/**
-	 *
-	 */
-	function search()
+	function gallery( $page = 1 )
 	{
-		$errors = '';
-		$my_root = './media/';
-		$page_size = $this->config->item('image_browser_page_size');;
+		$page_size = 25; //$this->config->item('image_browser_page_size');
 		$stags = array();
-		$page = 1;
+		$errors = '';
 		
-		if( $this->input->post("pg")) {
-			$page = $this->input->post("pg");
-		}
-		
-		if( $this->input->post("q")) {
-			$stags = explode(' ', $this->input->post("q"));
-		}
-																
 		$results = $this->media_model->get_media( null, $stags, $page, $page_size );
 		
 		$data = array(
@@ -152,21 +138,43 @@ class Media extends Admin_Controller
 			'errors' => $errors
 			);
 		
-		$this->load->view('admin/media/media_search', $data );			
+		echo json_encode( $data );
 	}
+
+	function get_media_info( $uuid )
+	{
+		$resp = array('error' => true, 'error_msg' => 'Unknown', 'value' => '' );
+		if( $uuid ) {
+			$item = $this->media_model->get_media( $uuid );
+			if( $item ) {
+				$resp['value'] = array();
+				$resp['value']['uuid'] = $uuid;
+				$resp['value']['type'] = $item[0]->type;
+				$resp['value']['title'] = $item[0]->title;
+				$resp['value']['caption'] = $item[0]->caption;
+				
+				$resp['error'] = false;
+				$resp['error_msg'] = ' ';
+			}
+		}
+		echo json_encode( $resp );
+	}
+
 
 	/**
 	 *
 	 */
 	function edit()
 	{
-		$errors = '';
-		$this->load->library('form_validation');
+		$errors = '';		
+		$is_adding = false;
 		$uuid = $this->uri->segment(4);
 		if( !$uuid ) {
-			redirect('/admin/media/edit/' . $uuid );			
+			redirect('/admin/media/' );			
 		}
-		
+		if( $this->uri->segment(5) == 'add') {
+			$is_adding = true;
+		}
 		
 		$page = NULL;
 		// the page number, maybe
@@ -190,8 +198,10 @@ class Media extends Admin_Controller
 			$conf['upload_path'] = $my_root;
 			$uuid = $this->up($my_root, $conf, $uuid );
 			if( !$uuid ) {
+				// TODO: give some feedback here
 			} else {
-				redirect('/admin/media/edit/' . $uuid );
+				//redirect('/admin/media/edit/' . $uuid );
+				redirect('/admin/media');
 			}
 		}
 		
@@ -256,15 +266,17 @@ class Media extends Admin_Controller
 			'item' => $item[0],
 			'used' => $used,
 			'page' => $page,
-			'errors' => $errors
+			'errors' => $errors,
+			'is_adding' => $is_adding
 			);
 		
-		$this->gen_page('Admin - Media', 'admin/media/media_edit', $data );
+		if( $this->input->post('ajax')) {
+			$this->load->view('admin/media/media_edit', $data );
+		} else {			
+			$this->gen_page('Admin - Media', 'admin/media/media_edit', $data );
+		}
 	}
 
-	/**
-	 *
-	 */
 	function browser()
 	{
 		$is_ajax = true;
@@ -298,81 +310,57 @@ class Media extends Admin_Controller
 	}
 
 	/**
-	 * TinyMCE popup thing
+	 * Add media to path. Called by the popup when the user selected an image
 	 */
-	function mce()
+	function add()
 	{
-		if( $this->input->post("q") !== FALSE ) {
-			$url = '/admin/media/mce';
-			// if we have a query			
-			if( trim($this->input->post("q")) != '') {
-				$params = explode(' ', $this->input->post("q"));
-				foreach( $params as $p ) {
-					$url .= '/' . urlencode($p);
-				}
-			}			
-			redirect( $url );
-		}
+		$path = $this->input->post('path');
+		$slot = $this->input->post('slot') ? $this->input->post('slot') : 'general';
+		$uuid = $this->input->post('uuid');
 		
+		$resp = array('error' => false, 'error_msg' => "[$path] [$uuid]" );
+		
+		if( $path && $uuid ) {
+			$this->media_model->add_media_for_path( $path, $uuid, $slot );
+		}
+		echo json_encode( $resp );
+	}
+
+
+	/**
+	 * Called by the popup media browser for selecting
+	 */
+	function search()
+	{
 		$errors = '';
 		$my_root = './media/';
 		$page_size = $this->config->item('image_browser_page_size');;
 		$stags = array();
 		$page = 1;
-				
-		// the first segment might be a page number
-		$offs = 4;
-		if( $this->uri->segment(4) && is_numeric($this->uri->segment(4))) {
-			$page = $this->uri->segment(4);
-			$offs = 5;
-			if( $page < 1 ) {
-				$page = 1;
-			}
-		}
-		// the rest of the segments are search tags
-		for( $i = $offs; $i <= $this->uri->total_segments(); $i++ ) {
-			$stags[] = $this->uri->segment($i);
+		
+		if( $this->input->post("pg")) {
+			$page = $this->input->post("pg");
 		}
 		
+		if( $this->input->post("q")) {
+			$stags = explode(' ', $this->input->post("q"));
+		}
+																
 		$results = $this->media_model->get_media( null, $stags, $page, $page_size );
 		
-		// pagination
-		$next_page = '';
-		$prev_page = '';
-		if( $page > 1 ) {
-			$prev_page = "<a class='small' href='/admin/media/mce/".($page-1)."'>⇐ prev</a>";
-		}
-		if( count($results) == $page_size ) {
-			$next_page = "<a class='small' href='/admin/media/mce/".($page+1)."'>next ⇒</a>";
-		}
-		
-		$view_data = array(
+		$data = array(
 			'items' => $results,
 			'page' => $page,
 			'stags' => $stags,
 			'errors' => $errors,
-			'prev_page' => $prev_page,
-			'next_page' => $next_page
+			'path' => $this->input->post('path')
 			);
-		$this->load->view('admin/media/media_mce', $view_data );						
-	}
-
-
-	/**
-	 * Add media
-	 */
-	function add()
-	{
-		if( $this->input->post('path') && $this->input->post('uuid')) {
-			$path = $this->input->post('path');
-			$slot = $this->input->post('slot');
-			$uuid = $this->input->post('uuid');
-			$this->media_model->add_media_for_path( $path, $uuid, $slot );
-		}
+		
+		$this->load->view('admin/media/media_search', $data );			
 	}
 
 	/**
-	 * Remove a link
+	 * Remove a link. Called by media/browser from various controllers
 	 */
 	function rmlink()
 	{
@@ -393,6 +381,38 @@ class Media extends Admin_Controller
 		redirect('/admin/' . $tmp[1] . '/edit/' . $tmp[2] . '/media/' . $slot );
 	}
 
+	/**
+	 * Handle an upload 
+	 */
+	private function up( $path, $conf, $uuid = NULL, $title = null )
+	{
+		$is_replace = false;
+		# give a uuid will replace if exists
+		if( $uuid == NULL ) {
+			$uuid = gen_uuid();
+		} else {
+			$is_replace = true;
+		}
+		$conf['file_name'] = $uuid;
+		$conf['max_size'] = $this->config->item('max_image_size');
+		$conf['max_width'] = $this->config->item('max_image_width');
+		$conf['max_height'] = $this->config->item('max_image_height');
+		
+		$this->load->library('upload', $conf );
+		$this->upload->initialize($conf);
+		
+		if( !$this->upload->do_upload('userfile')) {
+			return NULL;
+		} else {
+			$data = $this->upload->data();
+			rename( $data['full_path'], $data['file_path'] . '/' . $uuid );
+			# if a uuid is given we are simply replacing the disk file
+			if( !$is_replace ) {
+				$this->media_model->add_upload($uuid, $data, $this->session->userdata('logged_user'), $title );
+			}
+			return $uuid;
+		}
+	}
 
 	/**
 	 * Change the sort order
@@ -415,50 +435,6 @@ class Media extends Admin_Controller
 	}
 
 
-	/**
-	 * Remove a file
-	 */
-	private function rm( $path, $uuid )
-	{
-		$thepath = $path . '/' . $fname;
-		if(file_exists($thepath) && !is_dir($thepath)) {
-			unlink( $thepath );
-			$this->media_model->remove_upload( $fname, $section );
-		}
-	}
-	
-	/**
-	 * Handle an upload 
-	 */
-	private function up( $path, $conf, $uuid = NULL )
-	{
-		$is_replace = false;
-		# give a uuid will replace if exists
-		if( $uuid == NULL ) {
-			$uuid = gen_uuid();
-		} else {
-			$is_replace = true;
-		}
-		$conf['file_name'] = $uuid;
-		$conf['max_size'] = $this->config->item('max_image_size');
-		$conf['max_width'] = $this->config->item('max_image_width');
-		$conf['max_height'] = $this->config->item('max_image_height');
-		$this->load->library('upload', $conf );
-		$this->upload->initialize($conf);
-		
-		if( !$this->upload->do_upload('userfile')) {
-			return NULL;
-		} else {
-			$data = $this->upload->data();
-			rename( $data['full_path'], $data['file_path'] . '/' . $uuid );
-			# if a uuid is given we are simply replacing the disk file
-			if( !$is_replace ) {
-				$this->media_model->add_upload($uuid, $data, $this->session->userdata('logged_user'));
-			}
-			return $uuid;
-		}
-	}
-	
 	// check the input looks like one of, blank, tt number or isbn
 	public function tt_isbn_check( $str ) 
 	{
@@ -480,5 +456,5 @@ class Media extends Admin_Controller
 		$this->form_validation->set_message('tt_isbn_check','The %s field must be either tt# or an isbn');
 		return FALSE;
 	}
-	
+
 }

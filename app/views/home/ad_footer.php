@@ -4,7 +4,7 @@
 		<?php if( $ad->url ) { ?>
 			<a href="<?=$ad->url?>" target="_blank">
 		<?php } ?>
-		<img title="<?= $ad->title ?>" src="/media/<?=$ad->uuid?>" height="130px" width="100%"/>
+		<img title="<?= $ad->title ?>" src="/media/<?=$ad->uuid?>" height="130px" width="230px"/>
 		<?php if( $ad->url ) { ?>
 			</a>
 		<?php } ?>

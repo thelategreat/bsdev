@@ -24,12 +24,13 @@ class media_model extends Tag_Model
 	/**
 	 *
 	 */
-	function add_upload( $uuid, $data, $user )
+	function add_upload( $uuid, $data, $user, $title )
 	{
 				
 		$this->db->set('uuid',  $uuid );
 		$this->db->set('user', $user );
 		$this->db->set('title', $data['orig_name'] );
+		$this->db->set('caption', $title );
 		$this->db->set('type', $data['file_ext'] );
 		$this->db->set('created_on', 'NOW()', false );
 		$this->db->set('updated_on', 'NOW()', false );
@@ -197,6 +198,7 @@ class media_model extends Tag_Model
 		$results = $this->db->query( $query );
 		foreach( $results->result() as $row ) {
 			$info['fname'] = $row->title;
+			$info['caption'] = $row->caption;
 			$info['url'] =  $row->uuid;
 			$info['author'] = $row->user;
 			$info['type'] = $row->type;

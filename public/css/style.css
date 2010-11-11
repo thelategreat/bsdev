@@ -557,6 +557,7 @@ table.calendar-month ul.event-list li.music {
 	border-top: 1px solid #666;
 	border-bottom: 1px solid #666;
 	padding: 5px;
+	text-align: center;
 }
 
 #events-preview h3 {	
@@ -566,6 +567,7 @@ table.calendar-month ul.event-list li.music {
 
 #events-preview ul {
 	display: inline;
+	padding: 0;
 	padding-top: 3px;
 }
 

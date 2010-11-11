@@ -20,7 +20,7 @@ $(function() {
 	foreach( $files as $file ) {  ?>
 	<tr <?= ($count % 2) != 0 ? "class='odd'" : "" ?>>
 	  <td width="10%"><img src="<?=$file['thumbnail']?>" width="70" /></td>
-	  <td><?=$file['fname']?>
+	  <td><?=$file['caption']?>
 		<p><small>
 			<a href="/admin/media/edit/<?=$file['url']?>">Edit</a> | 
 			<a href="/admin/media/rmlink/<?=$file['url'] . '/' . $slot . $media_path ?>" onclick="return confirm('Really delete this?');">Delete</a>

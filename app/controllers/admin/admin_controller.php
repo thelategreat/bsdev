@@ -10,7 +10,7 @@ class Admin_Controller extends Controller
 		
 		// check the permissions
 		//if( !$this->auth->restrict_role('admin')) 
-		if( !$this->auth->restrict_role_db()) 
+		if( !$this->auth->restrict_role_db( true, $this->uri->uri_string() )) 
 			$this->no_permission();
 		
 		// load up

@@ -1,5 +1,37 @@
+
+<script type="text/javascript">
+$(function() {		
+	Gallery.init({
+		width: 800,
+		onclick : function( uuid ) {
+			$.post('/admin/media/add', { path: '<?= $path ?>', uuid : uuid, slot : '' },
+				function(data) {
+					if( data.error ) {
+						alert( data.error_msg );
+						return;
+					}
+					// this click func needs to return false 
+					// to give the ajax call a chance to complete
+					$.modal.close();
+					// TODO: this kindo defeats the purpose of ajax however
+					window.location.reload();
+				}, "json" );
+				return false;
+			}
+	});
+});
+
+// search... hmmm....
+function form_handler()
+{
+	return false;
+}
+
+</script>
+
+
 <div style="float: right">
-	<form id="search_form" method="post">
+	<form id="search_form" method="post" onsubmit="return form_handler();">
 		<input id="q" name="q" value="<?foreach($stags as $tag){ echo $tag . " ";}?>" />
 	</form>
 </div>
@@ -8,51 +40,13 @@
 
 <?= $errors ?>
 
-<table class="media_table">
-	<tr>
-		<th></th>
-		<th>title/link</th>
-		<th width="30%">description</th>
-		<th>type</th>
-		<th>tags</th>
-	</tr>
-<?php $count = 0; foreach( $items as $item ) { ?>
-	<tr <?= ($count++ % 2 ) ? "class='odd'" : '' ?>>
-		<td align="center">
-			<a href="/admin/media/edit/<?= $item->uuid ?>" title="click to edit meta">
-				<?php
-					switch( $item->type ) {
-						case 'link':
-						  if( isset($item->thumbnail) && strlen($item->thumbnail)) {
-								echo '<img src="' . $item->thumbnail . '" width="70" />';											
-						  } else {
-								echo '<img src="/img/icons/icon_video.jpg" width="70" />';					
-							}
-							break;
-						default:
-							if( file_exists('media/'. $item->uuid))
-								echo '<img src="/media/'. $item->uuid . '" width="70" />';
-							else
-								echo '<img src="/img/image_warning.jpg" width="70" />';
-				}
-				?>
-			</a>
-			<p/>
-			<span class="field_tip"><?= $item->uuid ?></span>
-		</td>
-		<td><?= $item->title ?><br/><em><?= $item->caption ?></em></td>
-		<td><?= $item->description ?></td>
-		<td><?= $item->type ?></td>
-		<td><?= $item->tags ?></td>
-	</tr>
-<?php }?>
-</table>
+<div class="gallery" id="gallery-div"></div>
 
-<div class="pager">
-	<table>
-		<tr>
-			<td><a href="#" onclick="MediaBrowser.search_view(<?=$page-1?>); return false;">⇐ prev</a></td>
-			<td align="right"><a href="#" onclick="MediaBrowser.search_view(<?=$page+1?>); return false;">next ⇒</a></td>
-		</tr>
-	</table>
+<div style="float: right" id="next-button">
+	<a href='#'><img src="/img/cal/arrow_right.png" width="20px"/></a>
 </div>
+<div style="float: left" id="prev-button">
+	<a href='#'><img src="/img/cal/arrow_left.png" width="20px"/></a>
+</div>
+
+<div id="work-area" style="display: none" />

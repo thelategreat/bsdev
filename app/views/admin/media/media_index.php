@@ -1,4 +1,27 @@
 
+<script type="text/javascript" src="/js/admin_media_gallery.js" ></script>
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+	Gallery.init({
+		width: 850,
+		onclick : function( uuid ) {
+			$.post('/admin/media/edit/' + uuid, { ajax: "1" },
+				function( data ) {
+					$('#work-area').html( data );
+					$('#work-area').show();
+			});				
+		}
+	});
+	//gallery( 1 );
+});
+
+
+</script>
+
+<div style="width: 850px">
+	
 <div style="float: right">
 	<form id="search_form" method="post">
 		<?php
@@ -18,60 +41,8 @@
 
 <?= $errors ?>
 
-<table class="media_table">
-	<tr>
-		<th></th>
-		<th>title/link</th>
-		<th width="30%">description</th>
-		<th>type</th>
-		<th>tags</th>
-	</tr>
-<?php $count = 0; foreach( $items as $item ) { ?>
-	<tr <?= ($count++ % 2 ) ? "class='odd'" : '' ?>>
-		<td align="center">
-			<a href="/admin/media/edit/<?= $item->uuid ?>/pg/<?= $page ?>" title="click to edit meta">
-			<?php
-				switch( $item->type ) {
-					case 'link':
-					  if( isset($item->thumbnail) && strlen($item->thumbnail)) {
-							echo '<img src="' . $item->thumbnail . '" width="70" />';											
-					  } else {
-							echo '<img src="/img/icons/icon_video.jpg" width="70" />';					
-						}
-						break;
-					default:
-						if( file_exists('media/'. $item->uuid))
-							echo '<img src="/media/'. $item->uuid . '" width="70" />';
-						else
-							echo '<img src="/img/image_warning.jpg" width="70" />';
-			}
-			?>
-			</a>
-			<p/>
-			<span class="field_tip"><?= $item->uuid ?></span>
-		</td>
-		<td><?= $item->caption ?><br/><em><?= $item->title ?></em></td>
-		<td><?= $item->description ?></td>
-		<td><?= $item->type ?></td>
-		<td><?= $item->tags ?></td>
-	</tr>
-<?php }?>
-</table>
-
-<div class="pager">
-	<table class="pager">
-		<tr>
-			<td>
-				<?php if( $page-1 != 0 ) { ?>
-				  <a href="/admin/media/index/<?=$page-1?>">⇐ prev</a>
-				<?php } ?>
-			</td>
-			<td align="right"><a href="/admin/media/index/<?=$page+1?>">next ⇒</a></td>
-		</tr>
-	</table>
-</div>
-
-<div id="upload_div" >
+<a href="#" onclick="$('#upload-div').toggle('slow');"><img src="/img/admin/upload.png" width="24px"/></a>
+<div id="upload-div" style="display: none;">
 	<table>
 		<tr>
 			<td>
@@ -87,4 +58,17 @@
 	</td>
 	</tr>
 </table>
+</div>
+
+<div class="gallery" id="gallery-div"></div>
+
+<div style="float: right" id="next-button">
+	<a href='#'><img src="/img/cal/arrow_right.png" width="20px"/></a>
+</div>
+<div style="float: left" id="prev-button">
+	<a href='#'><img src="/img/cal/arrow_left.png" width="20px"/></a>
+</div>
+
+<div id="work-area" style="display: none" ></div>
+
 </div>

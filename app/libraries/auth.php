@@ -139,13 +139,17 @@ class Auth {
 		 *
 		 * Return boolean
 		 */
-		function restrict_role_db( $do_redirect = TRUE )
+		function restrict_role_db( $do_redirect = true, $redir_path = null )
 		{
 			if( !$this->logged_in() ) {
-				if( $do_redirect )
+				if( $do_redirect ) {
+					if( $redir_path != null ) {
+						$this->CI->session->set_flashdata('login_redir', $redir_path );
+					}
 					redirect($this->login_page);
-				else
-					return FALSE;
+				} else {
+					return false;
+				}
 			}
 			
 			// admin role can do anything
