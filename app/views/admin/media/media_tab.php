@@ -82,6 +82,7 @@ Slot: <select id="slot_select" name="slot" onchange="reload()">
 <button onclick="$('#upload_div').toggle('slow');" title="upload media"><img src="/img/admin/upload.png" width="16px"/></button>
 <div id="upload_div" style="display: none;">
 	<form method="post" action="/admin/media" enctype="multipart/form-data" onsubmit="return check_upload();" >
+	<fieldset>
 	<table style="width: auto">
 		<tr>
 			<td>
@@ -118,6 +119,7 @@ Slot: <select id="slot_select" name="slot" onchange="reload()">
 			</td>
 		</tr>
 	</table>
+	</fieldset>
 	</form>
 </div>
 
