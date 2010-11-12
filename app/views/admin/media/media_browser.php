@@ -24,7 +24,9 @@ $(function() {
 	$count = 0;
 	foreach( $files as $file ) {  ?>
 	<tr <?= ($count % 2) != 0 ? "class='odd'" : "" ?>>
-	  <td width="10%"><img src="<?=$file['thumbnail']?>" width="70" /></td>
+	  <td width="10%">
+			<img src="<?=$file['thumbnail']?>" width="70" />
+		</td>
 	  <td><?=$file['caption']?>
 		<p><small>
 			<a href="/admin/media/edit/<?=$file['url']?>">Edit</a> | 

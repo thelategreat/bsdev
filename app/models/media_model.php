@@ -212,8 +212,8 @@ class media_model extends Tag_Model
 			
 			switch( $info['type'] ) {
 				case 'link':
-				  if( isset($info['thumbnail']) && strlen($info['thumbnail'])) {
-						//$info['thumbnail'] = '<img src="' . $info['thumbnail'] . '" width="70" />';											
+				  if( isset($row->thumbnail) && strlen($row->thumbnail)) {
+						$info['thumbnail'] =  $row->thumbnail;											
 				  } else {
 						$info['thumbnail'] = "/media/logos/youtube.jpg";					
 					}
