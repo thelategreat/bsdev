@@ -77,7 +77,7 @@ Slot: <select id="slot_select" name="slot" onchange="reload()">
 <!--
 <button onclick="reload()"><img width="16" src="/img/admin/reload.png" /></button>
 -->
-<button onclick="MediaBrowser.init({path: '<?=$path?>', width: 815, height: 300 });" title="search media libary"><img src="/img/admin/image_link.png" /></button>
+<button onclick="MediaBrowser.init({path: '<?=$path?>', width: 815, height: 300 });" title="search media library"><img src="/img/admin/image_link.png" /></button>
 <!-- upload form -->
 <button onclick="$('#upload_div').toggle('slow');" title="upload media"><img src="/img/admin/upload.png" width="16px"/></button>
 <div id="upload_div" style="display: none;">
