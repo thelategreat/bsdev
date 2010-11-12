@@ -73,14 +73,13 @@ Slot: <select id="slot_select" name="slot" onchange="reload()">
 <?php } 
   }
 } ?>
-</select><button onclick="reload()"><img width="16" src="/img/admin/reload.png" /></button>
-<button onclick="MediaBrowser.init({path: '<?=$path?>', width: 815, height: 300 });"><img src="/img/admin/add.png" /></button>
-
-<hr/>
-<div id="media_area" ></div>
-<hr/>
-
-<a href="#" onclick="$('#upload_div').toggle();"><img src="/img/admin/upload.png" /></a>
+</select>
+<!--
+<button onclick="reload()"><img width="16" src="/img/admin/reload.png" /></button>
+-->
+<button onclick="MediaBrowser.init({path: '<?=$path?>', width: 815, height: 300 });" title="search media libary"><img src="/img/admin/image_link.png" /></button>
+<!-- upload form -->
+<button onclick="$('#upload_div').toggle('slow');" title="upload media"><img src="/img/admin/upload.png" width="16px"/></button>
 <div id="upload_div" style="display: none;">
 	<form method="post" action="/admin/media" enctype="multipart/form-data" onsubmit="return check_upload();" >
 	<table style="width: auto">
@@ -121,6 +120,10 @@ Slot: <select id="slot_select" name="slot" onchange="reload()">
 	</table>
 	</form>
 </div>
+
+<hr/>
+<div id="media_area" ></div>
+<hr/>
 
 
 <div id="editModalDiv">

@@ -79,6 +79,14 @@ function loadImage() {
 	}	
 }
 
+function show_refs(uuid)
+{
+	// refs-info
+	// media-edit-preview
+	$('#refs-info').toggle('slow');
+	return false;
+}
+
 $(document).ready(function() {
 	loadImage();
 });
@@ -136,7 +144,8 @@ $(document).ready(function() {
 		&nbsp;&nbsp;&nbsp;&nbsp;
 		<?php if( $used->num_rows() == 0 ) { ?>
 	 	  <input onclick="return confirm('Really delete this?');" style="background-color: #f99" type="submit" name="delete" value="Delete" />
-		<?php } 
+		<?php
+		}
 	}
 ?>
 	
@@ -190,40 +199,38 @@ $(document).ready(function() {
 							<input type="submit" name="replace" value="Replace" />
 						</form>
 					<?php } ?>
-				</td>
-				
-		<!-- P R E V I E W -->
-		<td style="width: 40%; padding-right: 30px; padding-top: 50px;" valign="top">
-				<div class="media-edit-preview">
-		<?php if( $item->type == "link") { 
-
-			echo get_embed_object( $item->title );
-
-		} else { ?>
-			<?php if( file_exists('media/'. $item->uuid)) { ?>
-				<div style="float: right">
-					<!--
-					<ul>
-						<li>
-							<a href="#" id="toggle_size" onclick="toggle_size(); return false;" title="toggle view" style="font-size: .8em;">[+]</a><br/>
-						</li>
-						<li>
-							<a href="#" id="bw_filter" onclick="bw_filter(); return false;" title="make b/w" style="font-size: .8em;">b/w</a><br/>
-						</li>
-					</ul>
-					-->
-				</div>
-				<img id="theImage" src="/media/<?= $item->uuid ?>" />
-				<canvas id="theCanvas" style="border: 1px solid #000;"></canvas>
-			<?php } else { ?>
-				<img id="theImage" src="/img/image_not_found.jpg" />
-			<? } ?>
-		<?php } ?>
-			</div>
-
-		<?php echo validation_errors('<div class="error">', '</div>'); ?>
 		</td>
 				
+			<!-- P R E V I E W -->
+			<td style="width: 40%; padding-right: 30px; padding-top: 20px;" valign="top">
+				<a href="#" onclick="return show_refs('<?=$item->uuid?>');"><img src="/img/admin/info.png" width="16px"/></a>
+				<div id="refs-info" style="display: none;">
+					<h4>References</h4>
+					<table style="margin-top: -10px;">
+						<?php
+						foreach( $used->result() as $row ) { 
+							$tmp = explode('/', $row->path );
+							array_splice( $tmp, 2, 0, 'edit');
+							$path = implode('/', $tmp );
+							?>
+							<tr><td><a href="/admin<?=$path?>/media"><?=$path?></a></td></tr>
+			<?php } ?>
+						</table>
+				</div>
+				<div class="media-edit-preview" id="media-edit-preview">
+					<?php if( $item->type == "link") { 
+						echo get_embed_object( $item->title );
+					} else { ?>
+						<?php if( file_exists('media/'. $item->uuid)) { ?>
+							<img id="theImage" src="/media/<?= $item->uuid ?>" />
+							<canvas id="theCanvas" style="border: 1px solid #000;"></canvas>
+						<?php } else { ?>
+							<img id="theImage" src="/img/image_not_found.jpg" />
+						<? } ?>
+				<?php } ?>
+			</div>
+			<?php echo validation_errors('<div class="error">', '</div>'); ?>
+		</td>
 	</tr>
 </table>
 
