@@ -66,10 +66,11 @@ function search_handler()
 </div>
 -->
 <!-- upload form -->
-<button onclick="$('#upload_div').toggle('slow');" title="upload media"><img src="/img/admin/upload.png" width="16px"/></button>
+<button onclick="$('#upload_div').toggle('slow');" title="add media"><img src="/img/admin/upload.png" width="16px"/></button>
 <div id="upload_div" style="display: none;">
 	<form method="post" action="" enctype="multipart/form-data" >
 		<fieldset>
+			<legend>Add Media</legend>
 	<table style="width: auto">
 		<tr>
 			<td>

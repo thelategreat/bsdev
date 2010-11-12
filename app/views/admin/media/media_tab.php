@@ -79,10 +79,11 @@ Slot: <select id="slot_select" name="slot" onchange="reload()">
 -->
 <button onclick="MediaBrowser.init({path: '<?=$path?>', width: 815, height: 300 });" title="search media library"><img src="/img/admin/image_link.png" /></button>
 <!-- upload form -->
-<button onclick="$('#upload_div').toggle('slow');" title="upload media"><img src="/img/admin/upload.png" width="16px"/></button>
+<button onclick="$('#upload_div').toggle('slow');" title="add media"><img src="/img/admin/upload.png" width="16px"/></button>
 <div id="upload_div" style="display: none;">
 	<form method="post" action="/admin/media" enctype="multipart/form-data" onsubmit="return check_upload();" >
 	<fieldset>
+		<legend>Add Media</legend>
 	<table style="width: auto">
 		<tr>
 			<td>
