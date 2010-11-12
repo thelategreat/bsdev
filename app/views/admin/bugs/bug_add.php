@@ -14,7 +14,7 @@
 					</tr>
 					<tr>
 		    		<td valign="top"><label for="description">Description</label></td>
-						<td><textarea name="description" class="mceNoEditor" rows="10" cols="60"><?=set_value('description')?></textarea></td>
+						<td><textarea name="description" class="mceNoEditor" rows="10" cols="70"><?=set_value('description')?></textarea></td>
 					</tr>
 					<tr>
 						<td/>

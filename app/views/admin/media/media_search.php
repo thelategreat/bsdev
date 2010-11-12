@@ -1,4 +1,8 @@
-
+<?php
+/**
+ * Used by the popup media selector
+ */
+?>
 <script type="text/javascript">
 $(function() {		
 	Gallery.init({
@@ -18,12 +22,13 @@ $(function() {
 				}, "json" );
 				return false;
 			}
-	});
+	});	
 });
 
 // search... hmmm....
-function form_handler()
+function search_handler()
 {
+	Gallery.render( 1, $('#q').val());
 	return false;
 }
 
@@ -31,7 +36,7 @@ function form_handler()
 
 
 <div style="float: right">
-	<form id="search_form" method="post" onsubmit="return form_handler();">
+	<form id="search_form" method="post" onsubmit="return search_handler();">
 		<input id="q" name="q" value="<?foreach($stags as $tag){ echo $tag . " ";}?>" />
 	</form>
 </div>

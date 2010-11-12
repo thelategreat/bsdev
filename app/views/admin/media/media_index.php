@@ -17,13 +17,18 @@ $(document).ready(function() {
 	//gallery( 1 );
 });
 
+function search_handler()
+{
+	Gallery.render( 1, $('#q').val());
+	return false;
+}
 
 </script>
 
 <div style="width: 850px">
 	
 <div style="float: right">
-	<form id="search_form" method="post">
+	<form id="search_form" method="post" onsubmit="return search_handler();">
 		<?php
 		$query = '';
 		foreach($stags as $tag) { 
@@ -33,7 +38,7 @@ $(document).ready(function() {
 			$query = 'search...';
 		}
 		?>
-		<input id="query" name="q" value="<?=$query?>" size="15" onblur="if(this.value=='') this.value='search...';" onfocus="if(this.value == 'search...') this.value='';"/>
+		<input id="q" name="q" value="<?=$query?>" size="15" onblur="if(this.value=='') this.value='search...';" onfocus="if(this.value == 'search...') this.value='';"/>
 	</form>
 </div>
 
@@ -59,6 +64,8 @@ $(document).ready(function() {
 	</tr>
 </table>
 </div>
+
+<p/>
 
 <div class="gallery" id="gallery-div"></div>
 

@@ -123,11 +123,16 @@ class Media extends Admin_Controller
 		$this->gen_page('Admin - Media', 'admin/media/media_index', $data );
 	}
 
-	function gallery( $page = 1 )
+	function gallery( $page = 1, $page_size = 15 )
 	{
-		$page_size = 25; //$this->config->item('image_browser_page_size');
+		//$page_size = 25; //$this->config->item('image_browser_page_size');
 		$stags = array();
 		$errors = '';
+		
+		if( $this->input->post('q') && strlen(trim($this->input->post('q')))) {
+			$stags = explode(' ', $this->input->post('q'));
+			//log_message( 'error', 'query: ' . $this->input->post('q'));
+		}
 		
 		$results = $this->media_model->get_media( null, $stags, $page, $page_size );
 		

@@ -1,39 +1,108 @@
+<!--
 <div style="float: right">
 	<form method="post">
 		<input id="query" style="font-size: 0.8em;" name="q" value="<?=$query?>" size="15" onblur="if(this.value=='') this.value='search...';" onfocus="if(this.value == 'search...') this.value='';"/>
 	</form>
 </div>
+-->
+
+<style type="text/css">
+#q-container {
+	background-color: #333;
+}
+#s-container {
+	clear: both;
+	height: 36px;
+	margin: 2px 0 1em;
+	width: 100%;
+}
+#s-query {
+	font-size: 12px;
+	height: 18px;
+	overflow-x: hidden;
+	padding-left: 5px;
+	padding-top: 2px;
+	position: relative;
+	width: 95%;
+}
+.issueContainer {
+	border-bottom: 1px solid #999;
+	padding: 0;
+	margin: 0;
+}
+div.issueContainer table {
+	padding: 0;
+}
+div.issueContainer table.properties {
+	table-layout: fixed;
+	width: 80%;
+	margin-bottom: -5px;
+}
+
+div.issueContainer table.properties td.attr {
+	border-left: 1px solid #fff;
+	border-right: 1px solid #d4d5d4;
+	overflow: hidden;
+	padding: 2px 3px 4px;
+	color: #444;
+	text-align: center;
+}
+.new {
+	background-color: #9ff;
+	color: #f00;
+}
+.open {
+	background-color: #9f9;
+	color: #0f0;	
+}
+.fixed {
+	background-color: #FC6;
+}
+.wontfix {
+	background-color: #FF9FeF;
+}
+.closed {
+	text-decoration: line-through;
+}
+.big {
+	font-size: 115%;
+}
+</style>
 
 <h3><a class="small" href="/admin/bugs/add"><img src="/img/admin/bug_add.png" title="Add an Issue"/></a> Issues</h3>
 
-<table>
-<tr>
-  <th width="50%">Summary</th>
-  <th>Date</th>
-  <th>Submitter</th>
-  <th>Assigned</th>
-  <th>Status</th>
-  <th>Type</th>
-</tr>
-<?php
- 	$cnt = 0;
-	foreach( $bugs->result() as $bug ) { ?>
-	<tr <?= ($cnt % 2) != 0 ? 'class="odd"' : ''?> >
-	  <td><a href="/admin/bugs/edit/<?= $bug->id ?>"><?= $bug->summary ?></a></td>
-	  <td><small><?= date('Y-m-d',strtotime($bug->created_on)) ?></small></td>
-	  <td><small><?= $bug->submitted_by ?></small></td>
-	  <td><small><?= $bug->assigned_to ?></small></td>
-	  <td><small><?= $bug->status ?></small></td>
-	  <td><small><?= $bug->type ?></small></td>
-</tr>
-<?php $cnt++; } ?>
-</table>
-<table>
-	<tr>
-		<td><?=$prev_page?></td>
-		<td align="right"><?=$next_page?></td>
-	</tr>
-</table>
+<div id="q-container">
+	<div id="s-container">
+		<form method="post">
+			<input id="s-query" name="q" value="<?=$query?>" onblur="if(this.value=='') this.value='search...';" onfocus="if(this.value == 'search...') this.value='';"/>
+		</form>
+	</div>
+</div>
+
+<?php foreach( $bugs->result() as $bug ) { ?>
+<div class='issueContainer'>
+	<table>
+		<tr>
+			<td><a class='big' href="/admin/bugs/edit/<?= $bug->id ?>"><?= $bug->summary ?></td>
+		</tr>
+		<tr>
+			<td>
+				<table class="properties">
+					<tr>
+					  <td class='attr <?= $bug->status ?>'><?= $bug->status ?></td>
+					  <td class='attr'><?= $bug->type ?></td>
+					  <td class='attr'>by: <?= $bug->submitted_by ?></td>
+					  <td class='attr'><?= date('Y-m-d',strtotime($bug->created_on)) ?></td>
+					  <td class='attr'><?= $bug->assigned_to ?></td>
+					  <td class='attr'><?= $bug->comment_count ? $bug->comment_count : '' ?> <img src="/img/admin/comment.png" /></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</div>
+<?php } ?>
+
 
 <!-- pagination -->
 <table>

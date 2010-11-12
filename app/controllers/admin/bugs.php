@@ -26,7 +26,7 @@ class Bugs extends Admin_Controller
 	
 	function index()
 	{
-		$this->bugs_model->init_tables();
+		//$this->bugs_model->init_tables();
 		
 		$page_size = $this->config->item('list_page_size');
 		$page = 1;
@@ -37,10 +37,21 @@ class Bugs extends Admin_Controller
 				$page = 1;
 			}
 		}
+
+		if( $this->input->post('q') !== false ) {
+			if( strlen(trim($this->input->post('q'))) == 0 ) {
+				redirect("/admin/bugs/index/$page");
+			}
+			redirect("/admin/bugs/index/$page/" . urlencode($this->input->post('q')));
+		} 
 		
 		$query = 'search...';
-		$filter = array();
-
+		$filter = null;
+		if( $this->uri->segment(5) ) {
+			$query = str_replace( '_', ' ', $this->uri->segment(5));
+			$filter = $query;
+		}	 
+		
 		$bugs = $this->bugs_model->get_bugs( $filter, $page, $page_size );
 
 		// pagination
@@ -102,6 +113,14 @@ class Bugs extends Admin_Controller
 			redirect($this->page_root);			
 		}
 
+		if( $this->input->post('comment-text') && strlen(trim($this->input->post('comment-text'))) > 0 ) {
+			$this->db->set('bug_id', $bug_id );
+			$this->db->set('comment', $this->input->post('comment-text') );
+			$this->db->set('submitted_by', $this->session->userdata('logged_user'));
+			$this->db->set('created_on', "NOW()", false);
+			$this->db->insert('bugs_comments');
+		}
+		
 		// ------------
 		// U P D A T E
 		if( $this->input->post("save")) {
@@ -144,6 +163,7 @@ class Bugs extends Admin_Controller
 				
 		$view_data = array( 
 			'bug' => $bug,
+			'comments' => $this->bugs_model->get_comments( $bug_id ),
 			'assigned_to_select' => $this->get_assign_to_select( $bug->assigned_to )
 		);
 		

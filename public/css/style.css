@@ -7,10 +7,10 @@
 
 body {
 	background-color: #000;
-	font-family: Goudy, Georgia, Times, serif;
-	font-size: 11pt;
+	font-size: 10pt;
 	line-height: 140%;
-	color: #666;
+	color: #333;
+	font-family: Verdana, sans-serif;
 }
 
 a {
@@ -20,6 +20,7 @@ a {
 
 h2, h3 
 {
+	font-family: Goudy, Georgia, Times, serif;
 	color: #000;
 }
 
@@ -214,12 +215,17 @@ img {
 
 #sidebar-left ul li:hover
 {
-	
+	border-bottom: 2px solid #333;
 }
 
 #sidebar-left ul li a
 {
-	color: #333;
+	color: #555;
+}
+
+#sidebar-left ul li a:hover
+{
+	color: #222;
 }
 
 #content
@@ -310,13 +316,18 @@ body.calendar #content {
 
 #sidebar-right ul li:hover
 {
+	border-bottom: 2px solid #333;
 }
 
 #sidebar-right ul li a
 {
-	color: #333;
+	color: #555;
 }
 
+#sidebar-right ul li a:hover
+{
+	color: #222;
+}
 
 #pre-footer
 {
@@ -391,6 +402,28 @@ body.calendar #content {
 #cart {
 	margin: 20px;	
 }
+
+img.img-preview-left {
+	float: left;
+	margin: 3px;
+	width: 80px;
+	padding-top: 5px;
+	padding-right: 5px;
+	box-shadow: 10px 10px 5px #888;
+	padding: 5px 5px 5px 5px;
+	margin-right: 15px;
+}
+
+img.img-preview-right {
+	float: right;
+	margin: 3px;
+	width: 80px;
+	padding-top: 5px;
+	padding-left: 5px;
+	box-shadow: 10px 10px 5px #888;
+	padding: 5px 5px 5px 15px;
+}
+
 
 /* L I S T  V I E W */
 ul.calendar-list {

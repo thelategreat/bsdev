@@ -9,7 +9,7 @@ $(function(){
 <?php } ?>
 
 <?php if( $events !== NULL ) { ?>
-	<a style="float: right" href="/calendar">...see the full calendar <img src="/img/fancy_right.png" width="18px" style="margin-bottom: -5px"/></a>
+	<a style="float: right" href="/calendar"><span style="font-size: 90%;">...see the full calendar</span> <img src="/img/fancy_right.png" width="18px" style="margin-bottom: -5px"/></a>
 	<h3 style="margin: 0; padding: 0; font-style: italic;">Coming up... </h3>
 	<div id="events-preview">
 		<ul>
@@ -25,12 +25,12 @@ $(function(){
 	foreach( $articles as $article ): ?>
 	<div class="article">
 		<?php if( count($article->media) > 0 ) { $uuid = $article->media[0]['uuid']; ?>
-			<img src="/media/<?=$uuid?>" style="float: <?= $count % 2 > 0 ? 'left' : 'right'?>; margin: 3px;" width="80px" />
-		<?php } ?>
+			<img src="/media/<?=$uuid?>" class="<?= $count % 2 > 0 ? 'img-preview-left' : 'img-preview-right'?>" />
+		<?php $count++; } ?>
 		<h2><a href="/article/view/<?=$article->id?>"><?= $article->title ?></a></h2>
 		<span class="date"><?=$article->author?>. - <?=date('j M Y',strtotime($article->publish_on))?> - <?=$article->group ?></span>
 		<p><?= strlen(trim($article->excerpt)) ? $article->excerpt : implode(' ', array_slice(explode( ' ', $article->body),0,100) ) . '...' ?>
 		<p class="read-more"><a href="/article/view/<?=$article->id?>"><em>read more...<img src="/img/big_feature_right_arrow.png" width="18px" style="margin-bottom: -4px"/></em></a><p>
 	</div>
-<?php $count++;
+<?php 
 endforeach; ?>

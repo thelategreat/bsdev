@@ -154,7 +154,7 @@ class media_model extends Tag_Model
 		}
 		
 		// searching tags
-		if( count( $stags )) {
+		if( count( $stags ) ) {
 			// NOTE: The proper behaviour here requires a patch to CI's
 			// system/database/DB_active_rec.php
 			$this->db->join('media_tag_map', 'media_tag_map.media_id = media.id' );
@@ -162,8 +162,6 @@ class media_model extends Tag_Model
 			$this->db->where_in( 'media_tags.name', $stags );
 			$this->db->or_like('caption',$stags[0]);
 			$this->db->distinct();
-			// seems like CI get involved here and checks the field names, so annoying.
-			// so we cant do db->select( 'media.*' )
 			$this->db->select('media.id, uuid, title, type, created_on, updated_on, user, caption, description, license, thumbnail');			
 		}
 		
@@ -171,7 +169,7 @@ class media_model extends Tag_Model
 		$this->db->limit( $limit );
 		$this->db->from('media');
 		$results = $this->db->get();
-		//show_error( $this->db->last_query());
+		//log_message( 'error', $this->db->last_query());
 		
 		foreach( $results->result() as $row ) {
 			$row->tags = $this->get_tags( 'media', $row->id );

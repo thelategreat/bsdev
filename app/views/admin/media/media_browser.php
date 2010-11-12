@@ -1,5 +1,10 @@
-
+<?php
+/**
+ * Used by the media tab on most everything
+ */
+?>
 <script language="javascript" type="text/javascript">
+
 $(function() {
 });
 </script>

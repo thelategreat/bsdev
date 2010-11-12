@@ -742,10 +742,12 @@ div.gallery {
 	height: 100px;
 	width: 850px;
 	overflow: auto;
-	background-color: #ddd;
+	background-color: #333;
 	border-radius: 5px;
 	-moz-border-radius: 5px;
 	border: 2px solid #333;
+	background: -moz-linear-gradient(100% 100% 90deg, #000, #aaa);
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#aaa), to(#000));
 }
 ul.gallery {
 	display: block;
@@ -760,7 +762,7 @@ ul.gallery {
 .gallery li {
 	display: block;
 	float: left;
-	padding: 0 0;
+	padding: 0 4px;
 }
 .gallery a {
 	display: block;
@@ -768,9 +770,9 @@ ul.gallery {
 }
 .gallery span {
 	display: none;
-	margin-top: 0px;
+	margin-top: 3px;
 	text-align: center;
-	font-size: 13px;
+	font-size: 10px;
 	font-weight: bold;
 	color: black;
 }
@@ -778,15 +780,16 @@ ul.gallery {
 	display: block;
 }
 .gallery img {
-	border: 3px #333 solid;
+	border: 3px #eee solid;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
+	border-radius: 3px;
 	height: 64px;
 	width: 64px;
-	margin-left:10px;
-	margin-right:10px;
-	filter:alpha(opacity=85);
-	opacity: 0.85;
+	margin-left:5px;
+	margin-right:5px;
+	filter:alpha(opacity=60);
+	opacity: 0.60;
 }
 .gallery a:hover img {
 	border: 3px Salmon solid;
