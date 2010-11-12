@@ -6,9 +6,10 @@
 
 <h3><a class="small" href="/admin/ads/add"><img src="/img/admin/newspaper_add.png" title="Add Advert"/></a> Ads</h3>
 
-<table>
+<table cellpadding="3px">
 <tr>
-  <th width="50%">Title/Client</th>
+	<th></th>
+  <th width="35%">Title/Client</th>
   <th>Start Date</th>
   <th>End Date</th>
   <th>Url</th>
@@ -19,6 +20,11 @@
  	$cnt = 0;
 	foreach( $ads->result() as $ad ) { ?>
 	<tr <?= ($cnt % 2) != 0 ? 'class="odd"' : ''?> >
+		<?php if( file_exists("media/$ad->uuid")) { ?>
+			<td><img src="/media/<?=$ad->uuid?>" width="60px" /></td>
+		<?php } else { ?>
+			<td class="error">missing</td>
+		<?php } ?>
 	  <td><a href="/admin/ads/edit/<?= $ad->id ?>"><?= $ad->title ?></a></td>
 	  <td><small><?= date('Y-m-d',strtotime($ad->start_date)) ?></small></td>
 		<td><small><?= date('Y-m-d',strtotime($ad->end_date)) ?></small></td>
