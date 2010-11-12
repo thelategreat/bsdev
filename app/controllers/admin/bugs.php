@@ -163,6 +163,7 @@ class Bugs extends Admin_Controller
 				
 		$view_data = array( 
 			'bug' => $bug,
+			'status_select' => $this->get_status_select( $bug->status ),
 			'comments' => $this->bugs_model->get_comments( $bug_id ),
 			'assigned_to_select' => $this->get_assign_to_select( $bug->assigned_to )
 		);
@@ -183,6 +184,20 @@ class Bugs extends Admin_Controller
 		}
 		$sel .= '</select>';
 		return $sel;
+	}
+
+	private function get_status_select( $status = '' )
+	{
+		$res = $this->bugs_model->get_statuses();
+		$s = '<select name="status">';
+		foreach( $res->result() as $row ) {
+			$s .= '<option value="' . $row->status . '" ';
+			if( $row->status == $status ) {
+				$s .= ' selected="selected" ';
+			}
+			$s .= '>' . $row->status . '</option>';
+		}
+		return $s . '</select>';
 	}
 
 }

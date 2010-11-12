@@ -12,7 +12,7 @@ class Bugs_model extends Model
 	function get_bugs( $filter, $page, $page_size )
 	{
 		// FIXME WHERE ... AND (... LIKE OR ... LIKE)
-		$this->db->select('id, summary, description, created_on, submitted_by, status, type, assigned_to, (select count(*) from bugs_comments where bugs_comments.bug_id = bugs.id) as comment_count');
+		$this->db->select('bugs.id, summary, description, created_on, submitted_by, bugs.status, type, assigned_to, (select count(*) from bugs_comments where bugs_comments.bug_id = bugs.id) as comment_count');
 		if( $filter ) {
 			$terms = explode(' ', $filter );
 			foreach( $terms as $term ) {
@@ -27,7 +27,8 @@ class Bugs_model extends Model
 				}
 			}
 		}
-		$this->db->order_by('created_on');
+		$this->db->join('bug_statuses', 'bugs.status = bug_statuses.status');
+		$this->db->order_by('bug_statuses.sort_order, created_on');
 		$this->db->limit( $page_size, ($page - 1) * $page_size );
 		$result =  $this->db->get('bugs');
 		//echo $this->db->last_query();
@@ -43,33 +44,10 @@ class Bugs_model extends Model
 		return $this->db->get('bugs_comments');
 	}
 
-	function init_tables( $force = FALSE )
+	function get_statuses()
 	{
-		// see if the table is there first
-		if( !$force ) {
-			$res = $this->db->query("SHOW TABLES LIKE 'bugs'");
-			if( $res->num_rows() > 0 ) {
-				return;
-			}
-		}
-		
-		// watch for AUTO_INCREMENT at end if cutting from SequelPro
-		$query = <<<EOQ
-		CREATE TABLE `bugs` (
-		  `id` int(11) NOT NULL AUTO_INCREMENT,
-		  `summary` varchar(256) DEFAULT NULL,
-		  `description` text,
-		  `created_on` timestamp NULL DEFAULT NULL,
-		  `submitted_by` varchar(64) DEFAULT NULL,
-		  `status` varchar(64) DEFAULT NULL,
-		  `type` varchar(64) DEFAULT NULL,
-		  `assigned_to` varchar(64) DEFAULT NULL,
-		  PRIMARY KEY (`id`)
-		) ENGINE=MyISAM DEFAULT CHARSET=utf8		
-EOQ;
-	
-		$this->db->query( "DROP TABLE IF EXISTS bugs" );
-		$this->db->query( $query );
+		$this->db->order_by('sort_order');
+		return $this->db->get('bug_statuses');
 	}
 
 }
