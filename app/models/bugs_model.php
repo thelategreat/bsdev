@@ -1,9 +1,6 @@
 <?php
 if (!defined('BASEPATH')) exit('No direct script access allowed');
 /*
-changes:
-RENAME TABLE `bug_statuses` TO `bugs_statuses`;
-
 */
 class Bugs_model extends Model
 {

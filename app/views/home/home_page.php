@@ -34,3 +34,5 @@ $(function(){
 	</div>
 <?php 
 endforeach; ?>
+
+<?= $pagination ?>

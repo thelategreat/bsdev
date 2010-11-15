@@ -28,17 +28,24 @@ class Home extends MY_Controller
 
 	function section()
 	{
-		$this->build_page((int)$this->uri->segment(4) ? (int)$this->uri->segment(4) : (int)$this->uri->segment(3));
+		// uri = /home/section/###/page##
+		$page = (int)$this->uri->segment(4);
+		if( $page <= 0 ) {
+			$page = 1;
+		}
+		$this->build_page((int)$this->uri->segment(3), $page);
 	}
 	
-	private function build_page( $section )
+	private function build_page( $section, $page = 1 )
 	{
+		$page_size = 10;
+		
 		$parents = $this->groups_model->get_parents( $section );
 				
 		$events = NULL;
 		$articles = array();
 
-		$res = $this->articles_model->get_published_article_list($section);
+		$res = $this->articles_model->get_published_article_list($section, $page_size, $page );
 		if( $res->num_rows() > 0 ) {
 			foreach( $res->result() as $row ) {
 				$row->media = $this->media_model->get_media_for_path("/articles/$row->id", 'general', 1);
@@ -56,18 +63,34 @@ class Home extends MY_Controller
 			}			
 		}
 
+		// row across top of page only on home
 		if( $section == 0) {
 			$events = $this->event_model->get_next_events( 7 );
 		}
 		
-		//dbg( $articles );
+		$pagination = '<table style="width: 100%;"><tr>';
+		if( $page > 1 ) {
+			$prev_page = $page - 1;
+			$pagination .= "<td><a href='/home/section/$section/$prev_page' title='newer stuff...'><img src='/img/big_feature_left_arrow.png'/></a></td>";
+		} else {
+			$pagination .= '<td/>';
+		}
+		if( count($articles) == $page_size ) {
+			$next_page = $page + 1;
+			$pagination .= "<td align='right'><a href='/home/section/$section/$next_page' title='...older stuff'><img src='/img/big_feature_right_arrow.png'/></a></td>";			
+		} else {
+			$pagination .= '<td/>';			
+		}
+		$pagination .= '</tr></table>';
 		
+				
 		$parents = array_reverse($parents);
 		array_shift($parents);
 		$view_data = array(
 			'parents' => $parents,
 			'articles' => $articles,
-			'events' => $events
+			'events' => $events,
+			'pagination' => $pagination
 			);
 		
 		$pg_data = $this->get_page_data('Bookshelf', 'home', $section );

@@ -32,7 +32,7 @@ EOF;
 		return $this->db->query( $q );
 	}
 
-	function get_published_article_list( $group = NULL, $limit = NULL )
+	function get_published_article_list( $group = NULL, $limit = NULL, $page = 1 )
 	{
 		$q =<<<EOF
 SELECT a.id, title, fnStripTags(body) as body, excerpt, ac.category, publish_on, author, ast.status, gt.name as `group`
@@ -48,6 +48,7 @@ EOF;
 			
 			if( $limit ) {
 				$q .= " LIMIT $limit";				
+				$q .= " OFFSET " . ($limit * ($page-1));
 			}
 
 			//echo '<pre>' . $q . '</pre><br/>';
