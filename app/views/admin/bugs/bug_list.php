@@ -43,9 +43,9 @@ div.issueContainer table.properties td.attr {
 	border-left: 1px solid #fff;
 	border-right: 1px solid #d4d5d4;
 	overflow: hidden;
-	padding: 2px 3px 4px;
 	color: #444;
 	text-align: center;
+	font-size: 80%;
 }
 .new {
 	background-color: #9ff;
@@ -69,6 +69,7 @@ div.issueContainer table.properties td.attr {
 }
 </style>
 
+<?= $tabs ?>
 <h3><a class="small" href="/admin/bugs/add"><img src="/img/admin/bug_add.png" title="Add an Issue"/></a> Issues</h3>
 
 <div id="q-container">

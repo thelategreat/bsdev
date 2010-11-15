@@ -30,7 +30,7 @@ function can_submit()
 	<td>
 	<fieldset><legend>Details</legend>
 	<table style="border: 0">
-		<input type="hidden" name="id" value="<?=$subscr->id?>"
+		<input type="hidden" name="id" value="<?=$subscr->id?>" />
 		<tr>
 		  <td><label for="email">E-Mail</label></td>
 		  <td><input name="email" size="50" value="<?=$subscr->email?>" /></td>

@@ -4,7 +4,7 @@
 <form method="post">
 <fieldset><legend>Details</legend>
 <table style="border: 0">
-<input type="hidden" name="id" value="<?=$list->id?>"
+<input type="hidden" name="id" value="<?=$list->id?>" />
 <tr>
   <td><label for="name">List Name</label></td>
   <td><input name="name" size="50" value="<?=$list->name?>"/></td>

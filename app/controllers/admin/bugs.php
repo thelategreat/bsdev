@@ -17,17 +17,15 @@ class Bugs extends Admin_Controller
 		$this->load->model('users_model');
 		$this->load->model('bugs_model');
 		
-    $this->page_tabs = array(
-			'Details', 'Media'
-			);
-
-		$this->bug_statuses = array('new','open','fixed','wontfix','closed');
 	}
-	
+
 	function index()
 	{
-		//$this->bugs_model->init_tables();
-		
+		$this->issues();
+	}
+	
+	function issues()
+	{		
 		$page_size = $this->config->item('list_page_size');
 		$page = 1;
 
@@ -69,8 +67,9 @@ class Bugs extends Admin_Controller
 			'next_page' => $next_page,
 			'prev_page' => $prev_page,
 			'query' => $query,
-			'bugs' => $bugs
-			);
+			'bugs' => $bugs,
+			'tabs' => $this->tabs->gen_tabs(array('Issues','Activity','People','Project'), 'Issues', '/admin/bugs')	
+		);
 	
 		$this->gen_page($this->page_title, 'admin/bugs/bug_list', $pg_data );
 	}
@@ -82,15 +81,10 @@ class Bugs extends Admin_Controller
 			$this->form_validation->set_rules('summary','Summary','trim|required');
 			$this->form_validation->set_rules('description','Description','trim|required');
 			if( $this->form_validation->run()) {
-				$this->db->set('summary', $this->input->post('summary'));
-				$this->db->set('description', $this->input->post('description'));
-				$this->db->set('type', $this->input->post('type'));
-				
-				$this->db->set('submitted_by', $this->session->userdata('logged_user'));
-				$this->db->set('created_on', "NOW()", false);
-				$this->db->set('status', 'new');
-				$this->db->set('assigned_to', 'nobody');
-				$this->db->insert("bugs");
+				$this->bugs_model->add_bug($this->input->post('summary'),
+																		$this->input->post('description'),
+																		$this->input->post('type'),
+																		$this->session->userdata('logged_user'));
 				redirect($this->page_root);
 			}
 		}	
@@ -114,11 +108,16 @@ class Bugs extends Admin_Controller
 		}
 
 		if( $this->input->post('comment-text') && strlen(trim($this->input->post('comment-text'))) > 0 ) {
+			/*
 			$this->db->set('bug_id', $bug_id );
 			$this->db->set('comment', $this->input->post('comment-text') );
 			$this->db->set('submitted_by', $this->session->userdata('logged_user'));
 			$this->db->set('created_on', "NOW()", false);
 			$this->db->insert('bugs_comments');
+			*/
+			$this->bugs_model->add_comment( $bug_id, 
+																			$this->input->post('comment-text'), 
+																			$this->session->userdata('logged_user') );
 		}
 		
 		// ------------
@@ -128,6 +127,7 @@ class Bugs extends Admin_Controller
 			$this->form_validation->set_rules('summary','Summary','trim|required');
 			$this->form_validation->set_rules('description','Description','trim|required');
 			if( $this->form_validation->run()) {
+				/*
 				$this->db->where('id', $bug_id);
 				$this->db->set('summary', $this->input->post('summary'));
 				$this->db->set('description', $this->input->post('description'));
@@ -135,6 +135,14 @@ class Bugs extends Admin_Controller
 				$this->db->set('status', $this->input->post('status'));
 				$this->db->set('assigned_to', $this->input->post('assigned_to'));
 				$this->db->update("bugs");
+				*/
+				$this->bugs_model->update_bug( $bug_id, 
+																				$this->input->post('summary'),
+																				$this->input->post('description'),
+																				$this->input->post('type'),
+																				$this->input->post('status'),
+																				$this->input->post('assigned_to'),
+																				$this->session->userdata('logged_user'));
 				redirect($this->page_root);
 			}
 		}	
@@ -198,6 +206,37 @@ class Bugs extends Admin_Controller
 			$s .= '>' . $row->status . '</option>';
 		}
 		return $s . '</select>';
+	}
+
+	// A C T I V I T Y
+	function activity()
+	{
+		$page = 1;
+		$page_size = 25;
+		
+		$view_data = array( 
+			'activity' => $this->bugs_model->get_activity( $page, $page_size ),
+			'tabs' => $this->tabs->gen_tabs(array('Issues','Activity','People','Project'), 'Activity', '/admin/bugs')	
+			);
+		$this->gen_page($this->page_title, 'admin/bugs/bug_activity', $view_data );		
+	}
+
+	// P E O P L E
+	function people()
+	{
+		$view_data = array( 
+			'tabs' => $this->tabs->gen_tabs(array('Issues','Activity','People','Project'), 'People', '/admin/bugs')	
+			);
+		$this->gen_page($this->page_title, 'admin/bugs/bug_people', $view_data );		
+	}
+
+	// P R O J E C T
+	function project()
+	{
+		$view_data = array( 
+			'tabs' => $this->tabs->gen_tabs(array('Issues','Activity','People','Project'), 'Project', '/admin/bugs')	
+			);
+		$this->gen_page($this->page_title, 'admin/bugs/bug_project', $view_data );		
 	}
 
 }
