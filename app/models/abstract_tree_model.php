@@ -42,9 +42,11 @@ abstract class abstract_tree_model extends Model
 		}
 		
 		// walk though the rows grabbing children
-		if( $recurse ) {
-			foreach( $ra as $row ) {
+		foreach( $ra as $row ) {
+			if( $recurse ) {
 				$row->children = $this->get_tree( $flds, $row->id, $recurse );
+			} else {
+				$row->children = array();
 			}
 		}
 		

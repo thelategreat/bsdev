@@ -1,5 +1,19 @@
 <?php 
 
+function emit_sidebar_subgroup_menu( $group, $section, $indent = 0 ) {
+	$is = '';
+	for( $i = 0; $i < $indent; $i++ ) {
+		$is .= '&nbsp;';
+	}
+	foreach( $group as $sub_group ):
+		echo '<li class="subgroup">' . $is . '<a href="/home/section/'. $sub_group->id.'">' . $sub_group->name . '</a></li>';
+		if( count($sub_group->children) ) {
+			emit_sidebar_subgroup_menu( $sub_group->children, $section, $indent += 2 );
+		}
+	endforeach;	
+}
+
+
 /* Detect mobile browsers */
 function is_mobile_browser()
 {
@@ -40,6 +54,7 @@ function is_mobile_browser()
 	return $mobile_browser;
 }
 
+// simple dbg dump
 function dbg( $var )
 {
 	echo '<pre style="font-size: 10px; background-color: white; color: black;">' . var_export($var, true) . '</pre>';
@@ -78,6 +93,26 @@ function fmt_date( $dt, $long = true )
 	}
 }
 
+function mk_select( $name, $data, $default = null, $onclick = null )
+{
+  $s = "<select name='$name'";
+  if( onclick ) {
+    $s .= " onclick='$onclick'";
+  }
+  $s .= '>';
+
+  foreach( $data as $row ) {
+    $s .= "<option value='$row[0]'";
+    if( $default && $row[0] == $default ) {
+      $s .= " selected='selected'";
+    }
+    $s .= ">$row[1]</option>";
+  }
+
+  $s .= '</select>';
+  return $s;
+}
+
 //
 function html_table( $data, $header = NULL, $caption = NULL )
 {
@@ -114,6 +149,7 @@ function html_table( $data, $header = NULL, $caption = NULL )
 	return $s;
 }
 
+// check input looks like a valid email
 function validEmail($email, $check_dns = FALSE )
 {
    $isValid = true;
@@ -180,7 +216,7 @@ function validEmail($email, $check_dns = FALSE )
    return $isValid;
 }
 
-
+// auto gen a password
 function generatePassword($length=6, $strength=0) 
 {
 	$vowels = 'aeuy';
@@ -212,7 +248,7 @@ function generatePassword($length=6, $strength=0)
 	return $password;
 }
 
-
+// does a string end with
 function ends_with( $subj, $str  )
 {
 	$end = substr($subj, strlen($subj) - strlen($str));

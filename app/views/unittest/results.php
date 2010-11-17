@@ -1,5 +1,15 @@
+<style type="text/css">
+.uttable { border-collapse: collapse; font-size: 8pt; font-family: Arial, Helvetica, sans-serif; width: 90%;}
+.uttable caption { color: #fff; background: #333; text-align: left; padding: 2px;}
+.uttable th { color: #fff; background: #666; }
+.uttable tr { border-bottom: 1px solid #999; }
+.utpass { color: #333; background: #9f9; }
+.utfail { color: #333; background: #f99; }
+.odd { background-color: #dddddd;}
+.center { text-align: center;}
+</style>
 
-<h2>Results</h2>
+<h3>Results</h3>
 <table class="uttable">
 	<tr>
 		<th>Files</th>
@@ -19,7 +29,7 @@
 
 <hr/>
 
-<h2>Details</h2>
+<h3>Details</h3>
 		
 <?php if( $results->tests ) {
 		foreach( $results->tests as $test => $result ): ?>

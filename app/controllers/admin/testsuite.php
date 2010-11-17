@@ -15,9 +15,12 @@ class TestSuite extends Admin_Controller
 	{
 		$ut = new UnitTestSuite( APPPATH . '/tests' );
 		$ut->run();
-		$this->load->view('unittest/header');
-		$this->load->view('unittest/results', array('results' => $ut));
-		$this->load->view('unittest/footer');
+
+    $this->gen_page('Admin - Tests', 'unittest/results', array('results' => $ut));
+
+		//$this->load->view('unittest/header');
+		//$this->load->view('unittest/results', array('results' => $ut));
+		//$this->load->view('unittest/footer');
 	}
 		
 }

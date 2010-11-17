@@ -14,15 +14,16 @@
 </div>
 
 <?php 
+
 if( count($groups) > 3 ) {
 	for( $i = 3; $i < count($groups); $i++ ) {
 		echo '<h3>';
-		if( file_exists('img/icons/black/' . strtolower($groups[$i][0]) . '.png')) {
-			echo '<img src="/img/icons/black/' . strtolower($groups[$i][0]) . '.png" height="16px"/> ';			
+		if( file_exists('img/icons/black/' . strtolower($groups[$i]->name) . '.png')) {
+			echo '<img src="/img/icons/black/' . strtolower($groups[$i]->name) . '.png" height="16px"/> ';			
 		}
-		echo '<a href="/home/section/'.$groups[$i][1].'">' . $groups[$i][0] . '</a></h3>';
+		echo '<a href="/home/section/'.$groups[$i]->id.'">' . $groups[$i]->name . '</a></h3>';
 		echo '<ul>';
-		foreach( $groups[$i][2]->result() as $sub_group ):
+		foreach( $groups[$i]->children as $sub_group ):
 			echo '<li><a href="/home/section/'. $sub_group->id.'">' . $sub_group->name . '</a></li>';
 		endforeach;
 		echo '</ul>';

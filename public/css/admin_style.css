@@ -163,15 +163,18 @@ ul.picklist {
 table {
 	border-collapse: collapse; 
 	width: 100%; 
-	margin: 8px 0 6px 0;
+	margin: 8px 0 16px 0;
 	/*border: 1px solid #d7d7d7; */
 	border: 0;
 }
 
+table thead  tr {
+}
+
 table th { 
 	text-align: left; 
-	background-color: #ddd; 
-	background-image: url(/img/fm/gray-grad.png);
+	background-color: #ddd;
+	background-image: url(/img/admin/gray-grad.png);
 	border-bottom: 1px solid #d0d0d0;
 }
 
@@ -329,6 +332,8 @@ div.tabs ul li a{
     background-color: #eeeeee;
     color:#777;
     font-weight:bold;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
 }
 
 div.tabs ul li a:hover {

@@ -62,7 +62,7 @@
  * </code>
  *
  */
-class UnitTest
+class UnitTest extends StdClass
 {
   public $assert_count = 0;
   

@@ -6,16 +6,19 @@
 
 <h3><a class="small" href="/admin/ads/add"><img src="/img/admin/newspaper_add.png" title="Add Advert"/></a> Ads</h3>
 
-<table cellpadding="3px">
-<tr>
-	<th></th>
-  <th width="35%">Title/Client</th>
-  <th>Start Date</th>
-  <th>End Date</th>
-  <th>Url</th>
-  <th>Clicks</th>
-  <th>Owner</th>
-</tr>
+<table style="table-layout: fixed; cell-padding: 3px; width: 100%;">
+  <thead>
+    <tr>
+      <th></th>
+      <th width="30%">Title/Client</th>
+      <th>Start</th>
+      <th>End</th>
+      <th>Url</th>
+      <th style="text-align: center;">Clicks</th>
+      <th>Owner</th>
+    </tr>
+  </thead>
+  <tbody>
 <?php
  	$cnt = 0;
 	foreach( $ads->result() as $ad ) { ?>
@@ -28,17 +31,17 @@
 	  <td><a href="/admin/ads/edit/<?= $ad->id ?>"><?= $ad->title ?></a></td>
 	  <td><small><?= date('Y-m-d',strtotime($ad->start_date)) ?></small></td>
 		<td><small><?= date('Y-m-d',strtotime($ad->end_date)) ?></small></td>
-	  <td><small><?= $ad->url ?></small></td>
-	  <td><small><?= $ad->clicks ?></small></td>
+	  <td style="overflow: hidden; white-space: nowrap;"><small><?= $ad->url ?></small></td>
+	  <td align="center"><small><?= $ad->clicks ?></small></td>
 	  <td><small><?= $ad->owner ?></small></td>
-</tr>
+  </tr>
 <?php $cnt++; } ?>
+  </tbody>
 </table>
 
-<!-- pagination -->
-<table>
-	<tr>
-		<td><?=$prev_page?></td>
-		<td align="right"><?=$next_page?></td>
-	</tr>
+<table class="pager">
+  <tr>
+    <td><?=$prev_page?></td>
+    <td align="right"><?=$next_page?></td>
+  </tr>
 </table>

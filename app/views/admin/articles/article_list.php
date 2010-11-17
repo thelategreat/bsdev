@@ -7,15 +7,17 @@
 <h3><a class="small" href="/admin/articles/add"><img src="/img/admin/newspaper_add.png" title="Add Article"/></a> Articles</h3>
 
 <table>
-<tr>
-  <th width="35%">Title</th>
-  <th>Owner</th>
-  <th>Author</th>
-  <th>Category</th>
-  <th>Group</th>
-  <th>Publish</th>
-  <th>Status</th>
-</tr>
+  <thead>
+    <tr>
+      <th width="35%">Title</th>
+      <th>Owner</th>
+      <th>Author</th>
+      <th>Category</th>
+      <th>Group</th>
+      <th>Publish</th>
+      <th>Status</th>
+    </tr>
+  </thead>
 <?php
  	$cnt = 0;
 	foreach( $articles->result() as $article ) { ?>
@@ -30,9 +32,10 @@
 </tr>
 <?php $cnt++; } ?>
 </table>
-<table>
-	<tr>
-		<td><?=$prev_page?></td>
-		<td align="right"><?=$next_page?></td>
-	</tr>
+
+<table class="pager">
+  <tr>
+    <td><?=$prev_page?></td>
+    <td align="right"><?=$next_page?></td>
+  </tr>
 </table>

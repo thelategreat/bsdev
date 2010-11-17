@@ -213,6 +213,10 @@ img {
 	border-bottom: 1px solid #ddd;
 }
 
+#sidebar-left ul li.subgroup {
+	font-size: 90%;
+}
+
 #sidebar-left ul li:hover
 {
 	border-bottom: 2px solid #333;
@@ -249,6 +253,7 @@ body.calendar #content {
 .article {
 	padding-bottom: 5px;
 	border-bottom: 1px solid #ccc;
+	min-height: 175px;
 }
 
 .article h2 {
@@ -559,12 +564,12 @@ table.calendar-month ul.event-list li a {
 /* can add a class to li with the event category */
 table.calendar-month ul.event-list li.film {
 	background-color: #fcc;
-	background: #fcc url('../img/icons/movie.png') no-repeat right top;
+	background: #fcc url('../img/icons/white/movie.png') no-repeat right top;
 }
 
 table.calendar-month ul.event-list li.music {
 	background-color: #cfc;
-	background: #cfc url('../img/icons/music.png') no-repeat right top;
+	background: #cfc url('../img/icons/white/music.png') no-repeat right top;
 }
 
 #search_results {
@@ -743,6 +748,27 @@ table.search-results td {
 	color: #4f6b72;
 }
 
+/* tabbed look */
+ul.tabbed {
+  list-style: none;
+  padding-top: 10px;
+  margin: 0;
+  margin-bottom: 10px;
+  border-bottom: 2px solid #999;
+  text-align: right;
+}
+
+ul.tabbed li {
+  display: inline;
+  padding: 5px;
+  margin: 5px;
+}
+
+ul.tabbed li.selected {
+  border: 2px solid #999;
+  border-bottom: 2px solid #fff;
+  padding-bottom: 1px;
+}
 
 /* Dialog window */
 .dialogWindow {
