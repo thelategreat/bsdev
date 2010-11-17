@@ -48,7 +48,6 @@ class Groups_model extends abstract_tree_model
 	// depth first search
 	function find_leaf( $id, $groups )
 	{
-		echo $id;
 		foreach( $groups as $group ) {
 			if( count($group->children)) {
 				return $this->find_leaf( $id, $group->children );				
