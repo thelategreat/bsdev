@@ -18,6 +18,10 @@ class Groups_model extends abstract_tree_model
 	
 	function get_menu_tree( $section )
 	{
+    if( empty($section)) {
+      $section = 0;
+    }
+
 		$flds = 'id, parent_id, deletable, name, active';
 		$groups_result = $this->get_tree( $flds, 1, false );
 		foreach( $groups_result as $group ):

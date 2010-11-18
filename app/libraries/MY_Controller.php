@@ -19,7 +19,7 @@ class MY_Controller extends Controller
 		parent::__construct();	
 	}
 	
-	protected function get_page_data( $title, $css_name, $section = '' )
+	protected function get_page_data( $title, $css_name, $section = 0 )
 	{
 		//$featured = $this->get_featured();
 		/*

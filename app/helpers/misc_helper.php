@@ -1,5 +1,6 @@
 <?php 
 
+// used by the sidebar menus
 function emit_sidebar_subgroup_menu( $group, $section, $indent = 0 ) {
 	foreach( $group as $sub_group ):
 		echo "<li class='subgroup_$indent'>" . '<a href="/home/section/'. $sub_group->id.'">' . $sub_group->name . '</a></li>';
