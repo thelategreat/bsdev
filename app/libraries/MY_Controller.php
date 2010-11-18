@@ -21,7 +21,7 @@ class MY_Controller extends Controller
 	
 	protected function get_page_data( $title, $css_name, $section = 0 )
 	{
-		//$featured = $this->get_featured();
+
 		/*
 		$groups_result = $this->groups_model->get_items( );
 		$groups = array();
@@ -51,45 +51,6 @@ class MY_Controller extends Controller
 		return $pg_data;
 	}
 	
-	/**
-	 * We have these on every page
-	 *
-	 * @return void
-	 */
-	protected function get_featured()
-	{
-		$data = array();
-		
-		$res = $this->media_model->get_media_for_path('/pages/1', 'top');	
-		$data['top_feature'] = count($res) ? '/media/' . $res[0]['url'] : '/media/logos/no_image.jpg';		
-		
-		$res = $this->media_model->get_media_for_path('/pages/1', 'left');		
-		if( count($res) && $res[0]['type'] == 'link') {
-			$data['left_feature'] = get_embed_object($res[0]['fname'], 292, 124 );
-		}	else {
-			$url = count($res) ? '/media/' . $res[0]['url'] : '/media/logos/no_image.jpg';					
-			$data['left_feature'] = '<img src="' . $url .'" width="292" height="124" alt="Left feature" />';
-		}
-
-		$res = $this->media_model->get_media_for_path('/pages/1', 'mid');		
-		if( count($res) && $res[0]['type'] == 'link') {
-			$data['mid_feature'] = get_embed_object($res[0]['fname'], 292, 124 );
-		}	else {
-			$url = count($res) ? '/media/' . $res[0]['url'] : '/media/logos/no_image.jpg';					
-			$data['mid_feature'] = '<img src="' . $url .'" width="292" height="124" alt="Mid feature" />';
-		}
-
-		$res = $this->media_model->get_media_for_path('/pages/1', 'right');		
-		if( count($res) && $res[0]['type'] == 'link') {
-			$data['right_feature'] = get_embed_object($res[0]['fname'], 292, 124 );
-		}	else {
-			$url = count($res) ? '/media/' . $res[0]['url'] : '/media/logos/no_image.jpg';					
-			$data['right_feature'] = '<img src="' . $url .'" width="292" height="124" alt="Right feature" />';
-		}
-				
-		return $data;			
-	}
-
 	function main_nav_arrows( $back = NULL, $fwd = NULL )
 	{
 		$s = '';
