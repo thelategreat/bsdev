@@ -30,13 +30,15 @@ class MY_Controller extends Controller
 		endforeach;
 		*/
 		$groups = $this->groups_model->get_menu_tree( $section );
-		
+    $parents = $this->groups_model->get_parents( $section );
+
 		
 		$pg_data = array(
 			'page_title' => $title,
 			'css_name' => $css_name,
 			'section' => $section,
 			'groups' => $groups,
+      'debug' => $groups,
 			'main_content_nav' => '<ul id="main_content_nav"><li></li></ul>',
 			'style' => '/css/screen.css',
 			'content' => '',

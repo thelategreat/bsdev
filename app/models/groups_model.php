@@ -32,35 +32,32 @@ class Groups_model extends abstract_tree_model
 		foreach( $groups as $row ) {
 			$row->children = $this->get_tree( $flds, $row->id, false );
 		}
-		// parent are from here to root
-		$parents = $this->get_parents( $section );
-		// so reverse it
-		$parents = array_reverse( $parents );
-		// and lop iff the first two elements
-		array_shift($parents);
-		array_shift($parents);
-		// then visit each node in the path and fill in the children
-		foreach( $parents as $elem ) {
-			$group = $this->find_leaf( $elem['id'], $groups );
-			if( $group )	{
-				$group->children = $this->get_tree( $flds, $group->id, false );
-			}
-		}
+
+    // grab the parents
+    $parents = $this->get_parents( $section );
+    $parents = array_reverse( $parents );
+    // lop off root
+    array_shift($parents);
+    // walk down the parent path, filling in the children
+    $top = $groups;
+    foreach( $parents as $level ) {
+        $group = $this->find_node( $level['id'], $top );
+        if( $group ) {
+          $group->children = $this->get_tree( $flds, $group->id, false );
+          $top = $group->children;
+        }
+    }
 		return $groups;
 	}
-	
-	// depth first search
-	function find_leaf( $id, $groups )
-	{
-		foreach( $groups as $group ) {
-			if( count($group->children)) {
-				return $this->find_leaf( $id, $group->children );				
-			}
-			if( $group->id == $id ) {
-				return $group;
-			}
-		}
-		return null;
-	}
-		
+
+  function find_node( $id, $groups )
+  {
+    foreach( $groups as $group ) {
+      if( $group->id == $id ) {
+        return $group;
+      }
+    }
+    return null;
+  }
+
 }

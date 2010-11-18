@@ -54,7 +54,7 @@
 		</div>
 		<div id="navigation">
 			<ul>
-				<li><a href="/" <?= $section === 0 ? ' class="selected"' : '' ?>>Home</a></li>
+				<li><a href="/" <?= $section == 0 ? ' class="selected"' : '' ?>>Home</a></li>
 				<?php foreach( $groups as $group ): ?>
 					<li><a href="/home/section/<?=$group->id?>" <?= $section == $group->id ? ' class="selected"' : ''?>><?=$group->name?></a></li>
 				<?php endforeach; ?>

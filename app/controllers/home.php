@@ -29,11 +29,12 @@ class Home extends MY_Controller
 	function section()
 	{
 		// uri = /home/section/###/page##
+    $section = (int)$this->uri->segment(3);
 		$page = (int)$this->uri->segment(4);
 		if( $page <= 0 ) {
 			$page = 1;
 		}
-		$this->build_page((int)$this->uri->segment(3), $page);
+		$this->build_page($section, $page);
 	}
 	
 	private function build_page( $section, $page = 1 )

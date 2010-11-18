@@ -32,11 +32,12 @@
 }
 div.issueContainer table {
 	padding: 0;
+  margin: 0;
 }
 div.issueContainer table.properties {
 	table-layout: fixed;
 	width: 80%;
-	margin-bottom: -5px;
+  margin-left: 20px
 }
 
 div.issueContainer table.properties td.attr {
@@ -69,8 +70,10 @@ div.issueContainer table.properties td.attr {
 }
 </style>
 
-<?= $tabs ?>
 <h3><a class="small" href="/admin/bugs/add"><img src="/img/admin/bug_add.png" title="Add an Issue"/></a> Issues</h3>
+
+<?= $tabs ?>
+
 
 <div id="q-container">
 	<div id="s-container">
