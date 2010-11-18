@@ -46,6 +46,7 @@ class Home extends MY_Controller
 		$events = NULL;
 		$articles = array();
 
+    /*
 		$res = $this->articles_model->get_published_article_list($section, $page_size, $page );
 		if( $res->num_rows() > 0 ) {
 			foreach( $res->result() as $row ) {
@@ -63,6 +64,12 @@ class Home extends MY_Controller
 				}			
 			}			
 		}
+    */
+    $res = $this->articles_model->get_published_articles( $section );
+    foreach( $res->result() as $row ) {
+      $row->media = $this->media_model->get_media_for_path("/articles/$row->id", 'general', 1);
+      $articles[] = $row;
+    }
 
 		// row across top of page only on home
 		if( $section == 0) {

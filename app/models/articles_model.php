@@ -56,6 +56,29 @@ EOF;
 			return $this->db->query( $q );		
 	}
 
+  function get_published_articles( $group, $limit = NULL, $page = 1 )
+  {
+    $q =<<<SQL
+    select a.id, title, fnStripTags(body) as body, excerpt, ac.category, publish_on, author, ast.status, gt.name as `group`
+    from articles as a, group_tree as gt, article_categories as ac, article_statuses as ast
+      where a.group = gt.id
+        and a.category = ac.id
+        and a.status = ast.id
+        and a.status = 3
+        and (gt.id = $group OR gt.parent_id = $group)
+SQL;
+
+    $q .= " ORDER BY a.publish_on DESC";
+
+    if( $limit ) {
+      $q .= " LIMIT $limit";
+      $q .= " OFFSET " . ($limit * ($page-1));
+    }
+
+    $ret = $this->db->query( $q );
+    return $ret;
+  }
+
 	function get_article( $id )
 	{
 		$q =<<<EOF
