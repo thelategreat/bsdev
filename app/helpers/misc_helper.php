@@ -1,14 +1,10 @@
 <?php 
 
 function emit_sidebar_subgroup_menu( $group, $section, $indent = 0 ) {
-	$is = '';
-	for( $i = 0; $i < $indent; $i++ ) {
-		$is .= '&nbsp;';
-	}
 	foreach( $group as $sub_group ):
-		echo '<li class="subgroup">' . $is . '<a href="/home/section/'. $sub_group->id.'">' . $sub_group->name . '</a></li>';
+		echo "<li class='subgroup_$indent'>" . '<a href="/home/section/'. $sub_group->id.'">' . $sub_group->name . '</a></li>';
 		if( count($sub_group->children) ) {
-			emit_sidebar_subgroup_menu( $sub_group->children, $section, $indent += 2 );
+			emit_sidebar_subgroup_menu( $sub_group->children, $section, $indent + 2 );
 		}
 	endforeach;	
 }

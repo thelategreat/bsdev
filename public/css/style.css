@@ -183,8 +183,7 @@ img {
 	/*display: inline; */
 	padding-right: 10px;
 	border-right: 1px solid #ccc;
-	font-size: 90%;
-	
+	font-size: 90%;	
 }
 
 #sidebar-left h3 
@@ -213,8 +212,14 @@ img {
 	border-bottom: 1px solid #ddd;
 }
 
-#sidebar-left ul li.subgroup {
+#sidebar-left ul li.subgroup_0 {
 	font-size: 90%;
+}
+
+#sidebar-left ul li.subgroup_2 {
+	font-size: 90%;
+	font-style: italic;
+	margin-left: 12px;
 }
 
 #sidebar-left ul li:hover
@@ -294,6 +299,7 @@ body.calendar #content {
 	display: inline;
 	font-size: 90%;
 	border-left: 1px solid #ddd;
+	font-size: 90%;	
 }
 
 #sidebar-right h3 
@@ -317,6 +323,16 @@ body.calendar #content {
 	list-style: none;
 	padding: 5px;
 	border-bottom: 1px solid #999;
+}
+
+#sidebar-right ul li.subgroup_0 {
+	font-size: 90%;
+}
+
+#sidebar-right ul li.subgroup_2 {
+	font-size: 90%;
+	font-style: italic;
+	margin-left: 12px;
 }
 
 #sidebar-right ul li:hover
