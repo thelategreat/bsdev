@@ -8,8 +8,8 @@
 	</li>
 </ul>
 <span style="padding-top: 15px; display: block; font-style: italic;">Follow us...</span>
-<a href="#" title="Twitter"><img src="/img/icons/icon_twitter.png" /></a>
-<a href="#" title="Facebook"><img src="/img/icons/icon_facebook.png" /></a>
+<a href="http://twitter.com/#!/Bookshelfnews" target="_blank" title="Twitter"><img src="/img/icons/icon_twitter.png" /></a>
+<a href="http://www.facebook.com/home.php?#!/group.php?gid=193052215184" title="Facebook" target="_blank"><img src="/img/icons/icon_facebook.png" /></a>
 <a href="/rss" title="RSS"><img src="/img/icons/icon_rss.png" /></a>
 </div>
 
