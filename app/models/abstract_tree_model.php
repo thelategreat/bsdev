@@ -71,7 +71,8 @@ abstract class abstract_tree_model extends Model
 	{
 		$max = $this->db->query("SELECT MAX(sort_order) as m FROM $this->table_name")->row();
 		$data['sort_order'] = $max->m + 1;
-		$this->db->insert($this->table_name, $data );				
+		$this->db->insert($this->table_name, $data );
+    $this->build_mptt_tree( 1, 1 );
 	}
 
 	function update( $id, $data )
@@ -94,7 +95,8 @@ abstract class abstract_tree_model extends Model
 		$this->db->delete($this->table_name);
 		// and this node
 		$this->db->where('id', $id );
-		$this->db->delete($this->table_name);		
+		$this->db->delete($this->table_name);
+    $this->build_mptt_tree( 1, 1 );
 	}
 
 	function move_up( $id )
@@ -108,6 +110,7 @@ abstract class abstract_tree_model extends Model
 				$this->db->query("UPDATE $this->table_name SET sort_order = $swap->sort_order WHERE id = $data->id");
 				$this->db->query("UPDATE $this->table_name SET sort_order = $data->sort_order WHERE id = $swap->id");
 			}
+      $this->build_mptt_tree( 1, 1 );
 		}		
 	}
 
@@ -121,6 +124,7 @@ abstract class abstract_tree_model extends Model
 				$this->db->query("UPDATE $this->table_name SET sort_order = $swap->sort_order WHERE id = $data->id");
 				$this->db->query("UPDATE $this->table_name SET sort_order = $data->sort_order WHERE id = $swap->id");
 			}
+      $this->build_mptt_tree( 1, 1 );
 		}		
 	}
 
@@ -173,4 +177,17 @@ abstract class abstract_tree_model extends Model
 		return $s;
 	}
 
+  // create modified preorder traversal tree from adjacency list (aka, nested list)
+  function build_mptt_tree( $parent_id, $left )
+  {
+    $right = $left + 1;
+
+    $res = $this->db->query("SELECT id FROM $this->table_name WHERE parent_id = $parent_id");
+    foreach( $res->result() as $row ) {
+      $right = $this->build_mptt_tree( $row->id, $right );
+    }
+
+    $this->db->query("UPDATE $this->table_name SET lft=$left, rgt=$right WHERE id=$parent_id");
+    return $right+1;
+  }
 }

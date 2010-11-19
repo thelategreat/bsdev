@@ -5,7 +5,7 @@ $(function(){
 </script>
 
 <?php foreach( $parents as $parent ) { ?>
-	<?= $parent['name'] ?> ❖
+	<a href="/home/section/<?=$parent['id']?>"><?= $parent['name'] ?></a>  ❖
 <?php } ?>
 
 <?php if( $events !== NULL ) { ?>

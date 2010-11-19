@@ -1,5 +1,5 @@
 
-</script>
+
 <div style="float: right">
 </div>
 <h3><a class="small" href="/admin/groups/add/"><img src="/img/admin/layout_add.png" title="Add Group"/></a> Groups</h3>

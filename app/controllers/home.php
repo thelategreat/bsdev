@@ -65,7 +65,7 @@ class Home extends MY_Controller
 			}			
 		}
     */
-    $res = $this->articles_model->get_published_articles( $section );
+    $res = $this->articles_model->get_published_articles( $section, $page_size, $page );
     foreach( $res->result() as $row ) {
       $row->media = $this->media_model->get_media_for_path("/articles/$row->id", 'general', 1);
       $articles[] = $row;

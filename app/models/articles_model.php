@@ -58,6 +58,36 @@ EOF;
 
   function get_published_articles( $group, $limit = NULL, $page = 1 )
   {
+    if( $group <= 0 ) {
+      $group = 1;
+    }
+
+    $q =<<<SQL
+select a.id, a.title, fnStripTags(a.body) as body, a.excerpt, ac.category, a.publish_on, a.author, ast.status, gt2.name as `group`
+	from articles as a, group_tree as gt, group_tree as gt2, article_categories as ac, article_statuses as ast
+	where
+		a.group = gt2.id and
+		gt2.lft between gt.lft and gt.rgt and
+		a.category = ac.id and
+		a.status = ast.id and
+		a.status = 3 and
+		gt.id = $group
+SQL;
+
+    $q .= " ORDER BY a.publish_on DESC";
+
+    if( $limit ) {
+      $q .= " LIMIT $limit";
+      $q .= " OFFSET " . ($limit * ($page-1));
+    }
+
+    $ret = $this->db->query( $q );
+    return $ret;
+  }
+
+
+  function get_published_articles_al( $group, $limit = NULL, $page = 1 )
+  {
     $q =<<<SQL
     select a.id, title, fnStripTags(body) as body, excerpt, ac.category, publish_on, author, ast.status, gt.name as `group`
     from articles as a, group_tree as gt, article_categories as ac, article_statuses as ast
