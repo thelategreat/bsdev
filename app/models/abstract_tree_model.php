@@ -2,10 +2,14 @@
 if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 /**
+ * This is a hybrid adjacancy list/nested list tree
+ *
  * This requires a table with the following fields:
  * CREATE TABLE ... (
  *   `id` int(11) NOT NULL AUTO_INCREMENT,
  *   `parent_id` int(11) NOT NULL DEFAULT '0',
+ *   `lft` int(11) DEFAULT '0',
+ *   `rgt` int(11) DEFAULT '0',
  *   `sort_order` int(11) DEFAULT NULL,
  *   `deletable` binary(1) NOT NULL DEFAULT '0',
  *
@@ -15,7 +19,7 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
  * ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
  *
  * also a root node is required with a parent_id of 0
- * INSERT INTO ... (parent_id, sort_order, ...) VALUES (0, 1, ...);
+ * INSERT INTO ... (id, parent_id, sort_order, ...) VALUES (1, 0, 1, ...);
  */
 abstract class abstract_tree_model extends Model
 {
@@ -190,4 +194,15 @@ abstract class abstract_tree_model extends Model
     $this->db->query("UPDATE $this->table_name SET lft=$left, rgt=$right WHERE id=$parent_id");
     return $right+1;
   }
+
+  protected function lock_table()
+  {
+    $this->db->query("LOCK TABLE $this->table_name WRITE");
+  }
+
+  protected function unlock_table()
+  {
+    $this->db->query("UNLOCK TABLES");    
+  }
+
 }

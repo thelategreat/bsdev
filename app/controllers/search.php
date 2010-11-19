@@ -63,7 +63,7 @@ class Search extends MY_Controller
 			'query_string' => $query
 			);		
 				
-		$pg_data = $this->get_page_data('Bookshelf - Search', 'search-results', 'search');
+		$pg_data = $this->get_page_data('Bookshelf - Search', 'search-results', 0);
 		$pg_data['content'] = $this->load->view('search/results', $view_data, true);
 		$this->load->view('layouts/standard_page', $pg_data );	  
 	}

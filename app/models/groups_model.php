@@ -9,7 +9,8 @@ class Groups_model extends abstract_tree_model
   function __construct()
   {
     parent::__construct('group_tree');
-    $this->build_mptt_tree( 1, 1 );
+
+    //$this->build_mptt_tree( 1, 1 );
   }
 
 	function get_group_tree( $parent = 0, $recurse = true )
