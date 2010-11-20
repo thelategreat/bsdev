@@ -53,11 +53,16 @@
 				});
 	});
 
+  /*
 	function mediaBrowserCallback( field_name, url, type, win ) {
 		browserField = field_name;
 		browserWin = win;
 		window.open('/admin/media/mce','browserWindow','modal,width=600,height=600,scrollbars=yes');
 	}
+  */
+  function mediaBrowserCallback( field_name, url, type, win ) {
+    alert("Sorry, this is not available in this view");
+  }
 
 	tinyMCE.init({
 		mode : "textareas",

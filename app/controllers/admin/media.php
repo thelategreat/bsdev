@@ -314,6 +314,92 @@ class Media extends Admin_Controller
 		}
 	}
 
+  function mce()
+  {
+    $stags = array();
+    for( $i = 4; $i <= $this->uri->total_segments(); $i++ ) {
+      $stags[] = $this->uri->segment($i);
+    }
+
+    if( count($stags) > 0  ) {
+      $path = '/' . $stags[0] . '/' . $stags[1];
+      $results = $this->media_model->get_media_for_path( $path );
+      $view_data = array(
+        'items' => $results,
+        'page' => 1,
+        'stags' => $stags,
+        'errors' => $path,
+        'prev_page' => '',
+        'next_page' => ''
+        );
+      $this->load->view('admin/media/media_mce', $view_data );
+
+    } else {
+      echo 'Invalid path';  
+    }
+  }
+
+  /**
+   * TinyMCE popup thing
+   */
+  function mceold()
+  {
+    if( $this->input->post("q") !== FALSE ) {
+      $url = '/admin/media/mce';
+      // if we have a query
+      if( trim($this->input->post("q")) != '') {
+        $params = explode(' ', $this->input->post("q"));
+        foreach( $params as $p ) {
+          $url .= '/' . urlencode($p);
+        }
+      }
+      redirect( $url );
+    }
+
+    $errors = '';
+    $my_root = './media/';
+    $page_size = $this->config->item('image_browser_page_size');;
+    $stags = array();
+    $page = 1;
+
+    // the first segment might be a page number
+    $offs = 4;
+    if( $this->uri->segment(4) && is_numeric($this->uri->segment(4))) {
+      $page = $this->uri->segment(4);
+      $offs = 5;
+      if( $page < 1 ) {
+        $page = 1;
+      }
+    }
+    // the rest of the segments are search tags
+    for( $i = $offs; $i <= $this->uri->total_segments(); $i++ ) {
+      $stags[] = $this->uri->segment($i);
+    }
+
+    $results = $this->media_model->get_media( null, $stags, $page, $page_size );
+
+    // pagination
+    $next_page = '';
+    $prev_page = '';
+    if( $page > 1 ) {
+      $prev_page = "<a class='small' href='/admin/media/mce/".($page-1)."'>⇐ prev</a>";
+    }
+    if( count($results) == $page_size ) {
+      $next_page = "<a class='small' href='/admin/media/mce/".($page+1)."'>next ⇒</a>";
+    }
+
+    $view_data = array(
+      'items' => $results,
+      'page' => $page,
+      'stags' => $stags,
+      'errors' => $errors,
+      'prev_page' => $prev_page,
+      'next_page' => $next_page
+      );
+    $this->load->view('admin/media/media_mce', $view_data );
+  }
+  
+
 	/**
 	 * Add media to path. Called by the popup when the user selected an image
 	 */

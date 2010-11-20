@@ -2,6 +2,14 @@
 <script type="text/javascript" src="/js/admin_mb.js" ></script>
 
 <script>
+/* image picker callback */
+function mediaBrowserCallback( field_name, url, type, win ) {
+  browserField = field_name;
+  browserWin = win;
+  window.open('/admin/media/mce/articles/<?=$article->id?>','browserWindow','modal,width=600,height=600,scrollbars=yes');
+}
+
+
 function add_category()
 {
 	$('#new-cat-row').toggle('slow');

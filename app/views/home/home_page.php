@@ -22,7 +22,7 @@ $(function(){
 
 <?php 
 	$count = 0;
-	foreach( $articles as $article ): ?>
+	foreach( $articles as $article ) { ?>
 	<div class="article">
 		<?php if( count($article->media) > 0 ) { $uuid = $article->media[0]['uuid']; ?>
 			<!--<img src="/media/<?=$uuid?>" class="<?= $count % 2 > 0 ? 'img-preview-left' : 'img-preview-right'?>" />-->
@@ -34,7 +34,6 @@ $(function(){
 		<p><?= strlen(trim($article->excerpt)) ? $article->excerpt : implode(' ', array_slice(explode( ' ', $article->body),0,100) ) . '...' ?>
 		<p class="read-more"><a href="/article/view/<?=$article->id?>"><em>read more...<img src="/img/big_feature_right_arrow.png" width="18px" style="margin-bottom: -4px"/></em></a><p>
 	</div>
-<?php 
-endforeach; ?>
+<?php } ?>
 
 <?= $pagination ?>
