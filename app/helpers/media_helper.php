@@ -50,6 +50,9 @@ function slugify($text)
 function get_embed_object( $url, $width="425", $height="344" )
 {
 	$purl = parse_url( $url );
+  if( !isset($purl['host'])) {
+    return '';
+  }
 	if( $purl['host'] == 'www.vimeo.com' || $purl['host'] == 'vimeo.com') {
 		$url = 'http://vimeo.com/moogaloop.swf?clip_id=' . substr($purl['path'], 1 ) . '&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1';
 	}

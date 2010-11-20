@@ -32,8 +32,9 @@ class Article extends MY_Controller
 		$this->load->model('media_model');
 		$res = $this->media_model->get_media_for_path("/articles/$id", 'general');		
 		$images = array();
+
 		foreach( $res as $row ) {
-			$images[] = '/media/' . $row['url'];
+			$images[] = $row;
 		}
 		
 		$res = $this->articles_model->get_article($id);

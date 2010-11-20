@@ -21,18 +21,9 @@ class MY_Controller extends Controller
 	
 	protected function get_page_data( $title, $css_name, $section = 0 )
 	{
-
-		/*
-		$groups_result = $this->groups_model->get_items( );
-		$groups = array();
-		foreach( $groups_result->result() as $group ):
-			$groups[] = array($group->name, $group->id, $this->groups_model->get_items( $group->id ));
-		endforeach;
-		*/
+    $section = (int)$section;
 		$groups = $this->groups_model->get_menu_tree( $section );
-    $parents = $this->groups_model->get_parents( $section );
 
-		
 		$pg_data = array(
 			'page_title' => $title,
 			'css_name' => $css_name,
