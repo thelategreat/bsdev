@@ -26,7 +26,8 @@ $(function(){
 	<div class="article">
 		<?php if( count($article->media) > 0 ) { $uuid = $article->media[0]['uuid']; ?>
 			<!--<img src="/media/<?=$uuid?>" class="<?= $count % 2 > 0 ? 'img-preview-left' : 'img-preview-right'?>" />-->
-      <img src="<?=$article->media[0]['thumbnail']?>" class="<?= $count % 2 > 0 ? 'img-preview-left' : 'img-preview-right'?>" />
+      <img src="<?=$article->media[0]['thumbnail']?>" class="<?= $count % 2 > 0 ? 'img-preview-left' : 'img-preview-right'?> <?=$article->media[0]['type']?>"
+              />
 		<?php $count++; } ?>
 		<h2><a href="/article/view/<?=$article->id?>"><?= $article->title ?></a></h2>
 		<span class="date"><?=$article->author?>. - <?=date('j M Y',strtotime($article->publish_on))?> - <?=$article->group ?></span>

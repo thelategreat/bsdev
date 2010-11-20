@@ -456,6 +456,10 @@ img.img-preview-right {
 	padding: 5px 5px 5px 15px;
 }
 
+img.link {
+  padding-bottom: 20px;
+  background: #fff url('/img/icons/video-h.png') no-repeat 20% bottom;
+}
 
 /* L I S T  V I E W */
 ul.calendar-list {
