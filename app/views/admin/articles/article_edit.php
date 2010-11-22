@@ -83,15 +83,17 @@ $(function()
 			</table>
 			</td>
 		</tr>
+    <!--
 	  <tr>
 			<td>
 			<table>
 				<tr><th>Group</th></tr>
-				<tr><td><?= $group_select ?>&nbsp;<a href="#" onclick="return add_group();"><img src="/img/admin/add.png" /></a></td></tr>
+				<tr><td><?= $group_select ?></td></tr>
 				<tr style="display: none;" id="new-group-row"><td><input id="new-group" /></td></tr>
 			</table>
 			</td>
 		</tr>
+		-->
 	  <tr>
 			<td>
 			<table>
@@ -101,6 +103,7 @@ $(function()
 			</table>
 			</td>
 		</tr>
+    <!--
 	  <tr>
 			<td>
 			<table>
@@ -112,6 +115,7 @@ $(function()
 			</table>
 			</td>
 		</tr>
+		-->
 	  <tr>
 			<td>
 			<table>
@@ -125,7 +129,7 @@ $(function()
 			<table>
 				<tr><th>Tags</th></tr>
 				<tr>
-					<td><textarea name="tags" class="mceNoEditor" cols="20" rows="3"><?=set_value('tags',$article->tags)?></textarea>
+					<td><textarea name="tags" class="mceNoEditor" cols="20" rows="2"><?=set_value('tags',$article->tags)?></textarea>
 					</td>
 				</tr>
 			</table>
@@ -154,44 +158,48 @@ $(function()
 <fieldset><legend>Edit Article</legend>
 <table style="border: 0">
   <tr>
+    <td>
 		<table style="margin-top: -10px;">
 			<tr>
     		<td><label for="title">Title</label></td>
-				<td><input name="title" size="60" value="<?= set_value('title',$article->title)?>"/></td>
-			</tr>
-			<tr>
-				<td/>
-				<td><?=form_error('title')?></td>
+				<td colspan="4"><input name="title" size="60" value="<?= set_value('title',$article->title)?>"/></td>
+        <td><?=form_error('title')?></td>
+        <td/>
 			</tr>
 			<tr>
     		<td><label for="author">Author</label></td>
-				<td><input name="author" size="60" value="<?= set_value('author',$article->author)?>"/></td>
+				<td colspan="4"><input name="author" size="60" value="<?= set_value('author',$article->author)?>"/></td>
+        <td><?=form_error('author')?></td>
+        <td/>
 			</tr>
-			<tr>
-				<td/>
-				<td><?=form_error('author')?></td>
-			</tr>
+      <tr>
+        <td>Pub Date</td>
+        <td>
+          <input title="YYYY-MM-DD" class="date-pick" name="publish_on" size="12" onblur="" id="fld_publish_on" value="<?=date('Y-m-d')?>"/>
+        </td>
+        <td>Group</td>
+        <td><?= $group_select ?></td>
+      </tr>
 		</table>
+    </td>
   </tr>
   <tr>
     <td/>
   </tr>
   <tr>
+    <th>Article</th>
+  </tr>
+  <tr>
     <td><textarea name="body" rows="15" cols="80"><?= set_value('body',$article->body)?></textarea>
     <br/><?=form_error('body')?></td>
-    <td valign="top">
-		</td>		
+  </tr>
+  <tr>
+    <th>Excerpt</th>
   </tr>
   <tr>
     <td>
-		<table><tr><th>Excerpt</th></tr>
-			<tr>
-				<td>
-					<textarea name="excerpt" class="mceNoEditor" rows="5" cols="80"><?= set_value('excerpt',$article->excerpt)?></textarea>
-					<br/><?=form_error('excerpt')?></td>
-			</tr>
-		</table>
-		<td valign="top">
+      <textarea name="excerpt" class="mceNoEditor" rows="5" cols="80"><?= set_value('excerpt',$article->excerpt)?></textarea>
+      <br/><?=form_error('excerpt')?>
 		</td>
   </tr>
 </table>

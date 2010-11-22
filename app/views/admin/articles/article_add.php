@@ -9,6 +9,7 @@ $(function()
 
 <form class="general" action="/admin/articles/add" method="post">
 
+  <!--
 <div style="float: right">
 	<fieldset><legend>Meta</legend>
 	<table style="border: 0">
@@ -42,10 +43,12 @@ $(function()
 			<td>
 			<table>
 				<tr><th>Pub Date</th></tr>
-				<tr><td>
+				<tr>
+				<td>
 					<input class="date-pick" name="publish_on" size="12" onblur="" id="fld_publish_on" value="<?=date('Y-m-d')?>"/>
 					<br/><span class="small">yyyy-mm-dd<span>
-				</td></tr>
+				</td>
+				</tr>
 			</table>
 			</td>
 		</tr>
@@ -75,43 +78,58 @@ $(function()
 	</table>
 	</fieldset>
 </div>
-
+-->
 
 <fieldset><legend>Add Article</legend>
-<table style="border: 0">
+<table style="border: 0;">
   <tr>
-		<table style="margin-top: -10px;">
+    <td>
+		<table style="margin-top: -10px;  width: auto;">
 			<tr>
-    		<td><label for="title">Title</label></td>
-				<td><input name="title" size="60" value="<?=set_value('title')?>"/></td>
+    		<td><label for="title_fld">Title</label></td>
+				<td colspan="4"><input name="title" id="title_fld" size="60" value="<?=set_value('title')?>"/></td>
+        <td><?=form_error('title')?></td>
+        <td/>
 			</tr>
 			<tr>
-				<td/>
-				<td><?=form_error('title')?></td>
+    		<td><label for="author_fld">Author</label></td>
+				<td colspan="4"><input name="author" id="author_fld" size="60" value="<?=set_value('author')?>"/></td>
+        <td><?=form_error('author')?></td>
 			</tr>
-			<tr>
-    		<td><label for="author">Author</label></td>
-				<td><input name="author" size="60" value="<?=set_value('author')?>"/></td>
-			</tr>
-			<tr>
-				<td/>
-				<td><?=form_error('author')?></td>
-			</tr>
+      <tr>
+        <td>Pub Date</td>
+        <td>
+          <input title="YYYY-MM-DD" class="date-pick" name="publish_on" size="12" onblur="" id="fld_publish_on" value="<?=date('Y-m-d')?>"/>
+        </td>
+        <td>Group</td>
+        <td><?= $group_select ?></td>
+      </tr>
 		</table>
+    </td>
   </tr>
   <tr>
-    <td><textarea name="body" rows="15" cols="80"><?=set_value('body')?></textarea>
-    <br/><?=form_error('body')?></td>
+    <th>Excerpt</th>
   </tr>
   <tr>
-		<table style="width: 0"><tr><th>Excerpt</th></tr>
-			<tr>
-				<td>
-					<textarea name="excerpt" class="mceNoEditor" rows="5" cols="60"><?=set_value('excerpt')?></textarea>
-					<br/><?=form_error('excerpt')?></td>
-			</tr>
-		</table>
-  <td/>
+    <td colspan="4">
+      <textarea id="excerpt_fld" name="excerpt" class="mceNoEditor" rows="5" cols="60"><?=set_value('excerpt')?></textarea>
+      <br/><?=form_error('excerpt')?>
+    <td/>
+  </tr>
+  <tr>
+    <th>Article</th>
+  </tr>
+  <tr>
+    <td colspan="4"><textarea name="body" id="body_fld" rows="15" cols="80"><?=set_value('body')?></textarea>
+        <br/><?=form_error('body')?>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <hr/>
+      <input type="submit" style="background-color: #9f9;" name="save" value="Add" />
+      <input type="submit" name="cancel" value="Cancel" />
+    </td>
   </tr>
 </table>
 </fieldset>

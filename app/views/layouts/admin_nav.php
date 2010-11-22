@@ -43,6 +43,7 @@
 			<li><a href="/admin/archive">Backup/Restore</a></li>
 			-->
 			<li><a href="/admin/bugs">Issues/Bugs</a></li>
+      <li><a href="/admin/wiki">Help/Wiki</a></li>
 			<li><a href="/admin/stats/about">About</a></li>
 		</ul>
 	</li>

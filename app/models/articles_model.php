@@ -22,7 +22,7 @@ EOF;
 		$q .= " AND (ac.category = " . $this->db->escape($category) . " OR ac.category = 'General')";
 	}
 		
-	$q .= " ORDER BY publish_on DESC";
+	$q .= " ORDER BY publish_on DESC, title ASC ";
 		
 		if( $limit ) {
 			$q .= " LIMIT $limit";

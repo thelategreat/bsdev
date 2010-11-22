@@ -68,12 +68,13 @@ class Articles extends Admin_Controller
 			if( $this->form_validation->run()) {
 				$this->db->set('title', $this->input->post('title'));
 				$this->db->set('group', $this->input->post('group'), false);
-				$this->db->set('display_priority', $this->input->post('display_priority'), false);
-				$this->db->set('category', $this->input->post('category'), false);
+				//$this->db->set('display_priority', $this->input->post('display_priority'), false);
+				//$this->db->set('category', $this->input->post('category'), false);
+				$this->db->set('category', 1, false);
 				$this->db->set('publish_on', $this->input->post('publish_on'));
 				$this->db->set('body', $this->input->post('body'));
 				$this->db->set('excerpt', $this->input->post('excerpt'));
-				$this->db->set('tags', $this->input->post('tags'));
+				//$this->db->set('tags', $this->input->post('tags'));
 				$this->db->set('author', $this->input->post('author'));
 				$this->db->set('owner', $this->session->userdata('logged_user'));
 				$this->db->set('created_on', "NOW()", false);
