@@ -37,10 +37,6 @@
       <td>#<em>text</em></td>
       <td>numbered (ordered) list</td>
     </tr>
-    <tr>
-      <td>http://...</td>
-      <td>automatic links</td>
-    </tr>
   </table>
 </div>
 <?= $errors ?>
