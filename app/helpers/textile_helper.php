@@ -1,10 +1,45 @@
 <?php
 
+function camelCase($subject, $delimiters = ' _-')
+{
+  if (!is_string($subject)) {
+    return '';
+  }
+  $subject = preg_replace('/[\s]+/', ' ', $subject);
+
+  $subject = preg_split("/[$delimiters]/", $subject);
+
+  foreach ($subject as &$word) {
+    $word = preg_replace('/[[\W:]]/', '', $word);
+
+    if (preg_match('/^[A-Z]{0,5}$/', $word)) {
+      continue;
+    }
+    $word = ucfirst(strtolower($word));
+  }
+  $subject = implode('', $subject);
+
+  return $subject;
+}
+
+function wiki_link( $match )
+{
+  if( $match[0][0] == '=') {
+    return substr($match[0],1);
+  }
+  return "<a href='/admin/wiki/".camelCase($match[1])."'/>".$match[1]."</a>";
+}
+
 function textile_text( $text )
 {
   $t = new WikiTextile();
   $t->hu = '/admin/wiki/';
-  return $t->TextileThis( $text );
+
+  $formatted = $t->TextileThis( $text );
+
+  $formatted = preg_replace_callback("/=?\[\[(.*)\]\]/U", "wiki_link", $formatted );
+
+  return $formatted;
 }
 
 class WikiTextile extends Textile
