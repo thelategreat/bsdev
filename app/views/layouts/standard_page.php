@@ -53,17 +53,19 @@
 				<!-- Bookshelf -->
 		</div>
 		<div id="navigation">
+      <?= $main_content_nav ?>
+      <!--
 			<ul>
-				<li><a href="/" <?= $section == 0 ? ' class="selected"' : '' ?>>Home</a></li>
+				<li><a href="/" <?= $section == 1110 ? ' class="selected"' : '' ?>>Home</a></li>
+        <?php foreach( $pages[0]->children as $page ) { ?>
+          <li><a href='/page/<?=$page->title?>'/><?=$page->title?></a></li>
+        <?php } ?>
+
 				<?php foreach( $groups as $group ): ?>
 					<li><a href="/home/section/<?=$group->id?>" <?= $section == $group->id ? ' class="selected"' : ''?>><?=$group->name?></a></li>
 				<?php endforeach; ?>
-				<!--
-				<li><a href="/home/section/books" <?= $section == "books" ? 'class="selected"' : ''?>>Books</a></li>
-				<li><a href="/home/section/cinema" <?= $section == "cinema" ? 'class="selected"' : ''?>>Cinema</a></li>
-				<li><a href="/home/section/ebar" <?= $section == "ebar" ? 'class="selected"' : ''?>>eBar</a></li>
-				-->
 			</ul>
+				-->
 		</div>
 		<div id="content-container1">
 			<div id="content-container2">
@@ -83,12 +85,7 @@
 				</div>
 				<div id="footer">
 					<div id="footer-nav">
-						<ul>
-							<li><a href="/page/contact">Contact</a></li>
-							<li><a href="/page/about">About</a></li>
-							<li><a href="/page/location">Directions/Hours</a></li>
-							<li><a href="/page/legal">Legal/Privacy</a></li>
-						</ul>
+            <?= $footer ?>
 					</div>
 					Copyright © Bookshelf, 2010
 				</div>

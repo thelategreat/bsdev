@@ -36,8 +36,8 @@ function textile_text( $text )
   $t->hu = '/admin/wiki/';
 
   $formatted = $t->TextileThis( $text );
-
-  $formatted = preg_replace_callback("/=?\[\[(.*)\]\]/U", "wiki_link", $formatted );
+  // grab wiki links
+  $formatted = preg_replace_callback("/=?\[\[([\w\s\:]+)\]\]/U", "wiki_link", $formatted );
 
   return $formatted;
 }

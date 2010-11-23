@@ -51,7 +51,7 @@ function __inputIfy(element) {
 <table style="border: 0">
 <tr>
 <td><label>Parent</label></td>
-<td><select name="parent_id"><option value="0">--Top Level--</option><?=$parent_select?></select></td>
+<td><select name="parent_id"><?=$parent_select?></select></td>
 </tr>
 <tr>
 <td><label>Type</label></td>

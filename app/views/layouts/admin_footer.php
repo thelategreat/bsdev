@@ -1,1 +1,1 @@
-&copy <?= date('Y') ?> Bookshelf
+&copy <?= date('Y') ?> Bookshelf | <em>{elapsed_time}s {memory_usage}</em>

@@ -24,6 +24,8 @@ class Calendar extends MY_Controller
 		
 		$this->load->model('maillist_model');
 		$this->load->model('event_model');
+
+    //$this->output->enable_profiler( TRUE );
 	}
 
 

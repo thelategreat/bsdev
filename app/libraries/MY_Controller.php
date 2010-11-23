@@ -16,13 +16,16 @@ class MY_Controller extends Controller
 	 */
 	function __construct() 
 	{
-		parent::__construct();	
+		parent::__construct();
 	}
 	
 	protected function get_page_data( $title, $css_name, $section = 0 )
 	{
+    $this->load->model('pages_model');
+    
     $section = (int)$section;
 		$groups = $this->groups_model->get_menu_tree( $section );
+    $pages = $this->pages_model->get_pages_tree( );
 
 		$pg_data = array(
 			'page_title' => $title,
@@ -30,7 +33,7 @@ class MY_Controller extends Controller
 			'section' => $section,
 			'groups' => $groups,
       'debug' => $groups,
-			'main_content_nav' => '<ul id="main_content_nav"><li></li></ul>',
+			'main_content_nav' => $this->main_menu_pages( $section, $pages ),
 			'style' => '/css/screen.css',
 			'content' => '',
 			'cart' => $this->cart,
@@ -38,12 +41,37 @@ class MY_Controller extends Controller
 			'sidebar_left' => $this->get_sidebar('left', $groups, $section ),
 			'sidebar_right' => $this->get_sidebar('right', $groups, $section ),
 			'ad_footer' => $this->get_sidebar('ad_footer', $groups ),
-			'footer' => $this->load->view('layouts/standard_footer', '', true )
+			'footer' => $this->load->view('layouts/standard_footer', array('pages' => $pages), true )
 		);
 		
 		return $pg_data;
 	}
-	
+
+  // main menu if we are using pages for nav
+  function main_menu_pages( $section, $pages )
+  {
+    $s = '<ul>';
+    $s .= '<li><a href="/" ' . ($section == 0 ? ' class="selected"' : '') . '>Home</a></li>';
+    foreach( $pages[0]->children as $page ):
+      $s .= "<li><a href='/page/$page->title'/>$page->title</a></li>";
+    endforeach;
+    $s .= '</ul>';
+    return $s;
+  }
+
+  // main menu if we are using groups for nav
+  function main_menu_groups( $section, $groups )
+  {
+    $s = '<ul>';
+    $s .= '<li><a href="/" ' . ($section == 0 ? ' class="selected"' : '') . '>Home</a></li>';
+    foreach( $groups as $group ):
+      $s .= '<li><a href="/home/section/'. $group->id .'" '. ($section == $group->id ? ' class="selected"' : '') .'>'. $group->name .'</a></li>';
+    endforeach;
+
+    $s .= '</ul>';
+    return $s;
+  }
+
 	function main_nav_arrows( $back = NULL, $fwd = NULL )
 	{
 		$s = '';

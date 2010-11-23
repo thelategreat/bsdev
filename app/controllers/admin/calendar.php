@@ -13,7 +13,8 @@ class Calendar extends Admin_Controller
 	{
 		parent::__construct();
 		
-		$this->load->model('event_model');		
+		$this->load->model('event_model');
+    //$this->output->enable_profiler( TRUE );
 	}
 	
 	function index()

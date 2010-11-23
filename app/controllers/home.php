@@ -14,6 +14,9 @@ class Home extends MY_Controller
 		$this->load->model('articles_model');
 		$this->load->model('event_model');
 		$this->load->model('groups_model');
+
+    //$this->output->enable_profiler( TRUE );
+    
 	}
 	
 	/**

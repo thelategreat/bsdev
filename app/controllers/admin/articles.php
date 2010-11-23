@@ -15,6 +15,7 @@ class Articles extends Admin_Controller
 		parent::__construct();
 		$this->load->model('articles_model');
 		$this->load->model('groups_model');
+
 	}
 	
 	/**
