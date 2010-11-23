@@ -13,10 +13,16 @@ class Page extends MY_Controller
 		parent::Controller();
 		$this->load->model('pages_model');
 	}
-	
-	function _remap( $method )
-	{		
-		$page = $this->pages_model->get_page( $method );
+
+  function index()
+  {
+    $this->view();
+  }
+
+	function view( $id = 0 )
+	{
+
+		$page = $this->pages_model->get_page_by_id( $id );
 		$data = array('title' => 'Page Not Found', 'body' => '');
 		if( $page ) {
 			$data['title'] = $page->title;
@@ -26,4 +32,5 @@ class Page extends MY_Controller
   	$pg_data['content'] = $this->load->view('page/page', $data, true);
 		$this->load->view('layouts/standard_page', $pg_data );
 	}
+
 }

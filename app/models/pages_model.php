@@ -21,5 +21,12 @@ class Pages_model extends abstract_tree_model
 		$this->db->where('title', $title );
 		return $this->db->get($this->table_name)->row();
 	}
-	
+
+  function get_page_by_id( $id )
+  {
+    $this->db->where('id', $id );
+    return $this->db->get($this->table_name)->row();
+  }
+
+
 }

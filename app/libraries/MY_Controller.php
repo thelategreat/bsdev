@@ -53,7 +53,7 @@ class MY_Controller extends Controller
     $s = '<ul>';
     $s .= '<li><a href="/" ' . ($section == 0 ? ' class="selected"' : '') . '>Home</a></li>';
     foreach( $pages[0]->children as $page ):
-      $s .= "<li><a href='/page/$page->title'/>$page->title</a></li>";
+      $s .= "<li><a href='/page/view/$page->id'/>$page->title</a></li>";
     endforeach;
     $s .= '</ul>';
     return $s;
