@@ -215,7 +215,7 @@ ul.dropdown li ul.submenu {
 	width: 170px;
   opacity: 0.98;
   z-index: 100;
-/*	border: 1px solid #111; */
+  box-shadow: 5px 5px 5px  rgba(0,0,0,0.45);/*#888; */
 }
 ul.dropdown li ul.submenu li{
 	margin: 0; padding: 0;
