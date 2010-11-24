@@ -58,7 +58,7 @@
 			<ul>
 				<li><a href="/cart" title="Shopping Cart: <?= $cart->total_items() ?> items"><img src="/img/icons/white/shop_cart.png" style="height: 20px;"/> <?= $cart->total_items() ?> </a></li>
 				<li><a href="/profile" title="My Bookshelf"><img src="/img/icons/white/user.png" style="height: 20px"/></a></li>
-				<li><a href="/page/help" title="Help/FAQ"><img src="/img/icons/white/info.png" style="height: 20px"/> </a></li>
+				<!--<li><a href="/page/help" title="Help/FAQ"><img src="/img/icons/white/info.png" style="height: 20px"/> </a></li> -->
 			</ul>
 			<div id="search">
 				<form id="main_search" action="/search" method="post">

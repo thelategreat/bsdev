@@ -21,7 +21,7 @@ class Page extends MY_Controller
 
 	function view( $id = 0 )
 	{
-
+    $id = (int)$id;
 		$page = $this->pages_model->get_page_by_id( $id );
 		$data = array('title' => 'Page Not Found', 'body' => '');
 		if( $page ) {
