@@ -55,7 +55,7 @@ class Pages extends Admin_Controller
 
 		$data['pages'] = $this->db->get('pages');
 		$data['titles'] = $this->pages_model->get_pages_tree();
-		$data['parent_select'] = $this->pages_model->mk_nested_select(1,0,true);
+		$data['parent_select'] = $this->pages_model->mk_nested_select(1,0,true,1);
 		$data['page_types'] = $this->mk_types_select( 'page' );
 						
 		$this->gen_page('Admin - Pages', 'admin/pages/pages_add', $data );		
