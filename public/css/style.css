@@ -214,6 +214,7 @@ ul.dropdown li ul.submenu {
 	float: left;
 	width: 170px;
   opacity: 0.98;
+  z-index: 100;
 /*	border: 1px solid #111; */
 }
 ul.dropdown li ul.submenu li{

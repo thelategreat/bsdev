@@ -25,29 +25,12 @@
 
 	<script type="text/javascript" src="/js/jquery.tools.min.js" ></script>
 	<script type="text/javascript" src="/js/jqModal.js"></script>
+  <script type="text/javascript" src="/js/jquery.jdropdown.js"></script>
 
   <script type="text/javascript">
-    $(document).ready(function(){  
-	$("ul.submenu").parent().append("<span></span>"); //Only shows drop down trigger when js is enabled (Adds empty span tag after ul.submenu*)
-
-	$("ul.dropdown li span").click(function() { //When trigger is clicked...
-
-		//Following events are applied to the submenu itself (moving submenu up and down)
-		$(this).parent().find("ul.submenu").slideDown('fast').show(); //Drop down the submenu on click
-
-		$(this).parent().hover(function() {
-		}, function(){
-			$(this).parent().find("ul.submenu").slideUp('slow'); //When the mouse hovers out of the submenu, move it back up
-		});
-
-		//Following events are applied to the trigger (Hover events for the trigger)
-		}).hover(function() {
-			$(this).addClass("subhover"); //On hover over, add class "subhover"
-		}, function(){	//On Hover Out
-			$(this).removeClass("subhover"); //On hover out, remove class "subhover"
-	});
-
-});
+    $(document).ready(function(){
+      $('#nav').dropDown({});
+    });
   </script>
 
 </head>
