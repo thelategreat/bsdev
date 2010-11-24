@@ -20,12 +20,36 @@
 	<!-- style -->
 	<link rel="stylesheet" href="/css/style.css" type="text/css"  media="screen" />
 	
-	<!-- javascript
+	<!-- javascript -->
 	<script type="text/javascript" src="/js/jquery-1.3.2.min.js" ></script>
-	-->
+
 	<script type="text/javascript" src="/js/jquery.tools.min.js" ></script>
 	<script type="text/javascript" src="/js/jqModal.js"></script>
-	
+
+  <script type="text/javascript">
+    $(document).ready(function(){  
+	$("ul.submenu").parent().append("<span></span>"); //Only shows drop down trigger when js is enabled (Adds empty span tag after ul.submenu*)
+
+	$("ul.dropdown li span").click(function() { //When trigger is clicked...
+
+		//Following events are applied to the submenu itself (moving submenu up and down)
+		$(this).parent().find("ul.submenu").slideDown('fast').show(); //Drop down the submenu on click
+
+		$(this).parent().hover(function() {
+		}, function(){
+			$(this).parent().find("ul.submenu").slideUp('slow'); //When the mouse hovers out of the submenu, move it back up
+		});
+
+		//Following events are applied to the trigger (Hover events for the trigger)
+		}).hover(function() {
+			$(this).addClass("subhover"); //On hover over, add class "subhover"
+		}, function(){	//On Hover Out
+			$(this).removeClass("subhover"); //On hover out, remove class "subhover"
+	});
+
+});
+  </script>
+
 </head>
 
 <body class="<?=$css_name?>">
@@ -52,20 +76,8 @@
 			-->
 				<!-- Bookshelf -->
 		</div>
-		<div id="navigation">
+		<div id="nav">
       <?= $main_content_nav ?>
-      <!--
-			<ul>
-				<li><a href="/" <?= $section == 1110 ? ' class="selected"' : '' ?>>Home</a></li>
-        <?php foreach( $pages[0]->children as $page ) { ?>
-          <li><a href='/page/<?=$page->title?>'/><?=$page->title?></a></li>
-        <?php } ?>
-
-				<?php foreach( $groups as $group ): ?>
-					<li><a href="/home/section/<?=$group->id?>" <?= $section == $group->id ? ' class="selected"' : ''?>><?=$group->name?></a></li>
-				<?php endforeach; ?>
-			</ul>
-				-->
 		</div>
 		<div id="content-container1">
 			<div id="content-container2">

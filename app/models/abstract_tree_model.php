@@ -146,18 +146,18 @@ abstract class abstract_tree_model extends Model
 		return $parent_ids;
 	}
 
-	function mk_nested_select( $selected = 0, $offset = 0, $show_root = true )
+	function mk_nested_select( $selected = 0, $offset = 0, $show_root = true, $depth = -1 )
 	{
 		$data = $this->get_tree();
 		
 		if( $show_root ) {
-			return $this->_mk_nested_select( $data, $selected, $offset );			
+			return $this->_mk_nested_select( $data, $selected, $offset, $depth );
 		} else {
-			return $this->_mk_nested_select( $data[0]->children , $selected, $offset );			
+			return $this->_mk_nested_select( $data[0]->children , $selected, $offset, $depth );
 		}
 	}
 
-	protected function _mk_nested_select( $data, $selected = 0, $offset = 0 )
+	protected function _mk_nested_select( $data, $selected = 0, $offset = 0, $depth = -1 )
 	{
 		$s = '';
 		$spcs = '';
@@ -167,17 +167,17 @@ abstract class abstract_tree_model extends Model
 			$spcs .= '&nbsp;';
 		}
 				
-		foreach( $data as $item ): 
+		foreach( $data as $item ) {
 			$s .= '<option value="' . $item->id . '"';
 			if( $item->id == $selected ) {
 				$s .= " selected ";
 			}
 			$s .= '>' . $spcs . $item->$fld_name . '</option>';
-			if( count($item->children) ) {
-				$s .= $this->_mk_nested_select( $item->children, $selected, $offset + 4 );
-			} 
-		endforeach;
-		
+      if( ($depth == -1 && count($item->children)) || ($depth > -1 && $offset < $depth * 4 && count($item->children)) ) {
+        $s .= $this->_mk_nested_select( $item->children, $selected, $offset + 4, $depth );
+      }
+    }
+
 		return $s;
 	}
 

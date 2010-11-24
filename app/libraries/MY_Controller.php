@@ -33,7 +33,7 @@ class MY_Controller extends Controller
 			'section' => $section,
 			'groups' => $groups,
       'debug' => $groups,
-			'main_content_nav' => $this->main_menu_pages( $section, $pages ),
+			'main_content_nav' => $this->main_menu_pages( $section, $pages[0]->children ),
 			'style' => '/css/screen.css',
 			'content' => '',
 			'cart' => $this->cart,
@@ -48,12 +48,20 @@ class MY_Controller extends Controller
 	}
 
   // main menu if we are using pages for nav
-  function main_menu_pages( $section, $pages )
+  function main_menu_pages( $section, $pages, $home = true )
   {
-    $s = '<ul>';
-    $s .= '<li><a href="/" ' . ($section == 0 ? ' class="selected"' : '') . '>Home</a></li>';
-    foreach( $pages[0]->children as $page ):
-      $s .= "<li><a href='/page/view/$page->id'/>$page->title</a></li>";
+    if( $home ) {
+      $s = '<ul class="dropdown">';
+      $s .= '<li><a href="/" ' . ($section == 0 ? ' class="selected"' : '') . '>Home</a></li>';
+    } else {
+      $s = '<ul class="submenu">';
+    }
+    foreach( $pages as $page ):
+      $s .= "<li><a href='/page/view/$page->id'/>$page->title</a>";
+      if( count($page->children) > 0 ) {
+        $s .= $this->main_menu_pages( $section, $page->children, false );
+      }
+      $s .= "</li>";
     endforeach;
     $s .= '</ul>';
     return $s;

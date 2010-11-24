@@ -100,7 +100,7 @@ class Pages extends Admin_Controller
 		
 		$data['page'] = $pg;
 		$data['titles'] = $this->pages_model->get_pages_tree();
-		$data['parent_select'] = $this->pages_model->mk_nested_select($data['page']->parent_id, 0, true );
+		$data['parent_select'] = $this->pages_model->mk_nested_select($data['page']->parent_id, 0, true, 1 );
 		$data['page_types'] = $this->mk_types_select( $data['page']->page_type );
 		$data['tabs'] = $this->tabs->gen_tabs(array('Details','Media'), $cur_tab, '/admin/pages/edit/' . $id);
 		$slot = 'general';

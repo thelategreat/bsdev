@@ -111,21 +111,22 @@ img {
 }
 
 /* N A V */
-#navigation
+/*
+#nav
 {
 	float: left;
 	width: 100%;
 	background-color: #7C0507;
 }
 
-#navigation ul
+#nav ul
 {
 	margin: 0;
 	padding: 0;
 	padding-left: 33px;
 }
 
-#navigation ul li
+#nav ul li
 {
 	list-style-type: none;
 	display: inline;
@@ -135,7 +136,7 @@ img {
 	text-transform: uppercase;
 }
 
-#navigation li a
+#nav li a
 {
 	display: block;
 	float: left;
@@ -146,17 +147,91 @@ img {
 	font-family: Helvetica, sans-serif;
 }
 
-#navigation li a:hover 
+#nav li a:hover
 {	 
 	background: #078C99;
 	background: #000;
 }
 
-#navigation li a.selected 
+#nav li a.selected
 {	 
 	background: #078C99;
 	background: #000;
 }
+*/
+
+#nav
+{
+	float: left;
+	width: 100%;
+	background-color: #7C0507;
+  background-image: url('../img/bs/header_bg_x.png');
+  background-position: -50px 0;
+}
+
+ul.dropdown {
+	list-style: none;
+	padding: 0 20px;
+	margin: 0;
+	float: left;
+	width: 920px;
+	background: #222;
+	font-size: 0.8em;
+	background: url(topnav_bg.gif) repeat-x;
+}
+ul.dropdown li {
+	float: left;
+	margin: 0;
+	padding: 0 15px 0 0;
+	position: relative; /*--Declare X and Y axis base for sub navigation--*/
+}
+ul.dropdown li a {
+	padding: 10px 5px;
+	color: #fff;
+	display: block;
+	text-decoration: none;
+	float: left;
+}
+ul.dropdown li a:hover{
+	background: url(topnav_hover.gif) no-repeat center top;
+}
+ul.dropdown li span { /*--Drop down trigger styles--*/
+	width: 17px;
+	height: 35px;
+	float: left;
+  margin-top: 5px;
+	background: url(/img/subnav_btn.gif) no-repeat center top;
+}
+ul.dropdown li span.subhover {background-position: center bottom; cursor: pointer;} /*--Hover effect for trigger--*/
+ul.dropdown li ul.submenu {
+	list-style: none;
+	position: absolute; /*--Important - Keeps submenu from affecting main navigation flow--*/
+	left: 0; top: 35px;
+	background: #333;
+	margin: 0; padding: 0;
+	display: none;
+	float: left;
+	width: 170px;
+  opacity: 0.98;
+/*	border: 1px solid #111; */
+}
+ul.dropdown li ul.submenu li{
+	margin: 0; padding: 0;
+	border-top: 1px solid #252525; /*--Create bevel effect--*/
+	border-bottom: 1px solid #444; /*--Create bevel effect--*/
+	clear: both;
+	width: 170px;
+}
+html ul.dropdown li ul.submenu li a {
+	float: left;
+	width: 145px;
+	background: #333 url(dropdown_linkbg.gif) no-repeat 10px center;
+	padding-left: 20px;
+}
+html ul.dropdown li ul.submenu li a:hover { /*--Hover effect for submenu links--*/
+	background: #222 url(dropdown_linkbg.gif) no-repeat 10px center;
+}
+
 
 /* C O N T E N T */
 #content-container1
