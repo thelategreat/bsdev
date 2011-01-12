@@ -18,6 +18,7 @@
   <script type="text/javascript" src="/js/jquery.datePicker.js" ></script>
   <script type="text/javascript" src="/js/jquery.simplemodal.min.js" ></script>
   <script type="text/javascript" src="/js/jquery.json-1.3.min.js" ></script>
+  <script type="text/javascript" src="/js/jquery.qtip.min.js" ></script>
 
 	<script type="text/javascript" src="/js/admin.js" ></script>
 

@@ -28,7 +28,9 @@ class Article extends MY_Controller
 	function view()
 	{
 		$id = $this->uri->segment(3);
-		
+		if( !$id ) {
+      redirect("/");
+    }
 		$this->load->model('media_model');
 		$res = $this->media_model->get_media_for_path("/articles/$id", 'general');		
 		$images = array();

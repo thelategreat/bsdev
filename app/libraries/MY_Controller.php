@@ -57,7 +57,11 @@ class MY_Controller extends Controller
       $s = '<ul class="submenu">';
     }
     foreach( $pages as $page ):
-      $s .= "<li><a href='/page/view/$page->id'/>$page->title</a>";
+			if( $page->page_type == 'link') {
+				$s .= "<li><a href='" . $page->body . "'/>$page->title</a>";
+			} else {
+      	$s .= "<li><a href='/page/view/$page->id'/>$page->title</a>";
+			}
       if( count($page->children) > 0 ) {
         $s .= $this->main_menu_pages( $section, $page->children, false );
       }

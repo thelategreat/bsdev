@@ -90,6 +90,14 @@ function fmt_date( $dt, $long = true )
 	}
 }
 
+/**
+ * return a link tag
+ */
+function link_to( $url, $text = null, $title = null, $class = null )
+{
+	return "<a href='$url' " . ($class ? " class='$class'" : '') . ($title ? " title='$title'" : '') . ">" . ($text ? $text : $url) . '</a>';
+}
+
 function mk_select( $name, $data, $default = null, $onclick = null )
 {
   $s = "<select name='$name'";

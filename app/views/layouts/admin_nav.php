@@ -20,6 +20,7 @@
 			<li><a href="/admin/venues">Venues</a></li>
 			<li><a href="/admin/polls">Polls</a></li>
 			<li><a href="/admin/lookups">Categories</a></li>
+			<li><a href="/admin/products">Products</a></li>
 		</ul>
 	</li>
 	<li>

@@ -878,6 +878,21 @@ ul.tabbed li.selected {
   padding-bottom: 1px;
 }
 
+/* product */
+.right {
+	text-align: right;
+}
+
+.center {
+	text-align: center;
+}
+
+table.product-search-result td {
+	height: 100px;
+	vertical-align: top;
+	border-bottom: 1px dotted #ddd;
+}
+
 /* Dialog window */
 .dialogWindow {
     display: none;

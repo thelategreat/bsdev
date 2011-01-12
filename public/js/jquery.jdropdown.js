@@ -102,13 +102,13 @@
           $(this).find("ul.submenu").css('left', 40);
           switch( opts.effect ) {
             case 'slide':
-              $(this).find("ul.submenu").slideDown(opts.speed);
+              $(this).find("> ul.submenu").slideDown(opts.speed);
               break;
             case 'fade':
-              $(this).find("ul.submenu").fadeIn(opts.speed);
+              $(this).find("> ul.submenu").fadeIn(opts.speed);
               break;
             default:
-              $(this).find("ul.submenu").show(opts.speed);
+              $(this).find("> ul.submenu").show(opts.speed);
               break;
           }
         },

@@ -13,7 +13,8 @@ class Pages_model extends abstract_tree_model
 
 	function get_pages_tree( $parent = 0, $recurse = true )
 	{		
-		return $this->get_tree('id, title, active, parent_id, page_type, deletable');
+		// need to handle links differntly, put in a separate field
+		return $this->get_tree('id, title, active, parent_id, page_type, deletable, body');
 	}
 	
 	function get_page( $title )
