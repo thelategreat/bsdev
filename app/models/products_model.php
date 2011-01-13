@@ -38,4 +38,10 @@ class Products_model extends Model
 		return $this->db->get('products');
 	}
 	
+	function get_product( $id )
+	{
+		$this->db->where(array('id'=>$id));
+		return $this->db->get( 'products' );
+	}
+	
 }

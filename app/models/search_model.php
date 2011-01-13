@@ -33,6 +33,13 @@ EOE;
 				WHERE (title LIKE '%$term%' OR body LIKE '%$term%') AND status = 3
 EOA;
 
+		$product_sql =<<<EOP
+			SELECT id, title, NULL AS updated_on, NULL as dt_start, 'book' AS type 
+				FROM products 
+				WHERE (title LIKE '%$term%' OR contributor LIKE '%$term%')
+EOP;
+
+
 		switch( $which ) {
 			case 'events':
 			$sql .= $event_sql;
@@ -41,13 +48,18 @@ EOA;
 			case 'articles':
 			$sql .= $article_sql;
 			break;
+
+			case 'books':
+			$sql .= $product_sql;
+			break;
+
 			
 			default:
-			$sql .= $event_sql . " UNION " . $article_sql;
+			$sql .= $event_sql . " UNION " . $article_sql . " UNION " . $product_sql;
 		}
 		
 			
-		$sql .= " ORDER BY updated_on DESC LIMIT $limit OFFSET $offs";
+		$sql .= " ORDER BY updated_on DESC, title ASC LIMIT $limit OFFSET $offs";
 
 		return $this->db->query( $sql );		
 	}		

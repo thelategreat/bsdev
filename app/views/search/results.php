@@ -2,20 +2,19 @@
 <div id="search_results">
 
 
-<h3> Search Results</h3>	
-
 <a href="#" onclick="$('#advanced-search').toggle('slow');">advanced search</a>
 <div id="advanced-search" style="display: none">
 <form method="post">
 	<fieldset>
 		<legend>Advanced Search</legend>
 		<label for="q">Find</label>	
-		<input name="q" value="<?= $query_string ?>" size="20"/>
+		<input name="q" value="<?= $query_string ?>" size="50"/>
 		<label for="type">Type</label>	
 		<select name="type">
 			<option value="all">all</option>
 			<option value="events">events</option>
 			<option value="articles">articles</option>
+			<option value="books">books</option>
 		</select>
 		<input type="submit" name="search" value="Go" />
 	</fieldset>
@@ -38,6 +37,8 @@
 						<a href="/events/details/<?=$event->id?>"><?=$event->title?></a>
 					<?php } elseif( $event->type == 'article') { ?>
 						<a href="/article/view/<?=$event->id?>"><?=$event->title?></a>
+					<?php } elseif( $event->type == 'book') { ?>
+						<a href="/product/view/<?=$event->id?>"><?=$event->title?></a>
 					<?php } else { ?>
 						<?=$event->title?>
 					<?php } ?>
@@ -54,19 +55,4 @@
 </table>
 </div>
 
-<div class="pager">
-	<table>
-		<tr>
-			<td>
-				<?php if( $page > 1 ) { ?>
-					<a href="/search/results/<?=$page - 1?>/<?= urlencode($query_string)?>" >⇐ prev</a>
-				<?php } ?>
-			</td>
-			<td align="right">
-				<?php if( $results['count'] == $page_size ) { ?>
-					<a href="/search/results/<?=$page + 1?>/<?= urlencode($query_string)?>">next ⇒</a>
-				<?php } ?>
-			</td>
-		</tr>
-	</table>
-</div>
+<?= $pagination ?>

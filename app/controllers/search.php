@@ -56,11 +56,28 @@ class Search extends MY_Controller
 			$results['count'] = 0;
 		}		
 		
+		$pagination = '<table style="width: 100%;"><tr>';
+		if( $page > 1 ) {
+			$prev_page = $page - 1;
+			$pagination .= "<td><a href='/search/results/$prev_page/" . urlencode($query) . "' title='...prev page'><img src='/img/big_feature_left_arrow.png'/></a></td>";
+		} else {
+			$pagination .= '<td/>';
+		}
+		if( $results['count'] == $page_size ) {
+			$next_page = $page + 1;
+			$pagination .= "<td align='right'><a href='/search/results/$next_page/" . urlencode($query) . "' title='next page...'><img src='/img/big_feature_right_arrow.png'/></a></td>";			
+		} else {
+			$pagination .= '<td/>';			
+		}
+		$pagination .= '</tr></table>';
+		
+		
 		$view_data = array(
 			'results' => $results,
 			'page' => $page,
 			'page_size' => $page_size,
-			'query_string' => $query
+			'query_string' => $query,
+			'pagination' => $pagination
 			);		
 				
 		$pg_data = $this->get_page_data('Bookshelf - Search', 'search-results', 0);
