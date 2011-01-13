@@ -41,6 +41,11 @@ class Event extends Admin_Controller
 		if( $this->input->post('cancel')) {
 			redirect('/admin/calendar');			
 		}
+
+		$start_date = $this->input->post('event_date_start');
+		if( !$start_date ) {
+			$start_date = date('Y-m-d');
+		}
 		
 		$this->form_validation->set_error_delimiters('','');
 		$this->form_validation->set_rules('title', 'title', 'trim|required');
@@ -74,8 +79,12 @@ class Event extends Admin_Controller
 				}
 			}
 			
+			
 			if( $this->input->post('addedit')) {
 				redirect('/admin/event/edit/' . $id . '/media' );
+			} else if($this->input->post('addanother')) {
+				//redirect('/admin/event/add');
+				// fall through but keep the last date 
 			} else {
 				redirect('/admin/calendar');
 			}
@@ -85,7 +94,8 @@ class Event extends Admin_Controller
 			"start_time_widget" => $this->get_time_widget('event_time_start', mktime( 12, 0, 0 )), //time()),
 			"end_time_widget" => $this->get_time_widget('event_time_end', mktime( 13, 0, 0 )),//time() + 60*60),
 			"audience_select" => $this->get_audience_select(),
-			"category_select" => $this->get_category_select()
+			"category_select" => $this->get_category_select(),
+			"start_date" => $start_date
 			);
 		
 		$this->gen_page('Admin - Event', 'admin/calendar/event_add', $widgets );

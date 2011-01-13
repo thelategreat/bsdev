@@ -37,7 +37,7 @@
 	</tr>
 	<tr>
 		<td><label for="event_date_start">Start Date</label></td>
-		<td><input class="date-pick" name="event_date_start" size="12" onblur="" id="fld_event_date_start" value="<?=date('Y-m-d')?>"/><span class="small">yyyy-mm-dd<span></td>
+		<td><input class="date-pick" name="event_date_start" size="12" onblur="" id="fld_event_date_start" value="<?=$start_date?>"/><span class="small">yyyy-mm-dd<span></td>
 		<td><label for="event_time_start">Start Time</label></td>
 		<td>
 			<?=$start_time_widget?>
@@ -45,7 +45,7 @@
 	</tr>
 	<tr>
 		<td><label for="event_date_end">End Date</label></td>
-		<td><input class="date-pick" name="event_date_end" size="12" onblur="" id="fld_event_date_end" value="<?=date('Y-m-d')?>" /><span class="small">yyyy-mm-dd<span></td>
+		<td><input class="date-pick" name="event_date_end" size="12" onblur="" id="fld_event_date_end" value="<?=$start_date?>" /><span class="small">yyyy-mm-dd<span></td>
 		<td><label for="event_time_end">End Time</label></td>
 		<td>
 			<?=$end_time_widget?>
@@ -71,7 +71,8 @@
 	<tr>
 		<td>
 			<input style="background-color: #9F9" type="submit" name="add" value="Save" />
-			<input style="background-color: #6d6" type="submit" name="addedit" value="Save &amp; Add Media" />
+			<input style="background-color: #6d6" type="submit" name="addedit" value="Save &amp; add media" />
+			<input style="background-color: #3d3" type="submit" name="addanother" value="Save &amp; add another" />
 		</td>
 		<td>
 			<input type="submit" name="cancel" value="Cancel" onclick="cancelAction=true"/>
