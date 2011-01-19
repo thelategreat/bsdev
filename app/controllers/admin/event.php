@@ -41,7 +41,8 @@ class Event extends Admin_Controller
 		if( $this->input->post('cancel')) {
 			redirect('/admin/calendar');			
 		}
-
+		
+		// this is so we can carry the date from the last entered event
 		$start_date = $this->input->post('event_date_start');
 		if( !$start_date ) {
 			$start_date = date('Y-m-d');
@@ -187,6 +188,34 @@ class Event extends Admin_Controller
 		}
 		
 		$this->gen_page('Admin - Event', $content );
+	}
+
+	function lookup_json()
+	{
+		$query = $this->input->post("query");
+		$cat = $this->input->post("cat");
+		$id = $this->input->post("id");
+		$data = array();
+
+		if( $id && $cat ) {
+			// F I L M
+			if( $cat == "1" ) {
+				$res = $this->db->query("select id, title, description, running_time from films where id = $id");
+				foreach( $res->result() as $row ) {
+					$data[] = array('id'=>$row->id,'title'=>$row->title,'time'=>$row->running_time,'description'=>$row->description);
+				}
+			}
+		} elseif( $query && $cat ) {
+			// F I L M
+			if( $cat == "1" ) {
+				$res = $this->db->query("select id, title, running_time from films where lower(title) like '%" . strtolower($query) . "%'");
+				foreach( $res->result() as $row ) {
+					$data[] = array('cat'=>$cat,'id'=>$row->id,'name'=>$row->title,'time'=>$row->running_time);
+				}
+			}
+		}
+		
+		echo json_encode( $data );
 	}
 
 	/**

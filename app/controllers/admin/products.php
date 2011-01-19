@@ -3,45 +3,19 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 include("admin_controller.php");
 
+
 /*
-create table product (
-	id int(11) NOT NULL AUTO_INCREMENT,
-	prod_type int(11) NOT NULL,
-	
-	id_number varchar(20), 
-	title varchar(240), 
-	contributor varchar(240), 
-	con_type varchar(60), 
-	con_type_text varchar(240), 
-	con_country varchar(50), 
-	publisher varchar(75), 
-	publishing_date varchar(20), 
-	bs_sub_code varchar(25), 
-	bisac_code varchar(75), 
-	bisac_text varchar(240), 
-	series varchar(150), 
-	bs_binding_code varchar(1), 
-	binding_code varchar(2), 
-	binding_detail_code varchar(4), 
-	binding_text varchar(50), 
-	pages varchar(4), 
-	size varchar(50), 
-	othertext_ann varchar(20), 
-	othertext_rev varchar(2), 
-	list_price varchar(0), 
-	tbm_cover varchar(1), 
-	record_source varchar(4), 
-	bs_rec varchar(10), 
-	bs_oh varchar(30), 
-	bs_oo varchar(30), 
-	bs_days varchar(10), 
-	bs_sales varchar(30), 
-	bs_price varchar(60), 
-	bnc_sales varchar(60), 
-	bnc_cover_size varchar(30), 
-	no_cover varchar(10),
-	PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+Issues:
+othertext utf - 9781559393409,9781439156957
+othertext has double entry (see above)
+multiple contributors are the same 9781926708133
+ampersand has extra ; in title, perhaps 9781551119250 (count 486)
+othertext all bold and centered? 9781550416510
+othertext seems cutoff somehow 9780938317456
+othertext bold issue 9780553385465,9780552159692,9780385661638,9780385660761
+othetext href issue 9780195419092
+othertext tag removed with no space inserted ?? 9781443100144 "swept up in thefight for"
+othertext with div tags 9781401931179
 */
 
 class Products extends Admin_Controller 
@@ -147,7 +121,7 @@ class Products extends Admin_Controller
 				$cols = explode("\t", $line );
 				if( $line_count == 0 ) {
 					// grab the field names
-					for( $i = 0; $i < count($cols); $i++ ) {						
+					for( $i = 0; $i < count($cols); $i++ ) {
 						$headers[] = array(strtolower($cols[$i]),0);
 					}
 				}
@@ -163,7 +137,7 @@ class Products extends Admin_Controller
 					}
 
 					// do the import
-					$this->import_cols( $headers, $cols );
+					$this->import_cols( $headers, $cols, false );
 				}
 				$line_count++;
 			}
@@ -204,7 +178,7 @@ class Products extends Admin_Controller
 		return $str;
 	}
 	
-	private function import_cols( $headers, $cols )
+	private function import_cols( $headers, $cols, $do_insert = true )
 	{
 			$isbn = trim($cols[0]);
 			$res = $this->db->query("SELECT id FROM products WHERE ean = '${isbn}'");
@@ -220,16 +194,20 @@ class Products extends Admin_Controller
 				//break;
 				
 			} else {
-				$query = "INSERT INTO products (prod_type, ";
-				$values = '1, ';
-				for( $i = 0; $i < count($cols); $i++ ) {
-					$query .= $headers[$i][0] . ', ';
-					$values .= ($this->cleaner($cols[$i]) . ", ");
+				// this becuase when import othertext, for instance, the record may not exist
+				// and we don't want to create it here
+				if( $do_insert ) {
+					$query = "INSERT INTO products (prod_type, ";
+					$values = '1, ';
+					for( $i = 0; $i < count($cols); $i++ ) {
+						$query .= $headers[$i][0] . ', ';
+						$values .= ($this->cleaner($cols[$i]) . ", ");
+					}
+					$query = substr($query,0,-2) . ') VALUES (' . substr($values,0,-2) . ')';
+					//echo $query . '<br/>';
+					//break;
+					$this->db->query( $query );
 				}
-				$query = substr($query,0,-2) . ') VALUES (' . substr($values,0,-2) . ')';
-				//echo $query . '<br/>';
-				//break;
-				$this->db->query( $query );
 		}		
 	}
 	

@@ -31,7 +31,7 @@ class Search extends MY_Controller
 		} else  {
 			$query = $this->uri->segment(4);
 		}
-		
+				
 		// search type
 		$type = $this->input->post('type');
 		
@@ -48,8 +48,17 @@ class Search extends MY_Controller
 			}
 		}
 		
-		$results = array();
-		if( strlen(trim($query)) > 0 ) {
+		$results = array('results' => null, 'count' => 0);
+		
+		// see if this looks like an ISBN, dunno if we should keep this
+		if( strlen(trim($query)) == 13 && (int)$query > 0 && substr($query,0,3) == '978' ) {
+			$this->load->model('products_model');
+			$res = $this->products_model->get_product_by_ean( trim($query) );
+			if( $res->num_rows > 0 ) {
+				$row = $res->row();
+				redirect('/product/view/' . $row->id );
+			}
+		} elseif( strlen(trim($query)) > 0 ) {
 			$results['results'] = $this->search_model->search($query, $type, $page, $page_size );
 			$results['count'] = $results['results']->num_rows();
 		} else {

@@ -44,4 +44,10 @@ class Products_model extends Model
 		return $this->db->get( 'products' );
 	}
 	
+	function get_product_by_ean( $ean )
+	{
+		$this->db->where(array('ean'=>$ean));
+		return $this->db->get( 'products' );		
+	}
+	
 }

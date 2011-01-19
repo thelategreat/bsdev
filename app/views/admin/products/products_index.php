@@ -30,9 +30,8 @@
 
 <hr/>
 
-<!--
+
 <?= form_open_multipart('/admin/products/import'); ?>
 Import: <input type="file" name="userfile" size="30" />
 <input type="submit" value="import" />
 </form>
--->
