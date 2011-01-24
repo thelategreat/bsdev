@@ -16,6 +16,7 @@ othertext bold issue 9780553385465,9780552159692,9780385661638,9780385660761
 othetext href issue 9780195419092
 othertext tag removed with no space inserted ?? 9781443100144 "swept up in thefight for"
 othertext with div tags 9781401931179
+othertext transform & tags 9781895636659
 */
 
 class Products extends Admin_Controller 
@@ -28,6 +29,7 @@ class Products extends Admin_Controller
 	function __construct()
 	{
 		parent::__construct();
+		$this->base_url = '/admin/products';
 		$this->load->model('products_model');
 	}
 	
@@ -57,10 +59,10 @@ class Products extends Admin_Controller
 		$next_page = '';
 		$prev_page = '';
 		if( $page > 1 ) {
-			$prev_page = "<a class='small' href='/admin/products/index/".($page-1)."'>⇐ prev</a>";
+			$prev_page = "<a class='small' href='$this->base_url/index/".($page-1)."'>⇐ prev</a>";
 		}
 		if( $prods->num_rows() == $page_size ) {
-			$next_page = "<a class='small' href='/admin/products/index/".($page+1)."'>next ⇒</a>";
+			$next_page = "<a class='small' href='$this->base_url/index/".($page+1)."'>next ⇒</a>";
 		}
 		
 		$view_data = array( 
@@ -73,18 +75,19 @@ class Products extends Admin_Controller
 		$this->gen_page('Admin - Products', 'admin/products/products_index', $view_data );
 	}
 
+	// TODO
 	function edit()
 	{
-		redirect('/admin/products');
+		redirect( $this->base_url );
 	}
 
-
+	// TODO
 	function add()
 	{
-		redirect('/admin/products');
+		redirect( $this->base_url );
 	}
 
-
+	// public call, does the import perhaps
 	function import()
 	{
 		$conf['upload_path'] = '../tmp';
@@ -99,7 +102,7 @@ class Products extends Admin_Controller
 			$fname = $fdata['full_path'];
 			$this->do_import( $fname );
 			@unlink( $fname );			
-			redirect('/admin/products');
+			redirect( $this->base_url );
 		}
 	}
 			
@@ -136,7 +139,7 @@ class Products extends Admin_Controller
 						}
 					}
 
-					// do the import
+					// do the import. comment this out if we are gen a schema
 					$this->import_cols( $headers, $cols, false );
 				}
 				$line_count++;
@@ -148,7 +151,9 @@ class Products extends Admin_Controller
 		//echo '<pre>' . $this->gen_schema( 'products', $headers ) . '</pre>';			
 	}
 		
-	
+	/**
+	 * generate a schema based on names and lengths found in headers
+	 */
 	private function gen_schema( $table_name, $headers )
 	{
 		$s = "CREATE TABLE `$table_name` ( \n";
@@ -168,6 +173,9 @@ class Products extends Admin_Controller
 		return $s;
 	}
 	
+	/**
+	 * cleans out junk, quoted strings, and db-escapes
+	 */
 	private function cleaner( $str )
 	{
 		$str = trim($str);
@@ -178,6 +186,10 @@ class Products extends Admin_Controller
 		return $str;
 	}
 	
+	/**
+	 * does the actual import of columns based on names, ean must be the first col
+	 * but the rest can be in any order
+	 */
 	private function import_cols( $headers, $cols, $do_insert = true )
 	{
 			$isbn = trim($cols[0]);
@@ -194,7 +206,7 @@ class Products extends Admin_Controller
 				//break;
 				
 			} else {
-				// this becuase when import othertext, for instance, the record may not exist
+				// this because when import othertext, for instance, the record may not exist
 				// and we don't want to create it here
 				if( $do_insert ) {
 					$query = "INSERT INTO products (prod_type, ";

@@ -68,12 +68,12 @@ class Event extends Admin_Controller
 			$id = $this->event_model->add_event( $data );
 			
 			// make link to existing media, if film
-			if( $data['category'] == 'film' ) {
+			if( $data['category'] == '1' ) { // TODO: make this lookup
 				$film = $this->db->query("SELECT * FROM films WHERE title = " . $this->db->escape($data['title']));
-				if( $film->num_rows() == 1 ) {
+				if( $film->num_rows() > 0 ) {
 					$film = $film->row();
 					$mmid = $this->db->query("SELECT * FROM media_map WHERE path = '/films/" . $film->id . "' ORDER BY sort_order" );
-					if( $mmid->num_rows()) {
+					if( $mmid->num_rows() > 0 ) {
 						$mmid = $mmid->row();
 						$this->db->query('INSERT INTO media_map (media_id,path,sort_order,slot) VALUES ('.$mmid->media_id.",'/event/$id',0,'general')");
 					}

@@ -50,7 +50,8 @@ class Search extends MY_Controller
 		
 		$results = array('results' => null, 'count' => 0);
 		
-		// see if this looks like an ISBN, dunno if we should keep this
+		// see if this looks like an ISBN 
+		// FIXME dunno if we should keep this ability
 		if( strlen(trim($query)) == 13 && (int)$query > 0 && substr($query,0,3) == '978' ) {
 			$this->load->model('products_model');
 			$res = $this->products_model->get_product_by_ean( trim($query) );
