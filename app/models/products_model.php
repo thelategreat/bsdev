@@ -33,7 +33,7 @@ class Products_model extends Model
 	function product_search( $query, $page = 1, $page_size = 10 )
 	{
 		//$this->db->query("SELECT * FROM products LIMIT $page_size");
-    $this->db->order_by( 'bnc_sales_total' );
+    $this->db->order_by( 'bnc_sales_total', 'DESC' );
 		$this->db->limit( $page_size, ($page - 1) * $page_size );
 		return $this->db->get('products');
 	}
