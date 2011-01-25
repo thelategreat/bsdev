@@ -304,10 +304,11 @@ class Event extends Admin_Controller
 		$hr = NULL;
 		$min = NULL;
 		$ampm = 'am';
+		
 		if( $time != NULL ) {
 			$hr = date('H',$time);
 			$min = date('i',$time);
-			if( $hr > 12 ) {
+			if( $hr >= 12 ) {
 				$hr = $hr - 12;
 				$ampm = 'pm';
 			}

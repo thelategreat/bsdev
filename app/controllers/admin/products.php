@@ -92,7 +92,7 @@ class Products extends Admin_Controller
 	{
 		$conf['upload_path'] = '../tmp';
 		$conf['allowed_types'] = 'txt|tab|gz';
-		$conf['max_size'] = 10000;
+		$conf['max_size'] = 20000;
 		
 		$this->load->library('upload', $conf );
 		if( !$this->upload->do_upload()) {
@@ -105,8 +105,9 @@ class Products extends Admin_Controller
 			redirect( $this->base_url );
 		}
 	}
-			
-	private function do_import( $fname )
+	
+	// do_schema = true for just the schema calc
+	private function do_import( $fname, $do_schema = false )
 	{		
 		$pinfo = pathinfo($fname);
 
@@ -139,8 +140,10 @@ class Products extends Admin_Controller
 						}
 					}
 
-					// do the import. comment this out if we are gen a schema
-					$this->import_cols( $headers, $cols, false );
+					// do the import.
+					if( $do_schema == false ) {
+						$this->import_cols( $headers, $cols, true );
+					}
 				}
 				$line_count++;
 			}
@@ -148,7 +151,10 @@ class Products extends Admin_Controller
 		}
 		
 		// gen the schema
-		//echo '<pre>' . $this->gen_schema( 'products', $headers ) . '</pre>';			
+		if( $do_schema ) {
+			echo '<pre>' . $this->gen_schema( 'products', $headers ) . '</pre>';
+			exit;
+		}
 	}
 		
 	/**
@@ -190,21 +196,22 @@ class Products extends Admin_Controller
 	 * does the actual import of columns based on names, ean must be the first col
 	 * but the rest can be in any order
 	 */
-	private function import_cols( $headers, $cols, $do_insert = true )
+	private function import_cols( $headers, $cols, $do_insert = true, $do_update = true )
 	{
 			$isbn = trim($cols[0]);
 			$res = $this->db->query("SELECT id FROM products WHERE ean = '${isbn}'");
 			if( $res->num_rows() > 0 ) {
-				$query = "UPDATE products SET ";
-				for( $i = 0; $i < count($cols); $i++) {
-					$query .= ($headers[$i][0] . '=' . $this->cleaner($cols[$i]) . ', ');
+				if( $do_update ) {
+					$query = "UPDATE products SET ";
+					for( $i = 0; $i < count($cols); $i++) {
+						$query .= ($headers[$i][0] . '=' . $this->cleaner($cols[$i]) . ', ');
+					}
+					$row = $res->row();
+					$query = substr($query,0,-2) . ' WHERE id = ' . $row->id;
+					$this->db->query( $query );
+					//echo $query . '<br/>';
+					//break;
 				}
-				$row = $res->row();
-				$query = substr($query,0,-2) . ' WHERE id = ' . $row->id;
-				$this->db->query( $query );
-				//echo $query . '<br/>';
-				//break;
-				
 			} else {
 				// this because when import othertext, for instance, the record may not exist
 				// and we don't want to create it here
