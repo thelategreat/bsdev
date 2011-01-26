@@ -29,7 +29,7 @@
 
   <script type="text/javascript">
     $(document).ready(function(){
-      $('#nav').dropDown({});
+      $('#nav').dropDown({speed: 'fast'});
     });
   </script>
 
