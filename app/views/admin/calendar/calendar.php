@@ -126,6 +126,13 @@ function modal_close( dialog )
 		});
 	});
 }
+
+$(document).ready(function() {
+	var weekdiv = $('#weekdiv');
+	if( weekdiv ) {
+		$('#weekdiv').scrollTop($('#weekdiv')[0].scrollHeight);
+	}
+});
 </script>
 
 <div class="leftCol">
