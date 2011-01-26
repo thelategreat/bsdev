@@ -43,6 +43,7 @@ class Films extends Admin_Controller
 		$films = $this->db->get('films');
 		
 		$data = array('films' => $films, 'query' => $query );
+		
 		if( $films->num_rows() == $limit ) {
 			$data['next'] = "<a href='/admin/films/view/page/".($filter['page']+1)."'>next ⇒</a>";
 		} else {
@@ -80,6 +81,7 @@ class Films extends Admin_Controller
 			$data['country'] = $this->input->post('country');
 			$data['year'] = $this->input->post('year');
 			$data['running_time'] = $this->input->post('running_time');
+			$data['aspect_ratio'] = $this->input->post('aspect_ratio');
 			$data['rating'] = $this->input->post('rating');
 			$data['description'] = $this->input->post('description');
 			$data['imdb_link'] = $this->input->post('link');
@@ -131,6 +133,7 @@ class Films extends Admin_Controller
 				$data['country'] = $this->input->post('country');
 				$data['year'] = $this->input->post('year');
 				$data['running_time'] = $this->input->post('running_time');
+				$data['aspect_ratio'] = $this->input->post('aspect_ratio');
 				$data['rating'] = $this->input->post('rating');
 				$data['description'] = $this->input->post('description');
 				$data['imdb_link'] = $this->input->post('link');

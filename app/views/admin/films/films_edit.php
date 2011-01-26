@@ -42,9 +42,13 @@ function lookup()
 						<tr>
 							<td><label for="year">year</label><br/>
 							<input name="year" type="text" size="4" value="<?=set_value('year', $film->year )?>"/></td>
-							<td class="form_error"><?=form_error('year')?></td>
 							<td><label for="running_time">running time</label><br/>
 							<input name="running_time" type="text" size="4" value="<?=set_value('running_time', $film->running_time)?>"/></td>
+							<td><label for="aspect_ratio">aspect ratio</label><br/>
+							<input name="aspect_ratio" type="text" size="10" value="<?=set_value('aspect_ratio', $film->aspect_ratio )?>"/></td>
+						</tr>
+						<tr>
+							<td class="form_error"><?=form_error('year')?></td>
 							<td class="form_error"><?=form_error('running_time')?></td>
 						</tr>
 					</table>
