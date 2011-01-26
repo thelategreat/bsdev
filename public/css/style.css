@@ -61,9 +61,9 @@ img {
 	padding-left: 22px;
 	font-family: Helvetica, sans-serif;
 	color: #000;
-	margin-top: 25px;
+	margin-top: 18px;
 	letter-spacing: 8px;
-	font-size: 30px;
+	font-size: 50px;
 }
 
 #header p {
@@ -346,6 +346,17 @@ body.calendar #content {
 
 .article h2 {
 	padding-top: 15px;
+}
+
+
+.article-header {
+	border-bottom: 1px dotted #ddd;
+}
+
+.article-header h3 {
+	font-size: 1.4em;
+	margin-bottom: 5px;
+	margin-top: 5px;
 }
 
 .article span.date {
