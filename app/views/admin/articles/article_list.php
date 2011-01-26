@@ -35,7 +35,7 @@
 
 <table class="pager">
   <tr>
-    <td><?=$prev_page?></td>
-    <td align="right"><?=$next_page?></td>
+    <td></td>
+    <td align="right"><?=$prev_page?> | <?=$next_page?></td>
   </tr>
 </table>

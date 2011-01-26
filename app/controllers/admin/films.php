@@ -45,15 +45,15 @@ class Films extends Admin_Controller
 		$data = array('films' => $films, 'query' => $query );
 		
 		if( $films->num_rows() == $limit ) {
-			$data['next'] = "<a href='/admin/films/view/page/".($filter['page']+1)."'>next ⇒</a>";
+			$data['next_page'] = "<a class='small' href='/admin/films/view/page/".($filter['page']+1)."'>next ⇒</a>";
 		} else {
-			$data['next'] = '';
+			$data['next_page'] = '';
 		}
 		
 		if( $filter['page'] > 1 ) {
-			$data['prev'] = "<a href='/admin/films/view/page/".($filter['page']-1)."'>⇐ prev</a>";
+			$data['prev_page'] = "<a class='small' href='/admin/films/view/page/".($filter['page']-1)."'>⇐ prev</a>";
 		} else {
-			$data['prev'] = '';
+			$data['prev_page'] = '';
 		}
 		
 		$this->gen_page('Admin - Films', 'admin/films/films_list', $data );

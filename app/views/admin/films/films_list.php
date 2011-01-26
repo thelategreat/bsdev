@@ -29,8 +29,9 @@
 </table>
 
 <table class="pager">
-	<tr>
-		<td><?=$prev?></td>
-		<td align="right"><?=$next?></td>
-	</tr>
+  <tr>
+    <td></td>
+    <td align="right"><?=$prev_page?> | <?=$next_page?></td>
+  </tr>
 </table>
+

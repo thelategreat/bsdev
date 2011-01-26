@@ -15,7 +15,7 @@
 	foreach( $products->result() as $product ) { ?>
 	<tr <?= ($i % 2) ? 'class="odd"' : ''?>>
 		<td><a href="/admin/products/edit/<?=$product->id?>"><?=$product->ean?></a></td>
-		<td><?=$product->title?></td>
+		<td><?=str_max_len($product->title,90)?></td>
 		<td><?=$product->contributor?></td>
 	</tr>
 	<?php $i++; } ?>

@@ -260,4 +260,12 @@ function ends_with( $subj, $str  )
 	return $end == $str;
 }
 
-
+function str_max_len( $str, $max = false )
+{
+	if( $max ) {
+		if( strlen($str) > $max ) {
+			return substr( $str, 0, $max ) . '...';
+		}
+	}
+	return $str;
+}
