@@ -238,11 +238,17 @@ class Calendar extends Admin_Controller
 	
 		foreach( $events->result() as $event ) {
 			$st = getdate(strtotime($event->dt_start));
+			$stime = $st['hours'] + ($st['minutes'] / 60);
 			$en = getdate(strtotime($event->dt_end));
+			$etime = $en['hours'] + ($en['minutes'] / 60);
 			// top: 45, left: 60, width: 65, height variable on duration (1 hr = 25)
 			$left = 60 + (($st['mday'] - $filter['day']) * 91);
-			$top = 45 + ($st['hours'] * 40);
-			$height = 40 + (($en['hours'] - $st['hours'] - 1) * 40);
+			//$top = 45 + ($st['hours'] * 40);
+			//$height = 40 + (($en['hours'] - $st['hours'] - 1) * 40);
+
+			$top = 45 + ($stime * 40);
+			$height = 40 + (($etime - $stime - 1) * 40);
+
 			$color = '#f99';
 			switch( $event->venue ) {
 				case 'cinema':

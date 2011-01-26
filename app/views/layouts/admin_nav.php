@@ -23,6 +23,7 @@
 			<li><a href="/admin/products">Products</a></li>
 		</ul>
 	</li>
+	<!--
 	<li>
 		<a href="/admin">Communications</a>
 		<ul>
@@ -34,6 +35,7 @@
 			<li><a href="/admin/maillist/logs">Mail Logs</a></li>
 		</ul>
 	</li>
+	-->
 	<li>
 		<a href="/admin">System</a>
 		<ul>
