@@ -65,7 +65,8 @@ EOF;
 			$query .= " AND dt_start BETWEEN DATE('$start') AND DATE_ADD(DATE('$start'), INTERVAL + 1 day)";
 			break;
 			case 'week':
-			$start = date('Y-m-d', strtotime($filter['year'] . 'W' . $filter['week'] . '0'));
+			//$start = date('Y-m-d', strtotime($filter['year'] . 'W' . $filter['week'] . '0'));
+			$start = sprintf('%04d-%02d-%02d', $filter['year'],$filter['month'],$filter['day']);
 			$query .= " AND dt_start BETWEEN DATE('$start') AND DATE_ADD(DATE('$start'), INTERVAL + 1 week)";
 			break;
 			default:

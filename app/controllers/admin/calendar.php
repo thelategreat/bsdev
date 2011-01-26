@@ -166,6 +166,7 @@ class Calendar extends Admin_Controller
 	    $d = -$first + 1;		
 
 			$this->load->model('event_model');
+						
 			$events = $this->event_model->get_events( $filter );
 
 			$pyear = $filter['year'];
