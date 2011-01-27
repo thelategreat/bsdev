@@ -1,7 +1,7 @@
 	
 <div id="search_results">
 
-
+<!--
 <a href="#" onclick="$('#advanced-search').toggle('slow');">advanced search</a>
 <div id="advanced-search" style="display: none">
 <form method="post">
@@ -20,6 +20,7 @@
 	</fieldset>
 </form>
 </div>
+-->
 
 <table class="search-results">
 	<caption>Query: <em>&quot;<?= $query_string ?>&quot;</em> returned <?= $results['count']?> results</caption>
