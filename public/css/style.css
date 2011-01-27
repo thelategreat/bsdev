@@ -112,21 +112,19 @@ img {
 #search input
 {
 	border: 1px solid #ddd;
-	height: 20px;
+	height: 18px;
 }
 
 #search button {
 	border: 1px solid #ddd;
 	margin-left: -6px;
 	height: 20px; 
-	margin-bottom: -5px;
-	background-color: #333;
+	background: transparent;
 }
 
 #search select {
 	border: 1px solid #ddd;
 	margin-right: -7px;	
-	height: 18px;
 }
 
 /* make safari search look normal */
