@@ -97,9 +97,19 @@ HTML;
 								$media = '/img/image_not_found.jpg';
 							}
 						}
+						$rating = $event->rating;
+						// film
+						if( $event->category == 'film' ) {
+							$r = $this->db->query('SELECT rating FROM films WHERE id=' . $event->event_ref);
+							if( $r->num_rows() > 0 ) {
+								$row = $r->row();
+								$rating = $row->rating;
+							}
+						}
 						array_push($day['events'], array('id' => $event->id, 
 																						 'title' => $event->title,
 																						 'category' => strtolower($event->category),
+																						 'rating' => $rating,
 																						 'start' => date('g:i a',strtotime($event->dt_start)),
 																						 'end' => date('g:i a',strtotime($event->dt_end)),
 																						 'media' => $media																						

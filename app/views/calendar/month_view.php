@@ -1,3 +1,8 @@
+<script type="text/javascript">
+$(function(){
+	$(".calendar-month a[title]").tooltip({ position: "top center", opacity: 0.99, offset: [10,10], effect: "slide"});
+});
+</script>
 
 <div style="float: right">
 	<a href="<?=$prev_month_url?>" title="last month">
@@ -37,7 +42,7 @@
 				<td <?=$class?>><span class="day-num"><?= $day['num'] ?></span>
 					<ul class="event-list">
 					<?php foreach( $day['events'] as $event ) { ?>
-						<li class="<?=$event['category']?>"><a href="/events/details/<?= $event['id']?>"><?= $event['title'] ?></a></li>
+						<li class="<?=$event['category']?>"><a title="<?=$event['title'] ?><br/>@ <?=$event['start'] ?><br/><?=$event['rating'] ?>" href="/events/details/<?= $event['id']?>"><?= $event['title'] ?></a></li>
 					<?php } ?>
 					</ul>
 				</td>

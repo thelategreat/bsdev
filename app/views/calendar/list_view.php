@@ -33,6 +33,7 @@
 					<?php }?>
 						 <span class="day"><?= $day['day']?></span><span class="date">@ <?= $event['start']?></span>
 					   <p><a href="/events/details/<?=$event['id']?>"><?=$event['title']?></a></p>
+						 <div style="font-size: .85em; text-align: right"><?=$event['rating']?></div>
 				</li>								
 	<?php
 			}

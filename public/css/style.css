@@ -846,12 +846,17 @@ div.pager table {
 
 .tooltip {
 	display:none;
-	background:transparent url(/img/tooltip/black_arrow.png);
-	font-size:14px;
-	height:70px;
+	background-color:#000;
+	border:1px solid #fff;
+	padding:10px 15px;
+	/*background:transparent url(/img/tooltip/black_arrow.png); */
+	font-size:12px;
 	width:160px;
-	padding:25px;
 	color:#DDD;	
+	opacity: 0.7;
+	/* outline radius for mozilla/firefox only */
+	-moz-box-shadow:0 0 10px #000;
+	-webkit-box-shadow:0 0 10px #000;
 }
 
 /* search results */

@@ -38,7 +38,8 @@
 					<a href="/events/details/<?=$event['id']?>">
 						<img src="<?=$event['media']?>" width="200px"/>
 						<?=$event['title']?>
-					</a>					
+					</a><br/>
+					<span style="font-size: .85em;"><?=$event['rating']?></span>
 				</td>
 				
 		<?php
