@@ -14,7 +14,7 @@ $(function(){
 	<div id="events-preview">
 		<ul>
 		<?php foreach( $events->result() as $event ): ?>
-			<li><a href="/events/details/<?=$event->id?>" title="<?=$event->title . '<br/>' . date('M d', strtotime($event->dt_start)) . ' @ '. date('g:m a',strtotime($event->dt_start))?>"><img src="/media/<?=$event->uuid?>" width="70px"\></a></li>
+			<li><a href="/events/details/<?=$event->id?>" title="<?=$event->title . '<br/>' . date('M d', strtotime($event->dt_start)) . ' @ '. date('g:i a',strtotime($event->dt_start))?>"><img src="/media/<?=$event->uuid?>" width="70px"\></a></li>
 		<? endforeach; ?>
 		</ul>
 	</div>
