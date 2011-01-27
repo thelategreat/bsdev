@@ -143,7 +143,7 @@ $(document).ready(function() {
 	<ul class="event_list">
 	<?php foreach( $events->result() as $row ) {
 		echo '<li>';
-		echo '<a href="/admin/event/edit/' . $row->id .'" title="Edit event" ><img class="icon" src="/img/icons/icon_'.$row->venue.'.gif" /> ' . $row->title . '</a>';
+		echo '<a href="/admin/event/edit/' . $row->id .'" title="Edit event" ><img class="icon" style="background-color: #88f" src="/img/icons/icon_'.$row->category.'.gif" /> ' . $row->title . '</a>';
 		echo '<br/><span class="event_date">' . date("M j, y @ g:ia",strtotime($row->dt_start)). '</span>';
 		echo '</li>';
 	} ?>

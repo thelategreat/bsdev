@@ -95,9 +95,9 @@ class Calendar extends Admin_Controller
 			  		$thisdate = sprintf("%04d-%02d-%02d",$year, ($month + 1),($d - $days_in_month));
 	        }
 					//$s .= $thisdate;
-					$res = $this->db->query("SELECT count(*) as cnt, venue FROM events WHERE DATE(dt_start) = '$thisdate' GROUP BY venue");
+					$res = $this->db->query("SELECT count(*) as cnt, ec.category FROM events AS e, event_categories AS ec WHERE e.category = ec.id AND DATE(dt_start) = '$thisdate' GROUP BY category");
 					foreach( $res->result() as $row ) {
-			  		$s .= '<img class="icon" src="/img/icons/icon_'.$row->venue.'.gif" /> (' . $row->cnt . ')<br/>';
+			  		$s .= '<img class="icon" style="background-color: #88f" src="/img/icons/icon_'.$row->category.'.gif" /> (' . $row->cnt . ')<br/>';
 					}
 					$s .= '</td>';
 	        $d++;
