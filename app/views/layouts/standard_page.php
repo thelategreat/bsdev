@@ -51,7 +51,7 @@
 						<option value="articles">articles</option>
 					</select>
 					<input type="search" size="20" name="q" placeholder="search..." />
-					<button style="height: 20px; margin-bottom: -5px"/><img src="/img/icons/white/zoom.png" width="14px"/></button>
+					<button><img src="/img/icons/white/zoom.png" width="14px"/></button>
 				</form>
 			</div>
 		</div>

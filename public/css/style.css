@@ -118,7 +118,9 @@ img {
 #search button {
 	border: 1px solid #ddd;
 	margin-left: -6px;
-	height: 16px;
+	height: 20px; 
+	margin-bottom: -5px;
+	background-color: #7C0507;
 }
 
 #search select {
