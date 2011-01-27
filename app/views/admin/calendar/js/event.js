@@ -93,20 +93,20 @@ function validate( thisForm, event )
 	}
 	// check time if single day event
 	if( st.getTime() == en.getTime() ) {
-		st = parseInt($('#fld_event_time_start_hour').val(), 10) * 60;
+		var hr = st = parseInt($('#fld_event_time_start_hour').val(), 10) * 60;
 		st += parseInt($('#fld_event_time_start_min').val(), 10);
-		if( $('#fld_event_time_start_am_pm').val() == 'pm') {
+		if( $('#fld_event_time_start_am_pm').val() == 'pm' && hr != (12 * 60) ) {
 			st += 60 * 12;
 		}
 		
-		en = parseInt($('#fld_event_time_end_hour').val(), 10) * 60;
+		hr = en = parseInt($('#fld_event_time_end_hour').val(), 10) * 60;
 		en += parseInt($('#fld_event_time_end_min').val());
-		if( $('#fld_event_time_end_am_pm').val() == 'pm') {
+		if( $('#fld_event_time_end_am_pm').val() == 'pm' && hr != (12 * 60) ) {
 			en += 60 * 12;
 		}
 		
 		if( st > en ) {
-			alert('Start time is after the end time');
+			alert('Start time is after the end time. ' + st + ' ' + en);
 			return false;
 		}
 	}

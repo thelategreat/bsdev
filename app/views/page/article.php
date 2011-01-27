@@ -3,7 +3,7 @@
 		<h3><?=$article->title?></h3>
 		<span class="date"><?=$article->author?>. - <?=date('j M Y',strtotime($article->publish_on))?> - <?=$article->group ?></span>
 	</div>
-	<div class="article-body">
+
 	
 	<?php if( count($images)) {
     if( $images[0]['type'] == 'link') {
@@ -15,7 +15,8 @@
    }
  } ?>
 
-	<?=$article->body?>
+	<div class="article-body">
+		<?=$article->body?>
 	</div>
 </div>
 

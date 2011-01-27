@@ -223,7 +223,7 @@ class Calendar extends Admin_Controller
 	    $s .= '<tbody class="scroll-table-body">';
 	    for( $i = 0; $i < 24; $i++ ) {
 	      $s .= '<tr>';
-	      $s .= '<th>' . ($i > 12 ? $i - 12 : $i) . '&nbsp;'. ($i > 12 ? "pm" : "am") . '</th>';
+	      $s .= '<th>' . ($i > 12 ? $i - 12 : ($i == 0 ? 12 : $i)) . '&nbsp;'. ($i > 11 ? "pm" : "am") . '</th>';
 	      for( $d = 0; $d < 7; $d++ ) {
 	        $s .= '<td>';
 			if( $d == 1 && $i == 5 ) {
@@ -236,6 +236,7 @@ class Calendar extends Admin_Controller
 			$s .= $head;
 	    $s .= '</table>';
 	
+		$lastevent = null;
 		foreach( $events->result() as $event ) {
 			$st = getdate(strtotime($event->dt_start));
 			$stime = $st['hours'] + ($st['minutes'] / 60);
@@ -248,6 +249,7 @@ class Calendar extends Admin_Controller
 
 			$top = 45 + ($stime * 40);
 			$height = 40 + (($etime - $stime - 1) * 40);
+			$width = 65;
 
 			$color = '#f99';
 			switch( $event->venue ) {
@@ -264,9 +266,15 @@ class Calendar extends Admin_Controller
 				$color = '#ff9';
 				break;
 			}
-			$s .= "<div class='rounded' style='font-size: 0.8em; line-height: 1.0em; opacity: 0.6; position: absolute; left: ${left}px; top: ${top}px; z-index: 100; width: 65px; height: ${height}px; background-color: ${color}; border: 1px solid #f00'>";
+			// try and indicate stacked events if the times are the same
+			if( $lastevent && strtotime($lastevent->dt_start) == strtotime($event->dt_start)) {
+				$top += 5;
+				$left += 5;
+			}
+			$s .= "<div class='rounded' style='font-size: 0.8em; line-height: 1.0em; opacity: 0.6; position: absolute; left: ${left}px; top: ${top}px; z-index: 100; width: ${width}px; height: ${height}px; background-color: ${color}; border: 1px solid #f00'>";
 			$s .= '<a href="#" onclick="edit_event('.$event->id.')" style="font-weight: bold; color: #000;">';
-			$s .= date('g:ia',strtotime($event->dt_start)) . '</a><br/>' . $event->title . '</div>';			
+			$s .= date('g:ia',strtotime($event->dt_start)) . '</a><br/>' . $event->title . '</div>';		
+			$lastevent = $event;	
 		}
 		
 	  $s .= '</div>';
