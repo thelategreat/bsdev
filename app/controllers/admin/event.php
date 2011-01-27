@@ -290,7 +290,7 @@ class Event extends Admin_Controller
 		$hour = $this->input->post($name . "_hour");
 		$min = $this->input->post($name . "_min");
 		$ampm = $this->input->post($name . "_am_pm");
-		if( $ampm == 'pm' ) {
+		if( $ampm == 'pm' && $hour != 12 ) {
 			$hour += 12;
 		}
 		return sprintf("%02d:%02d", $hour, $min );
