@@ -243,10 +243,6 @@ class Calendar extends Admin_Controller
 			$en = getdate(strtotime($event->dt_end));
 			$etime = $en['hours'] + ($en['minutes'] / 60);
 			// top: 45, left: 60, width: 65, height variable on duration (1 hr = 25)
-			//$left = 60 + (($st['mday'] - $filter['day']) * 91);
-			//echo $left . ' ' . $st['mday'] . ' ' . $filter['day'] . '<br/>';
-			//$top = 45 + ($st['hours'] * 40);
-			//$height = 40 + (($en['hours'] - $st['hours'] - 1) * 40);
 
 			$left = 60 + ($st['wday'] * 91);
 			$top = 45 + ($stime * 40);
