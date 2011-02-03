@@ -56,8 +56,8 @@
 			</div>
 		</div>
 		<div id="header">
-			<h1>ookshelf</h1>
 			<!--
+			<h1>ookshelf</h1>
 			<a href="/"><img style="float: left; height: 100px" src="/img/wv/wv_logo_100.png" /></a>
 			<a href="/"><img style="height: 60px; align: center;" src="/img/wv/wv_header_100.png" /></a>
 			<p>Monday October 4th - Monday October 11th 2010</p>

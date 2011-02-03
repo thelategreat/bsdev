@@ -51,6 +51,7 @@ img {
 	background-color: #a82e24;
 	padding: 20px;
 	background-image: url('../img/bs/header_bg_x.png');
+	background-image: url('../img/bs/header_bg_text.png');
 	height: 35px;
 	margin-bottom: -1px;
 }

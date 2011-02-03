@@ -31,9 +31,9 @@ class search_model extends Model
 EOE;
 
 		foreach( $terms as $term ) {
-			$event_sql .= "(title LIKE '%" . $this->db->escape_like_str($term) . "%' OR body LIKE '%". $this->db->escape_like_str($term) . "%') OR ";
+			$event_sql .= "(title LIKE '%" . $this->db->escape_like_str($term) . "%' OR body LIKE '%". $this->db->escape_like_str($term) . "%') AND ";
 		}
-		$event_sql = substr($event_sql, 0, -3);
+		$event_sql = substr($event_sql, 0, -4);
 
 
 		$article_sql =<<<EOA
@@ -42,9 +42,9 @@ EOE;
 				WHERE status = 3 AND 
 EOA;
 		foreach( $terms as $term ) {
-			$article_sql .= "(title LIKE '%" . $this->db->escape_like_str($term) . "%' OR body LIKE '%". $this->db->escape_like_str($term) . "%') OR ";
+			$article_sql .= "(title LIKE '%" . $this->db->escape_like_str($term) . "%' OR body LIKE '%". $this->db->escape_like_str($term) . "%') AND ";
 		}
-		$article_sql = substr($article_sql, 0, -3);
+		$article_sql = substr($article_sql, 0, -4);
 
 		$product_sql =<<<EOP
 			SELECT id, title, NULL AS updated_on, NULL as dt_start, 'book' AS type 
@@ -52,9 +52,9 @@ EOA;
 				WHERE 
 EOP;
 		foreach( $terms as $term ) {
-			$product_sql .= "(title LIKE '%" . $this->db->escape_like_str($term) . "%' OR contributor LIKE '%" . $this->db->escape_like_str($term) . "%') OR ";
+			$product_sql .= "(title LIKE '%" . $this->db->escape_like_str($term) . "%' OR contributor LIKE '%" . $this->db->escape_like_str($term) . "%') AND ";
 		}
-		$product_sql = substr($product_sql, 0, -3);
+		$product_sql = substr($product_sql, 0, -4);
 
 
 		switch( $which ) {
