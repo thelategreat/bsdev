@@ -16,6 +16,9 @@ class search_model extends Model
 
 	function search( $query, $which = 'all', $page = 1, $limit = 10 )
 	{
+		// CI turns spaces into _ in the URL
+		$terms = preg_split( "/[\s,_]/", $query );
+		
 		$term = $this->db->escape_like_str($query );
 		$offs = (($page - 1) * $limit);
 
@@ -23,34 +26,48 @@ class search_model extends Model
 		
 		$event_sql =<<<EOE
 			SELECT id, title, updated_on, dt_start, 'event' AS type 
-					FROM events 
-					WHERE  (title LIKE '%$term%' OR body LIKE '%$term%')
+					FROM events
+					WHERE  
 EOE;
+
+		foreach( $terms as $term ) {
+			$event_sql .= "(title LIKE '%" . $this->db->escape_like_str($term) . "%' OR body LIKE '%". $this->db->escape_like_str($term) . "%') OR ";
+		}
+		$event_sql = substr($event_sql, 0, -3);
+
 
 		$article_sql =<<<EOA
 			SELECT id, title, updated_on, NULL as dt_start, 'article' AS type 
 				FROM articles 
-				WHERE (title LIKE '%$term%' OR body LIKE '%$term%') AND status = 3
+				WHERE status = 3 AND 
 EOA;
+		foreach( $terms as $term ) {
+			$article_sql .= "(title LIKE '%" . $this->db->escape_like_str($term) . "%' OR body LIKE '%". $this->db->escape_like_str($term) . "%') OR ";
+		}
+		$article_sql = substr($article_sql, 0, -3);
 
 		$product_sql =<<<EOP
 			SELECT id, title, NULL AS updated_on, NULL as dt_start, 'book' AS type 
 				FROM products 
-				WHERE (title LIKE '%$term%' OR contributor LIKE '%$term%')
+				WHERE 
 EOP;
+		foreach( $terms as $term ) {
+			$product_sql .= "(title LIKE '%" . $this->db->escape_like_str($term) . "%' OR contributor LIKE '%" . $this->db->escape_like_str($term) . "%') OR ";
+		}
+		$product_sql = substr($product_sql, 0, -3);
 
 
 		switch( $which ) {
 			case 'events':
-			$sql .= $event_sql;
+			$sql = $event_sql;
 			break;
 			
 			case 'articles':
-			$sql .= $article_sql;
+			$sql = $article_sql;
 			break;
 
 			case 'books':
-			$sql .= $product_sql;
+			$sql = $product_sql;
 			break;
 
 			
@@ -61,6 +78,9 @@ EOP;
 			
 		$sql .= " ORDER BY updated_on DESC, title ASC LIMIT $limit OFFSET $offs";
 
+		//echo '[' . $which . ']';
+		//echo $sql;
+		
 		return $this->db->query( $sql );		
 	}		
 }

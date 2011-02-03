@@ -28,12 +28,16 @@ class Search extends MY_Controller
 	{
 		if( $this->input->post('q') ) {
 			$query = $this->input->post('q');
+			$type = $this->input->post('type');
 		} else  {
 			$query = $this->uri->segment(4);
+			$type = $this->uri->segment(5);
+			if( !$type ) {
+				$type = 'books';
+			}
 		}
 				
 		// search type
-		$type = $this->input->post('type');
 		
 		// FIX ME for urlencode
 		$group = $this->input->post('group');
@@ -69,13 +73,13 @@ class Search extends MY_Controller
 		$pagination = '<table style="width: 100%;"><tr>';
 		if( $page > 1 ) {
 			$prev_page = $page - 1;
-			$pagination .= "<td><a href='/search/results/$prev_page/" . urlencode($query) . "' title='...prev page'><img src='/img/big_feature_left_arrow.png'/></a></td>";
+			$pagination .= "<td><a href='/search/results/$prev_page/" . urlencode($query) . "/$type' title='...prev page'><img src='/img/big_feature_left_arrow.png'/></a></td>";
 		} else {
 			$pagination .= '<td/>';
 		}
 		if( $results['count'] == $page_size ) {
 			$next_page = $page + 1;
-			$pagination .= "<td align='right'><a href='/search/results/$next_page/" . urlencode($query) . "' title='next page...'><img src='/img/big_feature_right_arrow.png'/></a></td>";			
+			$pagination .= "<td align='right'><a href='/search/results/$next_page/" . urlencode($query) . "/$type' title='next page...'><img src='/img/big_feature_right_arrow.png'/></a></td>";			
 		} else {
 			$pagination .= '<td/>';			
 		}
