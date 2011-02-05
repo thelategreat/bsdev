@@ -9,6 +9,7 @@ class Ads_model extends Model
     parent::Model();
   }
 
+	// used by admin end
 	function get_ads( $category = NULL, $page = 1, $limit = NULL )
 	{
 		$query =<<< EOF
@@ -20,11 +21,13 @@ EOF;
 
 		if( $limit ) {
 			$query .= " LIMIT $limit";
+      $query .= " OFFSET " . ($limit * ($page-1));
 		}
 
 		return $this->db->query( $query );
 	}
 
+	// used by front end
 	function get_ad_list( $category = NULL, $page = 1, $limit = NULL )
 	{
 		$query =<<< EOF
