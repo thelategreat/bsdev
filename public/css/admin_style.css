@@ -296,6 +296,9 @@ form.login input[type=submit] {
     border-left:1px solid #eee;
 }
 
+/***** ads list *****/
+table.ads-list td.expired { color: #f00; }
+
 /***** Article list ****/
 table.article-list td.published { background-color: #9f9; }
 table.article-list td.draft { background-color: #FF6; }

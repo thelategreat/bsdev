@@ -6,13 +6,13 @@
 
 <h3><a class="small" href="/admin/ads/add"><img src="/img/admin/newspaper_add.png" title="Add Advert"/></a> Ads</h3>
 
-<table style="table-layout: fixed; cell-padding: 3px; width: 100%;">
+<!-- <table style="table-layout: fixed; cell-padding: 3px; width: 100%;"> -->
+<table class='ads-list'>
   <thead>
     <tr>
       <th></th>
       <th width="30%">Title/Client</th>
-      <th>Start</th>
-      <th>End</th>
+      <th>Start/End</th>
       <th>Url</th>
       <th style="text-align: center;">Clicks</th>
       <th>Owner</th>
@@ -22,16 +22,17 @@
 <?php
  	$cnt = 0;
 	foreach( $ads->result() as $ad ) { ?>
-	<tr <?= ($cnt % 2) != 0 ? 'class="odd"' : ''?> >
+	<tr <?= ($cnt % 2) != 0 ? 'class="odd"' : ''?> style="height: 60px">
 		<?php if( file_exists("media/$ad->uuid")) { ?>
 			<td><img src="/media/<?=$ad->uuid?>" width="60px" /></td>
 		<?php } else { ?>
 			<td class="error">missing</td>
 		<?php } ?>
 	  <td><a href="/admin/ads/edit/<?= $ad->id ?>"><?= $ad->title ?></a></td>
-	  <td><small><?= date('Y-m-d',strtotime($ad->start_date)) ?></small></td>
-		<td><small><?= date('Y-m-d',strtotime($ad->end_date)) ?></small></td>
-	  <td style="overflow: hidden; white-space: nowrap;"><small><?= $ad->url ?></small></td>
+	  <td <?= strtotime($ad->end_date) <= time() ? "class='expired'" : ""?>>
+			<small><?= date('Y-m-d',strtotime($ad->start_date)) ?>/<?= date('Y-m-d',strtotime($ad->end_date)) ?></small>
+		</td>
+	  <td style="overflow: hidden; white-space: nowrap;"><small><?= str_max_len($ad->url, 30) ?></small></td>
 	  <td align="center"><small><?= $ad->clicks ?></small></td>
 	  <td><small><?= $ad->owner ?></small></td>
   </tr>

@@ -9,6 +9,22 @@ class Ads_model extends Model
     parent::Model();
   }
 
+	function get_ads( $category = NULL, $page = 1, $limit = NULL )
+	{
+		$query =<<< EOF
+			select ads.id, ads.title, ads.url, ads.start_date, ads.end_date, ads.clicks, ads.owner, media.uuid 
+				FROM ads, media_map, media 
+				WHERE media_map.path = CONCAT('/ads/', ads.id) 
+					AND media.id = media_map.media_id ORDER BY start_date
+EOF;
+
+		if( $limit ) {
+			$query .= " LIMIT $limit";
+		}
+
+		return $this->db->query( $query );
+	}
+
 	function get_ad_list( $category = NULL, $page = 1, $limit = NULL )
 	{
 		$query =<<< EOF

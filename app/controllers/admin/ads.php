@@ -30,7 +30,7 @@ class Ads extends Admin_Controller
 		
 		$query = 'search...';
 		
-		$ads = $this->ads_model->get_ad_list( NULL, $page, $page_size );
+		$ads = $this->ads_model->get_ads( NULL, $page, $page_size );
 		
 		// pagination
 		$next_page = '';
