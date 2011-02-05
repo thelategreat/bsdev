@@ -238,9 +238,9 @@ class Event extends Admin_Controller
 				foreach( $res->result() as $row ) {
 					$xml .= '<item ';
 					$xml .= "id='" . htmlspecialchars($row->id) . "' ";
-					$xml .= "title='" . htmlspecialchars($row->title) . "' ";
+					$xml .= "title='" . htmlspecialchars($row->title, ENT_QUOTES) . "' ";
 					$xml .= "time='" . htmlspecialchars($row->running_time) . "' >";
-					$xml .= '<description>' . htmlspecialchars($row->description) . '</description>';
+					$xml .= '<description>' . htmlspecialchars($row->description, ENT_QUOTES) . '</description>';
 					$xml .= "</item>";
 				}
 			}
