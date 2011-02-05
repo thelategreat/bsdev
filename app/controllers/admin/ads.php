@@ -18,7 +18,7 @@ class Ads extends Admin_Controller
 	
 	function index()
 	{
-		$page_size = $this->config->item('list_page_size');
+		$page_size = 10; //$this->config->item('list_page_size');
 		$page = 1;
 
 		if( $this->uri->segment(4) && is_numeric($this->uri->segment(4))) {
