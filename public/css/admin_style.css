@@ -125,15 +125,25 @@ ul.picklist {
     display:block;
 }
 
+#main { background-color: #eee; }
+
+#sidebar { float: right; width: 22%; position: relative; }
 
 #content {
-    clear: both; 
-    padding:10px 10px;
+	width: 75%;
+	background-color: #fff;
+	margin: 0;
     line-height: 1.6em;
+	border-right: 1px solid #ddd;
+	padding-right: 10px;
     padding-bottom:30px;   /* Height of the footer */
 }
 
+#main.nosidebar #sidebar{ display: none; }
+#main.nosidebar #content{ width: auto; border-right: 0; }
+
 #footer {
+    clear: both; 
     border-top: 1px solid #ddd;
     position:absolute;
     bottom:0;
@@ -285,6 +295,11 @@ form.login input[type=submit] {
     border-top:1px solid #eee;
     border-left:1px solid #eee;
 }
+
+/***** Article list ****/
+table.article-list td.published { background-color: #9f9; }
+table.article-list td.draft { background-color: #FF6; }
+table.article-list td.pending { background-color: #F99; }
 
 /***** Calendar *****/
 table.cal {border-collapse: collapse; width: 100%; margin: 8px 0 6px 0;border: 1px solid #d7d7d7;}

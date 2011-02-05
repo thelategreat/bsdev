@@ -36,8 +36,9 @@ class Admin_Controller extends Controller
 	 * $title - the page title
 	 * $content - either the path to the view or actual html
 	 * $view_data - if an array then $content is path to view, else NULL
+	 * $sidebar - optional sidebar content
 	 */
-	protected function gen_page( $title, $content, $view_data = NULL  )
+	protected function gen_page( $title, $content, $view_data = NULL, $sidebar = false  )
 	{
 		// if we have an array then we try and load the $content as a path
 		// to a view with $view_data
@@ -60,6 +61,7 @@ class Admin_Controller extends Controller
 		$pg_data = array(
 			'title' => $title,
 			'nav' => $nav,
+			'sidebar' => $sidebar,
 			'content' => $content,
 			'footer' => $this->load->view('layouts/admin_footer', '', true)
 		);

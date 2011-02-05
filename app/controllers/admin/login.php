@@ -43,6 +43,7 @@ class Login extends Controller
 		$pg_data = array(
 			'title' => 'Admin - Login',
 			'nav' => '',
+			'sidebar' => false,
 			'content' => $this->load->view('admin/login', $view_data, true ),
 			'footer' => $this->load->view('layouts/admin_footer', '', true)
 		);

@@ -107,9 +107,14 @@
 	   <div id="nav">
 			<?=$nav?>
 	   </div>	
+		<div id="main" class="<?= $sidebar ? '' : 'nosidebar'?>">
+			<div id="sidebar">
+				<?=$sidebar?>
+			</div>
 	   <div id="content">
 			<?=$content?>
 	   </div>
+		</div>
 	   <div id="footer">
 			<?=$footer?>
 	   </div>
