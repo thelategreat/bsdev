@@ -44,6 +44,7 @@ class Films extends Admin_Controller
 		
 		$data = array('films' => $films, 'query' => $query );
 		
+		/*
 		if( $films->num_rows() == $limit ) {
 			$data['next_page'] = "<a class='small' href='/admin/films/view/page/".($filter['page']+1)."'>next ⇒</a>";
 		} else {
@@ -55,6 +56,8 @@ class Films extends Admin_Controller
 		} else {
 			$data['prev_page'] = '';
 		}
+		*/
+		$data['pager'] = mk_pager( $filter['page'], $limit, $films->num_rows(), '/admin/films/view/page');
 		
 		$this->gen_page('Admin - Films', 'admin/films/films_list', $data );
 	}

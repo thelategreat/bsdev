@@ -51,21 +51,9 @@ class Bugs extends Admin_Controller
 		}	 
 		
 		$bugs = $this->bugs_model->get_bugs( $filter, $page, $page_size );
-
-		// pagination
-		$next_page = '';
-		$prev_page = '';
-		if( $page > 1 ) {
-			$prev_page = "<a class='small' href='/admin/bugs/index/".($page-1)."'>⇐ prev</a>";
-		}
-		if( $bugs->num_rows() == $page_size ) {
-			$next_page = "<a class='small' href='/admin/bugs/index/".($page+1)."'>next ⇒</a>";
-		}
-
 	
 		$pg_data = array(
-			'next_page' => $next_page,
-			'prev_page' => $prev_page,
+			'pager' => mk_pager( $page, $page_size, $bugs->num_rows(), '/admin/bugs/index'),
 			'query' => $query,
 			'bugs' => $bugs,
 			'tabs' => $this->tabs->gen_tabs(array('Issues','Activity','People','Project'), 'Issues', '/admin/bugs')	

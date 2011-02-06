@@ -45,7 +45,7 @@ class Lookups extends Admin_Controller
 				$val = $row[$this->lookup[$table][1]]; 
 				$s .= '<tr>';
 				$s .= '<td class="inplace-edit" id="item_'.$row['id'].'">' . $val . '</td>';
-				$s .= '<td><a href="#" onclick="remove_item('.$row['id'].')" title="delete: '. $val . '"><img src="/img/admin/cross.png" /></a>';
+				$s .= '<td><a href="#" onclick="remove_item('.$row['id'].')" title="delete: '. $val . '"><img src="/img/admin/user-trash.png" /></a>';
 				$s .= '</tr>';
 			}
 			$s .= '</table>';

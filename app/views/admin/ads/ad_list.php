@@ -40,9 +40,4 @@
   </tbody>
 </table>
 
-<table class="pager">
-  <tr>
-    <td><?=$prev_page?></td>
-    <td align="right"><?=$next_page?></td>
-  </tr>
-</table>
+<?= $pager ?>

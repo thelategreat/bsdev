@@ -107,11 +107,4 @@ div.issueContainer table.properties td.attr {
 </div>
 <?php } ?>
 
-
-<!-- pagination -->
-<table>
-	<tr>
-		<td><?=$prev_page?></td>
-		<td align="right"><?=$next_page?></td>
-	</tr>
-</table>
+<?= $pager ?>

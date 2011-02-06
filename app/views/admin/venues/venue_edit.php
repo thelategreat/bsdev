@@ -26,6 +26,6 @@
 </tr>
 </table>
 </fieldset>
-<input type="submit" name="save" value="Save" />
-<input type="submit" name="cancel" value="Cancel" />
+<input class="save-button" type="submit" name="save" value="Save" />
+<input class="cancel-button" type="submit" name="cancel" value="Cancel" />
 </form>

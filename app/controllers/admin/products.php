@@ -56,6 +56,7 @@ class Products extends Admin_Controller
 		$prods = $this->products_model->product_list( $query, $page, $page_size );
 
 		// pagination
+		/*
 		$next_page = '';
 		$prev_page = '';
 		if( $page > 1 ) {
@@ -64,11 +65,15 @@ class Products extends Admin_Controller
 		if( $prods->num_rows() == $page_size ) {
 			$next_page = "<a class='small' href='$this->base_url/index/".($page+1)."'>next ⇒</a>";
 		}
+		*/
+		
+		$pager = mk_pager( $page, $page_size, $prods->num_rows(), "$this->base_url/index" );
 		
 		$view_data = array( 
 			'products' => $prods,
-			'prev_page' => $prev_page,
-			'next_page' => $next_page,
+			'pager' => $pager,
+			//'prev_page' => $prev_page,
+			//'next_page' => $next_page,
 			'query' => $query
 		);
 		

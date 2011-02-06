@@ -83,7 +83,7 @@ $(function() {
 <input name="ans" id="ans" size="60"/><button onclick="add_line('#ans');">add</button>
 <p class="small italic">drag handle to re-order, double click to remove an item</p>
 <hr/>
-<button class="ok" onclick="do_save()">Save</button>
-<button onclick="cancel()">Cancel</button>
+<button class="save-button" class="ok" onclick="do_save()">Save</button>
+<button class="cancel-button" onclick="cancel()">Cancel</button>
 &nbsp;&nbsp;&nbsp;&nbsp;
-<button style="background-color: #f99;" onclick="rm()">Delete</button>
+<button class="delete-button" onclick="rm()">Delete</button>

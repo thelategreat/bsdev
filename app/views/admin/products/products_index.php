@@ -21,12 +21,7 @@
 	<?php $i++; } ?>
 </table>
 
-<table class="pager">
-  <tr>
-    <td></td>
-    <td align="right"><?=$prev_page?> | <?=$next_page?></td>
-  </tr>
-</table>
+<?= $pager ?>
 
 <hr/>
 

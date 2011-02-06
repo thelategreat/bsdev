@@ -15,7 +15,7 @@
       <th>Cat</th>
       <th>Group</th>
       <th>Date</th>
-      <th>Stat</th>
+      <th>Status</th>
     </tr>
   </thead>
 <?php
@@ -33,9 +33,4 @@
 <?php $cnt++; } ?>
 </table>
 
-<table class="pager">
-  <tr>
-    <td></td>
-    <td align="right"><?=$prev_page?> | <?=$next_page?></td>
-  </tr>
-</table>
+<?= $pager ?>

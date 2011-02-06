@@ -141,11 +141,11 @@ $(function()
 				<table>
 					<tr>
 						<td>
-							<input type="submit" style="background-color: #9f9;" name="save" value="Update" />
-							<input type="submit" name="cancel" value="Cancel" />
+							<input type="submit" class="save-button" name="save" value="Update" />
+							<input type="submit" class="delete-button" name="rm" value="Delete" onclick="return confirm('Realy delete this article?');" />
 						</td>
 						<td align="right">
-							| <input style="background-color: #faa" type="submit" name="rm" value="Delete" onclick="return confirm('Realy delete this article?');" />
+							| <input type="submit" class="cancel-button" name="cancel" value="Cancel" />
 						</td>
 					</tr>
 				</table>

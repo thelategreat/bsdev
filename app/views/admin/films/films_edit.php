@@ -81,7 +81,7 @@ function lookup()
 	</tr>
 </table>
 <br/>
-<input style="background-color: #9F9" type="submit" name="update" value="Update" />
-<input type="submit" name="cancel" value="Cancel" />
+<input class="save-button" type="submit" name="update" value="Save" />
+<input class="cancel-button" type="submit" name="cancel" value="Cancel" />
 </form>
 

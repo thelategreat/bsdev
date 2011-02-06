@@ -98,13 +98,13 @@
 <span id='fld_event_date_startMsg'><p/></span>
 <span id='fld_event_date_endMsg'><p/></span>
 </fieldset>
-<table>
+<table class="button-bar">
 	<tr><td>
-		<input style="background-color: #9F9" type="submit" name="update" value="Update" />
-		<input type="submit" name="cancel" value="Cancel" />
+		<input class="save-button" type="submit" name="update" value="Update" />
+		<input class="delete-button" type="submit" name="rm" value="Delete" onclick="return confirm('Really delete this event?');"/>
 	</td>
 	<td align="right">
-		<input style="background-color: #F99" type="submit" name="rm" value="Delete" onclick="return confirm('Really delete this event?');"/>
+		<input class="cancel-button" type="submit" name="cancel" value="Cancel" />
 	</td>
 </tr>
 </table>

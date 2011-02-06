@@ -127,8 +127,8 @@ $(function()
   <tr>
     <td>
       <hr/>
-      <input type="submit" style="background-color: #9f9;" name="save" value="Add" />
-      <input type="submit" name="cancel" value="Cancel" />
+      <input type="submit" class="save-button" name="save" value="Add" />
+      <input type="submit" class="cancel-button" name="cancel" value="Cancel" />
     </td>
   </tr>
 </table>

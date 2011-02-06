@@ -129,8 +129,8 @@ function lookup()
 	</tr>
 </table>
 <br/>
-<input style="background-color: #6d6" type="submit" name="add" value="Save" />
-<input style="background-color: #6d6" type="submit" name="addedit" value="Save &amp; Add Media" />
+<input class="save-button" type="submit" name="add" value="Save" />
+<input class="save-button1" type="submit" name="addedit" value="Save &amp; Add Media" />
 &nbsp;
-<input type="submit" name="cancel" value="Cancel" />
+<input class="cancel-button" type="submit" name="cancel" value="Cancel" />
 </form>

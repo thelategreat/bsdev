@@ -38,6 +38,7 @@ class Articles extends Admin_Controller
 		$articles = $this->articles_model->get_article_list( NULL, $page, $page_size );
 		
 		// pagination
+		/*
 		$next_page = '';
 		$prev_page = '';
 		if( $page > 1 ) {
@@ -46,12 +47,13 @@ class Articles extends Admin_Controller
 		if( $articles->num_rows() == $page_size ) {
 			$next_page = "<a class='small' href='/admin/articles/index/".($page+1)."'>next ⇒</a>";
 		}
-
+		*/
 		
 		$view_data = array( 
 			'articles' => $articles,
-			'next_page' => $next_page,
-			'prev_page' => $prev_page,
+			//'next_page' => $next_page,
+			//'prev_page' => $prev_page,
+			'pager' => mk_pager( $page, $page_size, $articles->num_rows(), '/admin/articles/index'),
 			'query' => $query
 			);
 		

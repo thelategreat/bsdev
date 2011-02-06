@@ -67,15 +67,20 @@
 <span id='fld_event_date_startMsg'></span>
 <span id='fld_event_date_endMsg'></span>
 </fieldset>
-<table>
+<table class="button-bar">
 	<tr>
 		<td>
+			<!--
 			<input style="background-color: #9F9" type="submit" name="add" value="Save" />
 			<input style="background-color: #6d6" type="submit" name="addedit" value="Save &amp; add media" />
 			<input style="background-color: #3d3" type="submit" name="addanother" value="Save &amp; add another" />
+			-->
+			<input class="save-button" type="submit" name="add" value="Save" />
+			<input class="save-button1" type="submit" name="addedit" value="Save &amp; add media" />
+			<input class="save-button2" type="submit" name="addanother" value="Save &amp; add another" />
 		</td>
-		<td>
-			<input type="submit" name="cancel" value="Cancel" onclick="cancelAction=true"/>
+		<td align="right">
+			<input class="cancel-button" type="submit" name="cancel" value="Cancel" onclick="cancelAction=true"/>
 		</td>
 	</tr>
 </table>
