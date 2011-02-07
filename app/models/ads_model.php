@@ -56,6 +56,12 @@ EOF;
 		return $this->db->query( $query );
 	}
 
+	function get_expiring_ads()
+	{
+		$sql = "SELECT * FROM ads WHERE end_date BETWEEN NOW() AND ADDDATE( NOW(), INTERVAL 1 WEEK) order by end_date";
+		return $this->db->query( $sql );
+	}
+
 	function get_ads_for_section( $section, $format = 'vertical', $count = 3 )
 	{
 		// grab random records

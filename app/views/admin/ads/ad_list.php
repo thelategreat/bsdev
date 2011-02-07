@@ -31,7 +31,13 @@
 	  <td <?= strtotime($ad->end_date) <= time() ? "class='expired'" : ""?>>
 			<small><?= date('Y-m-d',strtotime($ad->start_date)) ?>/<?= date('Y-m-d',strtotime($ad->end_date)) ?></small>
 		</td>
-	  <td style="overflow: hidden; white-space: nowrap;"><small><?= str_max_len($ad->url, 30) ?></small></td>
+	  <td style="overflow: hidden; white-space: nowrap;">
+		<?php if( $ad->url && strlen(trim($ad->url)) > 0) { 
+			echo '<small>';
+			echo '<a target="_blank" href="' . $ad->url . '" title="' . $ad->url . '"><img src="/img/admin/link.png" /></a>';
+			echo '</small>';
+		} ?>
+		</td>
 	  <td align="center"><small><?= $ad->clicks ?></small></td>
 	  <td><small><?= $ad->owner ?></small></td>
   </tr>

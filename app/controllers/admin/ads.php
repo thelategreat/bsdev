@@ -44,14 +44,26 @@ class Ads extends Admin_Controller
 		
 		$ads = $this->ads_model->get_ads( NULL, $page, $page_size, $query );
 		//echo '[' . $this->db->last_query() . ']';
-				
+		
+		$expiring = $this->ads_model->get_expiring_ads();	
+		$sidebar = '';
+		
+		if( $expiring->num_rows() > 0 ) {
+			$sidebar = '<h3>Expiring Soon</h3>';
+			$sidebar .= '<ul>';
+			foreach( $expiring->result() as $row ) {
+				$sidebar .= "<li><a href='/admin/ads/edit/$row->id'>" . $row->title . '</li>';
+			}
+			$sidebar .= '</ul>';
+		}
+			
 		$view_data = array( 
 			'ads' => $ads,
 			'pager' => mk_pager( $page, $page_size, $ads->num_rows(), '/admin/ads/index'),
 			'query' => $query
 			);
 		
-		$this->gen_page('Admin - Ads', 'admin/ads/ad_list', $view_data );
+		$this->gen_page('Admin - Ads', 'admin/ads/ad_list', $view_data, $sidebar );
 		
 	}
 	
