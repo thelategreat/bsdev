@@ -25,6 +25,7 @@ class Articles extends Admin_Controller
 	{
 		$page_size = $this->config->item('list_page_size');
 		$page = 1;
+		$query = '';
 		
 		// 4th seg is page number, if present
 		if( $this->uri->segment(4) && is_numeric($this->uri->segment(4))) {
@@ -33,8 +34,6 @@ class Articles extends Admin_Controller
 				$page = 1;
 			}
 		}
-
-		$query = '';
 			
 		// seg 5 and beyond are search terms
 		$i = 5;

@@ -10,21 +10,32 @@ class Ads_model extends Model
   }
 
 	// used by admin end
-	function get_ads( $category = NULL, $page = 1, $limit = NULL )
+	function get_ads( $category = NULL, $page = 1, $limit = NULL, $query = '' )
 	{
-		$query =<<< EOF
+		$sql =<<< EOF
 			select ads.id, ads.title, ads.url, ads.start_date, ads.end_date, ads.clicks, ads.owner, media.uuid 
 				FROM ads, media_map, media 
 				WHERE media_map.path = CONCAT('/ads/', ads.id) 
-					AND media.id = media_map.media_id ORDER BY start_date
+					AND media.id = media_map.media_id 
 EOF;
 
+		if( strlen($query) > 0 ) {
+			$terms = explode(' ', $query );
+			foreach( $terms as $term ) {
+				$sql .= " AND (";
+				$sql .= "ads.title LIKE '%" . $this->db->escape_like_str($term) . "%'";
+				$sql .= ")";
+			}
+		}
+		
+		$sql .= " ORDER BY start_date ";
+
 		if( $limit ) {
-			$query .= " LIMIT $limit";
-      $query .= " OFFSET " . ($limit * ($page-1));
+			$sql .= " LIMIT $limit";
+      $sql .= " OFFSET " . ($limit * ($page-1));
 		}
 
-		return $this->db->query( $query );
+		return $this->db->query( $sql );
 	}
 
 	// used by front end

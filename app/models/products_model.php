@@ -17,10 +17,12 @@ class Products_model extends Model
 	{
 		$this->db->select('id, ean, title, contributor ');
 		
-		if( $query ) {
+		if( strlen($query) ) {
 			$terms = explode(' ', $query );
 			foreach( $terms as $term ) {
-				$this->db->or_like( array('title' => $term) );
+				if( strlen(trim($term)) > 0 ) {
+					$this->db->or_like( array('title' => $term) );
+				}
 			}
 		}
 		

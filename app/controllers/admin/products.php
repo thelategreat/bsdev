@@ -40,24 +40,35 @@ class Products extends Admin_Controller
 	{
 		$page_size = $this->config->item('list_page_size');
 		$page = 1;
-
+		$query = '';
+		
+		// 4th seg is page number
 		if( $this->uri->segment(4) && is_numeric($this->uri->segment(4))) {
 			$page = $this->uri->segment(4);
 			if( $page < 1 ) {
 				$page = 1;
 			}
 		}		
-		$query = NULL;
+				
+		// seg 5 and beyond are search terms
+		$i = 5;
+		while( $this->uri->segment($i) ) {
+			// CI thing with _
+			$query .= str_replace('_',' ',$this->uri->segment($i)) . ' ';
+			$i++;
+		}
 		
 		if( $this->input->post('q')) {
 			$query = $this->input->post('q');
 		}
 		
+		//echo '[' . $query . ']';
 		$prods = $this->products_model->product_list( $query, $page, $page_size );
+		//echo '[' . $this->db->last_query() . ']';
 
 		$view_data = array( 
 			'products' => $prods,
-			'pager' => mk_pager( $page, $page_size, $prods->num_rows(), "$this->base_url/index" ),
+			'pager' => mk_pager( $page, $page_size, $prods->num_rows(), "$this->base_url/index", $query ),
 			'query' => $query
 		);
 		

@@ -20,7 +20,9 @@ class Ads extends Admin_Controller
 	{
 		$page_size = 10; //$this->config->item('list_page_size');
 		$page = 1;
+		$query = '';
 
+		// 4th seg is page number
 		if( $this->uri->segment(4) && is_numeric($this->uri->segment(4))) {
 			$page = $this->uri->segment(4);
 			if( $page < 1 ) {
@@ -28,9 +30,20 @@ class Ads extends Admin_Controller
 			}
 		}
 		
-		$query = 'search...';
+		// seg 5 and beyond are search terms
+		$i = 5;
+		while( $this->uri->segment($i) ) {
+			// CI thing with _
+			$query .= str_replace('_',' ',$this->uri->segment($i)) . ' ';
+			$i++;
+		}
 		
-		$ads = $this->ads_model->get_ads( NULL, $page, $page_size );
+		if( $this->input->post('q')) {
+			$query = $this->input->post('q');
+		}
+		
+		$ads = $this->ads_model->get_ads( NULL, $page, $page_size, $query );
+		//echo '[' . $this->db->last_query() . ']';
 				
 		$view_data = array( 
 			'ads' => $ads,
