@@ -42,22 +42,12 @@ class Films extends Admin_Controller
 		$this->db->limit( $limit, (intval($filter['page'])-1) * $limit );  // limit, offset
 		$films = $this->db->get('films');
 		
-		$data = array('films' => $films, 'query' => $query );
+		$data = array(
+			'films' => $films, 
+			'pager' => mk_pager( $filter['page'], $limit, $films->num_rows(), '/admin/films/view/page'),
+			'query' => $query 
+			);
 		
-		/*
-		if( $films->num_rows() == $limit ) {
-			$data['next_page'] = "<a class='small' href='/admin/films/view/page/".($filter['page']+1)."'>next ⇒</a>";
-		} else {
-			$data['next_page'] = '';
-		}
-		
-		if( $filter['page'] > 1 ) {
-			$data['prev_page'] = "<a class='small' href='/admin/films/view/page/".($filter['page']-1)."'>⇐ prev</a>";
-		} else {
-			$data['prev_page'] = '';
-		}
-		*/
-		$data['pager'] = mk_pager( $filter['page'], $limit, $films->num_rows(), '/admin/films/view/page');
 		
 		$this->gen_page('Admin - Films', 'admin/films/films_list', $data );
 	}

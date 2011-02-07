@@ -25,41 +25,43 @@ class Articles extends Admin_Controller
 	{
 		$page_size = $this->config->item('list_page_size');
 		$page = 1;
-
+		
+		// 4th seg is page number, if present
 		if( $this->uri->segment(4) && is_numeric($this->uri->segment(4))) {
 			$page = $this->uri->segment(4);
 			if( $page < 1 ) {
 				$page = 1;
 			}
 		}
-		
-		$query = 'search...';
-		
-		$articles = $this->articles_model->get_article_list( NULL, $page, $page_size );
-		
-		// pagination
-		/*
-		$next_page = '';
-		$prev_page = '';
-		if( $page > 1 ) {
-			$prev_page = "<a class='small' href='/admin/articles/index/".($page-1)."'>⇐ prev</a>";
+
+		$query = '';
+			
+		// seg 5 and beyond are search terms
+		$i = 5;
+		while( $this->uri->segment($i) ) {
+			// CI thing with _
+			$query .= str_replace('_',' ',$this->uri->segment($i)) . ' ';
+			$i++;
 		}
-		if( $articles->num_rows() == $page_size ) {
-			$next_page = "<a class='small' href='/admin/articles/index/".($page+1)."'>next ⇒</a>";
+
+		if( $this->input->post('q')) {
+			$query = $this->input->post('q');
 		}
-		*/
 		
+		$articles = $this->articles_model->get_article_list( NULL, $page, $page_size, $query );
+				
 		$view_data = array( 
 			'articles' => $articles,
-			//'next_page' => $next_page,
-			//'prev_page' => $prev_page,
-			'pager' => mk_pager( $page, $page_size, $articles->num_rows(), '/admin/articles/index'),
+			'pager' => mk_pager( $page, $page_size, $articles->num_rows(), '/admin/articles/index', $query ),
 			'query' => $query
 			);
 		
 		$this->gen_page('Admin - Articles', 'admin/articles/article_list', $view_data );
 	}
 	
+	/**
+	 *
+	 */
 	function add()
 	{
 		if( $this->input->post("save")) {

@@ -6,7 +6,6 @@
 
 <h3><a class="small" href="/admin/ads/add"><img src="/img/admin/newspaper_add.png" title="Add Advert"/></a> Ads</h3>
 
-<!-- <table style="table-layout: fixed; cell-padding: 3px; width: 100%;"> -->
 <table class='ads-list'>
   <thead>
     <tr>

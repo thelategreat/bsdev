@@ -70,18 +70,15 @@ div.issueContainer table.properties td.attr {
 }
 </style>
 
+<div style="float: right">
+	<form method="post">
+		<input id="query" style="font-size: 0.8em;" name="q" value="<?=$query?>" size="15" onblur="if(this.value=='') this.value='search...';" onfocus="if(this.value == 'search...') this.value='';"/>
+	</form>
+</div>
+
 <h3><a class="small" href="/admin/bugs/add"><img src="/img/admin/bug_add.png" title="Add an Issue"/></a> Issues</h3>
 
 <?= $tabs ?>
-
-
-<div id="q-container">
-	<div id="s-container">
-		<form method="post">
-			<input id="s-query" name="q" value="<?=$query?>" onblur="if(this.value=='') this.value='search...';" onfocus="if(this.value == 'search...') this.value='';"/>
-		</form>
-	</div>
-</div>
 
 <?php foreach( $bugs->result() as $bug ) { ?>
 <div class='issueContainer'>

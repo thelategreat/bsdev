@@ -60,9 +60,14 @@ class Calendar extends Admin_Controller
 			
 			$s .= '<table width="100%">';
 			$s .= '<tr>';
-			$s .= '<td><a title="Last Month" href="/admin/calendar/month/year/'.$prev[1].'/month/'.$prev[0].'"><img src="/img/admin/16-arrow-left.png"/></a></td>';
-	    $s .= '<td align="center"><h3>' . $this->month_names[$month-1] . ' ' . $year . '</h3></td>';
-			$s .= '<td align="right"><a title="Next Month" href="/admin/calendar/month/year/'.$next[1].'/month/'.$next[0].'"><img src="/img/admin/16-arrow-right.png"/></a></td>';
+			//$s .= '<td><a title="Last Month" href="/admin/calendar/month/year/'.$prev[1].'/month/'.$prev[0].'"><img src="/img/admin/16-arrow-left.png"/></a></td>';
+			//$s .= '<td/>';
+	    $s .= '<td align="left"><h3>' . $this->month_names[$month-1] . ' ' . $year . '</h3></td>';
+			//$s .= '<td align="right"><a title="Next Month" href="/admin/calendar/month/year/'.$next[1].'/month/'.$next[0].'"><img src="/img/admin/16-arrow-right.png"/></a></td>';
+			$s .= '<td align="right">';
+			$s .= '<button title="Last Month" onclick="window.location=\'/admin/calendar/month/year/'.$prev[1].'/month/'.$prev[0].'\'"><img src="/img/admin/32-arrow-right.png" width="12px"/></button>';
+			$s .= '<button title="Next Month" onclick="window.location=\'/admin/calendar/month/year/'.$next[1].'/month/'.$next[0].'\'"><img src="/img/admin/32-arrow-left.png" width="12px"/></button>';
+			$s .= '</td>';
 			$s .= '</tr>';
 			$s .= '</table>';
 

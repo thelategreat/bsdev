@@ -597,7 +597,7 @@ ul.event_list li span.event_date {
 table.pager 
 {
 	background-color: #ddf;
-	background-color: #ddd;
+	background-color: #fff;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
 }

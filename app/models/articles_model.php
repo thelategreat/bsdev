@@ -9,8 +9,11 @@ class articles_model extends Model
     parent::Model();
   }
 
-	function get_article_list( $category = NULL, $page = 1, $limit = NULL )
+	// used by admin
+	function get_article_list( $category = NULL, $page = 1, $limit = NULL, $query = '' )
 	{
+		
+		
 		$q =<<<EOF
 SELECT a.id, title, fnStripTags(body) as body, excerpt, ac.category, publish_on, author, 
 			 owner, ast.status, gt.name as group_name 
@@ -20,6 +23,13 @@ EOF;
 
 	if( $category ) {
 		$q .= " AND (ac.category = " . $this->db->escape($category) . " OR ac.category = 'General')";
+	}
+	
+	if( strlen($query) > 0 ) {
+		$terms = explode(' ', $query );
+		foreach( $terms as $term ) {
+			$q .= " AND (a.title LIKE '%" . $this->db->escape_like_str( $term) . "%')";
+		}
 	}
 		
 	$q .= " ORDER BY publish_on DESC, title ASC ";

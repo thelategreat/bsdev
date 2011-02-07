@@ -26,7 +26,7 @@ class Bugs extends Admin_Controller
 	
 	function issues()
 	{		
-		$page_size = $this->config->item('list_page_size');
+		$page_size = 15; //$this->config->item('list_page_size');
 		$page = 1;
 
 		if( $this->uri->segment(4) && is_numeric($this->uri->segment(4))) {
