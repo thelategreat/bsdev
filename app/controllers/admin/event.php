@@ -234,7 +234,7 @@ class Event extends Admin_Controller
 		if( $id && $cat ) {
 			// F I L M
 			if( $cat == "1" ) {
-				$res = $this->db->query("select id, title, description, running_time from films where id = $id");
+				$res = $this->db->query("select id, title, description, running_time from films where id = " . $this->db->escape($id));
 				foreach( $res->result() as $row ) {
 					$xml .= '<item ';
 					$xml .= "id='" . htmlspecialchars($row->id) . "' ";
@@ -247,7 +247,7 @@ class Event extends Admin_Controller
 		} elseif( $query && $cat ) {
 			// F I L M
 			if( $cat == "1" ) {
-				$res = $this->db->query("select id, title, running_time from films where lower(title) like '%" . strtolower($query) . "%'");
+				$res = $this->db->query("select id, title, running_time from films where lower(title) like '%" . $this->db->escape_like_str(strtolower($query)) . "%'");
 				foreach( $res->result() as $row ) {
 					$xml .= '<item cat="'.$cat.'" id="'.$row->id.'" name="'. htmlspecialchars($row->title) . '" time="' . $row->running_time . '" />' ;
 				}
@@ -269,7 +269,7 @@ class Event extends Admin_Controller
 		$xml .= '<results>';
 		
 		if( $query ) {
-			$res = $this->db->query("select id, name from venues where lower(name) like '%" . strtolower($query) . "%'");
+			$res = $this->db->query("select id, name from venues where lower(name) like '%" . $this->db->escape_like_str(strtolower($query)) . "%'");
 			foreach( $res->result() as $row ) {
 				$xml .= '<item id="'.$row->id.'" name="'. htmlspecialchars($row->name) . '" />' ;
 			}

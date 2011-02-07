@@ -46,7 +46,7 @@ EOF;
 				FROM ads, media_map, media 
 				WHERE media_map.path = CONCAT('/ads/', ads.id) 
 					AND NOW() BETWEEN ads.start_date AND ads.end_date
-					AND media.id = media_map.media_id ORDER BY start_date
+					AND media.id = media_map.media_id ORDER BY title
 EOF;
 
 		if( $limit ) {

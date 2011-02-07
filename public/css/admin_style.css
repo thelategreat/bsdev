@@ -127,7 +127,7 @@ ul.picklist {
 
 #main { background-color: #eee; }
 
-#sidebar { float: right; width: 22%; position: relative; }
+#sidebar { float: right; width: 22%; position: relative; z-index: 9; }
 
 #content {
 	width: 75%;

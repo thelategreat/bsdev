@@ -49,7 +49,8 @@ class Ads extends Admin_Controller
 		$sidebar = '';
 		
 		if( $expiring->num_rows() > 0 ) {
-			$sidebar = '<h3>Expiring in 7 days</h3>';
+			$sidebar = '<h3>Expiring</h3>';
+			$sidebar .= '<small>(next 7 days)</small>';
 			$sidebar .= '<ul>';
 			foreach( $expiring->result() as $row ) {
 				$sidebar .= "<li><a href='/admin/ads/edit/$row->id'>" . $row->title . '</li>';
