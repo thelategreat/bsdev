@@ -27,9 +27,9 @@ class Calendar extends Admin_Controller
 	 */
 	function month()
 	{
-	    $s = '';
+		$s = '';
 
-	    $today = getdate(time());
+		$today = getdate(time());
 	
 		$filter = array(
 			'year' => $today['year'],
@@ -44,82 +44,92 @@ class Calendar extends Admin_Controller
 			$filter[$k] = $v;
 		}
 
-	    $a = $this->_adjust_date( $filter['month'], $filter['year'] );
-	    $month = $a[0];
-	    $year = $a[1];
+    $a = $this->_adjust_date( $filter['month'], $filter['year'] );
+    $month = $a[0];
+    $year = $a[1];
 
-	    $days_in_month = $this->_days_in_month( $month, $year );
-	    $date = getdate(mktime(12,0,0,$month,1,$year));
+    $days_in_month = $this->_days_in_month( $month, $year );
+    $date = getdate(mktime(12,0,0,$month,1,$year));
 
-	    $first = $date['wday'];
-	    $prev = $this->_adjust_date($month-1,$year);
-	    $days_in_last_month = $this->_days_in_month( $prev[0], $prev[1]);
-	    $next = $this->_adjust_date($month+1,$year);
-	    $week_no = (int)date("W", mktime(12,0,0,$month,1,$year));
-	    $d = -$first + 1;		
-			
-			$s .= '<table width="100%">';
-			$s .= '<tr>';
-			//$s .= '<td><a title="Last Month" href="/admin/calendar/month/year/'.$prev[1].'/month/'.$prev[0].'"><img src="/img/admin/16-arrow-left.png"/></a></td>';
-			//$s .= '<td/>';
-	    $s .= '<td align="left"><h3>' . $this->month_names[$month-1] . ' ' . $year . '</h3></td>';
-			//$s .= '<td align="right"><a title="Next Month" href="/admin/calendar/month/year/'.$next[1].'/month/'.$next[0].'"><img src="/img/admin/16-arrow-right.png"/></a></td>';
-			$s .= '<td align="right">';
-			$s .= '<button title="Last Month" onclick="window.location=\'/admin/calendar/month/year/'.$prev[1].'/month/'.$prev[0].'\'"><img src="/img/admin/32-arrow-right.png" width="12px"/></button>';
-			$s .= '<button title="Next Month" onclick="window.location=\'/admin/calendar/month/year/'.$next[1].'/month/'.$next[0].'\'"><img src="/img/admin/32-arrow-left.png" width="12px"/></button>';
-			$s .= '</td>';
-			$s .= '</tr>';
-			$s .= '</table>';
+    $first = $date['wday'];
+    $prev = $this->_adjust_date($month-1,$year);
+    $days_in_last_month = $this->_days_in_month( $prev[0], $prev[1]);
+    $next = $this->_adjust_date($month+1,$year);
+    $week_no = (int)date("W", mktime(12,0,0,$month,1,$year));
+    $d = -$first + 1;		
+		
+		// ---------
+		// T A B L E
+		$s .= '<table width="100%">';
+		
+		// -------
+		// H E A D
+		$s .= '<thead>';
+		$s .= '<tr>';
+    $s .= '<td align="left"><h3>' . $this->month_names[$month-1] . ' ' . $year . '</h3></td>';
+		$s .= '<td align="right">';
+		$s .= '<button title="Last Month" onclick="window.location=\'/admin/calendar/month/year/'.$prev[1].'/month/'.$prev[0].'\'"><img src="/img/admin/32-arrow-right.png" width="12px"/></button>';
+		$s .= '<button title="Next Month" onclick="window.location=\'/admin/calendar/month/year/'.$next[1].'/month/'.$next[0].'\'"><img src="/img/admin/32-arrow-left.png" width="12px"/></button>';
+		$s .= '</td>';
+		$s .= '</tr>';
+		$s .= '</table>';
 
-	    $s .= '<table class="cal">';
-	    $s .= '<thead>';
-	    $s .= '<tr>';
-	    $s .= '<td class="nav">';
-			//$s .= '<a title="Last Month" href="/admin/calendar/month/year/'.$prev[1].'/month/'.$prev[0].'"><img src="/img/16-arrow-left.png"/></a>&nbsp;';
-			//$s .= '<a title="Next Month" href="/admin/calendar/month/year/'.$next[1].'/month/'.$next[0].'"><img src="/img/16-arrow-right.png"/></a>';
-	    $s .= '</td>';
-	    //$s .= '<td/>';
-	    foreach( $this->day_names as $day ) 
-				$s .= "<th>$day</th>";    
-			$s .= '</tr>';
-	    $s .= '</thead>';
+    $s .= '<table class="cal">';
+    $s .= '<thead>';
+    $s .= '<tr>';
+    $s .= '<td class="nav">';
+    $s .= '</td>';
+    foreach( $this->day_names as $day ) {
+			$s .= "<th style='text-align: center;'>$day</th>";    
+		}
+		$s .= '</tr>';
+    $s .= '</thead>';
+
+		// -------
+		// B O D Y
+    $s .= '<tbody><tr><th><a href="/admin/calendar/week/'.$week_no.'">' . $week_no . '</a></th>';  
+    while( $d <= $days_in_month ) {
+      for( $i = 0; $i < 7; $i++ ) {
+				$thisdate = sprintf("%04d-%02d-%02d", $year, $month, $d);
+        if( $d < 1 ) {
+					// before month start
+          $s .= '<td class="' . (($i == 0 || $i == 6) ? 'weekend' : '') . '"><p class="day-num">' . ($days_in_last_month + $d) . '</p>';
+		  		$thisdate = sprintf("%04d-%02d-%02d",$year, ($month - 1), $days_in_last_month + $d);
+        }
+        elseif( $d <= $days_in_month ) {
+					// in month
+		  		$href = "/admin/calendar/day/year/$year/month/$month/day/$d";
+          $s .= '<td width="14%" class="even ' . ($d == $today['mday'] ? 'today' : (($i == 0 || $i == 6) ? 'weekend' : '')) . '"><p class="day-num"><a href="'.$href.'">' . $d . '</a></p>';
+        } elseif( $d > $days_in_month ) {
+					// after month end
+          $s .= '<td class="'.(($i == 0 || $i == 6) ? 'weekend' : '').'"><p class="day-num">' . ($d - $days_in_month) . '</p>';
+		  		$thisdate = sprintf("%04d-%02d-%02d",$year, ($month + 1),($d - $days_in_month));
+        }
+
+				//$s .= $thisdate;
+				
+				$res = $this->db->query("SELECT count(*) as cnt, ec.category FROM events AS e, event_categories AS ec WHERE e.category = ec.id AND DATE(dt_start) = '$thisdate' GROUP BY category");
+				foreach( $res->result() as $row ) {
+		  		$s .= '<img class="icon" style="background-color: #88f" src="/img/icons/icon_'.$row->category.'.gif" /> (' . $row->cnt . ')<br/>';
+				}
+				$s .= '</td>';
+        $d++;
+      }
+      $s .= '</tr>';
+      if( $d <= $days_in_month ) {
+        $week_no++;
+				if( $week_no > 52 ) {
+					$week_no =  1;
+				}
+        $s .= '<tr><th><a href="/admin/calendar/week/'.$week_no.'">' . $week_no . '</th>';
+      }
+    }
+    $s .= '</tbody>';
+    $s .= '</table>';
 	
-	    $s .= '<tbody><tr><th><a href="/admin/calendar/week/'.$week_no.'">' . $week_no . '</a></th>';  
-	    while( $d <= $days_in_month ) {
-	      for( $i = 0; $i < 7; $i++ ) {
-					$thisdate = sprintf("%04d-%02d-%02d", $year, $month, $d);
-	        if( $d < 1 ) {
-	          $s .= '<td class="odd"><p class="day-num">' . ($days_in_last_month + $d) .'</p>';
-			  		$thisdate = sprintf("%04d-%02d-%02d",$year, ($month - 1), $days_in_last_month + $d);
-	        }
-	        elseif( $d <= $days_in_month ) {
-			  		$href = "/admin/calendar/day/year/$year/month/$month/day/$d";
-	          $s .= '<td width="14%" class="even ' . ($d == $today['mday'] ? 'today' : '') . '"><p class="day-num"><a href="'.$href.'">' . $d . '</a></p>';
-	        } elseif( $d > $days_in_month ) {
-	          $s .= '<td class="odd"><p class="day-num">' . ($d - $days_in_month) . '</p>';
-			  		$thisdate = sprintf("%04d-%02d-%02d",$year, ($month + 1),($d - $days_in_month));
-	        }
-					//$s .= $thisdate;
-					$res = $this->db->query("SELECT count(*) as cnt, ec.category FROM events AS e, event_categories AS ec WHERE e.category = ec.id AND DATE(dt_start) = '$thisdate' GROUP BY category");
-					foreach( $res->result() as $row ) {
-			  		$s .= '<img class="icon" style="background-color: #88f" src="/img/icons/icon_'.$row->category.'.gif" /> (' . $row->cnt . ')<br/>';
-					}
-					$s .= '</td>';
-	        $d++;
-	      }
-	      $s .= '</tr>';
-	      if( $d <= $days_in_month ) {
-	        $week_no++;
-					if( $week_no > 52 ) {
-						$week_no =  1;
-					}
-	        $s .= '<tr><th><a href="/admin/calendar/week/'.$week_no.'">' . $week_no . '</th>';
-	      }
-	    }
-	    $s .= '</tbody>';
-	    $s .= '</table>';
-	
-	
+		// -------
+		// T A B S
+		// -------
 		$tabs = '<div class="tabs">';
 		$tabs .= '<ul>';
 		$tabs .= '<li><a href="/admin/calendar/month" class="selected">Month</a></li>';
@@ -130,9 +140,11 @@ class Calendar extends Admin_Controller
 
 		$this->load->model('event_model');
 
-		$data['cal'] = $s;
-		$data['tabs'] = $tabs;
-		$data['events'] = $this->event_model->get_events( $filter );
+		$data = array(
+			'cal' => $s,
+			'tabs' => $tabs,
+			'events' => $this->event_model->get_events( $filter )
+		);
 		
 		$this->gen_page('Admin - Calendar', 'admin/calendar/calendar', $data );
 	}
@@ -141,8 +153,7 @@ class Calendar extends Admin_Controller
 	 */
 	function week()
 	{
-		
-	    $today = getdate(time());
+		$today = getdate(time());
 	
 		$filter = array(
 			'year' => $today['year'],
@@ -167,79 +178,79 @@ class Calendar extends Admin_Controller
 		$filter['month'] = $today['mon'];
 		$filter['day'] = $today['mday'];
 
-	    $a = $this->_adjust_date( $filter['month'], $filter['year'] );
-	    $month = $a[0];
-	    $year = $a[1];
+    $a = $this->_adjust_date( $filter['month'], $filter['year'] );
+    $month = $a[0];
+    $year = $a[1];
 
-	    $days_in_month = $this->_days_in_month( $month, $year );
-	    $date = getdate(mktime(12,0,0,$month,1,$year));
+    $days_in_month = $this->_days_in_month( $month, $year );
+    $date = getdate(mktime(12,0,0,$month,1,$year));
 
-	    $first = $date['wday'];
-	    $prev = $this->_adjust_date($month-1,$year);
-	    $days_in_last_month = $this->_days_in_month( $prev[0], $prev[1]);
-	    $next = $this->_adjust_date($month+1,$year);
-	    $d = -$first + 1;		
+    $first = $date['wday'];
+    $prev = $this->_adjust_date($month-1,$year);
+    $days_in_last_month = $this->_days_in_month( $prev[0], $prev[1]);
+    $next = $this->_adjust_date($month+1,$year);
+    $d = -$first + 1;		
 
-			$this->load->model('event_model');
+		$this->load->model('event_model');
+		
+		//var_dump( $filter );
+		//exit;
+		
+		$events = $this->event_model->get_events( $filter );
+
+		$pyear = $filter['year'];
+		$nyear = $filter['year'];
+		$pweek = $filter['week']-1;
+		if( $pweek == 0 ) {
+			$pweek = 52;
+			$pyear--;
+		}
+		$nweek = $filter['week']+1;
+		if( $nweek > 52 ) {
+			$nweek = 1;
+			$nyear++;
+		}
 			
-			//var_dump( $filter );
-			//exit;
-			
-			$events = $this->event_model->get_events( $filter );
-
-			$pyear = $filter['year'];
-			$nyear = $filter['year'];
-			$pweek = $filter['week']-1;
-			if( $pweek == 0 ) {
-				$pweek = 52;
-				$pyear--;
+    $s = '';
+    $s .= '<h3>Week starting: ' . date('l, F d, Y', $monday) . " <span class='small'>(week #". $filter['week'] . ')</span></h3>';
+    $s .= '<div id="weekdiv" class="scrollable" style="position: relative; width: 700px">';
+    
+		$s .= '<table class="cal cal_week" >';
+		// header
+    $head = '<thead class="fixed-table-header">';
+    $head .= '<tr>';
+    $head .= '<td class="nav">';
+    $head .= '<a href="/admin/calendar/week/'.$pweek.'/year/'.$pyear.'" title="Prev"><img src="/img/admin/16-arrow-left.png"/></a>&nbsp;';
+    $head .= '<a href="/admin/calendar/week/'.$nweek.'/year/'.$nyear.'" title="Next"><img src="/img/admin/16-arrow-right.png" /></a>';
+    $head .= '</td>';
+    for( $i = 0; $i < 7; $i++ ) {
+			if( $filter['day'] + $i > $days_in_month ) {
+				$head .= "<th>" . $this->day_names[$i] . " ". ($filter['day']+$i-$days_in_month) . "</th>";				
+			} else {
+				$head .= "<th>" . $this->day_names[$i] . " " . ($filter['day'] + $i) . "</th>";				
 			}
-			$nweek = $filter['week']+1;
-			if( $nweek > 52 ) {
-				$nweek = 1;
-				$nyear++;
-			}
-			
-	    $s = '';
-	    $s .= '<h3>Week starting: ' . date('l, F d, Y', $monday) . " <span class='small'>(week #". $filter['week'] . ')</span></h3>';
-	    $s .= '<div id="weekdiv" class="scrollable" style="position: relative; width: 700px">';
-	    
-			$s .= '<table class="cal cal_week" >';
-			// header
-	    $head = '<thead class="fixed-table-header">';
-	    $head .= '<tr>';
-	    $head .= '<td class="nav">';
-	    $head .= '<a href="/admin/calendar/week/'.$pweek.'/year/'.$pyear.'" title="Prev"><img src="/img/admin/16-arrow-left.png"/></a>&nbsp;';
-	    $head .= '<a href="/admin/calendar/week/'.$nweek.'/year/'.$nyear.'" title="Next"><img src="/img/admin/16-arrow-right.png" /></a>';
-	    $head .= '</td>';
-	    for( $i = 0; $i < 7; $i++ ) {
-				if( $filter['day'] + $i > $days_in_month ) {
-					$head .= "<th>" . $this->day_names[$i] . " ". ($filter['day']+$i-$days_in_month) . "</th>";				
-				} else {
-					$head .= "<th>" . $this->day_names[$i] . " " . ($filter['day'] + $i) . "</th>";				
+			$d++;
+		}
+    $head .= '</tr>';
+    $head .= '</thead>';
+
+		$s .= $head;
+		// body
+    $s .= '<tbody class="scroll-table-body">';
+    for( $i = 0; $i < 24; $i++ ) {
+      $s .= '<tr>';
+      $s .= '<th>' . ($i > 12 ? $i - 12 : ($i == 0 ? 12 : $i)) . '&nbsp;'. ($i > 11 ? "pm" : "am") . '</th>';
+      for( $d = 0; $d < 7; $d++ ) {
+        $s .= '<td>';
+				if( $d == 1 && $i == 5 ) {
 				}
-				$d++;
-			}
-	    $head .= '</tr>';
-	    $head .= '</thead>';
-	
-			$s .= $head;
-			// body
-	    $s .= '<tbody class="scroll-table-body">';
-	    for( $i = 0; $i < 24; $i++ ) {
-	      $s .= '<tr>';
-	      $s .= '<th>' . ($i > 12 ? $i - 12 : ($i == 0 ? 12 : $i)) . '&nbsp;'. ($i > 11 ? "pm" : "am") . '</th>';
-	      for( $d = 0; $d < 7; $d++ ) {
-	        $s .= '<td>';
-					if( $d == 1 && $i == 5 ) {
-					}
-					$s .= '</td>';
-	      }
-	      $s .= '</tr>';
-	    }
-	    $s .= '</tbody>';
-			$s .= $head;
-	    $s .= '</table>';
+				$s .= '</td>';
+      }
+      $s .= '</tr>';
+    }
+    $s .= '</tbody>';
+		$s .= $head;
+    $s .= '</table>';
 	
 		$lastevent = null;
 		foreach( $events->result() as $event ) {
@@ -298,6 +309,7 @@ class Calendar extends Admin_Controller
 		$this->gen_page('Admin - Calendar', 'admin/calendar/calendar', $data );
 	}
 	
+	// TODO
 	function day()
 	{
 	 	$today = getdate(time());
@@ -313,39 +325,37 @@ class Calendar extends Admin_Controller
 		foreach( $segs as $k => $v ) {
 			$filter[$k] = $v;
 		}
-		
-		
-		
-			$thisday = strtotime(sprintf("%04d-%02d-%02d",$filter['year'],$filter['month'],$filter['day']) . " 00:00:00");
-			$pday = getdate($thisday - (24*60*60));
-			$nday = getdate($thisday + (24*60*60));
-			$purl = "/year/" . $pday['year'] . "/month/" . $pday['mon'] . '/day/' . $pday['mday'];
-			$nurl = "/year/" . $nday['year'] . "/month/" . $nday['mon'] . '/day/' . $nday['mday'];
-		
-			$s = '';
+				
+		$thisday = strtotime(sprintf("%04d-%02d-%02d",$filter['year'],$filter['month'],$filter['day']) . " 00:00:00");
+		$pday = getdate($thisday - (24*60*60));
+		$nday = getdate($thisday + (24*60*60));
+		$purl = "/year/" . $pday['year'] . "/month/" . $pday['mon'] . '/day/' . $pday['mday'];
+		$nurl = "/year/" . $nday['year'] . "/month/" . $nday['mon'] . '/day/' . $nday['mday'];
+	
+		$s = '';
 
-	    $s = '';
-	    $s .= '<div class="scrollable">';
-	    $s .= '<table class="cal cal_day">';
-	    $s .= '<thead>';
-	    $s .= '<tr>';
-	    $s .= '<td class="nav">';
-	    $s .= '<a href="/admin/calendar/day'.$purl.'" title="Prev"><img src="/img/16-arrow-left.png"/></a>&nbsp;';
-	    $s .= '<a href="/admin/calendar/day'.$nurl.'" title="Next"><img src="/img/16-arrow-right.png" /></a>';
-	    $s .= '</td>';
-	    $s .= '<th>' . date('l, M j, Y', $thisday). "</th>";
-	    $s .= '</tr>';
-	    $s .= '</thead>';
-	    $s .= '<tbody>';
-	    for( $i = 0; $i < 24; $i++ ) {
-	      $s .= '<tr>';
-	      $s .= '<th>' . $i . ':00</th>';
-	      $s .= '<td>&nbsp;</td>';
-	      $s .= '</tr>';
-	    }
-	    $s .= '</tbody>';
-	    $s .= '</table>';
-	    $s .= '</div>';
+    $s = '';
+    $s .= '<div class="scrollable">';
+    $s .= '<table class="cal cal_day">';
+    $s .= '<thead>';
+    $s .= '<tr>';
+    $s .= '<td class="nav">';
+    $s .= '<a href="/admin/calendar/day'.$purl.'" title="Prev"><img src="/img/16-arrow-left.png"/></a>&nbsp;';
+    $s .= '<a href="/admin/calendar/day'.$nurl.'" title="Next"><img src="/img/16-arrow-right.png" /></a>';
+    $s .= '</td>';
+    $s .= '<th>' . date('l, M j, Y', $thisday). "</th>";
+    $s .= '</tr>';
+    $s .= '</thead>';
+    $s .= '<tbody>';
+    for( $i = 0; $i < 24; $i++ ) {
+      $s .= '<tr>';
+      $s .= '<th>' . $i . ':00</th>';
+      $s .= '<td>&nbsp;</td>';
+      $s .= '</tr>';
+    }
+    $s .= '</tbody>';
+    $s .= '</table>';
+    $s .= '</div>';
 			
 		$tabs = '<div class="tabs">';
 		$tabs .= '<ul>';
@@ -464,9 +474,9 @@ class Calendar extends Admin_Controller
 		echo json_encode( $ra );
 	}
 	
-	// --------------------------------
-	// P R I V A T E  F U N C T I O N S
-	// --------------------------------	
+	// ------------------------
+	// P R I V A T E  F U N C S
+	// ------------------------
 	private function _adjust_date( $month, $year )
 	{
 		$a = array();  

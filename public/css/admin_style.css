@@ -332,6 +332,10 @@ table.cal td.nav {
     text-align: center;
 }
 
+table.cal td.weekend {
+	background-color: #eee;
+}
+
 /***** Tabs *****/
 div.tabs {height: 2.6em; border-bottom: 1px solid #bbbbbb; margin-bottom:1.2em; position:relative;}
 div.tabs ul {margin:0; position:absolute; bottom:-2px; padding-left:1em;}
