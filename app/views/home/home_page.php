@@ -1,10 +1,18 @@
+<script type="text/javascript" src="/js/jquery.simplyscroll-1.0.4.min.js"></script>
 
 <script type="text/javascript">
 $(function() {
+	$("#scroller").simplyScroll({
+				className: 'custom',
+				autoMode: 'loop',
+				pauseOnHover: false,
+				frameRate: 20,
+				speed: 2
+			});
 	/*
 	$("#events-preview a[title]").tooltip({ position: "top center", opacity: 0.99, offset: [-60,10], effect: "slide"});
 	*/
-	
+	/*
 	var count = $('#events-preview ul li').size();
 	$('#events-preview').css('height','250px');
 	//$('#events-preview').css('width','600px');
@@ -40,7 +48,7 @@ $(function() {
 			}
 		});
 	}
-	
+	*/
 });
 </script>
 
@@ -52,15 +60,17 @@ $(function() {
 	<a style="float: right" href="/calendar"><span style="font-size: 90%;">...see the full calendar</span> <img src="/img/fancy_right.png" width="18px" style="margin-bottom: -5px"/></a>
 	<h3 style="margin: 0; padding: 0; font-style: italic;">Coming up... </h3>
 	<!---->
-	<div id="events-preview">
-		<ul>
+	<div id="scroller">
 		<?php foreach( $events->result() as $event ): ?>
-			<li>
-				<a href="/events/details/<?=$event->id?>" title="<?=$event->title . '<br/>' . date('M d', strtotime($event->dt_start)) . ' @ '. date('g:i a',strtotime($event->dt_start))?>"><img src="/media/<?=$event->uuid?>" width="70px"\></a>
-				<span><?=$event->title . '<br/>' . date('M d', strtotime($event->dt_start)) . ' @ '. date('g:i a',strtotime($event->dt_start))?></span>
-			</li>
+			<div class="section">
+				<div class="hp-highlight" style="background:url(/media/<?=$event->uuid?>) no-repeat 0 0">
+					<div class="feature-headline">
+						<h1><a href=""><?=$event->title?></a></h1>
+						<p><?=date('M d', strtotime($event->dt_start)) . ' @ '. date('g:i a',strtotime($event->dt_start))?></p>
+					</div>
+			  </div>
+			</div>
 		<? endforeach; ?>
-		</ul>
 	</div>
 <? } ?>
 
