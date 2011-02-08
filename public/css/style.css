@@ -979,8 +979,9 @@ table.product-search-result td {
 .custom { /* Applied to container DIV */
 	width: 576px;
 	height: 210px;
-	background-color: #FFF;
+	background-color: #000;
 	margin-bottom: 1em;
+	padding: 5px;
 }
 
 .custom .simply-scroll-clip { /* Applied to clip DIV */
@@ -988,7 +989,7 @@ table.product-search-result td {
 	height: 210px;
 }
 
-/* Existing styles */
+/* home page scroller thing */
 #scroller .section {
 	float:left;
 	width: 250px;
