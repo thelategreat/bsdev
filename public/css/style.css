@@ -1002,7 +1002,7 @@ table.product-search-result td {
 
 #scroller .feature-headline {
 	position:relative;
-	top:150px;
+	top:190px;
 	width:180px;
 	background:#000;
 	margin: 5px 5px 10px 5px;
@@ -1017,6 +1017,7 @@ table.product-search-result td {
 	border: 1px solid gray;
 	text-align: center;
 }
+
 #scroller .feature-headline a {
 	font-weight: bold;
 	text-decoration: none;
@@ -1025,15 +1026,15 @@ table.product-search-result td {
 
 #scroller h1 {
 	font-weight:normal;
-	font-size:16px;
-	margin: 5px;
+	font-size:14px;
+	margin: 5px 0;
 }
 
 #scroller p {
 	font-size: 12px !important;
 	color:#888;
 	line-height:110%;
-	padding:0 0 5px;
+	padding: 0 0 5px;
 }
 
 
