@@ -180,6 +180,11 @@ EOF;
 		$this->db->delete( 'events' );
 	}
 	
+	function get_future_dates( $category, $title )
+	{
+		return $this->db->query("SELECT * FROM events WHERE category = $category AND title = " . $this->db->escape($title). " AND dt_start >= NOW()");
+	}
+	
 	function get_extra_info( $event )
 	{
 		$extra = array();

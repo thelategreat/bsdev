@@ -43,12 +43,23 @@ $(document).ready(function(){
 	<?php } 
 		echo '</table>';
 	} else { ?>
-		<p class="event-time"><?=$event->audience?></p>
+		<p class="event-time">Audience: <?=$event->audience?></p>
 	<?php } ?>
 
 	<div class="event-description">
 		<p><?=$event->body?></p>
 	</div>		
+	
+	<?php if( $future ) { ?>
+		<h3>Also Running On...</h3>
+		<table class="event-extra">
+			<?php foreach( $future->result() as $row ) { ?>
+			<tr>
+				<td><?=date('l F j, Y',strtotime($row->dt_start))?></td><td><?=date('g:i a',strtotime($row->dt_start))?></td>
+			</tr>
+			<?php } ?>
+		</table>
+	<?php } ?>
 			
 </div>
 		

@@ -36,17 +36,20 @@ class Events extends MY_Controller
 			$event = $event->row();
 			$event_media = $this->event_model->get_event_media( $id );
 			$event_extra = $this->event_model->get_extra_info( $event );
+			$event_future = $this->event_model->get_future_dates( $event->category, $event->title );
 		} else {
 			$event = NULL;
 			$event_media = NULL;
 			$event_extra = NULL;
+			$event_future = NULL;
 		}
 		
 		
 		$view_data = array(
 			'event' => $event,
 			'media' => $event_media,
-			'extra' => $event_extra
+			'extra' => $event_extra,
+			'future' => $event_future
 			);
 				
 		$pg_data = $this->get_page_data('Bookshelf - Event', 'event');
