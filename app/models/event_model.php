@@ -191,7 +191,7 @@ EOF;
 		switch( $event->category ) {
 			// film
 			case 1:
-			$res = $this->db->query('SELECT director, country, year, rating, imdb_link FROM films WHERE id = ' . $event->event_ref );
+			$res = $this->db->query('SELECT director, country, year, rating, running_time, imdb_link FROM films WHERE id = ' . $event->event_ref );
 			foreach( $res->result_array() as $row ) {
 				foreach( $row as $k => $v ) {
 					$extra[$k] = $v;					

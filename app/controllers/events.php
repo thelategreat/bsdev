@@ -43,8 +43,7 @@ class Events extends MY_Controller
 			$event_extra = NULL;
 			$event_future = NULL;
 		}
-		
-		
+				
 		$view_data = array(
 			'event' => $event,
 			'media' => $event_media,
