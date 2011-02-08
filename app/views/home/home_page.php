@@ -1,6 +1,46 @@
+
 <script type="text/javascript">
-$(function(){
+$(function() {
+	/*
 	$("#events-preview a[title]").tooltip({ position: "top center", opacity: 0.99, offset: [-60,10], effect: "slide"});
+	*/
+	
+	var count = $('#events-preview ul li').size();
+	$('#events-preview').css('height','250px');
+	//$('#events-preview').css('width','600px');
+	$('#events-preview').css('overflow','hidden');
+	$('#events-preview ul li').each( function(ndx) {
+		$(this).css('display','none');
+		$("img", this).css('width','300px');
+		$("span", this).css('top', $(this).parent().parent().offset().top + 3);
+		$("span", this).css('left', $(this).parent().parent().offset().left + 3);
+		$("span", this).css('width', $('#events-preview').width);
+		//$("span", this).css('height', '135px');
+		$("span", this).css('display', 'none');
+	});
+	$('#events-preview ul li').first().fadeIn('slow');
+	$('span',$('#events-preview ul li').first()).fadeIn('slow');
+
+	var cur_image = 0;
+	timer = setInterval( nextImage, 7000 );
+
+	function nextImage()
+	{
+		cur_image++;
+		if( cur_image >= $('#events-preview ul li').size()) {
+			cur_image = 0;
+		}
+		$('#events-preview ul li').each( function(ndx) {
+			if( ndx == cur_image ) {
+				$(this).fadeIn('slow');				
+				$("span", this).show('slow');
+			} else {
+				$(this).css('display','none');
+				$("span", this).css('display', 'none');
+			}
+		});
+	}
+	
 });
 </script>
 
@@ -11,10 +51,14 @@ $(function(){
 <?php if( $events !== NULL ) { ?>
 	<a style="float: right" href="/calendar"><span style="font-size: 90%;">...see the full calendar</span> <img src="/img/fancy_right.png" width="18px" style="margin-bottom: -5px"/></a>
 	<h3 style="margin: 0; padding: 0; font-style: italic;">Coming up... </h3>
+	<!---->
 	<div id="events-preview">
 		<ul>
 		<?php foreach( $events->result() as $event ): ?>
-			<li><a href="/events/details/<?=$event->id?>" title="<?=$event->title . '<br/>' . date('M d', strtotime($event->dt_start)) . ' @ '. date('g:i a',strtotime($event->dt_start))?>"><img src="/media/<?=$event->uuid?>" width="70px"\></a></li>
+			<li>
+				<a href="/events/details/<?=$event->id?>" title="<?=$event->title . '<br/>' . date('M d', strtotime($event->dt_start)) . ' @ '. date('g:i a',strtotime($event->dt_start))?>"><img src="/media/<?=$event->uuid?>" width="70px"\></a>
+				<span><?=$event->title . '<br/>' . date('M d', strtotime($event->dt_start)) . ' @ '. date('g:i a',strtotime($event->dt_start))?></span>
+			</li>
 		<? endforeach; ?>
 		</ul>
 	</div>
