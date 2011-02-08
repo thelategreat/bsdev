@@ -64,7 +64,7 @@ $(function() {
 		<?php foreach( $events->result() as $event ): ?>
 			<div class="section">
 				<div class="hp-highlight" style="background:url(/media/<?=$event->uuid?>) no-repeat 0 0">
-					<div class="feature-headline">
+					<div class="feature-headline film">
 						<h1><a href="/events/details/<?=$event->id?>"><?=$event->title?></a></h1>
 						<p><?=date('M d', strtotime($event->dt_start)) . ' @ '. date('g:i a',strtotime($event->dt_start))?></p>
 					</div>

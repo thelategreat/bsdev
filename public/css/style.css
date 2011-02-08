@@ -1016,6 +1016,8 @@ table.product-search-result td {
 	border-radius: 5px;
 	border: 1px solid gray;
 	text-align: center;
+	background: #000 url('../img/icons/white/movie.png') no-repeat -10px -10px;
+
 }
 
 #scroller .feature-headline a {
