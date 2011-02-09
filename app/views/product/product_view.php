@@ -14,6 +14,7 @@
 		$first = false;
 	}
 	?>
+	<tr><td>Subject</td><td><?=$item->bisac_text?></td></tr>
 	<tr><td>Publisher</td><td><?=$item->publisher?></td></tr>
 	<tr><td>Pub. Date</td><td><?=$item->publishing_date?></td></tr>
 	<tr><td>Format</td><td><?=$item->binding_text?></td></tr>
