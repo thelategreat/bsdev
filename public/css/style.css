@@ -133,55 +133,6 @@ input[type="search"] { -webkit-appearance: textfield; }
 
 
 /* N A V */
-/*
-#nav
-{
-	float: left;
-	width: 100%;
-	background-color: #7C0507;
-}
-
-#nav ul
-{
-	margin: 0;
-	padding: 0;
-	padding-left: 33px;
-}
-
-#nav ul li
-{
-	list-style-type: none;
-	display: inline;
-	font-size: 75%;
-	letter-spacing: 2px;
-	font-weight: bold;
-	text-transform: uppercase;
-}
-
-#nav li a
-{
-	display: block;
-	float: left;
-	padding: 2px 10px;
-	color: #fff;
-	text-decoration: none;
-	border-right: 2px solid #000;
-	font-family: Helvetica, sans-serif;
-}
-
-#nav li a:hover
-{	 
-	background: #078C99;
-	background: #000;
-}
-
-#nav li a.selected
-{	 
-	background: #078C99;
-	background: #000;
-}
-*/
-
 #nav
 {
 	float: left;
@@ -190,72 +141,6 @@ input[type="search"] { -webkit-appearance: textfield; }
  	background-image: url('../img/bs/header_bg_x.png');
  	background-position: -50px 0;
 }
-/*
-ul.dropdown {
-	list-style: none;
-	padding: 0 20px;
-	margin: 0;
-	float: left;
-	width: 920px;
-	background: #222;
-	font-size: 0.8em;
-	background: url(topnav_bg.gif) repeat-x;
-}
-ul.dropdown li {
-	float: left;
-	margin: 0;
-	padding: 0 15px 0 0;
-	position: relative; 
-  text-transform: uppercase;
-}
-ul.dropdown li a {
-	padding: 10px 5px;
-	color: #fff;
-	display: block;
-	text-decoration: none;
-	float: left;
-}
-ul.dropdown li a:hover{
-	background: url(topnav_hover.gif) no-repeat center top;
-}
-ul.dropdown li span { 
-	width: 17px;
-	height: 35px;
-	float: left;
-  margin-top: 5px;
-	background: url(/img/subnav_btn.gif) no-repeat center top;
-}
-ul.dropdown li span.subhover {background-position: center bottom; cursor: pointer;} 
-ul.dropdown li ul.submenu {
-	list-style: none;
-	position: absolute; 
-	left: 0; top: 35px;
-	background: #333;
-	margin: 0; padding: 0;
-	display: none;
-	float: left;
-	width: 170px;
-  opacity: 0.98;
-  z-index: 100;
-  box-shadow: 5px 5px 5px  rgba(0,0,0,0.45);
-}
-ul.dropdown li ul.submenu li{
-	margin: 0; padding: 0;
-	border-top: 1px solid #252525; 
-	border-bottom: 1px solid #444; 
-	clear: both;
-	width: 170px;
-}
-html ul.dropdown li ul.submenu li a {
-	float: left;
-	width: 145px;
-	background: #333 url(dropdown_linkbg.gif) no-repeat 10px center;
-	padding-left: 20px;
-}
-html ul.dropdown li ul.submenu li a:hover { 
-	background: #222 url(dropdown_linkbg.gif) no-repeat 10px center;
-}
-*/
 
 #nav ul {
 	list-style: none;
