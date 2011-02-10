@@ -1,6 +1,9 @@
 <ul id="dropmenu">
 	<li>
 		<a href="/admin">Dashboard</a>
+		<ul>
+			<li><a href="/admin/comments">Comments Queue</a></li>
+		</ul>
 	</li>
 	<li>
 		<a href="/admin">Site</a>

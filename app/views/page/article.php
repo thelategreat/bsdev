@@ -40,6 +40,7 @@
 			<textarea rows="5" cols="60" name="comment"></textarea><br/>
 			<input type="submit" name="add" value="Add Comment" />
 		</form>
+		<p class="info"><small>Please note that comments are subject to approval and may not appear right away</small></p>
 	</div>
 <?php } else { ?>
 	<small><i>Please <a href="/profile/login">log in</a> to comment</i></small>

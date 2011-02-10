@@ -25,7 +25,7 @@ class Comment extends MY_Controller
 	}
 	
 	function add()
-	{
+	{		
 		$comment = $this->input->post('comment');
 		$table = $this->input->post('type');
 		$table_id = (int)$this->input->post('id');
@@ -40,6 +40,7 @@ class Comment extends MY_Controller
 		}
 		redirect('/');
 	}
+	
 }
 
 ?>

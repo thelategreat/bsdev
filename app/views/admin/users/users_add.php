@@ -1,4 +1,4 @@
-<h2><img src="/img/user_add.png" /> Add User</h2>
+<h2><img src="/img/admin/user_add.png" /> Add User</h2>
 
 <form class="general" action="/admin/users/add" method="post">
 <fieldset><legend>Details</legend>
