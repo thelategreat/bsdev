@@ -187,10 +187,10 @@ input[type="search"] { -webkit-appearance: textfield; }
 	float: left;
 	width: 100%;
 	background-color: #7C0507;
-  background-image: url('../img/bs/header_bg_x.png');
-  background-position: -50px 0;
+ 	background-image: url('../img/bs/header_bg_x.png');
+ 	background-position: -50px 0;
 }
-
+/*
 ul.dropdown {
 	list-style: none;
 	padding: 0 20px;
@@ -205,7 +205,7 @@ ul.dropdown li {
 	float: left;
 	margin: 0;
 	padding: 0 15px 0 0;
-	position: relative; /*--Declare X and Y axis base for sub navigation--*/
+	position: relative; 
   text-transform: uppercase;
 }
 ul.dropdown li a {
@@ -218,17 +218,17 @@ ul.dropdown li a {
 ul.dropdown li a:hover{
 	background: url(topnav_hover.gif) no-repeat center top;
 }
-ul.dropdown li span { /*--Drop down trigger styles--*/
+ul.dropdown li span { 
 	width: 17px;
 	height: 35px;
 	float: left;
   margin-top: 5px;
 	background: url(/img/subnav_btn.gif) no-repeat center top;
 }
-ul.dropdown li span.subhover {background-position: center bottom; cursor: pointer;} /*--Hover effect for trigger--*/
+ul.dropdown li span.subhover {background-position: center bottom; cursor: pointer;} 
 ul.dropdown li ul.submenu {
 	list-style: none;
-	position: absolute; /*--Important - Keeps submenu from affecting main navigation flow--*/
+	position: absolute; 
 	left: 0; top: 35px;
 	background: #333;
 	margin: 0; padding: 0;
@@ -237,12 +237,12 @@ ul.dropdown li ul.submenu {
 	width: 170px;
   opacity: 0.98;
   z-index: 100;
-  box-shadow: 5px 5px 5px  rgba(0,0,0,0.45);/*#888; */
+  box-shadow: 5px 5px 5px  rgba(0,0,0,0.45);
 }
 ul.dropdown li ul.submenu li{
 	margin: 0; padding: 0;
-	border-top: 1px solid #252525; /*--Create bevel effect--*/
-	border-bottom: 1px solid #444; /*--Create bevel effect--*/
+	border-top: 1px solid #252525; 
+	border-bottom: 1px solid #444; 
 	clear: both;
 	width: 170px;
 }
@@ -252,10 +252,33 @@ html ul.dropdown li ul.submenu li a {
 	background: #333 url(dropdown_linkbg.gif) no-repeat 10px center;
 	padding-left: 20px;
 }
-html ul.dropdown li ul.submenu li a:hover { /*--Hover effect for submenu links--*/
+html ul.dropdown li ul.submenu li a:hover { 
 	background: #222 url(dropdown_linkbg.gif) no-repeat 10px center;
 }
+*/
 
+#nav ul {
+	list-style: none;
+}
+/* Level 1 */
+ul.dropdown                         { position: relative; list-style: none; z-index: 100; padding: 0 20px; margin: 0; }
+ul.dropdown li                      { text-transform: uppercase; float: left; font-size: 0.9em; background: transparent; }
+/*ul.dropdown li a.selected			{ background: #000; } */
+ul.dropdown a:hover		            { color: #d00; }
+ul.dropdown a:active                { color: #0d0; }
+ul.dropdown li a                    { display: block; padding: 4px 8px; border-right: 1px solid #333; color: #ddd; }
+ul.dropdown li:last-child a         { border-right: none; } /* Doesn't work in IE */
+ul.dropdown li.hover,
+ul.dropdown li:hover                { background: #000; color: #333; position: relative; }
+ul.dropdown li.hover a              { color: #ddd; } 
+/* Level 2 */
+ul.dropdown ul 						{ width: 220px; visibility: hidden; position: absolute; top: 100%; left: 0;  }
+ul.dropdown ul li 					{ font-weight: normal; background: #222; 
+									  border-bottom: 1px solid #333; float: none; margin-left: -40px; }                                    /* IE 6 & 7 needs inline block */
+ul.dropdown ul li a					{ border-right: none; width: 100%; display: inline-block; } 
+/* Level 3 */
+ul.dropdown ul ul 					{ left: 100%; top: 0; }
+ul.dropdown li:hover > ul 			{ visibility: visible; }
 
 /* C O N T E N T */
 #content-container1

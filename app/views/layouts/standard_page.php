@@ -28,9 +28,22 @@
   <script type="text/javascript" src="/js/jquery.jdropdown.js"></script>
 
   <script type="text/javascript">
+		
     $(document).ready(function(){
-      $('#nav').dropDown({speed: 'fast'});
+      //$('#nav').dropDown({speed: 'fast'});
+			// menu
+			
+			$("ul.dropdown li").hover(function(){
+		      $(this).addClass("hover");
+		      $('ul:first',this).css('visibility', 'visible');  
+		  }, function(){
+		      $(this).removeClass("hover");
+		      $('ul:first',this).css('visibility', 'hidden');
+		  });  
+		  $("ul.dropdown li ul li:has(ul)").find("a:first").append(" &raquo; ");
+		  		
     });
+		
   </script>
 
 </head>

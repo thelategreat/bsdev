@@ -54,13 +54,13 @@ class MY_Controller extends Controller
       $s = '<ul class="dropdown">';
       $s .= '<li><a href="/" ' . ($section == 0 ? ' class="selected"' : '') . '>Home</a></li>';
     } else {
-      $s = '<ul class="submenu">';
+      $s = '<ul>';
     }
     foreach( $pages as $page ):
 			if( $page->page_type == 'link') {
-				$s .= "<li><a href='" . $page->body . "'/>$page->title</a>";
+				$s .= "<li><a href='" . $page->body . "'>$page->title</a>";
 			} else {
-      	$s .= "<li><a href='/page/view/$page->id'/>$page->title</a>";
+      	$s .= "<li><a href='/page/view/$page->id'>$page->title</a>";
 			}
       if( count($page->children) > 0 ) {
         $s .= $this->main_menu_pages( $section, $page->children, false );

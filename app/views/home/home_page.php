@@ -1,7 +1,7 @@
 <script type="text/javascript" src="/js/jquery.simplyscroll-1.0.4.min.js"></script>
 
 <script type="text/javascript">
-$(function() {
+$(function() {	
 	$("#scroller").simplyScroll({
 				className: 'custom',
 				autoMode: 'loop',
