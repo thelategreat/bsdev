@@ -12,6 +12,7 @@ class Article extends MY_Controller
 	{
 		parent::Controller();
 		$this->load->model('articles_model');
+		$this->load->model('comments_model');
 	}
 	
 	/**
@@ -40,15 +41,20 @@ class Article extends MY_Controller
 		}
 		
 		$res = $this->articles_model->get_article($id);
+		
 		if( $res->num_rows() ) {
 			$res = $res->row();
+			$comments = $this->comments_model->get_comments('articles', $id )->result();
 		} else {
 			$res = NULL;
+			$comments = array();
 		}
 		
 		$view_data = array(
 			'article' => $res,
-			'images' => $images 
+			'images' => $images,
+			'comments' => $comments,
+			'can_comment' => $this->auth->logged_in()
 			);
 		
 		$pg_data = $this->get_page_data('Bookshelf - Home', 'home' );

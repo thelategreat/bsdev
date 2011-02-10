@@ -883,6 +883,23 @@ table.product-search-result td {
 	-moz-box-shadow: 10px 10px 5px #888; 
 }	
 
+/* user comments */
+div.comment {
+	font-size: 0.9em;	
+}
+
+div.comment span.author {
+	display: block;
+	background-color: #ddd;
+	padding: 3px;
+	text-align: right;
+	border-radius: 3px;
+}
+
+div.comment p {
+	font-size: 0.9em;
+}
+
 /* home page scroller thing */
 .custom { /* Applied to container DIV */
 	width: 576px;

@@ -58,7 +58,8 @@ class Auth {
       {  
           // Our user exists, set session.
           $user = $query->row();  
-          $this->CI->session->set_userdata('logged_user', $username);
+          $this->CI->session->set_userdata('logged_user', $username );
+          $this->CI->session->set_userdata('logged_user_id', $user->id );
           // set the role
           $this->CI->db->where('id', $user->role_id );
           $query = $this->CI->db->get('user_roles');
@@ -216,6 +217,7 @@ ELF;
     function logout()   
     {  
 			$this->CI->session->unset_userdata('logged_user');
+			$this->CI->session->unset_userdata('logged_user_id');
 			$this->CI->session->unset_userdata('logged_user_role');
       $this->CI->session->sess_destroy();
       return TRUE;  

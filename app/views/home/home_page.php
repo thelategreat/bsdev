@@ -86,7 +86,7 @@ $(function() {
 		<h2><a href="/article/view/<?=$article->id?>"><?= $article->title ?></a></h2>
 		<span class="date"><?=$article->author?>. - <?=date('j M Y',strtotime($article->publish_on))?> - <?=$article->group ?></span>
 		<p><?= strlen(trim($article->excerpt)) ? $article->excerpt : implode(' ', array_slice(explode( ' ', $article->body),0,100) ) . '...' ?>
-		<p class="read-more"><a href="/article/view/<?=$article->id?>"><em>read more...<img src="/img/big_feature_right_arrow.png" width="18px" style="margin-bottom: -4px"/></em></a><p>
+		<p class="read-more">	<?= $article->comment_count > 0 ? '<img src="/img/comment.png" style="margin-bottom: -5px;">' . $article->comment_count . ' comments | ' : '' ?> <a href="/article/view/<?=$article->id?>"><em>read more...<img src="/img/big_feature_right_arrow.png" width="18px" style="margin-bottom: -4px"/></em></a><p>
 	</div>
 <?php } ?>
 

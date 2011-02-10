@@ -12,11 +12,10 @@ class articles_model extends Model
 	// used by admin
 	function get_article_list( $category = NULL, $page = 1, $limit = NULL, $query = '' )
 	{
-		
-		
+				
 		$q =<<<EOF
 SELECT a.id, title, fnStripTags(body) as body, excerpt, ac.category, publish_on, author, 
-			 owner, ast.status, gt.name as group_name 
+			 owner, ast.status, gt.name as group_name
 	FROM articles as a, article_categories as ac, article_statuses as ast, group_tree as gt
 	WHERE a.category = ac.id AND a.status = ast.id AND a.group = gt.id
 EOF;
@@ -73,7 +72,9 @@ EOF;
     }
 
     $q =<<<SQL
-select a.id, a.title, fnStripTags(a.body) as body, a.excerpt, ac.category, a.publish_on, a.author, ast.status, gt2.name as `group`
+select a.id, a.title, fnStripTags(a.body) as body, a.excerpt, ac.category, a.publish_on, a.author, ast.status, gt2.name as `group`,
+	(select count(*) FROM comments WHERE table_ref = 'articles' AND table_id = a.id) as comment_count
+
 	from articles as a, group_tree as gt, group_tree as gt2, article_categories as ac, article_statuses as ast
 	where
 		a.group = gt2.id and
