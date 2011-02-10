@@ -25,7 +25,7 @@
 
 	<script type="text/javascript" src="/js/jquery.tools.min.js" ></script>
 	<script type="text/javascript" src="/js/jqModal.js"></script>
-  <script type="text/javascript" src="/js/jquery.jdropdown.js"></script>
+  <!-- <script type="text/javascript" src="/js/jquery.jdropdown.js"></script> -->
 
   <script type="text/javascript">
 		// on load

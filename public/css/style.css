@@ -158,8 +158,8 @@ ul.dropdown li:hover                { background: #000; color: #333; position: r
 ul.dropdown li.hover a              { color: #ddd; } 
 /* Level 2 */
 ul.dropdown ul 						{ width: 220px; visibility: hidden; position: absolute; top: 100%; left: 0;  }
-ul.dropdown ul li 					{ font-weight: normal; background: #222; 
-									  border-bottom: 1px solid #333; float: none; margin-left: -40px; }                                    /* IE 6 & 7 needs inline block */
+ul.dropdown ul li 					{ font-weight: normal; background: #333; 
+									  border-bottom: 1px solid #555; float: none; margin-left: -40px; }                                    /* IE 6 & 7 needs inline block */
 ul.dropdown ul li a					{ border-right: none; width: 100%; display: inline-block; } 
 /* Level 3 */
 ul.dropdown ul ul 					{ left: 100%; top: 0; }
