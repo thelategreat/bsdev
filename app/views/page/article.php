@@ -29,7 +29,6 @@
 </div>
 
 <h3>User Comments</h3>
-
 <?php if( $can_comment ) { ?>
 	<small><a href="#" onclick="$('#comment-form').toggle('slow')" /><img src="/img/comments_add.png" style="margin-bottom: -5px" /> add comment</a></small>
 	<div id="comment-form" style="display: none;">
@@ -45,6 +44,8 @@
 <?php } else { ?>
 	<small><i>Please <a href="/profile/login">log in</a> to comment</i></small>
 <?php } ?>
+<br/>
+<small><b>Fine print:</b> the following comments are owned by whoever posted them.</small><br/>
 
 <?php foreach( $comments as $comment ) { ?>
 	<div class="comment">

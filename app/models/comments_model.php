@@ -42,6 +42,19 @@ class comments_model extends Model
 		$this->db->insert('comments');
 	}
 	
+	function approve( $id )
+	{
+		$this->db->set('approved', '1');
+		$this->db->where('id', $id );
+		$this->db->update('comments');		
+	}
+	
+	function rm( $id )
+	{
+		$this->db->where('id', $id );
+		$this->db->delete('comments');		
+	}
+	
 }
 
 ?>

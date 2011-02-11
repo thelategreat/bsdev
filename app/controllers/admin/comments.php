@@ -40,9 +40,7 @@ class Comments extends Admin_Controller
 	{
 		$id = (int)$this->uri->segment(4);
 		if( $id ) {
-			$this->db->set('approved', '1');
-			$this->db->where('id', $id );
-			$this->db->update('comments');
+			$this->comments_model->approve( $id );
 		}
 		redirect('/admin/comments');
 	}
@@ -51,8 +49,7 @@ class Comments extends Admin_Controller
 	{
 		$id = (int)$this->uri->segment(4);
 		if( $id) {
-			$this->db->where('id', $id );
-			$this->db->delete('comments');
+			$this->comments_model->rm( $id );
 		}		
 		redirect('/admin/comments');
 	}
