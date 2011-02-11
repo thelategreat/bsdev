@@ -33,4 +33,9 @@ $config['max_image_height'] = 768;
 // image list pager
 $config['image_browser_page_size'] = 5;
 
+/* --------------------------------------------------------------------------
+ * Comments
+ *-------------------------------------------------------------------------- */
+$config['allow_comments'] = false;
+
 ?>

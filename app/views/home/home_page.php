@@ -5,50 +5,10 @@ $(function() {
 	$("#scroller").simplyScroll({
 				className: 'custom',
 				autoMode: 'loop',
-				pauseOnHover: false,
+				pauseOnHover: true,
 				frameRate: 20,
 				speed: 2
 			});
-	/*
-	$("#events-preview a[title]").tooltip({ position: "top center", opacity: 0.99, offset: [-60,10], effect: "slide"});
-	*/
-	/*
-	var count = $('#events-preview ul li').size();
-	$('#events-preview').css('height','250px');
-	//$('#events-preview').css('width','600px');
-	$('#events-preview').css('overflow','hidden');
-	$('#events-preview ul li').each( function(ndx) {
-		$(this).css('display','none');
-		$("img", this).css('width','300px');
-		$("span", this).css('top', $(this).parent().parent().offset().top + 3);
-		$("span", this).css('left', $(this).parent().parent().offset().left + 3);
-		$("span", this).css('width', $('#events-preview').width);
-		//$("span", this).css('height', '135px');
-		$("span", this).css('display', 'none');
-	});
-	$('#events-preview ul li').first().fadeIn('slow');
-	$('span',$('#events-preview ul li').first()).fadeIn('slow');
-
-	var cur_image = 0;
-	timer = setInterval( nextImage, 7000 );
-
-	function nextImage()
-	{
-		cur_image++;
-		if( cur_image >= $('#events-preview ul li').size()) {
-			cur_image = 0;
-		}
-		$('#events-preview ul li').each( function(ndx) {
-			if( ndx == cur_image ) {
-				$(this).fadeIn('slow');				
-				$("span", this).show('slow');
-			} else {
-				$(this).css('display','none');
-				$("span", this).css('display', 'none');
-			}
-		});
-	}
-	*/
 });
 </script>
 

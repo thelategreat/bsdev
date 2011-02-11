@@ -40,21 +40,32 @@ class Article extends MY_Controller
 			$images[] = $row;
 		}
 		
+		// comment stuff
+		// -------------
+		// system or per article level
+		$allow_comments = $this->config->item('allow_comments');
+		// user authorized to comment
+		$can_comment = $this->auth->logged_in();
+		// empty
+		$comments = array();
+		
 		$res = $this->articles_model->get_article($id);
 		
 		if( $res->num_rows() ) {
 			$res = $res->row();
-			$comments = $this->comments_model->get_comments('articles', $id )->result();
+			if( $allow_comments ) {
+				$comments = $this->comments_model->get_comments('articles', $id )->result();
+			}
 		} else {
 			$res = NULL;
-			$comments = array();
 		}
 		
 		$view_data = array(
 			'article' => $res,
 			'images' => $images,
 			'comments' => $comments,
-			'can_comment' => $this->auth->logged_in()
+			'can_comment' => $can_comment,
+			'allow_comments' => $allow_comments
 			);
 		
 		$pg_data = $this->get_page_data('Bookshelf - Home', 'home' );

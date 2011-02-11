@@ -28,6 +28,8 @@
 	<a href="http://twitter.com/home?status=<?=$article->title . '?: ' . base_url() . 'article/view/' .$article->id?>" title="Share this on twitter"><img src="/img/icons/icon_twitter.png"/></a>
 </div>
 
+<?php if( $allow_comments) { ?>
+
 <h3>User Comments</h3>
 <?php if( $can_comment ) { ?>
 	<small><a href="#" onclick="$('#comment-form').toggle('slow')" /><img src="/img/comments_add.png" style="margin-bottom: -5px" /> add comment</a></small>
@@ -55,3 +57,5 @@
 		</p>
 	</div>
 <?php } ?>
+
+<?php } // if( $allow_comments ) ?>

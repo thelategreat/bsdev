@@ -75,10 +75,10 @@ class Home extends MY_Controller
     }
 
 		// row across top of page only on home
-		if( $section == 0) {
+		if( $section == 0 ) {
 			$events = $this->event_model->get_next_events( 7 );
 		}
-		
+				
 		$pagination = '<table style="width: 100%;"><tr>';
 		if( $page > 1 ) {
 			$prev_page = $page - 1;
