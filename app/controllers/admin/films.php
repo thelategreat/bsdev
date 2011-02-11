@@ -101,6 +101,9 @@ class Films extends Admin_Controller
 		if( $this->input->post('cancel')) {
 			redirect('/admin/films');			
 		}
+		if( $this->input->post('rm')) {
+			redirect('/admin/films/rm/' . $id );			
+		}
 						
 
 		$cur_tab = 'details';
@@ -136,14 +139,20 @@ class Films extends Admin_Controller
 				redirect('/admin/films');
 			}			
 		}
+		
+		// check is we can delete this, no references
+		$can_delete = false;
+		$res = $this->db->query("SELECT * FROM events WHERE event_ref = $id");
+		if( $res->num_rows() == 0 ) {
+			$can_delete = true;
+		}
 
 		$this->db->where('id', $id );
 		$film = $this->db->get('films')->row();
 		if( !$film ) {
 			redirect('/admin/films');			
 		}
-		
-		
+				
 		$tabs = $tabs = $this->tabs->gen_tabs(array('Details','Media'), $cur_tab, '/admin/films/edit/' . $id);
 		
 		if( $cur_tab == 'media' ) {
@@ -157,11 +166,27 @@ class Films extends Admin_Controller
 			//$content = $this->load->view('admin/films/films_media', array('film' => $film, 'tabs' => $tabs ), true );
 			$content = $this->load->view('admin/media/media_tab', $data, true );
 		} else {
-			$content = $this->load->view('admin/films/films_edit', array('film' => $film, 'tabs' => $tabs ), true );
+			$content = $this->load->view('admin/films/films_edit', array('film' => $film, 'can_delete' => $can_delete, 'tabs' => $tabs ), true );
 		}
 		
 		$this->gen_page('Admin - Films', $content );
 	}
+	
+	function rm()
+	{
+		$id = (int)$this->uri->segment(4);
+		if( $id ) {
+			$this->db->where('id', $id );
+			$film = $this->db->delete('films');
+			// media
+			// TODO: remove disk images as well!!
+			$this->db->where('path', "/films/$id" );
+			$film = $this->db->delete('media_map');
+			
+		}
+		redirect('/admin/films');
+	}
+	
 	
 	/* NOTE: I think nothing below here is used anymore */
 	

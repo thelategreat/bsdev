@@ -82,6 +82,9 @@ function lookup()
 </table>
 <br/>
 <input class="save-button" type="submit" name="update" value="Save" />
-<input class="cancel-button" type="submit" name="cancel" value="Cancel" />
+<?php if( $can_delete ) { ?>
+<input class="delete-button" type="submit" name="rm" value="Delete" onclick="return confirm('Really delete this film?');" />
+<?php } ?>
+&nbsp;&nbsp;<input class="cancel-button" type="submit" name="cancel" value="Cancel" />
 </form>
 
