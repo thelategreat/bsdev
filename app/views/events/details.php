@@ -50,7 +50,7 @@ $(document).ready(function(){
 		<p><?=$event->body?></p>
 	</div>		
 	
-	<?php if( $future ) { ?>
+	<?php if( $future && $future->num_rows() ) { ?>
 		<h3>Also Running On...</h3>
 		<table class="event-extra">
 			<?php foreach( $future->result() as $row ) { ?>
