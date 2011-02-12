@@ -21,8 +21,7 @@ function remove( id )
 	<tr class="<?= ($count % 2) == 0 ? 'odd' : ''?>">
 		<td valign="top">
 			<a href="/admin/users/edit/<?=$comment->user_id?>"><?=$comment->firstname?> <?=$comment->lastname?></a><br/>
-			<?=$comment->comment_date?><br/>
-			in: 
+			<?=$comment->comment_date?>
 		</td>
 		<td valign="top" width="65%"><?=$comment->comment?></td>
 		<td valign="top">

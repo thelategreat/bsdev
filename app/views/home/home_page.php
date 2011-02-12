@@ -16,7 +16,7 @@ $(function() {
 	<a href="/home/section/<?=$parent['id']?>"><?= $parent['name'] ?></a>  ❖
 <?php } ?>
 
-<?php if( $events !== NULL ) { ?>
+<?php if( $events !== NULL && $events->num_rows() > 0 ) { ?>
 	<a style="float: right" href="/calendar"><span style="font-size: 90%;">...see the full calendar</span> <img src="/img/fancy_right.png" width="18px" style="margin-bottom: -5px"/></a>
 	<h3 style="margin: 0; padding: 0; font-style: italic;">Coming up... </h3>
 	<!---->

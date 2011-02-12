@@ -47,7 +47,7 @@
 	<small><i>Please <a href="/profile/login">log in</a> to comment</i></small>
 <?php } ?>
 <br/>
-<small><b>Fine print:</b> the following comments are owned by whoever posted them.</small><br/>
+<small><i><b>Fine print:</b> the following comments are owned by whoever posted them.</small></i><br/>
 
 <?php foreach( $comments as $comment ) { ?>
 	<div class="comment">

@@ -332,7 +332,8 @@ body.calendar #content {
 	border-top: 1px solid #666;
 	border-bottom: 1px solid #666;
 	padding-top: 5px;
-	margin-bottom: 5px;
+	margin-bottom: 5px;	
+	margin-top: 5px;	
 }
 
 #sidebar-right ul 
@@ -891,13 +892,15 @@ div.comment {
 div.comment span.author {
 	display: block;
 	background-color: #ddd;
-	padding: 3px;
+	padding: 2px;
 	text-align: right;
 	border-radius: 3px;
+	border: 1px solid #bbb;
+	border-bottom: none;
+	border-right: none;
 }
 
 div.comment p {
-	font-size: 0.9em;
 }
 
 /* home page scroller thing */
