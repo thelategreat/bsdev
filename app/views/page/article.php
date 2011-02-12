@@ -32,7 +32,7 @@
 
 <h3>User Comments</h3>
 <?php if( $can_comment ) { ?>
-	<small><a href="#" onclick="$('#comment-form').toggle('slow')" /><img src="/img/comments_add.png" style="margin-bottom: -5px" /> add comment</a></small>
+	<small><span onclick="$('#comment-form').toggle('slow')" style="cursor: hand;" /><img src="/img/comments_add.png" style="margin-bottom: -5px" /> add comment</span></small>
 	<div id="comment-form" style="display: none;">
 		<form action="/comment/add" method="post">
 			<input name="redir" type="hidden" value="/article/view/<?=$article->id?>" />
