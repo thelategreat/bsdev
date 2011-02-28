@@ -304,6 +304,7 @@ form.login input[type=submit] {
 table.ads-list td.expired { color: #f00; }
 
 /***** Article list ****/
+table.article-list td.featured { background-color: #bbf; }
 table.article-list td.published { background-color: #9f9; }
 table.article-list td.draft { background-color: #FF6; }
 table.article-list td.pending { background-color: #F99; }
@@ -925,4 +926,29 @@ ul.gallery {
 
 div.wiki-text a {
   color: #f55;
+}
+
+/* toolbar */
+div.toolbar {
+	padding: 3px;
+	display: block;	
+}
+
+div.toolbar span.toolbar-title {
+	font-size: 1.1em;
+	font-weight: bold;
+}
+
+div.toolbar span.spacer {
+	width: 3px;
+	background-color: #333;
+}
+
+div.toolbar button {
+	margin: 0;
+	padding: 2px;
+}
+
+div.toolbar button img {
+	width: 12px;
 }

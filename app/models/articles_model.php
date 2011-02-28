@@ -31,7 +31,7 @@ EOF;
 		}
 	}
 		
-	$q .= " ORDER BY publish_on DESC, title ASC ";
+	$q .= " ORDER BY ast.id ASC, title ASC, publish_on DESC ";
 		
 		if( $limit ) {
 			$q .= " LIMIT $limit";
@@ -46,7 +46,7 @@ EOF;
 		$q =<<<EOF
 SELECT a.id, title, fnStripTags(body) as body, excerpt, ac.category, publish_on, author, ast.status, gt.name as `group`
 	FROM articles as a, article_categories as ac, article_statuses as ast, group_tree as gt
-	WHERE a.category = ac.id AND a.status = ast.id AND a.status = 3 AND gt.id = a.group AND publish_on <= NOW() 
+	WHERE a.category = ac.id AND a.status = ast.id AND a.status >= 3 AND gt.id = a.group AND publish_on <= NOW() 
 EOF;
 
 			if( $group ) {
@@ -73,7 +73,7 @@ EOF;
 
     $q =<<<SQL
 select a.id, a.title, fnStripTags(a.body) as body, a.excerpt, ac.category, a.publish_on, a.author, ast.status, gt2.name as `group`,
-	(select count(*) FROM comments WHERE table_ref = 'articles' AND table_id = a.id) as comment_count
+	(select count(*) FROM comments WHERE table_ref = 'articles' AND table_id = a.id) as comment_count, ast.id as status_id
 
 	from articles as a, group_tree as gt, group_tree as gt2, article_categories as ac, article_statuses as ast
 	where
@@ -81,11 +81,11 @@ select a.id, a.title, fnStripTags(a.body) as body, a.excerpt, ac.category, a.pub
 		gt2.lft between gt.lft and gt.rgt and
 		a.category = ac.id and
 		a.status = ast.id and
-		a.status = 3 and
+		a.status >= 3 and
 		gt.id = $group
 SQL;
 
-    $q .= " ORDER BY a.publish_on DESC";
+    $q .= " ORDER BY status_id ASC, a.publish_on DESC";
 
     if( $limit ) {
       $q .= " LIMIT $limit";

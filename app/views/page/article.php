@@ -8,10 +8,9 @@
 	<?php if( count($images)) {
     if( $images[0]['type'] == 'link') {
         echo get_embed_object( $images[0]['fname'] );
-   } else {
-  ?>
+   } else { ?>
 			<img src="<?=$images[0]['thumbnail']?>" style="width: 150px; margin: 10px; float: right; margin-top: -20px" />
-      <?php
+  <?php
    }
  } ?>
 

@@ -276,7 +276,7 @@ function mk_pager( $page, $page_size, $max, $url, $append = '' )
 		$next_page = '<button onclick="window.location=\''.$url.'/'.($page+1).'/' . $append . '\'"><img src="/img/admin/32-arrow-left.png" width="12px;"/></button>';
 	}
 		
-	$s = '<table class="pager"><tr><td></td><td align="right">' . $prev_page . $next_page . '</td></tr></table>';
+	$s = '<table class="pager"><tr><td></td><td align="left">' . $prev_page . $next_page . '</td></tr></table>';
 
 	return $s;	
 }

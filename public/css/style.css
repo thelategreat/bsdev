@@ -102,7 +102,6 @@ img {
 
 #search 
 {
-	padding-top: 5px;
 	background-color: #ddd;
 	padding-bottom: 3px;
 	padding-top: 2px;
@@ -110,10 +109,17 @@ img {
 	opacity: 0.85;
 }
 
-#search input
+#search form {
+	height: 20px;	
+	padding: 2px;
+}
+
+#search input, #search select
 {
 	border: 1px solid #ddd;
 	height: 18px;
+	padding-top: -10px;
+	margin-top: -10px;
 }
 
 #search button {
@@ -129,7 +135,7 @@ img {
 }
 
 /* make safari search look normal */
-input[type="search"] { -webkit-appearance: textfield; }
+#search input[type="search"] { -webkit-appearance: textfield; }
 
 
 /* N A V */
@@ -1034,4 +1040,37 @@ Class name automatically added to element */
     color: #D8000C;
     background-color: #FFBABA;
     background-image: url('/img/error.png');
+}
+
+/* forms */
+
+fieldset.general {
+	padding: 10px;
+	border: 2px solid #bbb;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
+fieldset.general form {
+	
+}
+
+fieldset.general legend {
+	
+}
+
+fieldset.general input, fieldset.general button {
+     border: 1px solid #a0a0a0;
+     padding: 3px;
+     margin: 5px;
+     -moz-border-radius: 5px;
+     -webkit-border-radius: 5px;
+}
+
+fieldset.general input[type=submit], fieldset.general button {
+    border: 1px solid #a0a0a0;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+	background: -webkit-gradient(linear, 0% 40%, 0% 70%, from(#F9F9F9), to(#E3E3E3));
+	background: -moz-linear-gradient(top,  #F9F9F9,  #e3e3e3);;
 }
