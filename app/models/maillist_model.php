@@ -1,11 +1,11 @@
 <?php
 if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class maillist_model extends Model
+class maillist_model extends CI_Model
 {
-  function maillist_model()
+  function __construct()
   {
-    parent::Model();
+    parent::__construct();
   }
 
 	function get_templates()

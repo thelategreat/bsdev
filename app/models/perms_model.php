@@ -1,12 +1,12 @@
 <?php
 if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class perms_model extends Model
+class perms_model extends CI_Model
 {
 
-  function perms_model()
+  function __construct()
   {
-    parent::Model();
+    parent::__construct();
   }
 
 

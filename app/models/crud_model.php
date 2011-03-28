@@ -3,7 +3,7 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 /* crud */
 
-class Users_model extends Model
+class Users_model extends CI_Model
 {
     /**
      * Set your return type values can be any of the methods in
@@ -15,9 +15,9 @@ class Users_model extends Model
      */
     private $return = 'result';	
 	
-	function Users_model()
+	function __construct()
 	{
-		parent::Model();
+		parent::__construct();
 	}
 	
     public function create($table, $data = array(), $sql_modifiers = array())

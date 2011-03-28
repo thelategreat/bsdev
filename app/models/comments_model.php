@@ -1,12 +1,12 @@
 <?php
 if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class comments_model extends Model
+class comments_model extends CI_Model
 {
 
   function __construct()
   {
-    parent::Model();
+    parent::__construct();
   }
 
 	function get_comments_count( $type, $table_id )

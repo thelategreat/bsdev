@@ -10,7 +10,7 @@ class Browse extends MY_Controller
 	 **/
 	function __construct()
 	{
-		parent::Controller();
+		parent::__construct();
 		$this->load->model('products_model');
 	}
 

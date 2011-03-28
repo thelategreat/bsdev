@@ -2,12 +2,12 @@
 if (!defined('BASEPATH')) exit('No direct script access allowed');
 /*
 */
-class Bugs_model extends Model
+class Bugs_model extends CI_Model
 {
 
   function __construct()
   {
-    parent::Model();
+    parent::__construct();
   }
 
 	function get_bugs( $filter, $page, $page_size )

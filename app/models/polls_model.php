@@ -1,15 +1,15 @@
 <?php
 if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class polls_model extends Model
+class polls_model extends CI_Model
 {
 	/**
 	 *
 	 */
-  //function Polls_model()
- // {
- //   parent::Model();
- // }
+  function __construct()
+  {
+    parent::__construct();
+  }
 
 	/**
 	 *

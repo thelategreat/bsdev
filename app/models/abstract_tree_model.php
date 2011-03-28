@@ -21,7 +21,7 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
  * also a root node is required with a parent_id of 0
  * INSERT INTO ... (id, parent_id, sort_order, ...) VALUES (1, 0, 1, ...);
  */
-abstract class abstract_tree_model extends Model
+abstract class abstract_tree_model extends CI_Model
 {
 	/**
 	 * $table_name - the table name

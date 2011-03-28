@@ -11,7 +11,7 @@ class Calendar extends MY_Controller
 	 **/
 	function __construct()
 	{
-		parent::Controller();
+		parent::__construct();
 		
 		$this->config->load('site_config');
 		

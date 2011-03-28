@@ -4,14 +4,14 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * 
  */
-class search_model extends Model
+class search_model extends CI_Model
 {
 	/**
 	 * 
 	 */
-	function __constructor()
+	function __construct()
 	{
-		parent::Model();
+		parent::__construct();
 	}
 
 	function search( $query, $which = 'all', $page = 1, $limit = 10 )

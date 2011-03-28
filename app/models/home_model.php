@@ -1,12 +1,12 @@
 <?php
 if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class home_model extends Model
+class home_model extends CI_Model
 {
 
   function __construct()
   {
-    parent::Model();
+    parent::__construct();
   }
 
 	function get_top_level_groups()
