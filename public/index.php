@@ -88,7 +88,8 @@
  */
 	// $assign_to_config['name_of_config_item'] = 'value of config item';
 
-
+# PHP 5.3 cries like a baby if this is not set
+date_default_timezone_set('America/New_York');
 
 // --------------------------------------------------------------------
 // END OF USER CONFIGURABLE SETTINGS.  DO NOT EDIT BELOW THIS LINE
