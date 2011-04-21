@@ -10,7 +10,7 @@ class Events extends MY_Controller
 	 **/
 	function __construct()
 	{
-		parent::Controller();
+		parent::__construct();
 	}
 	
 	/**

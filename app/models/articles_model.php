@@ -1,12 +1,12 @@
 <?php
 if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class articles_model extends Model
+class articles_model extends CI_Model
 {
 
-  function articles_model()
+  function __construct()
   {
-    parent::Model();
+    parent::__construct();
   }
 
 	// used by admin

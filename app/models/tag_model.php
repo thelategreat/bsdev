@@ -6,8 +6,14 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
  * generic tag model.
  * this is meant to be inherited and added tagging support to a model.
  */
-class Tag_model extends Model
+class Tag_model extends CI_Model
 {
+	
+	function __construct()
+	{
+		parent::__construct();
+	}
+	
 	/**
 	 * save tags for a given id
 	 *

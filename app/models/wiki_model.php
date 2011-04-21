@@ -7,12 +7,12 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
  * TODO add a way to reverse a revision
  */
 
-class Wiki_model extends Model
+class Wiki_model extends CI_Model
 {
 
   function __construct()
   {
-    parent::Model();
+    parent::__construct();
 
     $this->load->helper('diff');
 

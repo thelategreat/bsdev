@@ -14,7 +14,7 @@ class Track extends MY_Controller
 	 **/
 	function __construct()
 	{
-		parent::Controller();
+		parent::__construct();
 		$this->load->model('ads_model');
 		$this->load->library('user_agent');
 		$this->load->helper('url');

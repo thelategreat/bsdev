@@ -1,12 +1,12 @@
 <?php
 if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class users_model extends Model
+class users_model extends CI_Model
 {
 
-  function users_model()
+  function __construct()
   {
-    parent::Model();
+    parent::__construct();
   }
 
   function get_users( $filter = NULL, $role = NULL )

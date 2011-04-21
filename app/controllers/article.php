@@ -10,7 +10,7 @@ class Article extends MY_Controller
 	 **/
 	function __construct()
 	{
-		parent::Controller();
+		parent::__construct();
 		$this->load->model('articles_model');
 		$this->load->model('comments_model');
 	}

@@ -16,9 +16,9 @@ class media_model extends Tag_Model
 	/**
 	 *
 	 */
-  function media_model()
+  function __construct()
   {
-    parent::Model();
+    parent::__construct();
   }
 	
 	/**
