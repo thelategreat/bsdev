@@ -9,8 +9,9 @@
 | For more info visit:  http://www.php.net/error_reporting
 |
 */
-	error_reporting(E_ALL);
+error_reporting(E_ALL);
 
+date_default_timezone_set('America/New_York');
 /*
 |---------------------------------------------------------------
 | SYSTEM FOLDER NAME
@@ -112,6 +113,7 @@ else
 | And away we go...
 |
 */
+
 require_once BASEPATH.'codeigniter/CodeIgniter'.EXT;
 
 /* End of file index.php */
