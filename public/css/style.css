@@ -456,10 +456,6 @@ body.calendar #content {
 	margin: 20px;
 }
 
-#cart {
-	margin: 20px;	
-}
-
 img.img-preview-left {
 	float: left;
 	margin: 3px;
@@ -744,8 +740,13 @@ table.event-extra td {
 
 /* C A R T */
 #cart {
-	
+	margin: 20px;	
 }
+
+button.small-button {
+  font-size: .7em;
+}
+
 
 #cart table {
 	font-size: 90%;	
@@ -869,6 +870,20 @@ table.product-search-result td {
 	height: 100px;
 	vertical-align: top;
 	border-bottom: 1px dotted #ddd;
+}
+
+div.big-price {
+  vertical-align: middle;
+  margin: 10px;
+  padding: 10px;
+  background-color: #eee;
+  border-radius: 5px;
+  border: 1px solid #999;
+}
+
+div.big-price p {
+  padding-left: 60px;
+  font-weight: bold;
 }
 
 /* Dialog window */
@@ -1074,3 +1089,47 @@ fieldset.general input[type=submit], fieldset.general button {
 	background: -webkit-gradient(linear, 0% 40%, 0% 70%, from(#F9F9F9), to(#E3E3E3));
 	background: -moz-linear-gradient(top,  #F9F9F9,  #e3e3e3);;
 }
+
+/***** Tabs *****/
+div.tabs {height: 2.6em; border-bottom: 1px solid #bbbbbb; margin-bottom:1.2em; position:relative;}
+div.tabs ul {margin:0; position:absolute; bottom:-2px; padding-left:1em;}
+div.tabs>ul { bottom:-1px; } /* others */
+div.tabs ul li {
+    float:left;
+    list-style-type:none;
+    white-space:nowrap;
+    margin-right:8px;
+    background:#fff;
+}
+div.tabs ul li a{
+    display:block;
+    font-size: 0.9em;
+    text-decoration:none;
+    line-height:1.3em;
+    padding:4px 6px 4px 6px;
+    border: 1px solid #ccc;
+    border-bottom: 1px solid #bbbbbb;
+    background-color: #eeeeee;
+    color:#777;
+    font-weight:bold;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+
+div.tabs ul li a:hover {
+    background-color: #ffffdd;
+    text-decoration:none;
+}
+
+div.tabs ul li a.selected {
+    background-color: #fff;
+    border: 1px solid #bbbbbb;
+    border-bottom: 1px solid #fff;
+}
+
+div.tabs ul li a.selected:hover {
+    background-color: #fff;
+}
+
+
+

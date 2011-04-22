@@ -24,44 +24,73 @@ class Profile extends MY_Controller
 		$this->load->model('maillist_model');
 	}
 
+  function index()
+  {
+    $this->page();
+  }
 
-	function index()
+	function page()
 	{		
 		if( !$this->auth->logged_in()) {
 			redirect('/profile/login');
 			exit();
-		}
+    }
+
+    $page = $this->uri->segment(3);
+
 		$error = '';
-		if( $this->input->post('update')) {			
-			// handle user info
-			$this->db->set('firstname', $this->input->post('firstname'));
-			$this->db->set('lastname', $this->input->post('lastname'));
-			$this->db->where('username', $this->auth->username());
-			
-			if( $this->input->post('password') && $this->input->post('password2')) {
-				$p1 = $this->input->post('password');
-				$p2 = $this->input->post('password2');
-				if( $p1 === $p2 ) {
-					$this->db->set('passwd', "PASSWORD(" . $this->db->escape($p1) . ")", false);
-				}
-				else {
-					$error = '<p class="error">Passwords did not match.</p>';
-				}
-			}
-			$this->db->update('users');
-			
-			// now mail lists
-			// ---------------
-			// this is fucked up :/
-			$list_ids = array();
-			for( $i = 0; $i < 10; $i++ ) {
-				if( $this->input->post("list_" . $i )) {
-					$list_ids[] = $i;
-				}
-			}
-			if( count($list_ids)) {
-				$this->maillist_model->update_subscriptions($this->auth->username(), $list_ids );
-			}			
+    if( $this->input->post('update')) {
+      // NOTE: if you add a page, add a case for it here, even if it's empty!!
+      switch( $page ) {
+      case 'social':
+        $this->db->set('nickname', $this->input->post('nick'));
+        $this->db->set('webpage', $this->input->post('url'));
+        $this->db->set('chatnick', $this->input->post('chatnick'));
+        $this->db->where('username', $this->auth->username());
+        $this->db->update('users');
+        break;
+      case 'subscribe':
+        // subscriptions  
+        $list_ids = array();
+        for( $i = 0; $i < 10; $i++ ) {
+          if( $this->input->post("list_" . $i )) {
+            $list_ids[] = $i;
+          }
+        }
+        if( count($list_ids)) {
+          $this->maillist_model->update_subscriptions($this->auth->username(), $list_ids );
+        }		       
+       break;
+      case 'purchase':
+        $this->db->set('ccno', $this->input->post('ccno'));
+        $this->db->set('ccname', $this->input->post('ccname'));
+        $this->db->set('ccexp', $this->input->post('ccexp'));
+        $this->db->set('shipto', $this->input->post('shipto'));
+        $this->db->set('billto', $this->input->post('billto'));
+        $this->db->where('username', $this->auth->username());
+        $this->db->update('users');
+       break;
+      case 'history':
+        break;
+      default:
+        // handle user info
+        $this->db->set('firstname', $this->input->post('firstname'));
+        $this->db->set('lastname', $this->input->post('lastname'));
+        $this->db->where('username', $this->auth->username());
+
+        if( $this->input->post('password') && $this->input->post('password2')) {
+          $p1 = $this->input->post('password');
+          $p2 = $this->input->post('password2');
+          if( $p1 === $p2 ) {
+            $this->db->set('passwd', "PASSWORD(" . $this->db->escape($p1) . ")", false);
+          }
+          else {
+            $error = '<p class="error">Passwords did not match.</p>';
+          }
+        }
+        $this->db->update('users');
+        break;
+      }
 		}
 		
 		$pg_data = $this->get_page_data('Bookshelf - Profile', 'page');
@@ -69,7 +98,8 @@ class Profile extends MY_Controller
 		$data['title'] = '';
 		$data['body'] = '';
 		$data['error'] = $error;
-		// get user info
+    
+    // get user info
 		$data['username'] = $this->auth->username();
 		$this->db->where('username',$this->auth->username());
 		$res = $this->db->get('users');
@@ -82,6 +112,14 @@ class Profile extends MY_Controller
 		$data['lastname'] = $row->lastname;
 		$data['created_on'] = $row->created_on;
 		$data['last_seen'] = $row->last_login;
+		$data['nickname'] = $row->nickname;
+		$data['webpage'] = $row->webpage;
+		$data['chatnick'] = $row->chatnick;
+		$data['ccno'] = $row->ccno;
+		$data['ccname'] = $row->ccname;
+		$data['ccexp'] = $row->ccexp;
+		$data['shipto'] = $row->shipto;
+		$data['billto'] = $row->billto;
 		
 		// mail list info
 		$this->db->where('is_visible', 1);
@@ -101,8 +139,24 @@ class Profile extends MY_Controller
 			$lists[] = $list;
 		}
 		$data['maillists'] = $lists;
-		
-  	$pg_data['content'] = $this->load->view('profile/profile_view', $data, true);
+
+    switch( $page ) {
+      case 'social':
+  	    $pg_data['content'] = $this->load->view('profile/profile_page_social', $data, true);
+        break;
+      case 'subscribe':
+  	    $pg_data['content'] = $this->load->view('profile/profile_page_subscribe', $data, true);
+        break;
+      case 'purchase':
+  	    $pg_data['content'] = $this->load->view('profile/profile_page_purchase', $data, true);
+        break;
+      case 'history':
+  	    $pg_data['content'] = $this->load->view('profile/profile_page_history', $data, true);
+        break;
+      default:
+  	    $pg_data['content'] = $this->load->view('profile/profile_page_view', $data, true);
+    }
+
 		$this->load->view('layouts/standard_page', $pg_data );
 	}
 

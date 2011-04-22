@@ -6,16 +6,22 @@
 	
 <p>You have nothing in your shopping cart</p>
 
-<p>You can add a add a test item  <a href="/cart/addfake">here</a></p>
 
 <? } else { ?>
-	
-	<p>Changing the quantity to zero will remove the item</p>
-	
-	<?php echo form_open('/cart'); ?>
+
+<script type="text/javascript">
+function remove_item( num ) {
+  var elem = '' + num + '[qty]';
+  $( 'input[name$="' + elem + '"]').val("0");
+  return true;
+}
+</script>
+
+	<form action="/cart" id="cart-form" method="post">
 	<table cellpadding="6" cellspacing="1" style="width:100%" border="0">
 
-	<tr>
+  <tr>
+    <th/>
 	  <th>QTY</th>
 	  <th>Item Description</th>
 	  <th style="text-align:right">Price</th>
@@ -26,8 +32,11 @@
 	$i = 1;
 	foreach( $cart->contents() as $items ): ?>
 		<?php echo form_hidden($i.'[rowid]', $items['rowid']); ?>
-	  <tr>
-			  <td valign="top"><?php echo form_input(array('name' => $i.'[qty]', 'value' => $items['qty'], 'maxlength' => '3', 'size' => '5')); ?></td>
+    <tr>
+      <td><button class="small-button" onclick="return remove_item(<?=$i?>)">delete</button></td>
+        <td valign="top">
+            <?php echo form_input(array('name' => $i.'[qty]', 'value' => $items['qty'], 'maxlength' => '3', 'size' => '5')); ?>
+        </td>
 			  <td>
 				<?php echo $items['name']; ?>
 
@@ -52,14 +61,21 @@
 
 		<?php endforeach; ?>
 		<tr>
-		  <td colspan="2"> </td>
+		  <td colspan="3"> </td>
 		  <td class="right dark"><strong>Total</strong></td>
 		  <td class="right dark">$<?php echo $cart->format_number($cart->total()); ?></td>
 		</tr>
 
+    <tr>
+      <td colspan="2">
+        <?php echo form_submit('update', 'Update your Cart'); ?>
+      </td>
+      <td align="right" colspan="3">
+        <?php echo form_submit('checkout', 'Checkout'); ?>
+      </td>
+    </tr>
 		</table>
 		
-		<p><?php echo form_submit('', 'Update your Cart'); ?></p>
 			
 <? } ?>
 </div> <!-- cart -->

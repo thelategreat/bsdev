@@ -1,4 +1,4 @@
-<div style="float: right; background-color: #000; color: #fff; padding: 10px;">
+<div style="float: right; background-color: #000; color: #fff; padding: 10px; border-radius: 5px;">
 	<a style="color: #fff;" href="/profile/logout">logout</a>
 </div>
 
@@ -10,6 +10,16 @@ Hi <?=$firstname?>! This is your profile page.
 
 <hr/>
 <?=$error?>
+
+<div class="tabs">
+<ul>
+ <li><a class="selected" href="/profile/page/">Identity</a></li>
+ <li><a href="/profile/page/social">Social</a></li>
+ <li><a href="/profile/page/subscribe">Subscriptions</a></li>
+ <li><a href="/profile/page/purchase">Purchasing</a></li>
+ <li><a href="/profile/page/history">History</a></li>
+</ul>
+</div>
 
 <form method="POST">
 	<table>
@@ -48,18 +58,6 @@ Hi <?=$firstname?>! This is your profile page.
 			<td>Verify</td><td><input name="password2" type="password" /></td>
 		</tr>
 	</table>
-
-<hr/>
-<h3>Your Subscriptions</h3>
-<table>
-	<? foreach( $maillists as $list ) { ?>
-	<tr>
-		<td><input name="list_<?=$list[0]?>" type="checkbox" <?=$list[3] ? "checked" : ""?> /></td>
-		<td><?=$list[1]?></td>
-		<td><?=$list[2]?></td>
-	</tr>
-	<? } ?>
-</table>
 
 <hr/>
 <input type="submit" name="update" value="Save" />
