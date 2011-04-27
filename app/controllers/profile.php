@@ -151,6 +151,8 @@ class Profile extends MY_Controller
   	    $pg_data['content'] = $this->load->view('profile/profile_page_purchase', $data, true);
         break;
       case 'history':
+        $this->load->model('order_model');
+        $data['orders'] = $this->order_model->get_orders_for_user( $this->auth->userid() );
   	    $pg_data['content'] = $this->load->view('profile/profile_page_history', $data, true);
         break;
       default:
@@ -162,14 +164,23 @@ class Profile extends MY_Controller
 
 	function login()
 	{
+		$redir = $this->session->flashdata('login_redir');
 		if( $this->input->post("user") && $this->input->post("password")) {
 			$user = (string)$this->input->post("user");
 			$passwd = (string)$this->input->post("password");
-			if( $this->auth->process_login(array($user, $passwd))) {
-				redirect("/profile");
+      if( $this->auth->process_login(array($user, $passwd))) {
+        if( $redir ) {
+          redirect( $redir );
+        } else {
+          redirect("/profile");
+        }
 			}
 		}
-		
+    
+    if( $redir ) {
+			$this->session->set_flashdata('login_redir', $redir );
+    }
+
 		$pg_data = $this->get_page_data('Bookshelf - Login', 'login');
 		$data = array('title' => 'Page Not Found', 'body' => '');
 		$data['title'] = '';

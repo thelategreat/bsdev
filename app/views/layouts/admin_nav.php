@@ -14,16 +14,25 @@
 			<li><a href="/admin/groups">Groups</a></li>
 			<li><a href="/admin/pages">Static Pages</a></li>
 		</ul>
-	</li>
+  </li>
+  <li>
+    <a href="/admin">Sales</a>
+    <ul>
+      <a href="/admin/orders">Orders</a>
+      <a href="/admin/products">Products</a>
+      <a href="/admin/vendors">Vendors</a>
+      <a href="/admin/shipping">Shipping</a>
+      <a href="/admin/settings">Settings</a>
+    </ul>
+  </li>
 	<li>
-		<a href="/admin">Data</a>
+		<a href="/admin">Web Data</a>
 		<ul>
 			<li><a href="/admin/media">Media Library</a></li>
 			<li><a href="/admin/films">Films</a></li>
 			<li><a href="/admin/venues">Venues</a></li>
 			<li><a href="/admin/polls">Polls</a></li>
 			<li><a href="/admin/lookups">Categories</a></li>
-			<li><a href="/admin/products">Products</a></li>
 		</ul>
 	</li>
 	

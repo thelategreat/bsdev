@@ -740,7 +740,7 @@ table.event-extra td {
 
 /* C A R T */
 #cart {
-	margin: 20px;	
+	/*margin: 20px;*/
 }
 
 button.small-button {
@@ -758,6 +758,11 @@ button.small-button {
 	background-color: #666;
 	color: white;
 	text-align: left;
+  padding: 3px;
+}
+
+#cart table td {
+  padding: 3px;
 }
 
 #cart tr.odd {
@@ -1131,5 +1136,59 @@ div.tabs ul li a.selected:hover {
     background-color: #fff;
 }
 
+/* ORDER */
+#order h4 {
+  margin-bottom: 0;
+  border-bottom: 1px solid #999;
+}
 
+#order table.order-header {
+  width: 100%;
+  font-size: 0.9em;
+}
+
+#order table.order-header span.sect-title {
+  font-weight: bold;
+}
+
+#order table.order-header select {
+  font-size: 0.8em;
+}
+
+#order table.order-header pre {
+  border: 1px solid #ff6;  
+  background-color: #ffe;
+  line-height: 1.2em;
+}
+
+#order table.order-items {
+  width:100%; 
+  font-size: 0.9em;
+  border-collapse: collapse;
+}
+
+#order table.order-items tr.odd {
+	background-color: #ddd;
+}
+
+/* Table Generic */
+table.generic {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table.generic th {
+  text-align: left;
+  background-color: #333;
+  color: #fff;
+  border-bottom: 1px solid #999;
+}
+
+table.generic td {
+  border: 1px solid #bbb;
+}
+
+table.generic td.odd {
+  background-color: #ddd;
+}
 

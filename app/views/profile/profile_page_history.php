@@ -21,7 +21,17 @@ Hi <?=$firstname?>! This is your profile page.
 </ul>
 </div>
 
-<p>
-You haven't placed any orders yet.
-</p>
-
+<table class="generic">
+  <tr>
+    <th>Order#</th>
+    <th>Date</th>
+    <th>Status</th>
+  </tr>
+<?php foreach( $orders->result() as $row ): ?>
+  <tr>
+    <td><?= $row->order_no ?></td>
+    <td><?= date('Y-m-d',strtotime($row->order_dt)) ?></td>
+    <td><?= $row->state ?></td>
+  </tr>
+<?php endforeach; ?>
+</table>

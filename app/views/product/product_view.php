@@ -26,7 +26,7 @@
 
   <?php if( $item->bs_price ) { ?>
     <div class="big-price">
-        <a style="float: left;" href="/cart/additem/<?=$item->ean?>" title="Add to Cart"><img src="/img/icons/add_to_cart.png" /></a>
+        <a style="float: left;" href="/cart/additem/<?=$item->id?>" title="Add to Cart"><img src="/img/icons/add_to_cart.png" /></a>
         <p>Bookshelf Price: <?='$' . money_format("%i",$item->bs_price) ?></p>
     </div>
   <?php } ?>

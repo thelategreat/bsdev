@@ -1,6 +1,9 @@
+--
 -- Create syntax for 'fnStripTags'
-
-CREATE DEFINER=`bsbds`@`localhost` FUNCTION `fnStripTags`( Dirty varchar(4000) ) RETURNS varchar(4000) CHARSET utf8
+-- Strips DTML style tags from text
+--
+DELIMITER |
+CREATE FUNCTION `fnStripTags`( Dirty varchar(4000) ) RETURNS varchar(4000) CHARSET utf8
     DETERMINISTIC
 BEGIN
   DECLARE iStart, iEnd, iLength int;
@@ -16,4 +19,6 @@ BEGIN
     END;
   END WHILE;
   RETURN Dirty;
-END;
+END|
+DELIMITER ;
+

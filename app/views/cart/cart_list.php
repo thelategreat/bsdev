@@ -1,6 +1,10 @@
-
+<div style="float: right">
+<img src="/img/icons/black/shop_cart.png" /> 
+</div>
 <div id="cart">
-<h3>Shopping Cart</h3>
+<h2>Shopping Cart</h2>
+
+<hr/>
 
 <? if( $cart->total_items() == 0 ) { ?>
 	
@@ -25,7 +29,7 @@ function remove_item( num ) {
 	  <th>QTY</th>
 	  <th>Item Description</th>
 	  <th style="text-align:right">Price</th>
-	  <th style="text-align:right">Sub-Total</th>
+	  <th style="text-align:right">Subtotal</th>
 	</tr>
 	
 	<?
@@ -33,12 +37,12 @@ function remove_item( num ) {
 	foreach( $cart->contents() as $items ): ?>
 		<?php echo form_hidden($i.'[rowid]', $items['rowid']); ?>
     <tr>
-      <td><button class="small-button" onclick="return remove_item(<?=$i?>)">delete</button></td>
+      <td><button class="small-button" onclick="return remove_item(<?=$i?>)" title="remove this item">delete</button></td>
         <td valign="top">
-            <?php echo form_input(array('name' => $i.'[qty]', 'value' => $items['qty'], 'maxlength' => '3', 'size' => '5')); ?>
+            <?php echo form_input(array('name' => $i.'[qty]', 'value' => $items['qty'], 'maxlength' => '3', 'size' => '3')); ?>
         </td>
 			  <td>
-				<?php echo $items['name']; ?>
+        <?= '<a href="/product/view/' . $items['id'] . '">' . $items['name'] . '</a>' ?>
 
 					<?php if ($cart->has_options($items['rowid']) == TRUE): ?>
 
@@ -60,12 +64,19 @@ function remove_item( num ) {
 		<?php $i++; ?>
 
 		<?php endforeach; ?>
-		<tr>
-		  <td colspan="3"> </td>
-		  <td class="right dark"><strong>Total</strong></td>
-		  <td class="right dark">$<?php echo $cart->format_number($cart->total()); ?></td>
-		</tr>
 
+    <tr>
+      <td colspan="5" style="border-top: 2px solid #999;">
+    </tr>
+
+    <tr>
+		  <td colspan="3"> </td>
+		  <td class="right"><strong>Subtotal</strong></td>
+		  <td class="right"i style="color: #090">$<strong><?= $cart->format_number($cart->total()); ?></strong></td>
+		</tr>
+    <tr>
+      <td colspan="5" style="border-top: 2px solid #999;">
+    </tr>
     <tr>
       <td colspan="2">
         <?php echo form_submit('update', 'Update your Cart'); ?>

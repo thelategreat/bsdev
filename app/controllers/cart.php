@@ -14,6 +14,7 @@ class Cart extends MY_Controller
 		parent::__construct();
 		
 		$this->config->load('site_config');
+		$this->load->model('order_model');
 		$this->load->model('products_model');
 		$this->load->helper('form');		
 	}
@@ -39,15 +40,15 @@ class Cart extends MY_Controller
 	
 	function additem()
 	{
-    $ean = $this->uri->segment(3);
-    if( $ean ) {
-      $item = $this->products_model->get_product_by_ean( $ean );
+    $id = $this->uri->segment(3);
+    if( $id ) {
+      $item = $this->products_model->get_product( $id );
       if( $item->num_rows() > 0 ) {
         $item = $item->row();
 
         $this->cart->insert( 
           array( 
-            'id' => $item->ean, 
+            'id' => $item->id, 
             'qty' => 1, 
             'price' => $item->bs_price, 
             'name' => $item->title 
@@ -61,10 +62,15 @@ class Cart extends MY_Controller
 
   function checkout()
   {
-//		if( !$this->auth->logged_in()) {
-//			redirect('/profile/login');
-//			exit();
-//    }
+		if( !$this->auth->logged_in()) {
+			$this->session->set_flashdata('login_redir', '/cart/checkout' );
+			redirect('/profile/login');
+			exit();
+    }
+
+    if( $this->input->post('shiptype')) {
+      $this->session->set_userdata('shiptype',$this->input->post('shiptype'));
+    }
 
     // try and grab the saved info from the user account
     if( !$this->session->userdata('shipto')) {
@@ -137,19 +143,45 @@ class Cart extends MY_Controller
     }
   }
 
+  function order( )
+  {
+    if( $this->cart->total_items() == 0 ) {
+      redirect("/cart");
+    }
+
+    $order_info = $this->get_order_info();
+
+    $order_num = $this->order_model->add_order( $order_info, $this->cart->contents() );
+
+    $this->cart->destroy();
+
+ 		$data = array( 'cart' => $this->cart, 'order_info' => $order_info, 'order_num' => $order_num );
+		$pg_data = $this->get_page_data('Bookshelf - Order Confirmation', 'home' );
+  	$pg_data['content'] = $this->load->view('cart/co_complete', $data, true);
+		$this->load->view('layouts/standard_page', $pg_data );
+  }
+
   function shipto( )
   {
+    if( $this->cart->total_items() == 0 ) {
+      redirect("/cart");
+    }
+
     $order_info = $this->get_order_info();
- 		$data = array( 'cart' => $this->cart, 'order_info' => $order_info );
-		$pg_data = $this->get_page_data('Bookshelf - Shipping Information', 'home' );
+    $data = array( 'cart' => $this->cart, 'order_info' => $order_info );
+    $pg_data = $this->get_page_data('Bookshelf - Shipping Information', 'home' );
   	$pg_data['content'] = $this->load->view('cart/co_shipto', $data, true);
 		$this->load->view('layouts/standard_page', $pg_data );
   }
 
   function billing( )
   {
+    if( $this->cart->total_items() == 0 ) {
+      redirect("/cart");
+    }
+
     $order_info = $this->get_order_info();
- 		$data = array( 'cart' => $this->cart, 'order_info' => $order_info );
+    $data = array( 'cart' => $this->cart, 'order_info' => $order_info );
 		$pg_data = $this->get_page_data('Bookshelf - Billing Information', 'home' );
   	$pg_data['content'] = $this->load->view('cart/co_billing', $data, true);
 		$this->load->view('layouts/standard_page', $pg_data );
@@ -157,7 +189,7 @@ class Cart extends MY_Controller
 
   private function review( $order_info )
   {
- 		$data = array( 'cart' => $this->cart, 'order_info' => $order_info );
+ 		$data = array( 'cart' => $this->cart, 'order_info' => $order_info, 'ship_options' => $this->order_model->get_shipping_options() );
 		$pg_data = $this->get_page_data('Bookshelf - Your Order', 'home' );
   	$pg_data['content'] = $this->load->view('cart/co_review', $data, true);
 		$this->load->view('layouts/standard_page', $pg_data );
@@ -166,7 +198,17 @@ class Cart extends MY_Controller
 
   private function get_order_info()
   {
-     return array(
+    $shiptype = $this->session->userdata('shiptype');
+    if( !$shiptype ) {
+      $shiptype = 'cpr';
+    }
+
+    return array(
+      'user_id' => $this->auth->userid(),
+      'ship_via' => $shiptype,
+      'ship_cost' => $this->order_model->calc_shipping_cost($shiptype,'',''),
+      'tax1' => 0.13,
+      'tax2' => 0.0,
       'shipto' => $this->session->userdata('shipto'),
       'billto' => $this->session->userdata('billto'),
       'ccno' => $this->session->userdata('ccno'),
@@ -175,6 +217,7 @@ class Cart extends MY_Controller
       'ccexp' => $this->session->userdata('ccexp'),
     );  
   }
+
 
   // move this somewhere special
   private function check_cc($cc, $extra_check = false)

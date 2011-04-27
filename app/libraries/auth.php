@@ -233,6 +233,12 @@ ELF;
 			return $this->CI->session->userdata('logged_user', NULL );
 		}
 
+    function userid()
+		{
+			return $this->CI->session->userdata('logged_user_id', NULL );
+		}
+
+
 		/**
 		 * Return the hashed password based on the algorithm specified in
 		 * the config via PASSWORD_HASH key.
