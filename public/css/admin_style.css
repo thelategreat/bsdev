@@ -289,6 +289,7 @@ form.login input, textarea, select, button {
     -webkit-border-radius: 5px;
 }
 
+
 form.login input:focus {
     border: 2px solid #777;
 }
@@ -426,6 +427,8 @@ legend {
  }
 
 label {
+  text-align: right;
+  display: block;
  }
 
 textarea {
@@ -436,17 +439,19 @@ textarea {
      -webkit-border-radius: 5px;
  }
 
-input, button {
+input, button, select {
      border: 1px solid #a0a0a0;
      padding: 3px;
-     margin: 5px;
+     margin: 0 5px;
      -moz-border-radius: 5px;
      -webkit-border-radius: 5px;
- }
+     color: #333;
+}
 
 input:focus, textarea:focus {
-     border: 1px solid #666;
+     border: 3px solid #666;
      background-color: #dfdfdf;
+     color: #000;
  }
 
 input[type=submit], button {
@@ -952,3 +957,5 @@ div.toolbar button {
 div.toolbar button img {
 	width: 12px;
 }
+
+

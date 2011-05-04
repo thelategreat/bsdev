@@ -22,11 +22,14 @@ Hi <?=$firstname?>! This is your profile page.
 </div>
 
 <table class="generic">
+<thead>
   <tr>
     <th>Order#</th>
     <th>Date</th>
     <th>Status</th>
   </tr>
+</thead>
+<tbody>
 <?php foreach( $orders->result() as $row ): ?>
   <tr>
     <td><?= $row->order_no ?></td>
@@ -34,4 +37,5 @@ Hi <?=$firstname?>! This is your profile page.
     <td><?= $row->state ?></td>
   </tr>
 <?php endforeach; ?>
+</tbody>
 </table>

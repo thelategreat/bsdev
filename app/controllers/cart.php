@@ -2,6 +2,18 @@
 if (!defined('BASEPATH')) exit('No direct script access allowed');   
 
 // cart library is autoloaded
+
+/* 
+ * cc test numbers
+ *
+ * Amex 378282246310005
+ * MC   5555555555554444 
+ * MC   5105105105105100
+ * Visa 4111111111111111
+ * Visa 4012888888881881
+ *
+ */
+
 class Cart extends MY_Controller 
 {
 	/**
@@ -120,7 +132,7 @@ class Cart extends MY_Controller
       $ccname = $this->input->post('ccname');
       $ccexp = $this->input->post('ccexp');
       // validate credit card
-      $cctype = $this->check_cc( $ccno );
+      $cctype = $this->order_model->check_cc( $ccno );
       if( $cctype != false && strlen($ccname) && strlen($ccexp) == 5 ) {
         $this->session->set_userdata('ccno', $ccno);
         $this->session->set_userdata('ccno_disp', $cctype . ':***' . substr($ccno,-4) );
@@ -219,25 +231,4 @@ class Cart extends MY_Controller
   }
 
 
-  // move this somewhere special
-  private function check_cc($cc, $extra_check = false)
-  {
-    $cards = array(
-      "visa" => "(4\d{12}(?:\d{3})?)",
-      "amex" => "(3[47]\d{13})",
-      "jcb" => "(35[2-8][89]\d\d\d{10})",
-      "maestro" => "((?:5020|5038|6304|6579|6761)\d{12}(?:\d\d)?)",
-      "solo" => "((?:6334|6767)\d{12}(?:\d\d)?\d?)",
-      "mastercard" => "(5[1-5]\d{14})",
-      "switch" => "(?:(?:(?:4903|4905|4911|4936|6333|6759)\d{12})|(?:(?:564182|633110)\d{10})(\d\d)?\d?)",
-    );
-    $names = array("Visa", "American Express", "JCB", "Maestro", "Solo", "Mastercard", "Switch");
-    $matches = array();
-    $pattern = "#^(?:".implode("|", $cards).")$#";
-    $result = preg_match($pattern, str_replace(" ", "", $cc), $matches);
-    if($extra_check && $result > 0){
-      $result = (validatecard($cc))?1:0;
-    }
-    return ($result>0)?$names[sizeof($matches)-2]:false;
-  }
 }

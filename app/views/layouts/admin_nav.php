@@ -16,7 +16,7 @@
 		</ul>
   </li>
   <li>
-    <a href="/admin">Sales</a>
+    <a href="/admin/orders">Sales</a>
     <ul>
       <a href="/admin/orders">Orders</a>
       <a href="/admin/products">Products</a>
@@ -49,7 +49,7 @@
 	</li>
 	
 	<li>
-		<a href="/admin">System</a>
+		<a href="/admin/stats/about">System</a>
 		<ul>
 			<li><a href="/admin/users">Site Users</a></li>
 			<li><a href="/admin/perms">Permissions</a></li>

@@ -3,22 +3,6 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 include("admin_controller.php");
 
-
-/*
-Issues:
-othertext utf - 9781559393409,9781439156957
-othertext has double entry (see above)
-multiple contributors are the same 9781926708133
-ampersand has extra ; in title, perhaps 9781551119250 (count 486)
-othertext all bold and centered? 9781550416510
-othertext seems cutoff somehow 9780938317456
-othertext bold issue 9780553385465,9780552159692,9780385661638,9780385660761
-othetext href issue 9780195419092
-othertext tag removed with no space inserted ?? 9781443100144 "swept up in thefight for"
-othertext with div tags 9781401931179
-othertext transform & tags 9781895636659
-*/
-
 class Products extends Admin_Controller 
 {
 	/**
@@ -28,7 +12,7 @@ class Products extends Admin_Controller
 	 **/
 	function __construct()
 	{
-		parent::__construct();
+    parent::__construct();
 		$this->base_url = '/admin/products';
 		$this->load->model('products_model');
 	}
@@ -77,8 +61,32 @@ class Products extends Admin_Controller
 
 	// TODO
 	function edit()
-	{
-		redirect( $this->base_url );
+  {
+    $id = (int)$this->uri->segment(4);
+    if( !$id ) {
+      redirect($this->base_url);
+    }
+
+    if( $this->input->post('cancel')) {
+      redirect($this->base_url);
+    }
+		if( $this->input->post('save')) {
+			$this->form_validation->set_error_delimiters('<span class="form_error">','</span>');
+			$this->form_validation->set_rules('title','Title','trim|required');
+			$this->form_validation->set_rules('ean','EAN','trim|required|min_length[12]|max_length[13]');
+			$this->form_validation->set_rules('bs_price','Sale Price','trim|required|numeric');
+			if( $this->form_validation->run()) {
+        $this->db->set('title', $this->input->post('title'));
+        redirect($this->base_url);
+      }
+    }
+
+    $product = $this->products_model->get_product( $id )->row(); 
+
+    $view_data = array(
+      'product' => $product
+    );
+		$this->gen_page('Admin - Products', 'admin/products/product_edit', $view_data );
 	}
 
 	// TODO

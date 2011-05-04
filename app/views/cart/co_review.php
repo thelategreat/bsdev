@@ -32,6 +32,14 @@ $sub_total = $items_total + $order_info['ship_cost'];
 
 ?>
 
+<p style="color:#f33;border-top: 3px solid #a22;border-bottom: 3px solid #a22;">
+This site is currently in beta so nothing will actually be shipped to you and
+no money will change hands. Do feel free to place your order and help us test 
+things however. Just don't sit by the door waiting for the mail.
+</p>
+
+
+
 <div id="order">
 <h4>Review Your Order</h4>
 

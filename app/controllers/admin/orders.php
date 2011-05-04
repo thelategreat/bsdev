@@ -31,9 +31,21 @@ class Orders extends Admin_Controller
 			if( $page < 1 ) {
 				$page = 1;
 			}
+    }
+
+		// seg 5 and beyond are search terms
+		$i = 5;
+		while( $this->uri->segment($i) ) {
+			// CI thing with _
+			$query .= str_replace('_',' ',$this->uri->segment($i)) . ' ';
+			$i++;
 		}
 
-    $orders = $this->order_model->get_orders();
+		if( $this->input->post('q')) {
+			$query = $this->input->post('q');
+		}
+	
+    $orders = $this->order_model->get_orders( $page, $page_size );
     
 		$view_data = array( 
 			'orders' => $orders,
