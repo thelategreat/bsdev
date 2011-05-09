@@ -82,7 +82,8 @@ class Profile extends MY_Controller
           $p1 = $this->input->post('password');
           $p2 = $this->input->post('password2');
           if( $p1 === $p2 ) {
-            $this->db->set('passwd', "PASSWORD(" . $this->db->escape($p1) . ")", false);
+					  $this->db->set('passwd', $this->auth->hash_password($this->input->post('password')));
+            //$this->db->set('passwd', "PASSWORD(" . $this->db->escape($p1) . ")", false);
           }
           else {
             $error = '<p class="error">Passwords did not match.</p>';

@@ -96,14 +96,8 @@ class Users extends Admin_Controller
 			$this->form_validation->set_rules('email','Email','trim|valid_email');
 			if( $this->form_validation->run()) {
 				$this->db->where('id', $user_id);
-				if( $this->input->post('passwd') === '') {
-				} else {
-					if( $this->input->post('passwd') == $this->input->post('vpasswd')) {
-						//$this->db->set('passwd', "PASSWORD(".$this->db->escape($this->input->post('passwd')).")", false);				
-						$this->db->set('passwd', $this->auth->hash_password($this->input->post('passwd')));
-					} else {
-						$error_msg .= '<br/>passwords do not match';
-					}
+				if( $this->input->post('passwd') != '') {
+					$this->db->set('passwd', $this->auth->hash_password($this->input->post('passwd')));
 				}
 				if( $this->input->post('active')) {
 					$this->db->set('active', 1);
