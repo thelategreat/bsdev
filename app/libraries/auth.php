@@ -50,14 +50,39 @@ class Auth {
       $password = $login[1];  
         
       // Query time  
-      $query = $this->CI->db->query("SELECT * FROM users WHERE username = " . $this->CI->db->escape($username) . ' AND passwd = ' . $this->CI->db->escape($this->hash_password($password)));
-			
+      //$query = $this->CI->db->query("SELECT * FROM users WHERE username = " 
+      //  . $this->CI->db->escape($username) . ' AND passwd = ' 
+      //  . $this->CI->db->escape($this->hash_password($password)));
+
+      $query = $this->CI->db->query("SELECT * FROM users WHERE username = " . $this->CI->db->escape($username));
+
 			log_message('debug', "Auth: request login with user: '$username' pass: '$password'");
-			
+
       if ($query->num_rows() == 1)  
-      {  
-          // Our user exists, set session.
-          $user = $query->row();  
+      { 
+        $user = $query->row();  
+        $login_ok = false;
+
+        if( strlen($user->passwd) == 40 ) {
+          // this is the old sha1 scheme, strlen:40
+          if( $this->hash_password_old( $password ) == $user->passwd ) {
+            $login_ok = true; 
+          }
+        } else {
+          // this is the current storage scheme, strlen:64
+          $salt_len = $this->CI->config->item('password_salt_length');
+          if( !$salt_len ) {
+            $salt_len = 16;
+          }
+          $salt = substr($user->passwd, 0, $salt_len );
+          $hash = $this->hash_password( $password, $salt ); 
+          if( $hash === $user->passwd ) {
+            $login_ok = true;
+          }
+        }
+        
+        //
+        if( $login_ok ) {
           $this->CI->session->set_userdata('logged_user', $username );
           $this->CI->session->set_userdata('logged_user_id', $user->id );
           // set the role
@@ -69,8 +94,16 @@ class Auth {
           } else {
             $this->CI->session->set_userdata('logged_user_role', '' );                        
           }
-          $this->CI->db->query("UPDATE users SET last_login = NOW() WHERE id = " . $user->id );
+          // we regen the password hash with every login
+          $new_hash = $this->hash_password( $password ); 
+          $this->CI->db->query("UPDATE users SET last_login = NOW(), passwd = '${new_hash}' WHERE id = " . $user->id );
           return TRUE;  
+        } else {
+          // bad password
+					log_message('error', "Auth: failed login with passwd: '$username' pass: '$password'");
+          //log_message('error', "Auth: hash: ${hash} db: " . $user->passwd );
+          return FALSE;
+        }
       }  
       else   
       {  
@@ -239,6 +272,20 @@ ELF;
 		}
 
 
+    function hash_password( $pass, $salt = null )
+    {
+      $salt_len = $this->CI->config->item('password_salt_length');
+      if(!$salt_len) {
+        $salt_len = 16;
+      }
+      if( $salt === null ) {
+        $salt = substr(md5(uniqid(mt_rand(), true)), 0, $salt_len ); 
+      } //else {
+        //$salt = substr($salt, 0, $salt_len);
+      //}
+      return $salt . hash('sha256', $salt . $pass);
+    }
+
 		/**
 		 * Return the hashed password based on the algorithm specified in
 		 * the config via PASSWORD_HASH key.
@@ -249,7 +296,7 @@ ELF;
 		 *
 		 * @returns a value as a string (hex)
 		 */
-		function hash_password( $password )
+		function hash_password_old( $password )
 		{
 			$passtype = $this->CI->config->item('password_hash_type');
 			$cpasswd = 'NULL';

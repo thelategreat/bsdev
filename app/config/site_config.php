@@ -10,6 +10,8 @@ $config['site_name'] = "Bookshelf";
  *-------------------------------------------------------------------------- */
 // the hashing used for passwords one of 'plain | none | sha1 | md5'. default is sha1
 $config['password_hash_type'] = 'sha1';
+// the salt length
+$config['password_salt_length'] = 16;
 
 /* --------------------------------------------------------------------------
  * Pager

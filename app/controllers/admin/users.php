@@ -33,7 +33,7 @@ class Users extends Admin_Controller
 			'users' => $data,
 			'query' => $query
 			);
-		
+
 		$this->gen_page('Admin - Users', 'admin/users/users_list', $pg_data);		
 	}
 	
