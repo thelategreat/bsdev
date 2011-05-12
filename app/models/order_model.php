@@ -10,6 +10,18 @@ class Order_model extends CI_Model
     parent::__construct();
   }
 
+  function get_order( $id )
+  {
+    return $this->db->get_where('orders', array('id' => $id ));
+  }
+
+  function get_order_lines( $id ) 
+  {
+    $this->db->select('*');
+    $this->db->join('products','products.id = order_line.item_id');
+    return $this->db->get_where('order_line', array('order_id' => $id));  
+  }
+
   function get_orders( $page = 1, $limit = NULL )
   {
     $this->db->order_by( 'order_dt', 'desc' );

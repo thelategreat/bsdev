@@ -6,7 +6,9 @@
 	<title><?=$title?></title>
 
 	<!-- style -->
-	<link rel="stylesheet" href="/css/admin_style.css" type="text/css"  media="screen" />
+  <link rel="stylesheet" href="/css/admin_style.css" type="text/css"  media="all" />
+  <link rel="stylesheet" href="/css/admin_style_print.css" type="text/css" media="print" />
+
 	<link rel="stylesheet" href="/css/datePicker.css" type="text/css"  media="screen" />
 	<link rel="stylesheet" href="/css/custom-theme/jquery-ui-1.7.2.custom.css" type="text/css"  media="screen" />
 	

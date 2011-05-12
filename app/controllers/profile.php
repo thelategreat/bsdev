@@ -83,7 +83,6 @@ class Profile extends MY_Controller
           $p2 = $this->input->post('password2');
           if( $p1 === $p2 ) {
 					  $this->db->set('passwd', $this->auth->hash_password($this->input->post('password')));
-            //$this->db->set('passwd', "PASSWORD(" . $this->db->escape($p1) . ")", false);
           }
           else {
             $error = '<p class="error">Passwords did not match.</p>';
@@ -166,9 +165,10 @@ class Profile extends MY_Controller
 	function login()
 	{
 		$redir = $this->session->flashdata('login_redir');
-		if( $this->input->post("user") && $this->input->post("password")) {
-			$user = (string)$this->input->post("user");
-			$passwd = (string)$this->input->post("password");
+    
+    if( $this->input->post("user") && $this->input->post("password")) {
+      $user = $this->input->post("user");
+      $passwd = $this->input->post("password");
       if( $this->auth->process_login(array($user, $passwd))) {
         if( $redir ) {
           redirect( $redir );
@@ -267,7 +267,6 @@ class Profile extends MY_Controller
 					$this->db->set('updated_on', 'now()', false );
 					$this->db->set('created_on', 'now()', false );
 					$this->db->set('passwd', $this->auth->hash_password($passwd));					
-					//$this->db->set('passwd', "PASSWORD(".$this->db->escape($passwd).")", false );
 					$this->db->set('username', $email );
 					$this->db->set('email', $email );
 					$this->db->set('action_uuid', 'register_' . $uuid );
@@ -308,7 +307,6 @@ class Profile extends MY_Controller
 				$this->db->set('action_uuid', 'NULL', false );
 				$this->db->set('updated_on', 'now()', false );
 				$this->db->set('passwd', $this->auth->hash_password($passwd));					
-				//$this->db->set('passwd', "PASSWORD(".$this->db->escape($passwd).")", false );
 				$this->db->update('users');
 			}
 		}

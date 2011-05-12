@@ -19,6 +19,7 @@
 
 <p>Don't have a login? Why not <a href="/profile/register">register</a>? Or maybe you <a href="/profile/forgot">forgot</a> your password?</p>
 
+<!--
 <script type="text/javascript">
 
 var oid_providers = {
@@ -94,7 +95,7 @@ function prefill( provider )
 }
 
 </script>
-<!--
+
 <fieldset class="general">
 	<legend>OpenID Login</legend>
 	<button onclick="prefill('google');" title="Login with your google account"><img src="/img/openid/googleW.png" width="60px"/></button>

@@ -58,7 +58,20 @@ class Orders extends Admin_Controller
 
   function edit()
   {
-		$this->gen_page('Admin - Orders', 'n/a' );
+    $id = (int)$this->uri->segment(4);
+    if( ! $id ) {
+      redirect('/admin/orders');
+    }
+
+    $order = $this->order_model->get_order( $id );
+    $lines = $this->order_model->get_order_lines( $id );
+      
+    $view_data = array(
+      'order' => $order->row(),
+      'order_lines' => $lines->result(),
+    );
+
+		$this->gen_page('Admin - Orders', 'admin/orders/orders_edit', $view_data );
   }
 
 }
