@@ -3,6 +3,7 @@ app/config/config.php
 app/config/site_config.php
 app/config/database.php
 app/config/email.php
+app/logs/*
 bds_stuff/*
 public/media/*
 public/pubmedia/*
