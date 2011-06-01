@@ -67,6 +67,58 @@
     alert("Sorry, this is not available in this view");
   }
 
+  function strip_tags( str, allowed_tags ) {
+    var key = '', allowed = false;
+    var matches = [];    var allowed_array = [];
+    var allowed_tag = '';
+    var i = 0;
+    var k = '';
+    var html = ''; 
+    var replacer = function (search, replace, str) {
+      return str.split(search).join(replace);
+    };
+    // Build allows tags associative array
+    if (allowed_tags) {
+      allowed_array = allowed_tags.match(/([a-zA-Z0-9]+)/gi);
+    }
+    str += '';
+
+    // Match tags
+    matches = str.match(/(<\/?[\S][^>]*>)/gi);
+    // Go through all HTML tags
+    for (key in matches) {
+      if (isNaN(key)) {
+        // IE7 Hack
+        continue;        }
+
+          // Save HTML tag
+          html = matches[key].toString();
+        // Is tag not in allowed list? Remove from str!
+        allowed = false;
+
+        // Go through all allowed tags
+        for (k in allowed_array) {            // Init
+          allowed_tag = allowed_array[k];
+          i = -1;
+
+          if (i != 0) { i = html.toLowerCase().indexOf('<'+allowed_tag+'>');}            
+          if (i != 0) { i = html.toLowerCase().indexOf('<'+allowed_tag+' ');}
+            if (i != 0) { i = html.toLowerCase().indexOf('</'+allowed_tag)   ;}
+
+              // Determine
+              if (i == 0) {                
+                allowed = true;
+                break;
+              }
+        }
+        if (!allowed) {
+          str = replacer(html, "", str); // Custom replace. No regexing
+        }
+    }
+    return str;
+
+  }
+
 	tinyMCE.init({
 		mode : "textareas",
 		remove_script_host : true,
@@ -80,12 +132,17 @@
 		theme_advanced_buttons3 : "",
 		theme_advanced_toolbar_location : "top",
 		theme_advanced_toolbar_align : "left",
-    theme_advanced_statusbar_location : "bottom",	
+    theme_advanced_statusbar_location : "bottom",
+
     paste_auto_cleanup_on_paste : true,
     paste_remove_styles : true,
-    paste_remove_styles_if_webkit: true,
-    paste_strip_class_attributes: true,  
-		file_browser_callback: 'mediaBrowserCallback',
+    paste_remove_styles_if_webkit : true,
+    paste_strip_class_attributes : "all",
+    paste_retain_style_properties : "",  
+    paste_remove_spans : true,
+    paste_preprocess : function( pl, o ) { o.content = strip_tags( o.content, '<p><br><ol><ul><li>' ); },
+    
+    file_browser_callback: 'mediaBrowserCallback',
 	});
 
 	</script>
