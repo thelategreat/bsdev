@@ -58,19 +58,28 @@ $(document).ready( function() {
 
 <h3>Permissions</h3>
 
-<label for="role">Role</label>
+<table>
+<tr>
+<td><label for="role">Role</label></td><td>
 <select name="role" id="role-sel" onchange="select_role();">
 	<?php foreach( $roles->result() as $role ) { ?>
 		<option value="<?=$role->id?>"><?=$role->role?></option>
 	<?php } ?>
 </select>
+</td>
+</tr>
+</table>
 
 <div id="matrix">
 </div>
 
 <hr/>
-<label for="route-name">Route:</label>
-<input name="route-name" id="route-name" />
-<lable for="route-desc">Description:</label>
-<input name="route-desc" id="route-desc" size="40"/>
-<button onclick="add_route();">Add</button>
+
+<table>
+<tr>
+<td>
+<label for="route-name">Route:</label></td><td><input name="route-name" id="route-name" /></td>
+<td><label for="route-desc">Description:</label></td><td><input name="route-desc" id="route-desc" size="40"/>
+<button onclick="add_route();">Add</button></td>
+</tr>
+</table>

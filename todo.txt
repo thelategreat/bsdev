@@ -1,6 +1,20 @@
 
-[ ] - lookup table management
-[ ] - ad rotation scheme
-[ ] - preview for full site/articles
-[ ] - finish mailing list management
-[ ] - 
+now
+[ ] - remove wysiwyg and invent tag scheme
+[ ] - link scheme for internal stuff/covers
+[ ] - check that ean lookups work for media handlers
+[ ] - check film info searching for media
+[ ] - check html/xss stripping in comments
+[ ] - put news thing on backend to start (for me)
+[ ] - finish the permissions thing so joan can have writers
+
+later
+[ ] - user wish list
+[ ] - persistant cart or save for later?
+[ ] - staff/user bios
+[ ] - staff blogs (can't this just be a branch of the tree?)
+[ ] - book section/categories + search
+[ ] - admin tool to allow search sort and save, then use that to sort front
+[ ] - web stats for selling ads
+[ ] - answer questions then a book profile/recommends
+
