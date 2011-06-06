@@ -682,7 +682,8 @@ class CI_DB_active_record extends CI_DB_driver {
 		{
 			$k = $this->_protect_identifiers($k);
 
-			$prefix = (count($this->ar_like) == 0) ? '' : $type;
+			//$prefix = (count($this->ar_like) == 0) ? '' : $type;
+      $prefix = (count($this->ar_like) == 0 && count($this->ar_where) == 0) ? '' :  $type;
 
 			$v = $this->escape_like_str($v);
 
@@ -1768,7 +1769,7 @@ class CI_DB_active_record extends CI_DB_driver {
 		{
 			if (count($this->ar_where) > 0)
 			{
-				$sql .= "\nAND ";
+				//$sql .= "\nAND ";
 			}
 
 			$sql .= implode("\n", $this->ar_like);
