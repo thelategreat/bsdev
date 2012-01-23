@@ -49,13 +49,13 @@
 	<div id="container">
 		<div id="header-nav">
 			<ul>
-				<li><a href="/cart" title="Shopping Cart: <?= $cart->total_items() ?> items"><img src="/img/icons/white/shop_cart.png" style="height: 20px;"/> <span style="font-size: 11px"><?= $cart->total_items() ?></span></a></li>
-				<li><a href="/profile" title="My Bookshelf"><img src="/img/icons/white/user.png" style="height: 20px"/></a></li>
+				<li><a href="/cart" title="Shopping Cart: <?= $cart->total_items() ?> items"><img src="/img/icons/black/shop_cart.png" style="height: 20px;"/> <span style="font-size: 11px"><?= $cart->total_items() ?></span></a></li>
+				<li><a href="/profile" title="My Bookshelf"><img src="/img/icons/black/user.png" style="height: 20px"/></a></li>
 				<!--<li><a href="/page/help" title="Help/FAQ"><img src="/img/icons/white/info.png" style="height: 20px"/> </a></li> -->
 			</ul>
 			<div id="search">
 				<form id="main_search" action="/search" method="post">
-					<select name="type" id="search-type">
+					<select style="display: none" name="type" id="search-type">
 						<option value="books">books</option>
 						<option value="events">events</option>
 						<option value="articles">articles</option>
@@ -65,8 +65,10 @@
 				</form>
 			</div>
 		</div>
-		<div id="header">
-			<!--
+    <div id="header">
+      <span>The</span><h1>Bookshelf</h1>
+      <p>Books, Movies, Music, Food, Conversation</p>
+      <!--
 			<h1>ookshelf</h1>
 			<a href="/"><img style="float: left; height: 100px" src="/img/wv/wv_logo_100.png" /></a>
 			<a href="/"><img style="height: 60px; align: center;" src="/img/wv/wv_header_100.png" /></a>

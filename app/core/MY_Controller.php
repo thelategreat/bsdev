@@ -48,7 +48,8 @@ class MY_Controller extends CI_Controller
 	}
 
   // main menu if we are using pages for nav
-  function main_menu_pages( $section, $pages, $home = true )
+  // !! orig dropdown style
+  function main_menu_pages_save( $section, $pages, $home = true )
   {
     if( $home ) {
       $s = '<ul class="dropdown">';
@@ -67,6 +68,35 @@ class MY_Controller extends CI_Controller
       }
       $s .= "</li>";
     endforeach;
+    $s .= '</ul>';
+    return $s;
+  }
+
+  // two level css menu
+  function main_menu_pages( $section, $pages, $home = true )
+  {
+    $s = '<ul id="topnav">';
+    $s .= '<li><a href="/" ' . ($section == 0 ? ' class="selected"' : '') . '>Home</a></li>';
+
+    foreach( $pages as $page ) {
+      if( $page->page_type == 'link') {
+        $s .= "<li><a href='" . $page->body . "'>$page->title</a>";
+      } else {
+        $s .= "<li><a href='/page/view/$page->id'>$page->title</a>";
+      }
+      if( count($page->children) > 0 ) {
+        $s .= '<span>';
+        foreach( $page->children as $child ) {
+          if( $child->page_type == 'link') {
+            $s .= "<a href='" . $child->body . "'>$child->title</a>";
+          } else {
+            $s .= "<a href='/page/view/$child->id'>$child->title</a>";
+          }
+        }
+        $s .= '</span>';
+      }
+      $s .= "</li>";
+    }
     $s .= '</ul>';
     return $s;
   }

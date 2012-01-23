@@ -43,23 +43,17 @@ class Calendar extends MY_Controller
 	{
     $view_menu = "<ul class='tabbed'>";
     $cal_views = array("month","poster","list");
+    // keep the date we are on for different views
+    $curr_view_date = $this->uri->segment(4) ? "/" . $this->uri->segment(4) : "";
+    if( $this->uri->segment(4) ) {
+      $curr_view_date .= $this->uri->segment(5) ? "/" . $this->uri->segment(5) : "";
+    }
     foreach( $cal_views as $v ) {
       $view_menu .= '<li ' . ($which == $v ? " class='selected'" : '') . '>';
-      $view_menu .= "<a href='/calendar/view/$v'>$v</a>";
+      $view_menu .= "<a href='/calendar/view/${v}${curr_view_date}'>$v</a>";
       $view_menu .= '</li>';
     }
     $view_menu .= "</ul>";
-    /*
-		$view_menu = <<< HTML
-		<ul class="tabbed">
-			<li ><a href="/calendar/view/month">month</a></li>
-			<li class="selected"><a href="/calendar/view/poster">poster</a></li>
-			<li><a href="/calendar/view/list">list</a></li>
-		</ul>
-		<p/>
-HTML;
-     
-     */
 		
 		$today = getdate(time());
 		$month = (int)$this->uri->segment(4) ? (int)$this->uri->segment(4) : $today['mon'];

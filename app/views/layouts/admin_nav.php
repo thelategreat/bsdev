@@ -12,6 +12,7 @@
 			<li><a href="/admin/calendar">Calendar</a></li>
 			<li><a href="/admin/ads">Ads</a></li>
 			<li><a href="/admin/groups">Groups</a></li>
+			<li><a href="/admin/lists">Lists</a></li>
 			<li><a href="/admin/pages">Static Pages</a></li>
 		</ul>
   </li>

@@ -34,6 +34,40 @@ $(function() {
 	</div>
 <? } ?>
 
+<?php
+  $count=0;
+  foreach( $articles as $article ) { 
+    if( $count % 3 == 0 )  {
+      if( $count != 0 ) echo '</div>';
+      echo '<div class="row">';
+    }
+  ?>
+  <div class="column grid_3">
+	  <div class="article-preview">
+		  <?php if( count($article->media) > 0 ) { $uuid = $article->media[0]['uuid']; ?>
+      <img src="<?=$article->media[0]['thumbnail']?>" class="<?= $count % 2 > 0 ? 'img-preview-left' : 'img-preview-right'?> <?=$article->media[0]['type']?>" />
+      <?php } ?>
+		  <h2><a href="/article/view/<?=$article->id?>"><?= $article->title ?></a></h2>
+		  <span class="date"><?=$article->author?>. - <?=date('j M Y',strtotime($article->publish_on))?> - <?=$article->group ?></span>
+		  <p><?= strlen(trim($article->excerpt)) ? $article->excerpt : implode(' ', array_slice(explode( ' ', $article->body),0,100) ) . '...' ?>
+		  <p class="read-more">	<?= $article->comment_count > 0 ? '<img src="/img/comment.png" style="margin-bottom: -5px;">' . $article->comment_count . ' comments | ' : '' ?> <a href="/article/view/<?=$article->id?>">read more...<img src="/img/big_feature_right_arrow.png" /></a><p>
+	  </div>
+  </div>   
+<?php 
+    $count++;
+} ?>
+</div>
+
+<div class="row">
+  <div class="column grid_8"><p>8</p>
+    <div class="row">
+      <div class="column grid_4">4</div>
+      <div class="column grid_4">4</div>
+    </div>
+  </div>
+</div>
+
+
 <?php 
 	$count = 0;
 	foreach( $articles as $article ) { ?>
