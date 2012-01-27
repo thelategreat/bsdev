@@ -26,31 +26,36 @@
 	<caption>Query: <em>&quot;<?= $query_string ?>&quot;</em> returned <?= $results['count']?> results</caption>
 	<tr>
 	  <th>Type</th>
-		<th>Title</th>
+    <th>Title</th>
+    <th>Author</th>
 	  <th>Date</th>
 	</tr>
-  <?php if( $results['count'] > 0 ) { 
-		foreach( $results['results']->result() as $event ) { ?>
-			<tr>
-				<td><?= $event->type ?></td>
+  <?php if( $results['count'] > 0 ) {
+    $count = 0; 
+		foreach( $results['results']->result() as $item ) { ?>
+      <tr class="<?= $count % 2 ? '' : 'odd'?>">
+				<td><?= $item->type ?></td>
 				<td>
-					<?php if( $event->type == 'event') { ?>
-						<a href="/events/details/<?=$event->id?>"><?=$event->title?></a>
-					<?php } elseif( $event->type == 'article') { ?>
-						<a href="/article/view/<?=$event->id?>"><?=$event->title?></a>
-					<?php } elseif( $event->type == 'book') { ?>
-						<a href="/product/view/<?=$event->id?>"><?=$event->title?></a>
+					<?php if( $item->type == 'event') { ?>
+						<a href="/events/details/<?=$item->id?>"><?=$item->title?></a>
+					<?php } elseif( $item->type == 'article') { ?>
+						<a href="/article/view/<?=$item->id?>"><?=$item->title?></a>
+					<?php } elseif( $item->type == 'book') { ?>
+						<a href="/product/view/<?=$item->id?>"><?=$item->title?></a>
 					<?php } else { ?>
-						<?=$event->title?>
+						<?=$item->title?>
 					<?php } ?>
-				</td>				
+        </td>	
+        <td>
+          <?= $item->author ?>
+        </td>
 				<td class="small">
-					<?php if( $event->dt_start !== NULL ) { ?>
-						<?= fmt_date( $event->dt_start )?>
+					<?php if( $item->dt_start !== NULL ) { ?>
+						<?= fmt_date( $item->dt_start )?>
 					<?php } ?>
 				</td>
 			</tr>
-  <?php }
+  <?php $count++; }
 	} ?>
 	
 </table>

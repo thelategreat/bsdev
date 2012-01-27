@@ -25,7 +25,7 @@ class search_model extends CI_Model
 		$sql = "";
 		
 		$event_sql =<<<EOE
-			SELECT id, title, updated_on, dt_start, 'event' AS type 
+			SELECT id, title, updated_on, dt_start, 'event' AS type, NULL AS author
 					FROM events
 					WHERE  
 EOE;
@@ -37,7 +37,7 @@ EOE;
 
 
 		$article_sql =<<<EOA
-			SELECT id, title, updated_on, NULL as dt_start, 'article' AS type 
+			SELECT id, title, updated_on, NULL as dt_start, 'article' AS type, author
 				FROM articles 
 				WHERE status = 3 AND 
 EOA;
@@ -47,7 +47,7 @@ EOA;
 		$article_sql = substr($article_sql, 0, -4);
 
 		$product_sql =<<<EOP
-			SELECT id, title, NULL AS updated_on, NULL as dt_start, 'book' AS type 
+			SELECT id, title, NULL AS updated_on, NULL as dt_start, 'book' AS type, contributor as author 
 				FROM products 
 				WHERE 
 EOP;

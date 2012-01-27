@@ -27,29 +27,22 @@
 	<script type="text/javascript" src="/js/jqModal.js"></script>
   <!-- <script type="text/javascript" src="/js/jquery.jdropdown.js"></script> -->
 
-  <script type="text/javascript">
-		// on load
-    $(document).ready(function(){
-			// menu
-			$("ul.dropdown li").hover(function(){
-		      $(this).addClass("hover");
-		      $('ul:first',this).css('visibility', 'visible');  
-		  }, function(){
-		      $(this).removeClass("hover");
-		      $('ul:first',this).css('visibility', 'hidden');
-		  });  
-		  $("ul.dropdown li ul li:has(ul)").find("a:first").append(" &raquo; ");		  		
-    }); // on_load like
-		
-  </script>
-
 </head>
 
 <body class="<?=$css_name?>">
-	<div id="container">
+  <div id="container">
+    <div id="venue-nav">
+      <ul>
+        <li><a href="">Home</a></li>
+        <li><a href="">Bookstore</a></li>
+        <li><a href="">Cinema</a></li>
+        <li><a href="">eBar</a></li>
+        <li><a href="">Restaurant</a></li>
+      </ul>
+    </div>
 		<div id="header-nav">
 			<ul>
-				<li><a href="/cart" title="Shopping Cart: <?= $cart->total_items() ?> items"><img src="/img/icons/black/shop_cart.png" style="height: 20px;"/> <span style="font-size: 11px"><?= $cart->total_items() ?></span></a></li>
+				<li><a href="/cart" title="Shopping Cart: <?= $cart->total_items() ?> items"><img src="/img/icons/black/shop_cart.png" style="height: 20px;"/> <span style="font-size: 11px; color: white;"><?= $cart->total_items() ?></span></a></li>
 				<li><a href="/profile" title="My Bookshelf"><img src="/img/icons/black/user.png" style="height: 20px"/></a></li>
 				<!--<li><a href="/page/help" title="Help/FAQ"><img src="/img/icons/white/info.png" style="height: 20px"/> </a></li> -->
 			</ul>
@@ -60,14 +53,14 @@
 						<option value="events">events</option>
 						<option value="articles">articles</option>
 					</select>
-					<input type="search" size="20" name="q" placeholder="search..." />
-					<button><img style="margin-bottom: -3px" src="/img/icons/black/zoom.png" width="16px"/></button>
+					<input style="margin: -30px;" type="search" size="10" name="q" placeholder="search..." />
+					<!-- <button style=""><img style="" src="/img/icons/black/zoom.png" width="16px"/></button>-->
 				</form>
 			</div>
 		</div>
     <div id="header">
-      <span>The</span><h1>Bookshelf</h1>
-      <p>Books, Movies, Music, Food, Conversation</p>
+      <!-- <span>The</span><h1>Bookshelf</h1>
+      <p>Books, Movies, Music, Food, Conversation</p> -->
       <!--
 			<h1>ookshelf</h1>
 			<a href="/"><img style="float: left; height: 100px" src="/img/wv/wv_logo_100.png" /></a>
@@ -99,7 +92,7 @@
 					<div id="footer-nav">
             <?= $footer ?>
 					</div>
-					Copyright © Bookshelf, 2010
+          Copyright © Bookshelf, <?= date('Y'); ?>
 				</div>
 			</div>
 		</div>

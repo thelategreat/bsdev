@@ -1,17 +1,3 @@
-<script type="text/javascript" src="/js/jquery.simplyscroll-1.0.4.min.js"></script>
-
-<script type="text/javascript">
-$(function() {	
-	$("#scroller").simplyScroll({
-				className: 'custom',
-				autoMode: 'loop',
-				pauseOnHover: true,
-				frameRate: 20,
-				speed: 2
-			});
-});
-</script>
-
 <?php foreach( $parents as $parent ) { ?>
 	<a href="/home/section/<?=$parent['id']?>"><?= $parent['name'] ?></a>  ❖
 <?php } ?>
@@ -34,54 +20,149 @@ $(function() {
 	</div>
 <? } ?>
 
-<?php
-  $count=0;
-  foreach( $articles as $article ) { 
-    if( $count % 3 == 0 )  {
-      if( $count != 0 ) echo '</div>';
-      echo '<div class="row">';
-    }
-  ?>
-  <div class="column grid_3">
-	  <div class="article-preview">
-		  <?php if( count($article->media) > 0 ) { $uuid = $article->media[0]['uuid']; ?>
-      <img src="<?=$article->media[0]['thumbnail']?>" class="<?= $count % 2 > 0 ? 'img-preview-left' : 'img-preview-right'?> <?=$article->media[0]['type']?>" />
-      <?php } ?>
-		  <h2><a href="/article/view/<?=$article->id?>"><?= $article->title ?></a></h2>
-		  <span class="date"><?=$article->author?>. - <?=date('j M Y',strtotime($article->publish_on))?> - <?=$article->group ?></span>
-		  <p><?= strlen(trim($article->excerpt)) ? $article->excerpt : implode(' ', array_slice(explode( ' ', $article->body),0,100) ) . '...' ?>
-		  <p class="read-more">	<?= $article->comment_count > 0 ? '<img src="/img/comment.png" style="margin-bottom: -5px;">' . $article->comment_count . ' comments | ' : '' ?> <a href="/article/view/<?=$article->id?>">read more...<img src="/img/big_feature_right_arrow.png" /></a><p>
-	  </div>
-  </div>   
-<?php 
-    $count++;
-} ?>
+<div class="row" style="height: 450px;">
+  <div class="column grid_6">
+    <h3>Features</h3>
+    <div class="row shadow" style="border: 1px solid #aaa; margin: 3px;">
+      <div class="column grid_3" style="margin: 5px;">
+        <img src="<?=$articles[0]->media[0]['thumbnail']?>" style="width: 225px; height: 175px;" />
+      </div>
+      <div class="column grid_2">
+        <h4 style="margin: 2px 0;"><a href="/article/view/<?=$articles[0]->id?>"><?= $articles[0]->title ?></a></h4>
+		    <?= strlen(trim($articles[0]->excerpt)) ? implode(' ', array_slice(explode(' ', $articles[0]->excerpt),0,30)) . '...' : implode(' ', array_slice(explode( ' ', $articles[0]->body),0,30) ) . '...' ?>
+		    <p style="font-style: italic">by: <span class="date"><?=$articles[0]->author?>. - <?=date('j M Y',strtotime($articles[0]->publish_on))?> - <?=$articles[0]->group ?></span></p>
+      </div>
+    </div>
+    <p/>
+    <div class="row" style="padding-top: 10px;">
+      <div class="column grid_2">
+        <img src="<?=$articles[1]->media[0]['thumbnail']?>" style="height: 100px;" class="shadow" />
+        <p><a href="/article/view/<?=$articles[1]->id?>"><?= $articles[1]->title ?></a></p>
+      </div>
+       <div class="column grid_2">
+        <img src="<?=$articles[2]->media[0]['thumbnail']?>" style="height: 100px;" class="shadow" />
+        <p><a href="/article/view/<?=$articles[2]->id?>"><?= $articles[2]->title ?></a></p>
+      </div>
+      <div class="column grid_2">
+        <img src="<?=$articles[3]->media[0]['thumbnail']?>" style="height: 100px;" class="shadow" />
+        <p><a href="/article/view/<?=$articles[3]->id?>"><?= $articles[3]->title ?></a></p>
+      </div>
+    </div>
+  </div>
+  <div class="column grid_6">
+    <div class="row" style="height: 225px;">
+      <div class="column grid_6">
+        <h3>@Bookstore</h3>
+        <div style="width: 180px; float: left;">
+          <img src="<?=$articles[4]->media[0]['thumbnail']?>" style="height: 100px;" class="shadow" />
+          <p>blurb.....</p>
+        </div>
+        <div>
+          <img src="<?=$articles[5]->media[0]['thumbnail']?>" style="height: 100px;" class="shadow" />
+          <p>blurb.....</p>
+        </div>
+      </div>
+    </div>
+    <div class="row" style="border-top: 1px solid #aaa;">
+      <div class="column grid_6">
+        <h3>@Cinema</h3>
+         <div style="width: 180px; float: left;">
+          <img src="<?=$articles[6]->media[0]['thumbnail']?>" style="height: 100px;" class="shadow" />
+          <p>blurb.....</p>
+        </div>
+        <div>
+          <img src="<?=$articles[7]->media[0]['thumbnail']?>" style="height: 100px;" class="shadow" />
+          <p>blurb.....</p>
+        </div>
+     </div>
+    </div>
+  </div>
 </div>
 
-<div class="row">
-  <div class="column grid_8"><p>8</p>
+<div class="row" style="border-top: 1px solid #aaa; margin-top: 15px;">
+  <div class="column grid_2" style="height: 175px;">
+    <h3 style="text-align: center;">@eBar</h3>
+  </div>
+  <div class="column grid_2" style="margin: 5px;">
+    <img src="<?=$articles[8]->media[0]['thumbnail']?>" style="height: 100px;" class="shadow" />
+    <p>blurb.....</p>
+  </div>
+  <div class="column grid_2" style="margin: 5px;">
+    <img src="<?=$articles[8]->media[0]['thumbnail']?>" style="height: 100px;" class="shadow" />
+    <p>blurb.....</p>
+  </div>
+  <div class="column grid_2" style="margin: 5px;">
+    <img src="<?=$articles[8]->media[0]['thumbnail']?>" style="height: 100px;" class="shadow" />
+    <p>blurb.....</p>
+ </div>
+  <div class="column grid_2" style="margin: 5px;">
+    <img src="<?=$articles[8]->media[0]['thumbnail']?>" style="height: 100px;" class="shadow" />
+    <p>blurb.....</p>
+ </div>
+  <div class="column grid_2" style="margin: 5px;">
+    <img src="<?=$articles[8]->media[0]['thumbnail']?>" style="height: 100px;" class="shadow" />
+    <p>blurb.....</p>
+ </div>
+</div>
+
+<div class="row" style="border-top: 1px solid #aaa;">
+  <div class="column grid_6">
+    <h3 style="text-align: center;">News and Views</h3>
+    <?php for( $i = 0; $i < 4; $i++ ) { ?>
+    <div class="row" style="margin-bottom: 15px;">
+      <div class="column grid_3">
+        <img src="<?=$articles[$i]->media[0]['thumbnail']?>" class="shadow" style="height: 100px; width: 100px; float: right;" />
+      </div>
+      <div class="column grid_3">
+		    <?= strlen(trim($articles[$i]->excerpt)) ? $articles[$i]->excerpt : implode(' ', array_slice(explode( ' ', $articles[$i]->body),0,100) ) . '...' ?>
+      </div>
+    </div>
+    <?php } ?>
+
+    <h3 style="text-align: center">Columns</h3>
     <div class="row">
-      <div class="column grid_4">4</div>
-      <div class="column grid_4">4</div>
+    </div>
+
+    <h3>Quote of the Day</h3>
+    <blockquote>
+      <p>We must rediscover the distinction between hope and expectation.</p>
+    </blockquote>     
+    <cite>Ivan Illich</cite>
+  </div>
+  <div class="column grid_6">
+    <h3 style="text-align: center;">Other stuffs</h3>
+    <div class="row">
+      <div class="column grid_3">
+        <div style="background: #16f6fa; text-align: center; padding: 5px; border: 1px solid #005;">
+          <h4 style="margin: 2px 0;">Dinner and a Movie</h4>
+          <p>
+            $20.00 buys you a night on the town. A delicious dinner in the
+            Bookshelf Greenroom and reserved seats in the Cinema.
+          </p>
+          <p>
+            Phone 519-821-3311 to reserve
+          </p>
+        </div>
+        <p/>
+        <div style="background: #00f; text-align: center; padding: 5px; border: 1px solid #005;">
+          <h4 style="color: white; margin: 2px 0;">Bookshelf Gift Cards</h4>
+          <p style="font-weight: bold;">
+            Uncertain what to buy? Let them decide! Click here to order
+            Bookshelf Gift Cards or purchase them at the till.
+          </p>
+        </div>
+      </div>
+      <div class="column grid_3">
+        <div style="border: 1px solid #bbb; background: #eee; text-align: center;">
+          <h3>Follow Us</h3>
+          <img src="/img/social/32/facebook.png" />
+          <img src="/img/social/32/twitter.png" />
+          <img src="/img/social/32/digg.png" />
+          <img src="/img/social/32/reddit.png" />
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
 
-<?php 
-	$count = 0;
-	foreach( $articles as $article ) { ?>
-	<div class="article">
-		<?php if( count($article->media) > 0 ) { $uuid = $article->media[0]['uuid']; ?>
-			<!--<img src="/media/<?=$uuid?>" class="<?= $count % 2 > 0 ? 'img-preview-left' : 'img-preview-right'?>" />-->
-      <img src="<?=$article->media[0]['thumbnail']?>" class="<?= $count % 2 > 0 ? 'img-preview-left' : 'img-preview-right'?> <?=$article->media[0]['type']?>"
-              />
-		<?php $count++; } ?>
-		<h2><a href="/article/view/<?=$article->id?>"><?= $article->title ?></a></h2>
-		<span class="date"><?=$article->author?>. - <?=date('j M Y',strtotime($article->publish_on))?> - <?=$article->group ?></span>
-		<p><?= strlen(trim($article->excerpt)) ? $article->excerpt : implode(' ', array_slice(explode( ' ', $article->body),0,100) ) . '...' ?>
-		<p class="read-more">	<?= $article->comment_count > 0 ? '<img src="/img/comment.png" style="margin-bottom: -5px;">' . $article->comment_count . ' comments | ' : '' ?> <a href="/article/view/<?=$article->id?>"><em>read more...<img src="/img/big_feature_right_arrow.png" width="18px" style="margin-bottom: -4px"/></em></a><p>
-	</div>
-<?php } ?>
-
-<?= $pagination ?>

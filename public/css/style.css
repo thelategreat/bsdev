@@ -2,7 +2,7 @@
 
 body {
 	background-color: #000;
-	font-size: 11pt;
+	font-size: 9pt;
 	line-height: 140%;
 	color: #333;
 	font-family: Verdana, sans-serif;
@@ -10,11 +10,13 @@ body {
 
 a {
   text-decoration: none;
+	color: #a82e24;
 }
 
 /* ================ */
 /* = The 1Kb Grid = */     /* 12 columns, 60 pixels each, with 20 pixel gutter */
 /* ================ */
+/* http://1kbgrid.com/ */
 .grid_1 { width:60px; }
 .grid_2 { width:140px; }
 .grid_3 { width:220px; }
@@ -46,16 +48,32 @@ a {
 }
 /* end of 1kb grid */
 
+.shadow {
+  -moz-box-shadow:    3px 3px 5px 3px #777;
+  -webkit-box-shadow: 3px 3px 5px 3px #777;
+  box-shadow:         3px 3px 5px 3px #777;
+}
+
+.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 #container
 {
 	margin: 0px;
   padding: 10px 20px;
-	width: 95%;
-	background: #fff;
+	width: 960px;
+	margin-right: auto;
+  margin-left: auto;
+  background: #fff;
 }
 
 #header {
   font-family: times-roman, serif;
+  background: url(/img/bs/header_bg.png) #fff top left no-repeat;
+  background-color: #a00;
+  height: 77px;
 }
 
 #header h1 {
@@ -71,12 +89,13 @@ a {
 #header-nav {
   height: 80px;
   float: right;
+  padding: 5px;
 }
 
 #header-nav ul {
   list-style-type: none;
   float: right;
-  margin: 0;
+  margin: -30px 0;
   padding: 0;
   text-align: top;
 }
@@ -86,33 +105,30 @@ a {
 }
 
 #header-nav #search {
-  width: 400px;
+  width: 200px;
+  font-size: 0.8em;
 }
 
-/*
-#nav ul {
-   padding: 3px 0;
-  margin-left: 0;
-  margin-bottom: 0;
-  font: bold 12px Verdana;
- list-style-type: none;
+
+#venue-nav ul {
+  margin: 0; padding: 0;
+  list-style: none;
+  height: 30px;
 }
 
-#nav ul li {
-  display: inline;
-  margin: 0;
+#venue-nav ul li {
+  float: left;
+  border: 1px solid #aaa;
+  border-radius: 5px;
+  -moz-border-radius:5px;
+  background: #333;
 }
 
-#nav ul li a {
-  text-decoration: none;
-  padding: 3px 7px;
-  margin-right: 3px;
+#venue-nav ul li a {
+  padding: 5px 10px;
+  display: block;
+  color: white;
 }
-
-#nav ul li ul {
-  display: none;
-}
-*/
 
 /* ------------------- */
 /* CSS lotus style nav */
@@ -150,7 +166,7 @@ ul#topnav li span {
 	float: left;
 	padding: 5px 0;
 	position: absolute;
-	left: 0; top:30px;
+	left: 0; top:28px;
 	display: none; /*--Hide by default--*/
 	width: 970px;
   width: 100%;
@@ -368,6 +384,10 @@ div.tabs ul li a.selected:hover {
 	background-color: #ddd;
 }
 
+.odd {
+  background-color: #ddd;
+}
+
 /* tabbed look */
 ul.tabbed {
   list-style: none;
@@ -388,7 +408,8 @@ ul.tabbed li.selected {
   border: 2px solid #999;
   border-bottom: 2px solid #fff;
   padding-bottom: 1px; 
-	/*--Top right rounded corner--*/
+	background: #fff;
+  /*--Top right rounded corner--*/
 	-moz-border-radius-topright: 5px;
 	-khtml-border-radius-topright: 5px;
 	-webkit-border-top-right-radius: 5px;
@@ -396,6 +417,15 @@ ul.tabbed li.selected {
 	-moz-border-radius-topleft: 5px;
 	-khtml-border-radius-topleft: 5px;
 	-webkit-border-top-left-radius: 5px;
+}
+
+ul.tabbed li a {
+  color: black;
+}
+
+ul.tabbed li.selected a {
+  color: black;
+  font-weight: bold;
 }
 
 /* Calendar */
@@ -541,5 +571,38 @@ table.calendar-month ul.event-list li.music {
 	background: #cfc url('../img/icons/white/music.png') no-repeat right top;
 }
 
+/* search results */
+#search_results {
+	
+}
 
+#search_results table {
+	font-size: 90%;	
+	width: 100%;
+  border-collapse: collapse;
+}
+
+#search_results table th {
+	height: auto;
+	background: none;
+	background-color: #666;
+	color: white;
+	text-align: left;
+}
+
+blockquote p {
+  padding: 0px 10px 0px 0px;
+  font-size: 1.1em;
+  float: left;
+}
+
+blockquote {
+  padding: 20px;
+  font-size: 1.4em;
+}
+
+cite {
+  font-size: 1.2em;
+  float: right;
+}
 

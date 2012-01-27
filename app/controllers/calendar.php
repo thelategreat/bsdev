@@ -50,7 +50,7 @@ class Calendar extends MY_Controller
     }
     foreach( $cal_views as $v ) {
       $view_menu .= '<li ' . ($which == $v ? " class='selected'" : '') . '>';
-      $view_menu .= "<a href='/calendar/view/${v}${curr_view_date}'>$v</a>";
+      $view_menu .= "<a href='/calendar/view/${v}${curr_view_date}'>$v view</a>";
       $view_menu .= '</li>';
     }
     $view_menu .= "</ul>";
