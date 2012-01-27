@@ -2,10 +2,10 @@
 	<a href="/home/section/<?=$parent['id']?>"><?= $parent['name'] ?></a>  ❖
 <?php } ?>
 
+<!--
 <?php if( $events !== NULL && $events->num_rows() > 0 ) { ?>
 	<a style="float: right" href="/calendar"><span style="font-size: 90%;">...see the full calendar</span> <img src="/img/fancy_right.png" width="18px" style="margin-bottom: -5px"/></a>
 	<h3 style="margin: 0; padding: 0; font-style: italic;">Coming up... </h3>
-	<!---->
 	<div id="scroller">
 		<?php foreach( $events->result() as $event ): ?>
 			<div class="section">
@@ -19,6 +19,7 @@
 		<? endforeach; ?>
 	</div>
 <? } ?>
+-->
 
 <div class="row" style="height: 450px;">
   <div class="column grid_6">
@@ -55,10 +56,12 @@
         <h3>@Bookstore</h3>
         <div style="width: 180px; float: left;">
           <img src="<?=$articles[4]->media[0]['thumbnail']?>" style="height: 100px;" class="shadow" />
+          <h4 style="margin: 2px 0;"><a href="/article/view/<?=$articles[4]->id?>"><?= $articles[4]->title ?></a></h4>
           <p>blurb.....</p>
         </div>
         <div>
           <img src="<?=$articles[5]->media[0]['thumbnail']?>" style="height: 100px;" class="shadow" />
+          <h4 style="margin: 2px 0;"><a href="/article/view/<?=$articles[5]->id?>"><?= $articles[5]->title ?></a></h4>
           <p>blurb.....</p>
         </div>
       </div>
@@ -68,10 +71,12 @@
         <h3>@Cinema</h3>
          <div style="width: 180px; float: left;">
           <img src="<?=$articles[6]->media[0]['thumbnail']?>" style="height: 100px;" class="shadow" />
+          <h4 style="margin: 2px 0;"><a href="/article/view/<?=$articles[6]->id?>"><?= $articles[6]->title ?></a></h4>
           <p>blurb.....</p>
         </div>
         <div>
           <img src="<?=$articles[7]->media[0]['thumbnail']?>" style="height: 100px;" class="shadow" />
+          <h4 style="margin: 2px 0;"><a href="/article/view/<?=$articles[7]->id?>"><?= $articles[7]->title ?></a></h4>
           <p>blurb.....</p>
         </div>
      </div>
@@ -85,10 +90,12 @@
   </div>
   <div class="column grid_2" style="margin: 5px;">
     <img src="<?=$articles[8]->media[0]['thumbnail']?>" style="height: 100px;" class="shadow" />
+    <h4 style="margin: 2px 0;"><a href="/article/view/<?=$articles[8]->id?>"><?= $articles[8]->title ?></a></h4>
     <p>blurb.....</p>
   </div>
   <div class="column grid_2" style="margin: 5px;">
-    <img src="<?=$articles[8]->media[0]['thumbnail']?>" style="height: 100px;" class="shadow" />
+    <img src="<?=$articles[9]->media[0]['thumbnail']?>" style="height: 100px;" class="shadow" />
+    <h4 style="margin: 2px 0;"><a href="/article/view/<?=$articles[9]->id?>"><?= $articles[9]->title ?></a></h4>
     <p>blurb.....</p>
   </div>
   <div class="column grid_2" style="margin: 5px;">
@@ -112,6 +119,7 @@
     <div class="row" style="margin-bottom: 15px;">
       <div class="column grid_3">
         <img src="<?=$articles[$i]->media[0]['thumbnail']?>" class="shadow" style="height: 100px; width: 100px; float: right;" />
+        <h4 style="margin: 2px 0;"><a href="/article/view/<?=$articles[$i]->id?>"><?= $articles[$i]->title ?></a></h4>
       </div>
       <div class="column grid_3">
 		    <?= strlen(trim($articles[$i]->excerpt)) ? $articles[$i]->excerpt : implode(' ', array_slice(explode( ' ', $articles[$i]->body),0,100) ) . '...' ?>
