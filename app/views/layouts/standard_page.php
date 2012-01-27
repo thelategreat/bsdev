@@ -33,11 +33,11 @@
   <div id="container">
     <div id="venue-nav">
       <ul>
-        <li><a href="">Home</a></li>
-        <li><a href="">Bookstore</a></li>
-        <li><a href="">Cinema</a></li>
-        <li><a href="">eBar</a></li>
-        <li><a href="">Restaurant</a></li>
+        <li><a href="/">Home</a></li>
+        <li><a href="/">Bookstore</a></li>
+        <li><a href="/calendar">Cinema</a></li>
+        <li><a href="/">eBar</a></li>
+        <li><a href="/">Restaurant</a></li>
       </ul>
     </div>
 		<div id="header-nav">

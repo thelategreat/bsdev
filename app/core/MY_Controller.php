@@ -76,7 +76,7 @@ class MY_Controller extends CI_Controller
   function main_menu_pages( $section, $pages, $home = true )
   {
     $s = '<ul id="topnav">';
-    $s .= '<li><a href="/" ' . ($section == 0 ? ' class="selected"' : '') . '>Home</a></li>';
+    //$s .= '<li><a href="/" ' . ($section == 0 ? ' class="selected"' : '') . '>Home</a></li>';
 
     foreach( $pages as $page ) {
       if( $page->page_type == 'link') {

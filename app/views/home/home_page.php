@@ -121,6 +121,8 @@
 
     <h3 style="text-align: center">Columns</h3>
     <div class="row">
+      <div class="column grid_6" style="height: 150px; background: #ddd;">
+      </div>
     </div>
 
     <h3>Quote of the Day</h3>
