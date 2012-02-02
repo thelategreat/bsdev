@@ -1,3 +1,4 @@
+
 <?php foreach( $parents as $parent ) { ?>
 	<a href="/home/section/<?=$parent['id']?>"><?= $parent['name'] ?></a>  ❖
 <?php } ?>
@@ -24,8 +25,8 @@
 <div class="row" style="height: 450px;">
   <div class="column grid_6">
     <h3>Features</h3>
-    <div class="row shadow" style="border: 1px solid #aaa; margin: 3px;">
-      <div class="column grid_3" style="margin: 5px;">
+    <div class="row" style="margin: 3px;">
+     <div class="column grid_3" style="margin: 5px;">
         <img src="<?=$articles[0]->media[0]['thumbnail']?>" style="width: 225px; height: 175px;" />
       </div>
       <div class="column grid_2">
@@ -174,5 +175,15 @@
     </div>
   </div>
 </div>
+
+<script>
+// execute your scripts when the DOM is ready. this is mostly a good habit
+$(function() {
+
+	// initialize scrollable
+	$(".scrollable").scrollable();
+
+});
+</script>
 
 

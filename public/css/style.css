@@ -2,7 +2,7 @@
 
 body {
 	background-color: #000;
-	font-size: 9pt;
+  font-size: 9pt;
 	line-height: 140%;
 	color: #333;
 	font-family: Verdana, sans-serif;
@@ -67,13 +67,14 @@ a {
 	margin-right: auto;
   margin-left: auto;
   background: #fff;
+/*  background-image: url("/img/layout_grid.gif"); */
 }
 
 #header {
   font-family: times-roman, serif;
-  background: url(/img/bs/header_bg.png) #fff top left no-repeat;
-  background-color: #a00;
-  height: 77px;
+  background: url(/img/bs/header_bg_bruce.jpg) #fff top left no-repeat;
+  background-color: #fff;
+  height: 140px;
 }
 
 #header h1 {
@@ -87,7 +88,7 @@ a {
 }
 
 #header-nav {
-  height: 80px;
+  height: 65px;
   float: right;
   padding: 5px;
 }
@@ -104,9 +105,15 @@ a {
   display: inline;
 }
 
-#header-nav #search {
-  width: 200px;
+#header-nav form {
+  margin: -32px 5px;
+  width: 220px;
   font-size: 0.8em;
+  float: right;
+}
+
+#header-nav form button {
+  margin-left: 30px;
 }
 
 
@@ -121,7 +128,7 @@ a {
   border: 1px solid #aaa;
   border-radius: 5px;
   -moz-border-radius:5px;
-  background: #333;
+  background: #222;
 }
 
 #venue-nav ul li a {
@@ -129,6 +136,90 @@ a {
   display: block;
   color: white;
 }
+
+/*
+	root element for the scrollable.
+	when scrolling occurs this element stays still.
+*/
+.scrollable {
+	/* required settings */
+	position:relative;
+	overflow:hidden;
+	width: 360px;
+	height:300px;
+  z-index: 1;
+}
+
+/*
+	root element for scrollable items. Must be absolutely positioned
+	and it should have a extremely large width to accommodate scrollable items.
+	it's enough that you set width and height for the root element and
+	not for this element.
+*/
+.scrollable .items {
+	/* this cannot be too large */
+	width:20000em;
+	position:absolute;
+}
+
+/*
+	a single item. must be floated in horizontal scrolling.
+	typically, this element is the one that *you* will style
+	the most.
+*/
+.items div {
+	float:left;
+}
+
+/* this makes it possible to add next button beside scrollable */
+.scrollable {
+	float:left;	
+}
+
+/* prev, next, prevPage and nextPage buttons */
+a.browse {
+	background:url(/img/scrollable/arrow/hori_large.png) no-repeat;
+	display:block;
+	width:30px;
+	height:30px;
+	float:left;
+	margin:40px 10px;
+	cursor:pointer;
+	font-size:1px;
+}
+
+/* right */
+a.right 				{ background-position: 0 -30px; clear:right; margin-right: 0px;}
+a.right:hover 	{ background-position:-30px -30px; }
+a.right:active 	{ background-position:-60px -30px; } 
+
+
+/* left */
+a.left				{ margin-left: 0px; } 
+a.left:hover  { background-position:-30px 0; }
+a.left:active { background-position:-60px 0; }
+
+/* up and down */
+a.up, a.down		{ 
+	background:url(/img/scrollable/arrow/vert_large.png) no-repeat; 
+	float: none;
+	margin: 10px 50px;
+}
+
+/* up */
+a.up:hover  		{ background-position:-30px 0; }
+a.up:active  		{ background-position:-60px 0; }
+
+/* down */
+a.down 				{ background-position: 0 -30px; }
+a.down:hover  { background-position:-30px -30px; }
+a.down:active { background-position:-60px -30px; } 
+
+
+/* disabled navigational button */
+a.disabled {
+	visibility:hidden !important;		
+} 	
 
 /* ------------------- */
 /* CSS lotus style nav */
@@ -143,11 +234,18 @@ ul#topnav {
 	list-style: none;
 	position: relative; /*--Set relative positioning on the unordered list itself - not on the list item--*/
 	font-size: 1.1em;
-	background: #fff;
-	color: #333;
+	background: #000;
+	color: #fff;
   border-top: 1px #333 solid;
   border-bottom: 1px #333 solid;
-/*background: url(topnav_stretch.gif) repeat-x; */
+	/*--Bottom right rounded corner--*/
+	-moz-border-radius-topright: 5px;
+	-khtml-border-radius-topright: 5px;
+	-webkit-border-top-right-radius: 5px;
+	/*--Bottom left rounded corner--*/
+	-moz-border-radius-topleft: 5px;
+	-khtml-border-radius-topleft: 5px;
+	-webkit-border-top-left-radius: 5px;
 }
 ul#topnav li {
 	float: left;
@@ -157,21 +255,21 @@ ul#topnav li {
 ul#topnav li a {
 	padding: 5px 10px;
 	display: block;
-	color: #333;
+	color: #fff;
 	text-decoration: none;
 }
-ul#topnav li:hover { background: #ddd; border-bottom: 0;  }
+ul#topnav li:hover { background: #333; border-bottom: 0;  }
 
 ul#topnav li span {
 	float: left;
 	padding: 5px 0;
 	position: absolute;
-	left: 0; top:28px;
+	left: 0; top:27px;
 	display: none; /*--Hide by default--*/
 	width: 970px;
   width: 100%;
-	background: #ddd;
-	color: #333;
+	background: #111;
+	color: #fff;
   border-top: 1px #333 solid;
   font-size: 0.9em;
   border-bottom: 1px #333 solid;
@@ -200,11 +298,9 @@ ul#topnav li span a:hover { font-weight: bold;}
 }
 
 #content-container1 {
-
 }
 
 #content-container2 {
-
 }
 
 #content {
