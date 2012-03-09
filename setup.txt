@@ -1,0 +1,25 @@
+
+VirtualHost
+
+make sure 'AllowOverride' all is happening
+
+Mysql
+
+mysql> create database bookshelf character set utf8;
+mysql> create user 'bookshelf'@'localhost' identified by 'YOUR_PASSWORD';
+mysql> grant all privileges on bookshelf.* to 'bookshelf'@'localhost';
+
+
+PHP 5.3
+
+make sure mysql.so is enabled in php.ini
+make sure calendar.so is enabled in php.ini
+make sure 'short_open_tag = On' in php.ini
+
+CI
+
+for php 5.3 and CI 1.7, put date_default_timezone_set('America/New_York'); in index.php
+
+copy 'config_default.php' to 'config.php' and edit
+copy 'database_default.php' to 'database.php' and edit
+

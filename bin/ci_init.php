@@ -45,14 +45,14 @@ else
 	define('APPPATH', BASEPATH.$application_folder.'/');
 }
 
-require(BASEPATH.'codeigniter/Common'.EXT);
-require(BASEPATH.'codeigniter/Compat'.EXT);
+require(BASEPATH.'core/CodeIgniter'.EXT);
+require(BASEPATH.'core/Compat'.EXT);
 require(APPPATH.'config/constants'.EXT);
 
 $CFG =& load_class('Config');
 $LANG =& load_class('Language');
 
-require(BASEPATH.'codeigniter/Base5'.EXT);
+require(BASEPATH.'core/Base5'.EXT);
 $CI = new CI_Base();
 
 include_once( $system_folder . '/database/DB.php' );

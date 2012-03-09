@@ -25,8 +25,16 @@
 <div class="row" style="height: 450px;">
   <div class="column grid_6">
     <h3>Features</h3>
-    <div class="row" style="margin: 3px;">
-     <div class="column grid_3" style="margin: 5px;">
+      <div class="row shadow" style="margin: 6px; border: 1px solid #333; height: 385px; width: 96%;">
+        <div class="column grid_6" style="">
+          <div style="overflow: scroll; width: 1000px; height: 200px; text-align: center;">
+            foo
+          </div>  
+        </div>
+      </div>
+    <!--
+    <div class="row shadow" style="margin: 1px; border: 1px solid #333;">
+     <div class="column grid_3" style="">
         <img src="<?=$articles[0]->media[0]['thumbnail']?>" style="width: 225px; height: 175px;" />
       </div>
       <div class="column grid_2">
@@ -50,6 +58,7 @@
         <p><a href="/article/view/<?=$articles[3]->id?>"><?= $articles[3]->title ?></a></p>
       </div>
     </div>
+    -->
   </div>
   <div class="column grid_6">
     <div class="row" style="height: 225px;">
