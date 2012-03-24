@@ -54,9 +54,11 @@ class Users extends Admin_Controller
 				$this->db->set('username', $this->input->post('username'));
 				$this->db->set('firstname', $this->input->post('firstname'));
 				$this->db->set('lastname', $this->input->post('lastname'));
+				$this->db->set('nickname', $this->input->post('nickname'));
 				$this->db->set('passwd', $this->auth->hash_password($this->input->post('passwd')));
 				$this->db->set('role_id', $this->input->post('role_id'));
 				$this->db->set('email', $this->input->post('email'));
+				$this->db->set('bio', $this->input->post('bio'));
 				$this->db->set('created_on', 'NOW()', false);
 				$this->db->insert("users");
 				redirect("/admin/users");
@@ -106,8 +108,10 @@ class Users extends Admin_Controller
 				$this->db->set('username', $this->input->post('username'));
 				$this->db->set('firstname', $this->input->post('firstname'));
 				$this->db->set('lastname', $this->input->post('lastname'));
+				$this->db->set('nickname', $this->input->post('nickname'));
 				$this->db->set('role_id', $this->input->post('role_id'));
 				$this->db->set('email', $this->input->post('email'));
+				$this->db->set('bio', $this->input->post('bio'));
 				$this->db->update('users' );
 				redirect('/admin/users');				
 			}

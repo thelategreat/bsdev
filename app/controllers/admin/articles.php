@@ -15,7 +15,7 @@ class Articles extends Admin_Controller
 		parent::__construct();
 		$this->load->model('articles_model');
 		$this->load->model('groups_model');
-
+    $this->load->model('lists_model');
 	}
 	
 	/**
@@ -179,7 +179,8 @@ class Articles extends Admin_Controller
 			'group_select' => '<select name="group" id="group-sel">' . $this->groups_model->mk_nested_select($article->group,0,false) . '</select>',
 			'category_select' => $this->articles_model->category_select( $article->category ),
 			'status_select' => $this->articles_model->status_select( $article->status ),
-			'priority_select' => $this->articles_model->priority_select( $article->display_priority ),			
+      'priority_select' => $this->articles_model->priority_select( $article->display_priority ),	
+      'lists_select' => $this->lists_model->lists_select(),    
 			'tabs' => $this->tabs->gen_tabs(array('Article','Media'), 'Article', '/admin/articles/edit/' . $article_id)
 		);
 		

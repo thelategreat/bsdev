@@ -8,12 +8,12 @@
 	<li>
 		<a href="/admin">Site</a>
 		<ul>
-			<li><a href="/admin/articles">Articles</a></li>
+			<li><a href="/admin/articles">Essays</a></li>
 			<li><a href="/admin/calendar">Calendar</a></li>
-			<li><a href="/admin/ads">Ads</a></li>
-			<li><a href="/admin/groups">Groups</a></li>
+			<li><a href="/admin/groups">Sections</a></li>
+			<li><a href="/admin">Venues</a></li>
 			<li><a href="/admin/lists">Lists</a></li>
-			<li><a href="/admin/pages">Static Pages</a></li>
+			<li><a href="/admin/pages">Pages</a></li>
 		</ul>
   </li>
   <li>
@@ -31,9 +31,9 @@
 		<ul>
 			<li><a href="/admin/media">Media Library</a></li>
 			<li><a href="/admin/films">Films</a></li>
-			<li><a href="/admin/venues">Venues</a></li>
+			<li><a href="/admin/venues">Locations</a></li>
 			<li><a href="/admin/polls">Polls</a></li>
-			<li><a href="/admin/lookups">Categories</a></li>
+			<li><a href="/admin/lookups">Look ups</a></li>
 		</ul>
 	</li>
 	
@@ -48,7 +48,11 @@
 			<li><a href="/admin/maillist/logs">Mail Logs</a></li>
 		</ul>
 	</li>
-	
+
+  <li>
+    <a href="/admin/ads">Adverts</a>
+  </li>
+
 	<li>
 		<a href="/admin/stats/about">System</a>
 		<ul>

@@ -118,5 +118,21 @@ class maillist_model extends CI_Model
 			
 			return $this->db->query( $q );
 			
-	}
+  }
+
+  // processing
+  function get_next_job()
+  {
+    $q = "select * from ml_messages where send_on > '0000-00-00' and status = 0 LIMIT 1";
+
+    return $this->db->query( $q );
+  }
+
+  function get_list_subscribers( $list_id )
+  {
+    $q = "select * from ml_subscr as s, ml_subscr_list_map as slm where s.id = slm.subscr_id and slm.list_id = " . $list_id;
+
+    return $this->db->query( $q );
+  }
+
 }

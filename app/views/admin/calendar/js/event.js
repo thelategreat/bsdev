@@ -83,7 +83,11 @@ function validate( thisForm, event )
 		alert("End Date must be a valid date");
 		return false;
 	}
-	// check the dates aren't stupid
+	if( $('#fld_venue').is_empty() ) {
+		alert("Venue cannot be blank");
+		return false;
+	}
+  // check the dates aren't stupid
 	Date.format = 'yyyy-mm-dd';
 	var st = new Date.fromString($('#fld_event_date_start').val());
 	var en = new Date.fromString($('#fld_event_date_end').val());

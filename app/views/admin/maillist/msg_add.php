@@ -11,10 +11,12 @@
   <td><label for="subject">Subject</label></td>
   <td><input name="subject" size="50" /></td>
 </tr>
+<!--
 <tr>
   <td><label for="from">From</label></td>
   <td><input name="from" size="50" /></td>
 </tr>
+-->
 <tr>
   <td valign="top"><label for="text_fmt">Message</label></td>
   <td><textarea name="text_fmt" rows="15" cols="80"></textarea></td>

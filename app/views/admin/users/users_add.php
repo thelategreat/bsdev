@@ -6,17 +6,23 @@
   <tr>
     <td><label for="username">Username</label></td>
     <td><input name="username" size="30" value="<?=set_value('username')?>"/></td>
-	<td><?=form_error('username')?></td>
+  	<td><?=form_error('username')?></td>
   </tr>
-	  <tr>
-	    <td valign="top"><label for="firstname">First Name</label></td>
-	    <td><input name="firstname" size="30" value="" /></td>
+	<tr>
+	  <td valign="top"><label for="firstname">First Name</label></td>
+	  <td><input name="firstname" size="30" value="" /></td>
+    <td/>
+  </tr>
+	<tr>
+	  <td valign="top"><label for="lastname">Last Name</label></td>
+	  <td><input name="lastname" size="30" value="" /></td>
 		<td/>
-	  <tr>
-	    <td valign="top"><label for="lastname">Last Name</label></td>
-	    <td><input name="lastname" size="30" value="" /></td>
-		<td/>
+  </tr>
   <tr>
+	  <td valign="top"><label for="nickname">Nom de Plume</label></td>
+	  <td><input name="nickname" size="30" value="" /></td>
+		<td/>
+  </tr>
   <tr>
     <td valign="top"><label for="role">Role</label></td>
     <td><?= $role_select ?></td>
@@ -25,17 +31,22 @@
   <tr>
     <td valign="top"><label for="passwd">Password</label></td>
     <td><input type="password" name="passwd" size="30" autocomplete="off" value=""/></td>
-	<td><?=form_error('passwd')?></td>
+	  <td><?=form_error('passwd')?></td>
   </tr>
   <tr>
     <td valign="top"><label for="passwd">Verify Password</label></td>
     <td><input type="password" name="vpasswd" size="30" autocomplete="off" value=""/></td>
-	<td><?=form_error('vpasswd')?></td>
+	  <td><?=form_error('vpasswd')?></td>
   </tr>
   <tr>
     <td valign="top"><label for="email">Email</label></td>
     <td><input name="email" size="30" value="<?=set_value('email')?>"/></td>
-	<td><?=form_error('email')?></td>
+	  <td><?=form_error('email')?></td>
+  </tr>
+  <tr>
+    <td><label for="bio">Bio</label></td>
+    <td><textarea name="bio" class="mceNoEditor" cols="50" rows="10"></textarea></td>
+    <td/>
   </tr>
 </table>
 </fieldset>

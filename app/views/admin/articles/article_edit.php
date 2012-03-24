@@ -9,6 +9,19 @@ function mediaBrowserCallback( field_name, url, type, win ) {
   window.open('/admin/media/mce/articles/<?=$article->id?>','browserWindow','modal,width=600,height=600,scrollbars=yes');
 }
 
+function add_to_list()
+{
+  var listid = $('#lists-sel').val();
+
+  $.post("/admin/lists/addtolist",{ listid: listid, url: 'article/view/<?=$article->id?>'},
+    function( data ) {
+      if( data.ok ) {
+        alert( data.msg );
+      } else {
+        alert( data.msg );
+      }
+    }, 'json');
+}
 
 function add_category()
 {
@@ -24,7 +37,7 @@ function add_group()
 
 $(function()
 {	
-	Date.format = "yyyy-mm-dd";
+	//date.format = "yyyy-mm-dd";
 	$('.date-pick').datePicker({horizontalPosition: $.dpConst.POS_RIGHT });
 	$('.date-pick').dpSetStartDate('2000-01-01');
 	
@@ -75,7 +88,7 @@ $(function()
 	<table style="border: 0">
 	  <tr>
 			<td>
-			<table>
+      <table>
 				<tr><th>Status</th></tr>
 				<tr><td>
 					<?= $status_select ?>
@@ -124,7 +137,15 @@ $(function()
 			</table>
 			</td>
 		</tr>
-	  <tr>
+		<tr>
+			<td>
+			<table>
+				<tr><th>Lists</th></tr>
+        <tr><td><?= $lists_select ?>&nbsp;&nbsp;<a href="javascript:add_to_list();" title="Add to list"><img src="/img/admin/add.png" /></a></td></tr>
+			</table>
+			</td>
+		</tr>
+    <tr>
 			<td>
 			<table>
 				<tr><th>Tags</th></tr>

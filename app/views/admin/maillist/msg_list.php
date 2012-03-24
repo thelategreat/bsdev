@@ -6,7 +6,7 @@
 <table>
 <tr>
   <th>subject</th>
-  <th>from</th>
+<!--  <th>from</th> -->
   <th>date</th>
   <th>status</th>
 	<th>list</th>
@@ -15,7 +15,7 @@
   foreach( $msgs as $row ) { ?>
   <tr <?php if($i % 2 == 0) { echo 'class="odd"'; } ?> >
     <td><a href="/admin/maillist/msgedit/<?= $row->id ?>"><?= $row->subject ?></td></a>
-    <td><?= $row->from ?></td>
+    <!-- <td><?= $row->from ?></td> -->
     <td><?= $row->send_on == '0000-00-00 00:00:00' ? "not scheduled" : $row->send_on ?></td>
 		<td>
 		<?php 

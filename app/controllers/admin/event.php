@@ -52,6 +52,7 @@ class Event extends Admin_Controller
 		$this->form_validation->set_rules('title', 'title', 'trim|required');
 		$this->form_validation->set_rules('event_date_start', 'Start Date', 'trim');
 		$this->form_validation->set_rules('event_date_end', 'End Date', 'trim');
+		$this->form_validation->set_rules('venue_ref', 'Venue', 'trim');
 		
 		if( $this->form_validation->run()) {
 			$data = array();
@@ -135,12 +136,13 @@ class Event extends Admin_Controller
 		}
 		
 		if( $cur_tab == 'media' ) {
-			// handled by media contraller
+			// handled by media controller
 		} else {
 			$this->form_validation->set_error_delimiters('','');
 			$this->form_validation->set_rules('title', 'title', 'trim|required');
 			$this->form_validation->set_rules('event_date_start', 'Start Date', 'trim|callback_check_date');
 			$this->form_validation->set_rules('event_date_end', 'End Date', 'trim|callback_check_date');
+		  $this->form_validation->set_rules('venue_ref', 'Venue', 'trim');
 		
 			if( $this->form_validation->run()) {
 				$data = array();
