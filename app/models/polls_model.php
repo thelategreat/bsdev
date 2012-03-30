@@ -34,10 +34,16 @@ class polls_model extends CI_Model
 			$poll = new stdClass();
 			$poll->id = $row->id;
 			$poll->question = $row->question;
+			$poll->poll_date = $row->poll_date;
+			$poll->poll_end_date = $row->poll_end_date;
 			$poll->answers = array();
 			$res = $this->db->query("SELECT * FROM poll_answers WHERE poll_id = " . $poll->id . " ORDER BY sort_order");
-			foreach( $res->result() as $row ) {
-				$poll->answers[] = $row->answer;
+      foreach( $res->result() as $row ) {
+        $ans = new stdClass;
+        $ans->id = $row->id;
+        $ans->answer = $row->answer;
+        $ans->count = $row->count;
+				$poll->answers[] = $ans;
 			}
 		}
 		return $poll;
@@ -50,6 +56,7 @@ class polls_model extends CI_Model
 	{
 		$this->db->set('question', $question );
 		$this->db->set('poll_date', 'NOW()', FALSE );
+		$this->db->set('poll_end_date', 'NOW()', FALSE );
 		$this->db->insert('polls');
 		$id = $this->db->insert_id();
 		
@@ -67,9 +74,11 @@ class polls_model extends CI_Model
 	/**
 	 *
 	 */
-	function update_poll( $id, $question, $answers )
+	function update_poll( $id, $question, $start, $end, $answers )
 	{
 		$this->db->set('question', $question );
+		$this->db->set('poll_date', $start );
+		$this->db->set('poll_end_date', $end );
 		$this->db->where( 'id', $id );
 		$this->db->update('polls');
 		
@@ -100,6 +109,11 @@ class polls_model extends CI_Model
 		$this->db->delete('polls');
 	}
 
+
+  function vote( $answer_id )
+  {
+    $this->db->query("UPDATE poll_answers SET count = count + 1 WHERE id = $answer_id");
+  }
 }
 
 ?>

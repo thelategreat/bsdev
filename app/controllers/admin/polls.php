@@ -36,6 +36,8 @@ class Polls extends Admin_Controller
 		$poll = new stdClass();
 		$poll->id = -1;
 		$poll->question = '';
+		$poll->poll_date = '';
+		$poll->poll_end_date = '';
 		$poll->answers = array();
 		
 		$view_data = array( 'poll' => $poll );
@@ -64,6 +66,27 @@ class Polls extends Admin_Controller
 		$this->gen_page('Admin - Polls', 'admin/polls/poll_edit', $view_data );
 	}
 
+  /**
+   *
+   */
+  function view()
+  {
+		$id = (int)$this->uri->segment(4);
+		if( !$id ) {
+			redirect('/admin/polls');
+		}
+		
+		$poll = $this->polls_model->get_poll( $id );
+		
+		if( !$poll ) {
+			redirect('/admin/polls');			
+    }
+
+		$view_data = array( 'poll' => $poll );
+		
+		$this->gen_page('Admin - Polls', 'admin/polls/poll_view', $view_data );
+  }
+
 	/**
 	 *
 	 */
@@ -78,6 +101,16 @@ class Polls extends Admin_Controller
 		redirect('/admin/polls');
 	}
 
+  /**
+   * ajax
+   */
+  function vote()
+  {
+    $id = $this->input->post('id');
+    $this->polls_model->vote( $id );
+    echo json_encode(array('ok'=>true,'msg'=>'your vote has been registered'));
+  }
+
 	/**
 	 *
 	 */
@@ -87,13 +120,15 @@ class Polls extends Admin_Controller
 		$id = $this->input->post('id');
 		
 		$ques = $this->input->post('question');
+		$start = $this->input->post('poll_date');
+		$end = $this->input->post('poll_end_date');
 		$ans = $this->input->post('answers');
 		if( $id && $ques && $ans ) {
 			$ans = explode('||', $ans );
 			if( $id == -1 ) {
 				$this->polls_model->add_poll( $ques, $ans );
 			} else {
-				$this->polls_model->update_poll( $id, $ques, $ans );
+				$this->polls_model->update_poll( $id, $ques, $start, $end, $ans );
 			}
 		}		
 				

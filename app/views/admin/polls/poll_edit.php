@@ -20,7 +20,7 @@ function do_save()
 	}	
 	
 	$.post('/admin/polls/save', 
-			{ id: $('#id').val(), question: $('#question').val(), answers: answers },
+			{ id: $('#id').val(), question: $('#question').val(), poll_date: $('#poll_date').val(), poll_end_date: $('#poll_end_date').val(), answers: answers },
 			function(data) {
 				if( data.error.length ) {
 					alert(data.error);
@@ -57,7 +57,9 @@ function add_line( obj )
 }
 
 $(function() {
-  	$("#sortable li").bind('dblclick',function(){
+	Date.format = "yyyy-mm-dd";
+	$('.date-pick').datePicker({ startDate: '2000-01-01' });
+ 	$("#sortable li").bind('dblclick',function(){
 			if( confirm('Remove this item?')) {
 				$(this).remove();
 			}
@@ -70,14 +72,26 @@ $(function() {
 </script>
 
 <form method="post" id="poll_form">
-<h4>Poll Question</h4>
+<h4>Poll</h4>
 <input name="id" id="id" type="hidden" value="<?=$poll->id?>">
-<input name="question" id="question" size="60" value="<?=$poll->question?>" />
+<table>
+  <tr>
+    <td><label for="question">Question</label></td><td><input name="question" id="question" size="60" value="<?=$poll->question?>" /></td>
+  </tr>
+  <tr>
+    <td><label for="poll_date">Start Date</label></td>
+		<td><input class="date-pick" name="poll_date" size="12" onblur="" id="poll_date" value="<?=$poll->poll_date?>"/><span class="small">yyyy-mm-dd<span></td>
+  </tr>
+  <tr>
+    <td><label for="poll_end_date">End Date</label></td>
+		<td><input class="date-pick" name="poll_end_date" size="12" onblur="" id="poll_end_date" value="<?=$poll->poll_end_date?>"/><span class="small">yyyy-mm-dd<span></td>
+  </tr>
+</table>
 </form>
 <h4>Answers</h4>
 <ul id="sortable" class="draggable-list">
 <?php foreach( $poll->answers as $answer ) { ?>
-	<li class="listitem"><span class="handle ui-icon ui-icon-arrowthick-2-n-s"></span><?=$answer?></li>
+	<li class="listitem"><span class="handle ui-icon ui-icon-arrowthick-2-n-s"></span><?=$answer->answer?></li>
 <?php } ?>
 </ul>
 <input name="ans" id="ans" size="60"/><button onclick="add_line('#ans');">add</button>
