@@ -1,11 +1,3 @@
-<!--
-<div style="float: right">
-	<form method="post">
-		<input id="query" style="font-size: 0.8em;" name="q" value="<?=$query?>" size="15" onblur="if(this.value=='') this.value='search...';" onfocus="if(this.value == 'search...') this.value='';"/>
-	</form>
-</div>
--->
-
 <style type="text/css">
 #q-container {
 	background-color: #333;
@@ -70,6 +62,12 @@ div.issueContainer table.properties td.attr {
 }
 </style>
 
+<script type="text/javascript">
+function filter()
+{
+}
+</script>
+
 <div style="float: right">
 	<form method="post">
 		<input id="query" style="font-size: 0.8em;" name="q" value="<?=$query?>" size="15" onblur="if(this.value=='') this.value='search...';" onfocus="if(this.value == 'search...') this.value='';"/>
@@ -79,6 +77,15 @@ div.issueContainer table.properties td.attr {
 <h3><a class="small" href="/admin/bugs/add"><img src="/img/admin/bug_add.png" title="Add an Issue"/></a> Issues</h3>
 
 <?= $tabs ?>
+<!--
+<div id="filter-div" style="border: 1px solid #ddd; padding: 3px; background-color: #eee;">
+  <span>New</span>&nbsp;<input type="checkbox" name="status_1" checked="checked" onclick="filter()" />
+  <span>Open</span>&nbsp;<input type="checkbox" name="status_2" checked="checked"  onclick="filter()" />
+  <span>Fixed</span>&nbsp;<input type="checkbox" name="status_3" checked="checked"  onclick="filter()" />
+  <span>Won't Fix</span>&nbsp;<input type="checkbox" name="status_4" checked="checked"  onclick="filter()" />
+  <span>Closed</span>&nbsp;<input type="checkbox" name="status_5" checked="checked"  onclick="filter()" />
+</div>
+-->
 
 <?php foreach( $bugs->result() as $bug ) { ?>
 <div class='issueContainer'>
@@ -100,7 +107,7 @@ div.issueContainer table.properties td.attr {
 				</table>
 			</td>
 		</tr>
-	</table>
+  </table>
 </div>
 <?php } ?>
 

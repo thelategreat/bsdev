@@ -19,11 +19,17 @@ class Bugs extends Admin_Controller
 		
 	}
 
+  /**
+   *
+   */
 	function index()
 	{
 		$this->issues();
 	}
-	
+
+  /**
+   *
+   */
 	function issues()
 	{		
 		$page_size = 15; //$this->config->item('list_page_size');
@@ -62,8 +68,12 @@ class Bugs extends Admin_Controller
 		$this->gen_page($this->page_title, 'admin/bugs/bug_list', $pg_data );
 	}
 
+  /**
+   *
+   */
 	function add()
-	{
+  {
+    // save
 		if( $this->input->post("save")) {
 			$this->form_validation->set_error_delimiters('<span class="form_error">','</span>');
 			$this->form_validation->set_rules('summary','Summary','trim|required');
@@ -76,17 +86,20 @@ class Bugs extends Admin_Controller
 				redirect($this->page_root);
 			}
 		}	
-			
+
+    // cancel
 		if( $this->input->post("cancel")) {
 			redirect($this->page_root);
 		}
 		
-		$view_data = array(
-			);
+		$view_data = array();
 		
 		$this->gen_page($this->page_title, 'admin/bugs/bug_add', $view_data );		
 	}
 
+  /**
+   *
+   */
 	function edit()
 	{
 		$bug_id = $this->uri->segment(4);
@@ -95,14 +108,8 @@ class Bugs extends Admin_Controller
 			redirect($this->page_root);			
 		}
 
+    // bug comment
 		if( $this->input->post('comment-text') && strlen(trim($this->input->post('comment-text'))) > 0 ) {
-			/*
-			$this->db->set('bug_id', $bug_id );
-			$this->db->set('comment', $this->input->post('comment-text') );
-			$this->db->set('submitted_by', $this->session->userdata('logged_user'));
-			$this->db->set('created_on', "NOW()", false);
-			$this->db->insert('bugs_comments');
-			*/
 			$this->bugs_model->add_comment( $bug_id, 
 																			$this->input->post('comment-text'), 
 																			$this->session->userdata('logged_user') );
@@ -168,6 +175,9 @@ class Bugs extends Admin_Controller
 		
 	}
 
+  /**
+   *
+   */
 	private function get_assign_to_select( $who = '' )
 	{
 		// grab a list of admin users
@@ -182,6 +192,9 @@ class Bugs extends Admin_Controller
 		return $sel;
 	}
 
+  /**
+   *
+   */
 	private function get_status_select( $status = '' )
 	{
 		$res = $this->bugs_model->get_statuses();
@@ -196,6 +209,7 @@ class Bugs extends Admin_Controller
 		return $s . '</select>';
 	}
 
+  // ----------------
 	// A C T I V I T Y
 	function activity()
 	{
@@ -209,6 +223,7 @@ class Bugs extends Admin_Controller
 		$this->gen_page($this->page_title, 'admin/bugs/bug_activity', $view_data );		
 	}
 
+  // -----------
 	// P E O P L E
 	function people()
 	{
@@ -218,6 +233,7 @@ class Bugs extends Admin_Controller
 		$this->gen_page($this->page_title, 'admin/bugs/bug_people', $view_data );		
 	}
 
+  // -------------
 	// P R O J E C T
 	function project()
 	{

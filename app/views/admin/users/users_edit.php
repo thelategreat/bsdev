@@ -1,8 +1,10 @@
 
-<h3><img src="/img/admin/user_edit.png" /> Edit User</h3>
+<!-- <h3><img src="/img/admin/user_edit.png" /> Edit User</h3> -->
+
+<?= $tabs ?>
 
 <form class="general" action="/admin/users/edit/<?=$user->id?>" method="post">
-<fieldset><legend>Details</legend>
+<fieldset><legend>Edit User</legend>
 <table style="border: 0">
   <tr>
     <td><label for="username">Username</label></td>

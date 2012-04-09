@@ -74,13 +74,27 @@ class Users extends Admin_Controller
 		
 		$this->gen_page('Admin - Users', 'admin/users/users_add', $content );
 	}
-	
+
+  /**
+   *
+   */
+  function edit()
+	{
+		$tab = $this->uri->segment( 5 );
+		if( $tab && $tab == "media") {
+			$this->edit_media();			
+		} else {
+			$this->edit_user();
+		}
+	}
+
+
 	/**
 	 * Edit a user
 	 *
 	 * @return void
 	 */
-	function edit()
+	function edit_user()
 	{
 
 		$user_id = (int)$this->uri->segment(4);
@@ -134,15 +148,43 @@ class Users extends Admin_Controller
 		if( !$user ) {
 			redirect('/admin/users');							
 		}		
-				
+		
+    $cur_tab = 'details';
+		if( $this->uri->segment(5)) {
+			$cur_tab = strtolower($this->uri->segment(5));
+		}
+	
 		$content = array(
 			'user' => $user, 
-			'role_select' => $this->users_model->role_select($user->role_id)
+			'role_select' => $this->users_model->role_select($user->role_id),
+			'tabs' => $this->tabs->gen_tabs(array('Details','Media'), 'Details', '/admin/users/edit/' . $user_id)
 			);
 		
 		$this->gen_page('Admin - Users', 'admin/users/users_edit', $content );		
 	}
-	
+
+  /**
+   *
+   */
+  function edit_media()
+  {
+		$user_id = $this->uri->segment(4);
+		
+		$this->db->where( 'id', $user_id );
+		$user = $this->db->get('users')->row();
+				
+		$view_data = array( 
+			'title' => "Media for User: $user->username",
+			'user' => $user, 
+			'path' => '/users/' . $user->id,
+			'next' => "/admin/users/edit/$user->id/media",
+			'tabs' => $this->tabs->gen_tabs(array('Details','Media'), 'Media', '/admin/users/edit/' . $user->id)
+		);
+		
+		$this->gen_page('Admin - Users', 'admin/media/media_tab', $view_data );	
+  }
+
+
 	/**
 	 * Verify that the user does not already exist
 	 *
