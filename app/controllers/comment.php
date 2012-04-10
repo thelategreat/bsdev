@@ -40,7 +40,20 @@ class Comment extends MY_Controller
 		}
 		redirect('/');
 	}
-	
+
+  // ajax
+  function vote()
+  {
+    $id = $this->input->post('id');
+    $vote = $this->input->post('vote');
+    if( $id && $vote ) {
+      $this->comments_model->vote( $id, $vote );
+      echo json_encode(array('ok'=>true,'msg'=>'thanks for voting!'));
+    } else { 
+      echo json_encode(array('ok'=>false,'msg'=>'unable to register your vote'));
+    }
+  }
+
 }
 
 ?>

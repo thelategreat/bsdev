@@ -17,6 +17,7 @@ class comments_model extends CI_Model
 	
 	function get_comments( $type, $table_id )
 	{
+		$this->db->select('comments.id, comments.comment_date, comments.comment, comments.approved, comments.votes, users.id as user_id, users.firstname, users.lastname');
 		$this->db->join('users', 'author_id = users.id');
 		$this->db->where('approved', 1 );
 		$this->db->order_by('comment_date', 'ASC');
@@ -25,7 +26,7 @@ class comments_model extends CI_Model
 
 	function get_comments_queue( $page, $page_size )
 	{
-		$this->db->select('comments.id, comments.comment_date, comments.comment, comments.approved, users.id as user_id, users.firstname, users.lastname');
+		$this->db->select('comments.id, comments.comment_date, comments.comment, comments.approved, comments.votes, users.id as user_id, users.firstname, users.lastname');
 		$this->db->join('users', 'author_id = users.id');
     $this->db->order_by('comment_date', 'ASC');
     $this->db->where('approved', 0);
@@ -33,7 +34,6 @@ class comments_model extends CI_Model
 		return $this->db->get( 'comments' );
 	}
 
-	
 	function add_comment( $type, $table_id, $user_id, $comment )
 	{
 		$this->db->set( 'table_ref', $type );
@@ -62,7 +62,12 @@ class comments_model extends CI_Model
 		$this->db->where('id', $id );
 		$this->db->delete('comments');		
 	}
-	
+
+  function vote( $id, $vote )
+  {
+    $this->db->query("UPDATE comments SET votes = votes + " . (int)$vote . ' WHERE id = ' . (int)$id );
+  }
+
 }
 
 ?>
