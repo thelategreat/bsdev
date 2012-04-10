@@ -65,6 +65,18 @@ div.issueContainer table.properties td.attr {
 <script type="text/javascript">
 function filter()
 {
+  var flags = "";
+  for( var i = 1; ; i++ ) {
+    var cb = $("input[name=status_"+i+"]");
+    if( !cb.length ) {
+      break;
+    }
+    if( cb.is(":checked") ) {
+      flags += i + " ";
+    }
+  }
+
+  $.cookie("bugflags", flags );
 }
 </script>
 
@@ -77,7 +89,7 @@ function filter()
 <h3><a class="small" href="/admin/bugs/add"><img src="/img/admin/bug_add.png" title="Add an Issue"/></a> Issues</h3>
 
 <?= $tabs ?>
-<!--
+
 <div id="filter-div" style="border: 1px solid #ddd; padding: 3px; background-color: #eee;">
   <span>New</span>&nbsp;<input type="checkbox" name="status_1" checked="checked" onclick="filter()" />
   <span>Open</span>&nbsp;<input type="checkbox" name="status_2" checked="checked"  onclick="filter()" />
@@ -85,7 +97,6 @@ function filter()
   <span>Won't Fix</span>&nbsp;<input type="checkbox" name="status_4" checked="checked"  onclick="filter()" />
   <span>Closed</span>&nbsp;<input type="checkbox" name="status_5" checked="checked"  onclick="filter()" />
 </div>
--->
 
 <?php foreach( $bugs->result() as $bug ) { ?>
 <div class='issueContainer'>

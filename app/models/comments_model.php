@@ -15,7 +15,6 @@ class comments_model extends CI_Model
 		return $this->db->get_where( 'comment', array('table_ref' => $type, 'table_id' => $table_id));
 	}
 	
-	
 	function get_comments( $type, $table_id )
 	{
 		$this->db->join('users', 'author_id = users.id');
@@ -26,10 +25,12 @@ class comments_model extends CI_Model
 
 	function get_comments_queue( $page, $page_size )
 	{
-		$this->db->select('comments.id, comments.comment_date, comments.comment, users.id as user_id, users.firstname, users.lastname');
+		$this->db->select('comments.id, comments.comment_date, comments.comment, comments.approved, users.id as user_id, users.firstname, users.lastname');
 		$this->db->join('users', 'author_id = users.id');
-		$this->db->order_by('comment_date', 'ASC');
-		return $this->db->get_where( 'comments', array('approved' => 0) );
+    $this->db->order_by('comment_date', 'ASC');
+    $this->db->where('approved', 0);
+    $this->db->or_where('approved', 2);
+		return $this->db->get( 'comments' );
 	}
 
 	
@@ -48,7 +49,14 @@ class comments_model extends CI_Model
 		$this->db->where('id', $id );
 		$this->db->update('comments');		
 	}
-	
+
+  function deny( $id )
+  {
+		$this->db->set('approved', '2');
+		$this->db->where('id', $id );
+		$this->db->update('comments');	
+  }
+
 	function rm( $id )
 	{
 		$this->db->where('id', $id );

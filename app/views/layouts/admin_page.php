@@ -21,8 +21,9 @@
   <script type="text/javascript" src="/js/jquery.simplemodal.min.js" ></script>
   <script type="text/javascript" src="/js/jquery.json-1.3.min.js" ></script>
   <script type="text/javascript" src="/js/jquery.qtip.min.js" ></script>
+  <script type="text/javascript" src="/js/jquery.cookie.js" ></script>
 
-	<script type="text/javascript" src="/js/admin.js" ></script>
+  <script type="text/javascript" src="/js/admin.js" ></script>
 
 	<script type="text/javascript" src="/js/tiny_mce/tiny_mce.js" ></script>
 		

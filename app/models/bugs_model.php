@@ -10,17 +10,18 @@ class Bugs_model extends CI_Model
     parent::__construct();
   }
 
-	function get_bugs( $filter, $page, $page_size )
+	function get_bugs( $filter, $flags, $page, $page_size )
 	{
 		// FIXME WHERE ... AND (... LIKE OR ... LIKE)
 		$this->db->select('bugs.id, summary, description, created_on, submitted_by, bugs.status, type, assigned_to, (select count(*) from bugs_comments where bugs_comments.bug_id = bugs.id) as comment_count');
-		if( $filter ) {
+    
+    if( $filter ) {
 			$terms = explode(' ', $filter );
 			foreach( $terms as $term ) {
 				$parts = explode( ':', $term );
 				if( count($parts) == 2 ) {
 					if( $parts[0] == 'status' ) {
-						$this->db->where( 'status', $parts[1] );
+						$this->db->where( 'bugs.status', $parts[1] );
 					}
 				} else {
 					$this->db->or_like(array('summary' => $term));

@@ -44,7 +44,16 @@ class Comments extends Admin_Controller
 		}
 		redirect('/admin/comments');
 	}
-	
+
+	function deny()
+	{
+		$id = (int)$this->uri->segment(4);
+		if( $id ) {
+			$this->comments_model->deny( $id );
+		}
+		redirect('/admin/comments');
+	}
+
 	function remove()
 	{
 		$id = (int)$this->uri->segment(4);

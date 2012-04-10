@@ -16,7 +16,7 @@ class Bugs extends Admin_Controller
 
 		$this->load->model('users_model');
 		$this->load->model('bugs_model');
-		
+	  $this->load->helper('cookie');	
 	}
 
   /**
@@ -34,6 +34,7 @@ class Bugs extends Admin_Controller
 	{		
 		$page_size = 15; //$this->config->item('list_page_size');
 		$page = 1;
+    $flags = get_cookie('bugflags',"1 2 3 4 5");
 
 		if( $this->uri->segment(4) && is_numeric($this->uri->segment(4))) {
 			$page = $this->uri->segment(4);
@@ -56,7 +57,7 @@ class Bugs extends Admin_Controller
 			$filter = $query;
 		}	 
 		
-		$bugs = $this->bugs_model->get_bugs( $filter, $page, $page_size );
+		$bugs = $this->bugs_model->get_bugs( $filter, $flags, $page, $page_size );
 	
 		$pg_data = array(
 			'pager' => mk_pager( $page, $page_size, $bugs->num_rows(), '/admin/bugs/index'),

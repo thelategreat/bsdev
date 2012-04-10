@@ -3,7 +3,10 @@ function approve( id )
 {
 	window.location = '/admin/comments/approve/' + id;
 }
-
+function deny( id )
+{
+	window.location = '/admin/comments/deny/' + id;
+}
 function remove( id )
 {
 	if( !confirm("Really delete this comment?")) {
@@ -23,10 +26,18 @@ function remove( id )
 			<a href="/admin/users/edit/<?=$comment->user_id?>"><?=$comment->firstname?> <?=$comment->lastname?></a><br/>
 			<?=$comment->comment_date?>
 		</td>
-		<td valign="top" width="65%"><?=$comment->comment?></td>
-		<td valign="top">
-			<button onclick="approve('<?=$comment->id?>')">Approve</button>
-			<button onclick="remove('<?=$comment->id?>')">Delete</button>
+    <td valign="top" width="65%">
+      <?php if( $comment->approved == 2 ) echo "<s>"; ?>
+      <?=$comment->comment?>
+      <?php if( $comment->approved == 2 ) echo "</s>"; ?>
+    </td>
+		<td valign="top" align="right">
+      <button onclick="approve('<?=$comment->id?>')" style="color: #0F0">Approve</button>
+      <?php if( $comment->approved != 2 ) { ?>
+        <button onclick="deny('<?=$comment->id?>')" style="color: #ffcc00;">Deny</button>
+      <?php } ?>
+      &nbsp;&nbsp;|&nbsp;
+			<button onclick="remove('<?=$comment->id?>')" style="color: #f00;">Delete</button>
 		</td>
 	</tr>
 <?php $count++; } ?>

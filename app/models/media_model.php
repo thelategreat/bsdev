@@ -155,12 +155,12 @@ class media_model extends Tag_Model
 		
 		// searching tags
 		if( count( $stags ) ) {
-			// NOTE: The proper behaviour here requires a patch to CI's
-			// system/database/DB_active_rec.php
 			$this->db->join('media_tag_map', 'media_tag_map.media_id = media.id' );
 			$this->db->join('media_tags', 'media_tag_map.media_tag_id = media_tags.id');
-			$this->db->where_in( 'media_tags.name', $stags );
-			//$this->db->or_like('caption',$stags[0]);
+      $this->db->where_in( 'media_tags.name', $stags );
+      // CI 'or_like' is broken and they didn't take my patch :(
+      //$this->db->or_like('caption',$stags[0]);
+      // so we use or_where LIKE
       $this->db->or_where('caption LIKE', '%'.$this->db->escape_like_str($stags[0]).'%');
       $this->db->distinct();
 			$this->db->select('media.id, uuid, title, type, created_on, updated_on, user, caption, description, license, thumbnail');			
