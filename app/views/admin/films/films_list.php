@@ -1,11 +1,26 @@
 
-<div style="float: right">
-	<form method="post">
-		<input id="query" style="font-size: 0.8em;" name="q" value="<?=$query?>" size="15" onblur="if(this.value=='') this.value='search...';" onfocus="if(this.value == 'search...') this.value='';"/>
-	</form>
-</div>
+<style>
+table.pager {
+  display: inline;
+}
+table.toolbar {
+  display: inline;
+}
+</style>
 
-<h3><a class="small" href="/admin/films/add/"><img src="/img/admin/picture_add.png" title="Add Film"/></a> Films</h3>
+<table class="toolbar">
+<tr>
+  <td>
+    <h3><a class="small" href="/admin/films/add/"><img src="/img/admin/picture_add.png" title="Add Film"/></a> Films</h3>
+  </td>
+  <td><?= $pager ?></td>
+  <td>
+ 	<form method="post" style="display: inline;">
+		<input id="query" style="font-size: 0.8em;" name="q" value="<?=$query?>" size="15" onblur="if(this.value=='') this.value='search...';" onfocus="if(this.value == 'search...') this.value='';"/>
+  </form>
+  </td>
+</tr>
+</table>
 
 <!--
 <div class="toolbar">

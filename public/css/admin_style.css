@@ -608,13 +608,12 @@ table.pager
 {
 	background-color: #ddf;
 	background-color: #fff;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
 }
-
 table.pager td 
 {
-	padding: 0px;
+	padding: 3px;
 }
 
 table.pager td a
