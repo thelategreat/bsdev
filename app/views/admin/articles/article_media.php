@@ -22,7 +22,7 @@ $(function() {
 
 <?=$tabs?>
 
-<h3>Media for article: <?= $article->title ?></h3>
+<h3>Media for essay: <?= $article->title ?></h3>
 
 Slot: <select id="slot_select" name="slot" onchange="reload()">
 	<option>general</option>

@@ -4,16 +4,16 @@
 	</form>
 </div>
 
-<h3><a class="small" href="/admin/articles/add"><img src="/img/admin/newspaper_add.png" title="Add Article"/></a> Articles</h3>
+<h3><a class="small" href="/admin/articles/add"><img src="/img/admin/newspaper_add.png" title="Add Essay"/></a> Essays</h3>
 
 <table class="article-list">
   <thead>
     <tr>
       <th width="35%">Title</th>
       <th>Owner</th>
-      <th>Auth</th>
+      <th>User</th>
       <th>Cat</th>
-      <th>Group</th>
+      <th>Section</th>
       <th>Date</th>
       <th>Status</th>
     </tr>

@@ -68,7 +68,7 @@ class Articles extends Admin_Controller
 			$this->form_validation->set_rules('title','Title','trim|required');
 			$this->form_validation->set_rules('body','Body','trim|required');
 			$this->form_validation->set_rules('excerpt','Excerpt','trim|required');
-			$this->form_validation->set_rules('author','Author','trim|required');
+			$this->form_validation->set_rules('author','User','trim|required');
 			if( $this->form_validation->run()) {
 				$this->db->set('title', $this->input->post('title'));
 				$this->db->set('group', $this->input->post('group'), false);
@@ -98,7 +98,7 @@ class Articles extends Admin_Controller
 			'priority_select' => $this->articles_model->priority_select()
 			);
 		
-		$this->gen_page('Admin - Articles', 'admin/articles/article_add', $view_data );
+		$this->gen_page('Admin - Essays', 'admin/articles/article_add', $view_data );
 	}
 
 	function edit()
@@ -130,7 +130,7 @@ class Articles extends Admin_Controller
 			$this->form_validation->set_error_delimiters('<span class="form_error">','</span>');
 			$this->form_validation->set_rules('title','Title','trim|required');
 			$this->form_validation->set_rules('body','Body','trim|required');
-			$this->form_validation->set_rules('author','Author','trim|required');
+			$this->form_validation->set_rules('author','User','trim|required');
 			$this->form_validation->set_rules('excerpt','Excerpt','trim|required');
 			if( $this->form_validation->run()) {
 				$this->db->where('id', $article_id);
@@ -181,10 +181,10 @@ class Articles extends Admin_Controller
 			'status_select' => $this->articles_model->status_select( $article->status ),
       'priority_select' => $this->articles_model->priority_select( $article->display_priority ),	
       'lists_select' => $this->lists_model->lists_select(),    
-			'tabs' => $this->tabs->gen_tabs(array('Article','Media'), 'Article', '/admin/articles/edit/' . $article_id)
+			'tabs' => $this->tabs->gen_tabs(array('Essay','Media'), 'Essay', '/admin/articles/edit/' . $article_id)
 		);
 		
-		$this->gen_page('Admin - Articles', 'admin/articles/article_edit', $view_data );
+		$this->gen_page('Admin - Essays', 'admin/articles/article_edit', $view_data );
 	}
 
 	function edit_media()
@@ -195,14 +195,14 @@ class Articles extends Admin_Controller
 		$article = $this->db->get('articles')->row();
 				
 		$view_data = array( 
-			'title' => "Media for article: $article->title",
+			'title' => "Media for essay: $article->title",
 			'article' => $article, 
 			'path' => '/articles/' . $article->id,
 			'next' => "/admin/articles/edit/$article->id/media",
-			'tabs' => $this->tabs->gen_tabs(array('Article','Media'), 'Media', '/admin/articles/edit/' . $article->id)
+			'tabs' => $this->tabs->gen_tabs(array('Essay','Media'), 'Media', '/admin/articles/edit/' . $article->id)
 		);
 		
-		$this->gen_page('Admin - Articles', 'admin/media/media_tab', $view_data );		
+		$this->gen_page('Admin - Essays', 'admin/media/media_tab', $view_data );		
 	}
 	
 	function addcat()

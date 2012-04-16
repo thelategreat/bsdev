@@ -80,7 +80,7 @@ $(function()
 </div>
 -->
 
-<fieldset><legend>Add Article</legend>
+<fieldset><legend>Add Essay</legend>
 <table style="border: 0;">
   <tr>
     <td>
@@ -92,7 +92,7 @@ $(function()
         <td/>
 			</tr>
 			<tr>
-    		<td><label for="author_fld">Author</label></td>
+    		<td><label for="author_fld">User</label></td>
 				<td colspan="4"><input name="author" id="author_fld" size="60" value="<?=set_value('author')?>"/></td>
         <td><?=form_error('author')?></td>
 			</tr>
@@ -101,14 +101,14 @@ $(function()
         <td>
           <input title="YYYY-MM-DD" class="date-pick" name="publish_on" size="12" onblur="" id="fld_publish_on" value="<?=date('Y-m-d')?>"/>
         </td>
-        <td>Group</td>
+        <td>Section</td>
         <td><?= $group_select ?></td>
       </tr>
 		</table>
     </td>
   </tr>
   <tr>
-    <th>Excerpt</th>
+    <th>Teaser</th>
   </tr>
   <tr>
     <td colspan="4">
@@ -117,7 +117,7 @@ $(function()
     <td/>
   </tr>
   <tr>
-    <th>Article</th>
+    <th>Essay</th>
   </tr>
   <tr>
     <td colspan="4"><textarea name="body" id="body_fld" rows="15" cols="80"><?=set_value('body')?></textarea>

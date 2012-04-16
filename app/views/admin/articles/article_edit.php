@@ -176,7 +176,7 @@ $(function()
 	</fieldset>
 </div>
 
-<fieldset><legend>Edit Article</legend>
+<fieldset><legend>Edit Essay</legend>
 <table style="border: 0">
   <tr>
     <td>
@@ -188,7 +188,7 @@ $(function()
         <td/>
 			</tr>
 			<tr>
-    		<td><label for="author">Author</label></td>
+    		<td><label for="author">User</label></td>
 				<td colspan="4"><input name="author" size="60" value="<?= set_value('author',$article->author)?>"/></td>
         <td><?=form_error('author')?></td>
         <td/>
@@ -198,7 +198,7 @@ $(function()
         <td>
           <input title="YYYY-MM-DD" class="date-pick" name="publish_on" size="12" onblur="" id="fld_publish_on" value="<?=date('Y-m-d')?>"/>
         </td>
-        <td>Group</td>
+        <td>Section</td>
         <td><?= $group_select ?></td>
       </tr>
 		</table>
@@ -215,7 +215,7 @@ $(function()
     <br/><?=form_error('body')?></td>
   </tr>
   <tr>
-    <th>Excerpt</th>
+    <th>Teaser</th>
   </tr>
   <tr>
     <td>
