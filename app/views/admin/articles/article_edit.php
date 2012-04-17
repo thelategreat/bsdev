@@ -133,7 +133,8 @@ $(function()
 				<tr><td><?= $priority_select ?></td></tr>
 			</table>
 			</td>
-		</tr>
+    </tr>
+    <!--
 		<tr>
 			<td>
 			<table>
@@ -141,7 +142,8 @@ $(function()
         <tr><td><?= $lists_select ?>&nbsp;&nbsp;<a href="javascript:add_to_list();" title="Add to list"><img src="/img/admin/add.png" /></a></td></tr>
 			</table>
 			</td>
-		</tr>
+    </tr>
+    -->
     <tr>
 			<td>
 			<table>
