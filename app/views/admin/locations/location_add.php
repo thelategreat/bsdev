@@ -1,4 +1,4 @@
-<h3>Add Venue</h3>
+<h3>Add Location</h3>
 <?=$error_msg?>
 
 <form method="post">

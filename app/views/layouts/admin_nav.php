@@ -31,7 +31,7 @@
 		<ul>
 			<li><a href="/admin/media">Media Library</a></li>
 			<li><a href="/admin/films">Films</a></li>
-			<li><a href="/admin/venues">Locations</a></li>
+			<li><a href="/admin/locations">Locations</a></li>
 			<li><a href="/admin/polls">Polls</a></li>
 			<li><a href="/admin/lookups">Look ups</a></li>
 		</ul>
