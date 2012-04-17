@@ -97,12 +97,18 @@ $(function()
         <td><?=form_error('author')?></td>
 			</tr>
       <tr>
-        <td>Pub Date</td>
+        <td><label for="publish_on">Pub Date</label></td>
         <td>
           <input title="YYYY-MM-DD" class="date-pick" name="publish_on" size="12" onblur="" id="fld_publish_on" value="<?=date('Y-m-d')?>"/>
         </td>
-        <td>Section</td>
+        <td><label for="section">Section</label></td>
         <td><?= $group_select ?></td>
+      </tr>
+      <tr>
+        <td><label for="category">Category</label></td>
+        <td><?= $category_select ?>
+        <td><label for="venue">Venue</label></td>
+        <td><?= $venue_select ?></td>
       </tr>
 		</table>
     </td>

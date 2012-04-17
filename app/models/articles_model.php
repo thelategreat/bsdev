@@ -197,4 +197,20 @@ EOF;
 		return $s;				
 	}
 
+  function venue_select( $default = 1 )
+  {
+    $venues = array( "1" => "bookstore", "2" => "cinema", "3" => "ebar" );
+  	$s = '<select name="venue">';
+		foreach( $venues as $k => $v ) {
+			$s .= '<option value="' . $k . '" ';
+			if( $default == $k ) {
+				$s .= " selected ";
+			}
+			$s .= '>' . $v . '</option>';
+		}
+		$s .= '</select>';
+		
+    return $s;	
+  }
+
 }

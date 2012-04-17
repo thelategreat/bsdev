@@ -10,9 +10,9 @@
   <thead>
     <tr>
       <th width="35%">Title</th>
-      <th>Owner</th>
       <th>User</th>
-      <th>Cat</th>
+      <th>Author</th>
+      <th>Category</th>
       <th>Section</th>
       <th>Date</th>
       <th>Status</th>

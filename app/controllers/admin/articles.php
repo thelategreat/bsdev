@@ -76,6 +76,7 @@ class Articles extends Admin_Controller
 				//$this->db->set('category', $this->input->post('category'), false);
 				$this->db->set('category', 1, false);
 				$this->db->set('publish_on', $this->input->post('publish_on'));
+				$this->db->set('venue', $this->input->post('venue'), false);
 				$this->db->set('body', $this->input->post('body'));
 				$this->db->set('excerpt', $this->input->post('excerpt'));
 				//$this->db->set('tags', $this->input->post('tags'));
@@ -95,7 +96,8 @@ class Articles extends Admin_Controller
 		$view_data = array(
 			'group_select' => '<select name="group" id="group-sel">' . $this->groups_model->mk_nested_select(0,0,false) . '</select>',
 			'category_select' => $this->articles_model->category_select(),
-			'priority_select' => $this->articles_model->priority_select()
+			'priority_select' => $this->articles_model->priority_select(),
+			'venue_select' => $this->articles_model->venue_select()
 			);
 		
 		$this->gen_page('Admin - Essays', 'admin/articles/article_add', $view_data );
@@ -139,6 +141,7 @@ class Articles extends Admin_Controller
 				$this->db->set('display_priority', $this->input->post('display_priority'), false);
 				$this->db->set('category', $this->input->post('category'), false);
 				$this->db->set('status', $this->input->post('status'), false);
+				$this->db->set('venue', $this->input->post('venue'), false);
 				$this->db->set('publish_on', $this->input->post('publish_on'));
 				$this->db->set('body', $this->input->post('body'));
 				$this->db->set('author', $this->input->post('author'));
@@ -179,6 +182,7 @@ class Articles extends Admin_Controller
 			'group_select' => '<select name="group" id="group-sel">' . $this->groups_model->mk_nested_select($article->group,0,false) . '</select>',
 			'category_select' => $this->articles_model->category_select( $article->category ),
 			'status_select' => $this->articles_model->status_select( $article->status ),
+			'venue_select' => $this->articles_model->venue_select( $article->venue ),
       'priority_select' => $this->articles_model->priority_select( $article->display_priority ),	
       'lists_select' => $this->lists_model->lists_select(),    
 			'tabs' => $this->tabs->gen_tabs(array('Essay','Media'), 'Essay', '/admin/articles/edit/' . $article_id)

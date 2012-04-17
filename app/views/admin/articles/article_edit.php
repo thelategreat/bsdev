@@ -96,17 +96,14 @@ $(function()
 			</table>
 			</td>
 		</tr>
-    <!--
 	  <tr>
 			<td>
 			<table>
-				<tr><th>Group</th></tr>
-				<tr><td><?= $group_select ?></td></tr>
-				<tr style="display: none;" id="new-group-row"><td><input id="new-group" /></td></tr>
+				<tr><th>Venue</th></tr>
+				<tr><td><?= $venue_select ?></td></tr>
 			</table>
 			</td>
 		</tr>
-		-->
 	  <tr>
 			<td>
 			<table>
@@ -186,19 +183,25 @@ $(function()
 				<td colspan="4"><input name="title" size="60" value="<?= set_value('title',$article->title)?>"/></td>
         <td><?=form_error('title')?></td>
         <td/>
-			</tr>
+      </tr>
+      <tr>
+        <td><label for="user">User</label></td>
+        <td colspan="4"><input name="owner" size="60" value="<?= $article->owner ?>" readonly=readonly/></td>
+        <td/>
+        <td/>
+      </tr>
 			<tr>
-    		<td><label for="author">User</label></td>
+    		<td><label for="author">Author</label></td>
 				<td colspan="4"><input name="author" size="60" value="<?= set_value('author',$article->author)?>"/></td>
         <td><?=form_error('author')?></td>
         <td/>
 			</tr>
       <tr>
-        <td>Pub Date</td>
+        <td><label for="publish_on">Pub Date</label></td>
         <td>
           <input title="YYYY-MM-DD" class="date-pick" name="publish_on" size="12" onblur="" id="fld_publish_on" value="<?=date('Y-m-d')?>"/>
         </td>
-        <td>Section</td>
+        <td><label for="section">Section</label></td>
         <td><?= $group_select ?></td>
       </tr>
 		</table>
