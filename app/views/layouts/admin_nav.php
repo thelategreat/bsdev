@@ -11,7 +11,7 @@
 			<li><a href="/admin/articles">Essays</a></li>
 			<li><a href="/admin/calendar">Calendar</a></li>
 			<li><a href="/admin/groups">Sections</a></li>
-			<li><a href="/admin">Venues</a></li>
+			<li><a href="/admin/venues">Venues</a></li>
 			<li><a href="/admin/lists">Lists</a></li>
 			<li><a href="/admin/pages">Pages</a></li>
 		</ul>

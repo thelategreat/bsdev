@@ -3,7 +3,7 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 include("admin_controller.php");
 
-class Locations extends Admin_Controller 
+class Venues extends Admin_Controller 
 {
 
 	function __construct()
@@ -11,17 +11,17 @@ class Locations extends Admin_Controller
 		parent::__construct();
 
     // page title
-    $this->root_title = 'Locations';
+    $this->root_title = 'Venues';
     // template names
-    $this->list_template = 'location_list';
-    $this->add_template = 'location_add';
-    $this->edit_template = 'location_edit';
+    $this->list_template = 'venue_list';
+    $this->add_template = 'venue_add';
+    $this->edit_template = 'venue_edit';
     // path for media table
-    $this->media_path = '/locations';
+    $this->media_path = '/venues';
     // path for this controller
-    $this->root_path = '/admin/locations';
+    $this->root_path = '/admin/venues';
     // db table name
-    $this->table_name = 'locations';
+    $this->table_name = 'venues';
 
     $this->page_tabs = array(
 			'Details', 'Media'
@@ -46,12 +46,12 @@ class Locations extends Admin_Controller
 		$error_msg = "";
 		
 		if( $this->input->post("save")) {
-			if( trim($this->input->post("name")) != "" ) {
+			if( trim($this->input->post("venue")) != "" ) {
 				unset($_POST["save"]);
 				$this->db->insert( $this->table_name, $_POST );
 				redirect( $this->root_path );
 			} else {
-				$error_msg = '<p class="error">You must know the name, at least. Sheesh!</p>';
+				$error_msg = '<p class="error">You must know the venue name, at least. Sheesh!</p>';
 			}
 		}
 		else if( $this->input->post("cancel")) {

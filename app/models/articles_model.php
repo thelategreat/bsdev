@@ -198,18 +198,17 @@ EOF;
 	}
 
   function venue_select( $default = 1 )
-  {
-    $venues = array( "1" => "bookstore", "2" => "cinema", "3" => "ebar" );
-  	$s = '<select name="venue">';
-		foreach( $venues as $k => $v ) {
-			$s .= '<option value="' . $k . '" ';
-			if( $default == $k ) {
+  {		
+    $s = '<select name="venue" id="venue-sel">';
+		$res = $this->db->query("SELECT * FROM venues ORDER BY id");
+		foreach( $res->result() as $row ) {
+			$s .= '<option value="' . $row->id . '" ';
+			if( $default == $row->id ) {
 				$s .= " selected ";
 			}
-			$s .= '>' . $v . '</option>';
+			$s .= '>' . $row->venue . '</option>';
 		}
 		$s .= '</select>';
-		
     return $s;	
   }
 
