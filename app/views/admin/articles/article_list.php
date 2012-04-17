@@ -11,7 +11,6 @@
     <tr>
       <th width="35%">Title</th>
       <th>User</th>
-      <th>Author</th>
       <th>Category</th>
       <th>Section</th>
       <th>Date</th>
@@ -24,7 +23,6 @@
 	<tr <?= ($cnt % 2) != 0 ? 'class="odd"' : ''?> >
 	  <td><a href="/admin/articles/edit/<?= $article->id ?>"><?= str_max_len($article->title, 40); ?></a></td>
 	  <td><small><?= $article->owner ?></small></td>
-	  <td><small><?= $article->author ?></small></td>
 	  <td><small><?= $article->category ?></small></td>
 	  <td><small><?= $article->group_name ?></small></td>
 	  <td><small><?= date('Y-m-d',strtotime($article->publish_on)) ?></small></td>

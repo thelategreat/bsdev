@@ -190,12 +190,14 @@ $(function()
         <td/>
         <td/>
       </tr>
+      <!--
 			<tr>
     		<td><label for="author">Author</label></td>
 				<td colspan="4"><input name="author" size="60" value="<?= set_value('author',$article->author)?>"/></td>
         <td><?=form_error('author')?></td>
         <td/>
-			</tr>
+      </tr>
+      -->
       <tr>
         <td><label for="publish_on">Pub Date</label></td>
         <td>

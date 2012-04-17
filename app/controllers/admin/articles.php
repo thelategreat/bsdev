@@ -68,8 +68,8 @@ class Articles extends Admin_Controller
 			$this->form_validation->set_rules('title','Title','trim|required');
 			$this->form_validation->set_rules('body','Body','trim|required');
 			$this->form_validation->set_rules('excerpt','Excerpt','trim|required');
-			$this->form_validation->set_rules('author','User','trim|required');
-			if( $this->form_validation->run()) {
+      
+      if( $this->form_validation->run()) {
 				$this->db->set('title', $this->input->post('title'));
 				$this->db->set('group', $this->input->post('group'), false);
 				//$this->db->set('display_priority', $this->input->post('display_priority'), false);
@@ -132,9 +132,9 @@ class Articles extends Admin_Controller
 			$this->form_validation->set_error_delimiters('<span class="form_error">','</span>');
 			$this->form_validation->set_rules('title','Title','trim|required');
 			$this->form_validation->set_rules('body','Body','trim|required');
-			$this->form_validation->set_rules('author','User','trim|required');
 			$this->form_validation->set_rules('excerpt','Excerpt','trim|required');
-			if( $this->form_validation->run()) {
+      
+      if( $this->form_validation->run()) {
 				$this->db->where('id', $article_id);
 				$this->db->set('title', $this->input->post('title'));
 				$this->db->set('group', $this->input->post('group'), false);

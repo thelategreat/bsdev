@@ -90,12 +90,14 @@ $(function()
 				<td colspan="4"><input name="title" id="title_fld" size="60" value="<?=set_value('title')?>"/></td>
         <td><?=form_error('title')?></td>
         <td/>
-			</tr>
+      </tr>
+      <!--
 			<tr>
     		<td><label for="author_fld">User</label></td>
 				<td colspan="4"><input name="author" id="author_fld" size="60" value="<?=set_value('author')?>"/></td>
         <td><?=form_error('author')?></td>
-			</tr>
+      </tr>
+      -->
       <tr>
         <td><label for="publish_on">Pub Date</label></td>
         <td>
