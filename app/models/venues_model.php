@@ -17,7 +17,7 @@ class Venues_model extends CI_Model
 
   function venues_list()
   {
-    return $this->db->query("SELECT v.id, v.venue, locations.name as location FROM venues as v LEFT JOIN locations ON v.location_id = locations.id");
+    return $this->db->query("SELECT v.id, v.venue, v.location_id, locations.name as location FROM venues as v LEFT JOIN locations ON v.location_id = locations.id");
     
   }
 
