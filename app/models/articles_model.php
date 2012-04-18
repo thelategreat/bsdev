@@ -14,10 +14,10 @@ class articles_model extends CI_Model
 	{
 				
 		$q =<<<EOF
-SELECT a.id, title, fnStripTags(body) as body, excerpt, ac.category, publish_on, author, 
-			 owner, ast.status, gt.name as group_name
-	FROM articles as a, article_categories as ac, article_statuses as ast, group_tree as gt
-	WHERE a.category = ac.id AND a.status = ast.id AND a.group = gt.id
+  SELECT a.id, title, fnStripTags(body) as body, excerpt, ac.category, publish_on, author, 
+			 owner, ast.status, gt.name as group_name, u.firstname, u.lastname, u.nickname
+	FROM articles as a, article_categories as ac, article_statuses as ast, group_tree as gt, users as u
+	WHERE a.category = ac.id AND a.status = ast.id AND a.group = gt.id AND u.username = a.owner
 EOF;
 
 	if( $category ) {
