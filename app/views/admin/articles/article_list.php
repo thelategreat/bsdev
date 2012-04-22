@@ -1,3 +1,28 @@
+<style>
+table.pager {
+  display: inline;
+}
+table.toolbar {
+  display: inline;
+}
+</style>
+
+<table class="toolbar">
+<tr>
+  <td>
+    <h3><a class="small" href="/admin/articles/add"><img src="/img/admin/newspaper_add.png" title="Add Essay"/></a> Essays</h3>
+  </td>
+  <td><?= $pager ?></td>
+  <td>
+ 	<form method="post" action='/admin/articles/index'>
+		<input id="query" style="font-size: 0.8em;" name="q" value="<?= strlen($query) ? $query : 'search...'?>" size="20" onblur="if(this.value=='') this.value='search...';" onfocus="if(this.value == 'search...') this.value='';"/>
+	</form>
+  </td>
+</tr>
+</table>
+
+
+<!--
 <div style="float: right">
 	<form method="post" action='/admin/articles/index'>
 		<input id="query" style="font-size: 0.8em;" name="q" value="<?= strlen($query) ? $query : 'search...'?>" size="20" onblur="if(this.value=='') this.value='search...';" onfocus="if(this.value == 'search...') this.value='';"/>
@@ -5,6 +30,8 @@
 </div>
 
 <h3><a class="small" href="/admin/articles/add"><img src="/img/admin/newspaper_add.png" title="Add Essay"/></a> Essays</h3>
+
+-->
 
 <table class="article-list">
   <thead>
@@ -35,4 +62,3 @@
 <?php $cnt++; } ?>
 </table>
 
-<?= $pager ?>

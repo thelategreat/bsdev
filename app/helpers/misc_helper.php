@@ -261,22 +261,27 @@ function generatePassword($length=6, $strength=0)
  * $max : the number of items we got. this is a bit cheezy since if we 
  *        have a full page, we presume there is another one.
  * $url : the url to use. page # is appended
+ * $append : string to append to the url after the page number
  */
 function mk_pager( $page, $page_size, $max, $url, $append = '' )
 {
 	// pagination
 	$next_page = '';
 	$prev_page = '';
-	if( $page > 1 ) {
-		//$prev_page = "<a class='small' href='$url/".($page-1)."'>⇐ prev</a>";
+  // previous page
+  if( $page > 1 ) {
 		$prev_page = '<button onclick="window.location=\''.$url.'/'.($page-1).'/'. $append . '\'"><img src="/img/admin/32-arrow-right.png" width="12px;"/></button>';
-	}
+  } else {
+    //$prev_page = '<button onclick="javascript:void(0)" style="width: 24px; height: 24px;"> </button>';
+  }
+  // next page
 	if( $max == $page_size ) {
-		//$next_page = "<a class='small' href='$url/".($page+1)."'>next ⇒</a>";
 		$next_page = '<button onclick="window.location=\''.$url.'/'.($page+1).'/' . $append . '\'"><img src="/img/admin/32-arrow-left.png" width="12px;"/></button>';
-	}
+  } else {
+    //$next_page = '<button onclick="javascript:void(0)" style="width: 12px;"> </button>';
+  }
 		
-	$s = '<table class="pager"><tr><td></td><td align="left">' . $prev_page . $next_page . '</td></tr></table>';
+	$s = '<table class="pager"><tr><td align="left" style="width: 32px;">' . $prev_page . '</td><td align="right">' . $next_page . '</td></tr></table>';
 
 	return $s;	
 }
