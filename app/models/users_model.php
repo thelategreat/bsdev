@@ -48,7 +48,13 @@ EOF;
   {
     
   }
-  
+
+  function get_username( $username )
+  {
+    $this->db->where('username', $username );
+    return $this->db->get('users');
+  }
+
   function add_user()
   {
     
@@ -58,7 +64,31 @@ EOF;
   {
     
   }
-  
+
+  function user_select( $username = '', $user_id = 0, $role_id = 0 ) 
+  {
+    $s = '<select name="user" id="user-select">';
+    $q = 'SELECT id, username, firstname, lastname FROM users';
+    if( $role_id > 0 ) {
+      $q .= ' WHERE role_id <> 3'; // . (int)$role_id;
+    }
+    $q .= ' ORDER BY lastname';
+    $res = $this->db->query( $q );
+    foreach( $res->result() as $row ) {
+      $s .= '<option value="' . ($user_id > 0 ? $row->id : $row->username) . '"';
+      if( $user_id > 0 && $row->id == $user_id ) {
+        $s .= ' selected ';
+      }
+      if( $user_id == 0 && $row->username == $username ) {
+        $s .= ' selected ';
+      }
+      $s .= '>' . $row->firstname . ' ' . $row->lastname . ' (' . $row->username . ')';
+      $s .= '</option>';
+    }
+    $s .= '</select>';
+    return $s;
+  }
+
   function role_select( $role_id = '' )
   {
     $role_select = '<select name="role_id">';

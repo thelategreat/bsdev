@@ -188,7 +188,9 @@ $(function()
       </tr>
       <tr>
         <td><label for="user">User</label></td>
-        <td colspan="4"><input name="owner" size="60" value="<?= $article->owner ?>" readonly=readonly/></td>
+        <!-- <td colspan="4"><input name="owner" size="60" value="<?= $article->owner ?>" readonly=readonly/></td>
+        -->
+        <td colspan="4"><?= $user_select ?></td>
         <td/>
         <td/>
       </tr>

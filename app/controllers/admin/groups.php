@@ -15,6 +15,8 @@ class Groups extends Admin_Controller
 		parent::__construct();
 		$this->url = '/admin/groups';
 		$this->load->model('groups_model');
+    // HACK
+    $this->load->model('articles_model');
 	}
 
 	function index()
@@ -102,9 +104,14 @@ class Groups extends Admin_Controller
 
 	function rm()
 	{
-		if( $this->uri->segment(4) ) {
-			$this->groups_model->rm( $this->uri->segment(4) );
-		}
+    if( $this->uri->segment(4) ) {
+      // HACK
+      // we check to make sure there aren't any articles assigned to this
+      $ret = $this->articles_model->get_articles_by_group( $this->uri->segment(4));
+      if( $ret->num_rows() == 0 ) {
+			  $this->groups_model->rm( $this->uri->segment(4) );
+      }  
+    }
 		redirect($this->url);
 	}
 	

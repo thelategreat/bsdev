@@ -16,6 +16,7 @@ class Articles extends Admin_Controller
 		$this->load->model('articles_model');
 		$this->load->model('groups_model');
     $this->load->model('lists_model');
+    $this->load->model('users_model');
 	}
 	
 	/**
@@ -121,7 +122,9 @@ class Articles extends Admin_Controller
 			redirect("/admin/articles");
 		}
 
-		$cur_tab = 'details';
+    $role = $this->session->userdata('logged_user_role');
+    
+    $cur_tab = 'details';
 		if( $this->uri->segment(5)) {
 			$cur_tab = strtolower($this->uri->segment(5));
 		}
@@ -143,8 +146,10 @@ class Articles extends Admin_Controller
 				$this->db->set('status', $this->input->post('status'), false);
 				$this->db->set('venue', $this->input->post('venue'), false);
 				$this->db->set('publish_on', $this->input->post('publish_on'));
-				$this->db->set('body', $this->input->post('body'));
-				$this->db->set('author', $this->input->post('author'));
+        $this->db->set('body', $this->input->post('body'));
+        if( $role == 'admin' || $role == 'editor') {
+          $this->db->set('owner', $this->input->post('user'));
+        }
 				$this->db->set('excerpt', $this->input->post('excerpt'));
 				$this->db->set('tags', $this->input->post('tags'));
 				$this->db->update("articles");
@@ -174,7 +179,14 @@ class Articles extends Admin_Controller
 		if( !$article ) {
 			redirect("/admin/articles");			
 		}
-		
+
+    if( $role == 'admin' || $role == 'editor ') { 
+      $user_select = $this->users_model->user_select( $article->owner, 0, 3 );
+    } else {
+      $user = $this->users_model->get_username( $article->owner )->row();
+      $user_select = $user->firstname . ' ' . $user->lastname;
+    }  
+
 		$view_data = array( 
 			'article' => $article, 
 			'slot' => 'general',
@@ -184,7 +196,8 @@ class Articles extends Admin_Controller
 			'status_select' => $this->articles_model->status_select( $article->status ),
 			'venue_select' => $this->articles_model->venue_select( $article->venue ),
       'priority_select' => $this->articles_model->priority_select( $article->display_priority ),	
-      'lists_select' => $this->lists_model->lists_select(),    
+      'lists_select' => $this->lists_model->lists_select(),  
+      'user_select' => $user_select,
 			'tabs' => $this->tabs->gen_tabs(array('Essay','Media'), 'Essay', '/admin/articles/edit/' . $article_id)
 		);
 		
