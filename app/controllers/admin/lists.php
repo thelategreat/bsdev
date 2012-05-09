@@ -14,6 +14,7 @@ class Lists extends Admin_Controller
   {
     parent::__construct();
     $this->load->model('lists_model');
+    $this->load->model('articles_model');
   }
 
   function index()
@@ -55,8 +56,27 @@ class Lists extends Admin_Controller
 				
 		$view_data = array( 'list' => $list );
 		
-		$this->gen_page('Admin - Polls', 'admin/lists/list_edit', $view_data );
+		$this->gen_page('Admin - Lists', 'admin/lists/list_edit', $view_data );
 	}
+
+  // ajax
+  function search()
+  {
+		$ret = array('ok' => true, 'msg' => '', 'data' => array() );
+
+    $q = $this->input->post('q');
+    if( $q && strlen( $q )) {
+      $page = (int)$this->input->post('page');
+      $res = $this->articles_model->get_article_list(NULL, $page, 10, $q );
+      $data = array();
+      foreach( $res->result() as $row ) {
+        $data[] = array('id' => $row->id, 'title' => $row->title );
+      }
+      $ret['data'] = $data;
+    }
+
+    echo json_encode( $ret );
+  }
 
   // ajax
   function addtolist()
