@@ -63,7 +63,10 @@ class Articles extends Admin_Controller
 	 *
 	 */
 	function add()
-	{
+  {
+
+    $role = $this->session->userdata('logged_user_role');
+
 		if( $this->input->post("save")) {
 			$this->form_validation->set_error_delimiters('<span class="form_error">','</span>');
 			$this->form_validation->set_rules('title','Title','trim|required');
@@ -82,8 +85,12 @@ class Articles extends Admin_Controller
 				$this->db->set('excerpt', $this->input->post('excerpt'));
 				//$this->db->set('tags', $this->input->post('tags'));
 				$this->db->set('author', $this->input->post('author'));
-				$this->db->set('owner', $this->session->userdata('logged_user'));
-				$this->db->set('created_on', "NOW()", false);
+	      if( $role == 'admin' || $role == 'editor') {
+          $this->db->set('owner', $this->input->post('user'));
+        } else {
+			    $this->db->set('owner', $this->session->userdata('logged_user'));
+        }  
+        $this->db->set('created_on', "NOW()", false);
 				$this->db->set('status', 1);
 				$this->db->insert("articles");
 				redirect("/admin/articles");
@@ -93,12 +100,20 @@ class Articles extends Admin_Controller
 		if( $this->input->post("cancel")) {
 			redirect("/admin/articles");			
 		}
-		
+	  
+    if( $role == 'admin' || $role == 'editor ') { 
+      $user_select = $this->users_model->user_select( 
+        $this->session->userdata('logged_user'), 0, 3 );
+    } else {
+      $user_select = $this->session->userdata('logged_user');
+    }
+
 		$view_data = array(
 			'group_select' => '<select name="group" id="group-sel">' . $this->groups_model->mk_nested_select(0,0,false) . '</select>',
 			'category_select' => $this->articles_model->category_select(),
 			'priority_select' => $this->articles_model->priority_select(),
-			'venue_select' => $this->articles_model->venue_select()
+			'venue_select' => $this->articles_model->venue_select(),
+      'user_select' => $user_select
 			);
 		
 		$this->gen_page('Admin - Essays', 'admin/articles/article_add', $view_data );

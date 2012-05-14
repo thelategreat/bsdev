@@ -79,7 +79,7 @@ EOF;
       if( $user_id > 0 && $row->id == $user_id ) {
         $s .= ' selected ';
       }
-      if( $user_id == 0 && $row->username == $username ) {
+      if( $user_id == 0 && !strcmp($row->username, $username) ) {
         $s .= ' selected ';
       }
       $s .= '>' . $row->firstname . ' ' . $row->lastname . ' (' . $row->username . ')';

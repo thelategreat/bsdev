@@ -120,7 +120,7 @@ class Lists extends Admin_Controller
     $name = $this->input->post('name');
 		$items = $this->input->post('items');
     if( $id && $name ) {
-			$items = explode('||', $items );
+			$items = json_decode( $items, true ); //explode('||', $items );
       if( $id == -1 ) {
         $owner = $this->session->userdata('logged_user', NULL );
 				$this->lists_model->add_list( $name, $owner, $items );

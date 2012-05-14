@@ -29,7 +29,7 @@ class lists_model extends CI_Model
 			$list->items = array();
 			$res = $this->db->query("SELECT * FROM list_items WHERE list_id = " . $list->id . " ORDER BY sort_order");
 			foreach( $res->result() as $row ) {
-				$list->items[] = $row->url;
+				$list->items[] = $row;
       }
 		}
 		return $list;
@@ -80,8 +80,9 @@ class lists_model extends CI_Model
 		for( $i = 0; $i < count($items); $i++ ) {
 			if( strlen(trim($items[$i]))) {
 				$this->db->set('list_id', $id );
-				$this->db->set('url', $items[$i]);
-				$this->db->set('type', '' );
+        $this->db->set('data_id', $items[$i]['id']);
+				$this->db->set('url', $items[$i]['title']);
+				$this->db->set('type', $items[$i]['type'] );
 				$this->db->set('sort_order', $i + 1);
 				$this->db->insert('list_items');
 			}
@@ -101,13 +102,12 @@ class lists_model extends CI_Model
 		$this->db->where( 'list_id', $id );
 		$this->db->delete( 'list_items' );
 		for( $i = 0; $i < count($items); $i++ ) {
-			if( strlen(trim($items[$i]))) {
-				$this->db->set('list_id', $id );
-				$this->db->set('url', $items[$i]);
-				$this->db->set('type', '' );
-				$this->db->set('sort_order', $i + 1);
-				$this->db->insert('list_items');
-			}
+      $this->db->set('list_id', $id );
+      $this->db->set('data_id', $items[$i]['id']);
+			$this->db->set('url', $items[$i]['title']);
+			$this->db->set('type', $items[$i]['type']);
+			$this->db->set('sort_order', $i + 1);
+			$this->db->insert('list_items');
     }
 	}
 	
@@ -116,13 +116,11 @@ class lists_model extends CI_Model
 	 */
   function rm_list( $id )
 	{
-		/*
-		$this->db->where('poll_id', intval($id));
-		$this->db->delete('poll_answers');
-    */
     //
 		$this->db->where('id', intval($id));
-		$this->db->delete('lists');
+    $this->db->delete('lists');
+    $this->db->where('list_id', intval($id));
+    $this->db->delete('list_items');
 	}
 
   /**

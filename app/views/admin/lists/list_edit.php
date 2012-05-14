@@ -1,4 +1,19 @@
 <script type="text/javascript">
+// hrmmm
+jQuery.extend({
+    postJSON: function(url, data, callback) {
+      return jQuery.ajax({
+        type: "POST",
+        url: url,
+        data: JSON.stringify(data),
+        success: callback,
+        dataType: "json",
+        contentType: "application/json",
+        processData: false
+      });
+    }
+  });
+
 
 function do_search( page )
 {
@@ -39,6 +54,37 @@ function do_search( page )
 }
 
 function do_save()
+{
+	if( !$('#name').val().trim().length ) {
+    alert("You need to fill in a name!");
+		return;
+	}
+
+	var items = $('#target-sortable li');
+  
+  var litems = new Array();
+	
+  for( var i = 0; i < items.length; i++ ) {
+    var li = new Object();
+    li.id = $(items[i]).attr('id');
+    li.title = $(items[i]).text();
+    li.type = 'essay'; 
+    litems.push( li );
+  }	
+	
+	$.post('/admin/lists/save', 
+			{ id: $('#id').val(), name: $('#name').val(), items: $.toJSON(litems) },
+			function(data) {
+				if( data.error.length ) {
+					alert(data.error);
+				} else {
+					window.location = '/admin/lists';
+				}
+			},'json');
+}
+
+
+function do_save1()
 {
 	if( !$('#name').val().trim().length ) {
     alert("You need to fill in a name!");
@@ -109,7 +155,7 @@ $(function() {
 <h4>Items</h4>
 <ul id="target-sortable" class="draggable-list">
 <?php foreach( $list->items as $item ) { ?>
-	<li class="listitem"><span class="handle ui-icon ui-icon-arrowthick-2-n-s"></span><?=$item?></li>
+  <li class="listitem" id="<?=$item->data_id?>"><span class="handle ui-icon ui-icon-arrowthick-2-n-s"></span><?=$item->url?></li>
 <?php } ?>
 </ul>
 <p class="small italic">drag handle to re-order, double click to remove an item</p>

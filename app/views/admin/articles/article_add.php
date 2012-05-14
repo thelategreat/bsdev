@@ -9,7 +9,7 @@ $(function()
 
 <form class="general" action="/admin/articles/add" method="post">
 
-  <!--
+
 <div style="float: right">
 	<fieldset><legend>Meta</legend>
 	<table style="border: 0">
@@ -26,8 +26,8 @@ $(function()
 	  <tr>
 			<td>
 			<table>
-				<tr><th>Group</th></tr>
-				<tr><td><?= $group_select ?></td></tr>
+				<tr><th>Venue</th></tr>
+				<tr><td><?= $venue_select ?></td></tr>
 			</table>
 			</td>
 		</tr>
@@ -38,7 +38,8 @@ $(function()
 				<tr><td><?= $category_select ?></td></tr>
 			</table>
 			</td>
-		</tr>
+    </tr>
+    <!--
 	  <tr>
 			<td>
 			<table>
@@ -51,7 +52,8 @@ $(function()
 				</tr>
 			</table>
 			</td>
-		</tr>
+    </tr>
+    -->
 	  <tr>
 			<td>
 			<table>
@@ -78,7 +80,7 @@ $(function()
 	</table>
 	</fieldset>
 </div>
--->
+
 
 <fieldset><legend>Add Essay</legend>
 <table style="border: 0;">
@@ -91,13 +93,12 @@ $(function()
         <td><?=form_error('title')?></td>
         <td/>
       </tr>
-      <!--
 			<tr>
     		<td><label for="author_fld">User</label></td>
-				<td colspan="4"><input name="author" id="author_fld" size="60" value="<?=set_value('author')?>"/></td>
+				<!-- <td colspan="4"><input name="author" id="author_fld" size="60" value="<?=set_value('author')?>"/></td>-->
+        <td colspan="4"><?= $user_select ?></td>
         <td><?=form_error('author')?></td>
       </tr>
-      -->
       <tr>
         <td><label for="publish_on">Pub Date</label></td>
         <td>
@@ -106,13 +107,23 @@ $(function()
         <td><label for="section">Section</label></td>
         <td><?= $group_select ?></td>
       </tr>
+      <!--
       <tr>
         <td><label for="category">Category</label></td>
         <td><?= $category_select ?>
         <td><label for="venue">Venue</label></td>
         <td><?= $venue_select ?></td>
       </tr>
+      -->
 		</table>
+    </td>
+  </tr>
+  <tr>
+    <th>Essay</th>
+  </tr>
+  <tr>
+    <td colspan="4"><textarea name="body" id="body_fld" rows="15" cols="80"><?=set_value('body')?></textarea>
+        <br/><?=form_error('body')?>
     </td>
   </tr>
   <tr>
@@ -123,14 +134,6 @@ $(function()
       <textarea id="excerpt_fld" name="excerpt" class="mceNoEditor" rows="5" cols="60"><?=set_value('excerpt')?></textarea>
       <br/><?=form_error('excerpt')?>
     <td/>
-  </tr>
-  <tr>
-    <th>Essay</th>
-  </tr>
-  <tr>
-    <td colspan="4"><textarea name="body" id="body_fld" rows="15" cols="80"><?=set_value('body')?></textarea>
-        <br/><?=form_error('body')?>
-    </td>
   </tr>
   <tr>
     <td>
