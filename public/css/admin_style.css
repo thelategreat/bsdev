@@ -773,7 +773,7 @@ ul.draggable-list {
 	margin: 0; 
 	padding: 0; 
 	width: 60%;
-  min-height: 1em;
+  min-height: 2em;
 }
 
 ul.draggable-list li {

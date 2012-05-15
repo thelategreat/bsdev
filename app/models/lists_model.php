@@ -26,6 +26,7 @@ class lists_model extends CI_Model
 			$list = new stdClass();
 			$list->id = $row->id;
       $list->name = $row->name;
+      $list->can_delete = $row->can_delete;
 			$list->items = array();
 			$res = $this->db->query("SELECT * FROM list_items WHERE list_id = " . $list->id . " ORDER BY sort_order");
 			foreach( $res->result() as $row ) {
@@ -70,10 +71,11 @@ class lists_model extends CI_Model
 	/**
 	 *
 	 */
-	function add_list( $name, $creator, $items )
+	function add_list( $name, $creator, $can_delete, $items )
 	{
     $this->db->set('name', $name );
     $this->db->set('creator', $creator );
+    $this->db->set('can_delete', $can_delete );
 		$this->db->insert('lists');
 		$id = $this->db->insert_id();
 	
@@ -92,10 +94,11 @@ class lists_model extends CI_Model
 	/**
 	 *
 	 */
-	function update_list( $id, $name, $items )
+	function update_list( $id, $name, $can_delete, $items )
 	{
 		$this->db->set('name', $name );
-		$this->db->where( 'id', $id );
+    $this->db->set('can_delete', $can_delete );
+    $this->db->where( 'id', $id );
 		$this->db->update('lists');
 		
     // lock?

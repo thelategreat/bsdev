@@ -31,9 +31,10 @@ class Lists extends Admin_Controller
 		$list = new stdClass();
 		$list->id = -1;
     $list->name = '';
+    $list->can_delete = true;
     $list->items = array();
 		
-		$view_data = array( 'list' => $list );
+		$view_data = array( 'list' => $list, 'adding' => true );
 		
 		$this->gen_page('Admin - Lists', 'admin/lists/list_edit', $view_data );		
 	}
@@ -54,7 +55,7 @@ class Lists extends Admin_Controller
 			redirect('/admin/lists');			
 		}
 				
-		$view_data = array( 'list' => $list );
+		$view_data = array( 'list' => $list, 'adding' => false );
 		
 		$this->gen_page('Admin - Lists', 'admin/lists/list_edit', $view_data );
 	}
@@ -118,14 +119,16 @@ class Lists extends Admin_Controller
 		$id = $this->input->post('id');
 		
     $name = $this->input->post('name');
-		$items = $this->input->post('items');
+    $items = $this->input->post('items');
+    $can_delete = $this->input->post('can_delete');  
+
     if( $id && $name ) {
 			$items = json_decode( $items, true ); //explode('||', $items );
       if( $id == -1 ) {
         $owner = $this->session->userdata('logged_user', NULL );
-				$this->lists_model->add_list( $name, $owner, $items );
+				$this->lists_model->add_list( $name, $owner, $can_delete, $items );
 			} else {
-				$this->lists_model->update_list( $id, $name, $items );
+				$this->lists_model->update_list( $id, $name, $can_delete, $items );
 			}
 		}		
 				

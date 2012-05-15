@@ -71,9 +71,11 @@ function do_save()
     li.type = 'essay'; 
     litems.push( li );
   }	
-	
+
+  var can_delete = $('#can_delete').is(':checked') ? 1 : 0;
+
 	$.post('/admin/lists/save', 
-			{ id: $('#id').val(), name: $('#name').val(), items: $.toJSON(litems) },
+			{ id: $('#id').val(), name: $('#name').val(), can_delete: can_delete, items: $.toJSON(litems) },
 			function(data) {
 				if( data.error.length ) {
 					alert(data.error);
@@ -150,22 +152,28 @@ $(function() {
 <form method="post" id="poll_form">
 <h4>List</h4>
 <input name="id" id="id" type="hidden" value="<?=$list->id?>">
-<input name="name" id="name" size="60" value="<?=$list->name?>" />
+<input name="name" id="name" size="60" value="<?=$list->name?>" /><p/>
+<input type="checkbox" id="can_delete" <?= $list->can_delete ? "checked" : "" ?> /> Deletable
 </form>
+<?php if( !$adding ) { ?>
 <h4>Items</h4>
-<ul id="target-sortable" class="draggable-list">
+<ul id="target-sortable" class="draggable-list" style="background-color: #eee8aa;">
 <?php foreach( $list->items as $item ) { ?>
   <li class="listitem" id="<?=$item->data_id?>"><span class="handle ui-icon ui-icon-arrowthick-2-n-s"></span><?=$item->url?></li>
 <?php } ?>
 </ul>
 <p class="small italic">drag handle to re-order, double click to remove an item</p>
+<?php } // if( !$adding ) ?>
 <hr/>
 <button class="save-button" class="ok" onclick="do_save()">Save</button>
 <button class="cancel-button" onclick="cancel()">Cancel</button>
 &nbsp;&nbsp;&nbsp;&nbsp;
+<?php if( !$adding ) { ?>
 <button class="delete-button" onclick="rm()">Delete</button>
-
+<?php } ?>
 </td>
+
+<?php if( !$adding ) { ?>
 <td width="50%" valign="top">
 <button onclick="javascript:void()">&lt;</button>
 <button onclick="javascript:void()">&gt;</button> &nbsp;
@@ -174,7 +182,10 @@ $(function() {
 <div id="search-results">
 
 </div>
-</td></tr>
+</td>
+<?php } // if( !$adding ) ?>
+
+</tr>
 </table>
 
 
