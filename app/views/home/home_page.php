@@ -53,7 +53,10 @@ $(function() {
     <h3>Serendipity</h3>
     <?php foreach( $lists['Serendipity'] as $item ) { ?>
       <a href="/article/view/<?=$item->id?>" title="<?=$item->title?>">
+      <?php if( count($item->media)) { ?>
         <img src="<?=$item->media[0]['thumbnail']?>" height="150px" />
+      <?php } else { ?>
+      <?php } ?>
       </a>
     <?php } ?>
   </div>
