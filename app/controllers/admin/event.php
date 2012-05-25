@@ -271,9 +271,9 @@ class Event extends Admin_Controller
 		$xml .= '<results>';
 		
 		if( $query ) {
-			$res = $this->db->query("select id, name from venues where lower(name) like '%" . $this->db->escape_like_str(strtolower($query)) . "%'");
+			$res = $this->db->query("select id, venue from venues where lower(venue) like '%" . $this->db->escape_like_str(strtolower($query)) . "%'");
 			foreach( $res->result() as $row ) {
-				$xml .= '<item id="'.$row->id.'" name="'. htmlspecialchars($row->name) . '" />' ;
+				$xml .= '<item id="'.$row->id.'" name="'. htmlspecialchars($row->venue) . '" />' ;
 			}
 		}
 		

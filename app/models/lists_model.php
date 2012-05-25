@@ -7,6 +7,7 @@ class lists_model extends CI_Model
   function __construct()
   {
     parent::__construct();
+    $this->load->model('media_model');
   }
 
   function get_lists()
@@ -36,7 +37,20 @@ class lists_model extends CI_Model
 		return $list;
 	}
 
-  function get_list_items_by_name( $name, $aslist = false )
+  function get_list_items_by_name( $name )
+  {
+    $q = "SELECT * FROM list_items, lists WHERE list_items.list_id = lists.id AND LOWER(name) = " . $this->db->escape(strtolower($name)) . ' ORDER BY sort_order';
+    $res = $this->db->query( $q );
+    $data = array();
+    foreach( $res->result() as $row ) {
+      $ritem = $this->db->query("SELECT * FROM articles WHERE id = " . $row->data_id )->row();
+			$ritem->media = $this->media_model->get_media_for_path("/articles/$ritem->id", 'general', 1);
+      $data[] = $ritem;
+    }
+    return $data;
+  }
+
+  function get_list_items_by_name_old( $name, $aslist = false )
 	{
 		$q = "SELECT * FROM lists WHERE LOWER(name) = '" . $this->db->escape(strtolower($name)) ."'";
 		$res = $this->db->query( $q );
@@ -75,8 +89,10 @@ class lists_model extends CI_Model
 	{
     $this->db->set('name', $name );
     $this->db->set('creator', $creator );
-    $this->db->set('can_delete', $can_delete );
-		$this->db->insert('lists');
+    if( $can_delete !== NULL ) {
+      $this->db->set('can_delete', $can_delete );
+    }  
+    $this->db->insert('lists');
 		$id = $this->db->insert_id();
 	
 		for( $i = 0; $i < count($items); $i++ ) {
@@ -97,7 +113,9 @@ class lists_model extends CI_Model
 	function update_list( $id, $name, $can_delete, $items )
 	{
 		$this->db->set('name', $name );
-    $this->db->set('can_delete', $can_delete );
+    if( $can_delete !== NULL ) {
+      $this->db->set('can_delete', $can_delete );
+    }  
     $this->db->where( 'id', $id );
 		$this->db->update('lists');
 		

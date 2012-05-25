@@ -1,5 +1,9 @@
 /* bruce 1 */
 
+@font-face { font-family: Goudy; src: url('../fonts/GoudyBookletter1911.otf'); } 
+@font-face { font-family: Junction; src: url('../fonts/Junction 02/Junction 02.otf'); } 
+
+
 body {
 	background-color: #222;
   font-size: 9pt;
@@ -307,6 +311,32 @@ ul#topnav li span a:hover { font-weight: bold;}
   width: 95%;
   clear: both;
 }
+
+#content h2, h3, h4 {
+	font-family: Goudy, Georgia, Times, serif;
+}
+
+#content h3 { font-size: 1.3em; }
+
+div.feature {
+  background-color: #aaa;
+  border-radius: 4px;
+  padding: 5px;
+}
+
+div.gradient {
+  /* Safari 4-5, Chrome 1-9 */ 
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#444), to(#fff)); 
+  /* Safari 5.1, Chrome 10+ */ 
+  background: -webkit-linear-gradient(top, #fff, #444); 
+  /* Firefox 3.6+ */ 
+  background: -moz-linear-gradient(top, #fff, #444); 
+  /* IE 10 */ 
+  background: -ms-linear-gradient(top, #fff, #444); 
+  /* Opera 11.10+ */ 
+  background: -o-linear-gradient(top, #fff, #444);
+}
+
 
 #pre-footer
 {
@@ -700,5 +730,15 @@ blockquote {
 cite {
   font-size: 1.2em;
   float: right;
+}
+
+/* slides */
+.slide {
+
+}
+
+.slide img {
+  float: left;
+  padding-right: 10px;
 }
 

@@ -21,6 +21,12 @@ class polls_model extends CI_Model
 		return $res;
 	}
 
+  function get_current_poll()
+  {
+    $poll = $this->get_poll_list()->row();
+    return $this->get_poll( $poll->id );
+  }
+
 	/**
 	 *
 	 */

@@ -92,8 +92,7 @@ SQL;
       $q .= " OFFSET " . ($limit * ($page-1));
     }
 
-    $ret = $this->db->query( $q );
-    return $ret;
+    return $this->db->query( $q );
   }
 
 
@@ -116,8 +115,7 @@ SQL;
       $q .= " OFFSET " . ($limit * ($page-1));
     }
 
-    $ret = $this->db->query( $q );
-    return $ret;
+    return $this->db->query( $q );
   }
 
 	function get_article( $id )
@@ -151,8 +149,7 @@ SQL;
       $q .= " OFFSET " . ($limit * ($page-1));
     }
 
-    $ret = $this->db->query( $q );
-    return $ret;
+    return $this->db->query( $q );
   }
 
 	function category_select( $default = 0 )

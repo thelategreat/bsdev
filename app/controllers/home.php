@@ -14,6 +14,8 @@ class Home extends MY_Controller
 		$this->load->model('articles_model');
 		$this->load->model('event_model');
 		$this->load->model('groups_model');
+		$this->load->model('lists_model');
+		$this->load->model('polls_model');
 
     //$this->output->enable_profiler( TRUE );
     
@@ -47,61 +49,30 @@ class Home extends MY_Controller
 		$parents = $this->groups_model->get_parents( $section );
 				
 		$events = NULL;
-		$articles = array();
-
-    /*
-		$res = $this->articles_model->get_published_article_list($section, $page_size, $page );
-		if( $res->num_rows() > 0 ) {
-			foreach( $res->result() as $row ) {
-				$row->media = $this->media_model->get_media_for_path("/articles/$row->id", 'general', 1);
-				$articles[] = $row;				
-			}
-		} else {
-			$tree = $this->groups_model->get_tree( 'id', $section, false );
-			foreach( $tree as $tree_item ) {
-				$res = $this->articles_model->get_published_article_list($tree_item->id, 1 );
-				if( $res->num_rows() > 0 ) {
-					$row = $res->row();
-					$row->media = $this->media_model->get_media_for_path("/articles/$row->id", 'general', 1);
-					$articles[] = $row;				
-				}			
-			}			
-		}
-    */
-    $res = $this->articles_model->get_published_articles( $section, $page_size, $page );
-    foreach( $res->result() as $row ) {
-      $row->media = $this->media_model->get_media_for_path("/articles/$row->id", 'general', 1);
-      $articles[] = $row;
-    }
 
 		// row across top of page only on home
 		if( $section == 0 ) {
 			$events = $this->event_model->get_next_events( 7 );
 		}
 				
-		$pagination = '<table style="width: 100%;"><tr>';
-		if( $page > 1 ) {
-			$prev_page = $page - 1;
-			$pagination .= "<td><a href='/home/section/$section/$prev_page' title='newer stuff...'><img src='/img/big_feature_left_arrow.png'/></a></td>";
-		} else {
-			$pagination .= '<td/>';
-		}
-		if( count($articles) == $page_size ) {
-			$next_page = $page + 1;
-			$pagination .= "<td align='right'><a href='/home/section/$section/$next_page' title='...older stuff'><img src='/img/big_feature_right_arrow.png'/></a></td>";			
-		} else {
-			$pagination .= '<td/>';			
-		}
-		$pagination .= '</tr></table>';
-		
+    // current poll
+    $poll = $this->polls_model->get_current_poll();
+
+    // list driven stuffs
+    $list_meta = array('Features','Serendipity','Bookstore','Cinema','eBar','News and Views','Columns');
+    $lists = array();
+    foreach( $list_meta as $list_name ) {
+      $lists[$list_name] = $this->lists_model->get_list_items_by_name( $list_name );
+    }
+
 				
 		$parents = array_reverse($parents);
 		array_shift($parents);
 		$view_data = array(
 			'parents' => $parents,
-			'articles' => $articles,
-			'events' => $events,
-			'pagination' => $pagination
+      'lists' => $lists,
+      'events' => $events,
+      'poll' => $poll
 			);
 		
 		$pg_data = $this->get_page_data('Bookshelf', 'home', $section );

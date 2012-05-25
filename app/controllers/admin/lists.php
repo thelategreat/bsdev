@@ -120,7 +120,10 @@ class Lists extends Admin_Controller
 		
     $name = $this->input->post('name');
     $items = $this->input->post('items');
-    $can_delete = $this->input->post('can_delete');  
+    $can_delete = NULL;
+    if( $this->session->userdata('logged_user_role') == 'admin' ) {
+      $can_delete = $this->input->post('can_delete');  
+    }
 
     if( $id && $name ) {
 			$items = json_decode( $items, true ); //explode('||', $items );
