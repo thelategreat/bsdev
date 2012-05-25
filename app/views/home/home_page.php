@@ -22,7 +22,10 @@ $(function() {
         <?php foreach( $lists['Features'] as $item ) { ?>
           <div class="slide">
             <a href="/article/view/<?=$item->id?>" title="<?=$item->title?>">
+              <?php if( count($item->media)) { ?>
               <img src="<?=$item->media[0]['thumbnail']?>" height="250px" />
+              <?php } else { ?>
+              <?php } ?>
             </a>
             <h3><?=$item->title?></h3>
             <div class="caption" style="bottom:0">
