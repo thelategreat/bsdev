@@ -330,7 +330,7 @@ div.gradient {
   /* Safari 5.1, Chrome 10+ */ 
   background: -webkit-linear-gradient(top, #fff, #444); 
   /* Firefox 3.6+ */ 
-  background: -moz-linear-gradient(top, #fff, #444); 
+  background: -moz-linear-gradient(top, #fff, #C79D12); 
   /* IE 10 */ 
   background: -ms-linear-gradient(top, #fff, #444); 
   /* Opera 11.10+ */ 

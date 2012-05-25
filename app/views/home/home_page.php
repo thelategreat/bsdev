@@ -5,7 +5,10 @@ function vote()
 }
 
 $(function() {
-  $('#slides').cycle();
+  $('#slides').cycle({
+    delay: 3000,
+    speed: 500,
+  });
 });
 
 </script>
@@ -13,7 +16,7 @@ $(function() {
 <div class="row" style="height: 350px;">
   <!-- features -->
   <div class="column grid_8" >
-    <div class="feature gradient" style="min-height: 400px;">
+    <div class="feature gradient" style="min-height: 300px; border-radius: 5px;">
     <h3>Featured</h3>
       <div id="slides">
         <?php foreach( $lists['Features'] as $item ) { ?>
@@ -41,7 +44,7 @@ $(function() {
   </div>
 </div>
 
-<div class="row" style="height: 250px;">
+<div class="row" style="height: 250px; border-bottom: 1px dotted #ddd;">
   <!-- serendipity -->
   <div class="column grid_8">
     <h3>Serendipity</h3>
@@ -122,7 +125,7 @@ $(function() {
     <h3>v8</h3>
   </div>
   <!-- poll -->
-  <div class="column grid_4">
+  <div class="column grid_4" style="border-top: 1px dotted #ddd;">
     <div id="poll-container">
       <h3>Poll: <?=$poll->question?></h3>
       <form id="poll" action="" method="post" >
