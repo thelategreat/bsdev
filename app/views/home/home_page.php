@@ -27,7 +27,10 @@ $(function() {
               <?php } else { ?>
               <?php } ?>
             </a>
-            <h3><?=$item->title?></h3>
+            <h3>
+              <a href="/article/view/<?=$item->id?>" title="<?=$item->title?>">
+              <?=$item->title?></a>
+            </h3>
             <div class="caption" style="bottom:0">
               <p><?=$item->excerpt?></p>
             </div>
