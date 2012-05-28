@@ -17,6 +17,8 @@ class Home extends MY_Controller
 		$this->load->model('lists_model');
 		$this->load->model('polls_model');
 
+    $this->load->helper('cal_helper');
+
     //$this->output->enable_profiler( TRUE );
     
 	}
@@ -65,14 +67,17 @@ class Home extends MY_Controller
       $lists[$list_name] = $this->lists_model->get_list_items_by_name( $list_name );
     }
 
-				
+    // calendar
+    $cal = cal_gen( date('n'), date('Y'));
+
 		$parents = array_reverse($parents);
 		array_shift($parents);
 		$view_data = array(
 			'parents' => $parents,
       'lists' => $lists,
       'events' => $events,
-      'poll' => $poll
+      'poll' => $poll,
+      'cal' => $cal
 			);
 		
 		$pg_data = $this->get_page_data('Bookshelf', 'home', $section );

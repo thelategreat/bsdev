@@ -42,11 +42,14 @@ $(function() {
   <!-- events -->
   <div class="column grid_4">
     <h3>Upcoming Events</h3>
+    <ul class="events-list">
     <?php foreach( $events->result() as $event ) { ?>
+      <li>
       <a href="/event/details/<?=$event->id?>"><?= $event->title ?></a>
-      <?=date('M d', strtotime($event->dt_start)) . ' @ '. date('g:i a',strtotime($event->dt_start))?>
-      <p/>
+      <span class="date"><?=date('M d', strtotime($event->dt_start)) . ' @ '. date('g:i a',strtotime($event->dt_start))?></span>
+      </li>
     <?php } ?>
+    </ul>
   </div>
 </div>
 
@@ -77,10 +80,15 @@ $(function() {
       <th>Sa</th>
     </tr>
 <?php 
-      for( $i = 1; $i < 6; $i++ ) {
-      echo '<tr>';
-        for( $j = 1; $j < 8; $j++ ) { ?>
-          <td style="border: 1px solid #666; height: 30px; text-align: center; border-radius: 3px"> o </td>
+      for( $i = 0; $i < 5; $i++ ) {
+        echo '<tr>'; 
+        for( $j = 0; $j < 7; $j++ ) { 
+          $style = "border: 1px solid #666; height: 30px; text-align: center; border-radius: 3px;";
+          if( ($i == 0 && $cal[$i][$j]['num'] > 6) || ($i == 4 && $cal[$i][$j]['num'] < 22) )
+            $style .= ' background-color: #ddd;';
+
+?>
+          <td style="<?=$style?>"> <?=$cal[$i][$j]['num']?> </td>
 <?php
       }
       echo '</tr>';

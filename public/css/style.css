@@ -732,6 +732,23 @@ cite {
   float: right;
 }
 
+/* fe events list */
+ul.events-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+ul.events-list li {
+  padding-bottom: 5px;
+  border-bottom: 1px solid #ddd;
+}
+
+ul.events-list li span.date {
+  display: block;
+  font-style: italic;
+}
+
 /* slides */
 .slide {
 
