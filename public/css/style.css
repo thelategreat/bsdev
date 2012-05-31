@@ -769,10 +769,10 @@ ul.twitter-feed {
 
 ul.twitter-feed li {
   padding: 2px;
-  padding-bottom: 5px;
+  margin-bottom: 8px;
   border: 1px solid #ddd;
   border-radius: 5px;
-  background-color: #ddf;
+  background-color: #ffd;
 }
 
 
