@@ -9,6 +9,12 @@ $(function() {
     delay: 3000,
     speed: 500,
   });
+  $('#content a[tooltip]').each(function() {
+    $(this).qtip({
+      content: $(this).attr('tooltip'),
+        style: 'dark'
+    });
+  });
 });
 
 </script>
@@ -31,6 +37,7 @@ $(function() {
               <a href="/article/view/<?=$item->id?>" title="<?=$item->title?>">
               <?=$item->title?></a>
             </h3>
+            by <?= $item->author ?>
             <div class="caption" style="bottom:0">
               <p><?=$item->excerpt?></p>
             </div>
@@ -62,13 +69,14 @@ $(function() {
       <?php if( count($item->media)) { ?>
         <img src="<?=$item->media[0]['thumbnail']?>" height="150px" />
       <?php } else { ?>
+        <img src="/img/image_not_found.jpg" height="150px" />
       <?php } ?>
       </a>
     <?php } ?>
   </div>
   <!-- calendar -->
   <div class="column grid_4">
-    <h3>Bookshelf Calendar for <?= date('M'); ?></h3>
+    <h3><a href="/calendar">Bookshelf Calendar for <?= date('M'); ?></a></h3>
     <table style="width: 100%; table-layout: fixed;">
     <tr>
       <th>Su</th>
@@ -88,7 +96,9 @@ $(function() {
             $style .= ' background-color: #ddd;';
 
 ?>
-          <td style="<?=$style?>"> <?=$cal[$i][$j]['num']?> </td>
+          <td style="<?=$style?>"> 
+            <a href="#" tooltip="Events for day <?=$cal[$i][$j]['num']?>"><?=$cal[$i][$j]['num']?></a> 
+          </td>
 <?php
       }
       echo '</tr>';
@@ -128,7 +138,12 @@ $(function() {
   </div>
   <!-- twitter -->
   <div class="column grid_4">
-    <h3>Twitter</h3>
+    <h3><a href="http://twitter.com/#!/bookshelfnews">@Bookshelfnews on Twitter</a></h3>
+    <ul class="twitter-feed">
+    <?php foreach( $tweets as $tweet ) { ?>
+      <li><?=$tweet['pubDate']?><br/><?=$tweet['title']?></li>
+    <?php } ?>
+    </ul>
   </div>
 </div>
 

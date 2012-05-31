@@ -16,6 +16,7 @@ class Home extends MY_Controller
 		$this->load->model('groups_model');
 		$this->load->model('lists_model');
 		$this->load->model('polls_model');
+		$this->load->model('tweets_model');
 
     $this->load->helper('cal_helper');
 
@@ -70,6 +71,9 @@ class Home extends MY_Controller
     // calendar
     $cal = cal_gen( date('n'), date('Y'));
 
+    // tweets
+    $tweets = $this->tweets_model->load('bookshelfnews');
+
 		$parents = array_reverse($parents);
 		array_shift($parents);
 		$view_data = array(
@@ -77,7 +81,8 @@ class Home extends MY_Controller
       'lists' => $lists,
       'events' => $events,
       'poll' => $poll,
-      'cal' => $cal
+      'cal' => $cal,
+      'tweets' => $tweets
 			);
 		
 		$pg_data = $this->get_page_data('Bookshelf', 'home', $section );

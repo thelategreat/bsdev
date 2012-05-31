@@ -15,6 +15,7 @@ body {
 a {
   text-decoration: none;
 	color: #a82e24;
+  color: #695209;
 }
 
 /* ================ */
@@ -758,4 +759,20 @@ ul.events-list li span.date {
   float: left;
   padding-right: 10px;
 }
+
+/* twitter feed */
+ul.twitter-feed {
+  list-style: none;
+  margin: 4px;
+  padding: 2px;
+}
+
+ul.twitter-feed li {
+  padding: 2px;
+  padding-bottom: 5px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #ddf;
+}
+
 
