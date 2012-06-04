@@ -52,7 +52,8 @@ $(function() {
     <ul class="events-list">
     <?php foreach( $events->result() as $event ) { ?>
       <li>
-      <a href="/event/details/<?=$event->id?>"><?= $event->title ?></a>
+      <img src="/media/<?=$event->uuid?>" style="height: 35px; float: left; margin-right: 4px;" /> 
+      <a href="/events/details/<?=$event->id?>"><?= $event->title ?></a>
       <span class="date"><?=date('M d', strtotime($event->dt_start)) . ' @ '. date('g:i a',strtotime($event->dt_start))?></span>
       </li>
     <?php } ?>
