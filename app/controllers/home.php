@@ -62,7 +62,7 @@ class Home extends MY_Controller
     $poll = $this->polls_model->get_current_poll();
 
     // list driven stuffs
-    $list_meta = array('Features','Serendipity','Bookstore','Cinema','eBar','News and Views','Columns');
+    $list_meta = array('Features','Serendipity','v3','v4','v5','v6','v7','v8');
     $lists = array();
     foreach( $list_meta as $list_name ) {
       $lists[$list_name] = $this->lists_model->get_list_items_by_name( $list_name );

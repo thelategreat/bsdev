@@ -25,7 +25,8 @@ $(function() {
     <div class="feature gradient" style="min-height: 300px; border-radius: 5px;">
     <h3>Featured</h3>
       <div id="slides">
-        <?php foreach( $lists['Features'] as $item ) { ?>
+        <?php if( array_key_exists('Features', $lists)) { 
+          foreach( $lists['Features'] as $item ) { ?>
           <div class="slide">
             <a href="/article/view/<?=$item->id?>" title="<?=$item->title?>">
               <?php if( count($item->media)) { ?>
@@ -42,7 +43,9 @@ $(function() {
               <p><?=$item->excerpt?></p>
             </div>
           </div>
-        <?php } ?>
+        <?php } 
+        }
+        ?>
       </div> <!-- slides -->
     </div>
   </div>
@@ -65,7 +68,8 @@ $(function() {
   <!-- serendipity -->
   <div class="column grid_8">
     <h3>Serendipity</h3>
-    <?php foreach( $lists['Serendipity'] as $item ) { ?>
+    <?php if( array_key_exists('Serendipity', $lists)) { 
+      foreach( $lists['Serendipity'] as $item ) { ?>
       <a href="/article/view/<?=$item->id?>" title="<?=$item->title?>">
       <?php if( count($item->media)) { ?>
         <img src="<?=$item->media[0]['thumbnail']?>" height="150px" />
@@ -73,7 +77,9 @@ $(function() {
         <img src="/img/image_not_found.jpg" height="150px" />
       <?php } ?>
       </a>
-    <?php } ?>
+    <?php } 
+    }
+    ?>
   </div>
   <!-- calendar -->
   <div class="column grid_4">
@@ -120,21 +126,69 @@ $(function() {
       <!-- v3 -->
       <div class="column grid_4">
         <h3>v3</h3>
-      </div>
+        <?php if( array_key_exists('v3', $lists)) { 
+          foreach( $lists['v3'] as $item ) { ?>
+          <a href="/article/view/<?=$item->id?>" title="<?=$item->title?>">
+          <?php if( count($item->media)) { ?>
+            <img src="<?=$item->media[0]['thumbnail']?>" height="100px" />
+          <?php } else { ?>
+            <img src="/img/image_not_found.jpg" height="100px" />
+          <?php } ?>
+          </a>
+        <?php } 
+        }
+        ?>
+     </div>
       <!-- v4 -->
       <div class="column grid_4">
         <h3>v4</h3>
-      </div>
+         <?php if( array_key_exists('v4', $lists)) { 
+          foreach( $lists['v4'] as $item ) { ?>
+          <a href="/article/view/<?=$item->id?>" title="<?=$item->title?>">
+          <?php if( count($item->media)) { ?>
+            <img src="<?=$item->media[0]['thumbnail']?>" height="100px" />
+          <?php } else { ?>
+            <img src="/img/image_not_found.jpg" height="100px" />
+          <?php } ?>
+          </a>
+        <?php } 
+        }
+        ?>
+     </div>
     </div>
     <div class="row" style="min-height: 100px;">
       <!-- v5 -->
       <div class="column grid_4">
         <h3>v5</h3>
-      </div>
+         <?php if( array_key_exists('v5', $lists)) { 
+          foreach( $lists['v5'] as $item ) { ?>
+          <a href="/article/view/<?=$item->id?>" title="<?=$item->title?>">
+          <?php if( count($item->media)) { ?>
+            <img src="<?=$item->media[0]['thumbnail']?>" height="100px" />
+          <?php } else { ?>
+            <img src="/img/image_not_found.jpg" height="100px" />
+          <?php } ?>
+          </a>
+        <?php } 
+        }
+        ?>
+     </div>
       <!-- v6 -->
       <div class="column grid_4">
         <h3>v6</h3>
-      </div>
+         <?php if( array_key_exists('v6', $lists)) { 
+          foreach( $lists['v6'] as $item ) { ?>
+          <a href="/article/view/<?=$item->id?>" title="<?=$item->title?>">
+          <?php if( count($item->media)) { ?>
+            <img src="<?=$item->media[0]['thumbnail']?>" height="100px" />
+          <?php } else { ?>
+            <img src="/img/image_not_found.jpg" height="100px" />
+          <?php } ?>
+          </a>
+        <?php } 
+        }
+        ?>
+     </div>
     </div>
   </div>
   <!-- twitter -->
@@ -155,11 +209,35 @@ $(function() {
   <!-- v7 -->
   <div class="column grid_4">
     <h3>v7</h3>
-  </div>
+         <?php if( array_key_exists('v7', $lists)) { 
+          foreach( $lists['v7'] as $item ) { ?>
+          <a href="/article/view/<?=$item->id?>" title="<?=$item->title?>">
+          <?php if( count($item->media)) { ?>
+            <img src="<?=$item->media[0]['thumbnail']?>" height="100px" />
+          <?php } else { ?>
+            <img src="/img/image_not_found.jpg" height="100px" />
+          <?php } ?>
+          </a>
+        <?php } 
+        }
+        ?>
+ </div>
   <!-- v8 -->
   <div class="column grid_4">
     <h3>v8</h3>
-  </div>
+         <?php if( array_key_exists('v8', $lists)) { 
+          foreach( $lists['v8'] as $item ) { ?>
+          <a href="/article/view/<?=$item->id?>" title="<?=$item->title?>">
+          <?php if( count($item->media)) { ?>
+            <img src="<?=$item->media[0]['thumbnail']?>" height="100px" />
+          <?php } else { ?>
+            <img src="/img/image_not_found.jpg" height="100px" />
+          <?php } ?>
+          </a>
+        <?php } 
+        }
+        ?>
+ </div>
   <!-- poll -->
   <div class="column grid_4" style="border-top: 1px dotted #ddd;">
     <div id="poll-container">
