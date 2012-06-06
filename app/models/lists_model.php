@@ -43,9 +43,12 @@ class lists_model extends CI_Model
     $res = $this->db->query( $q );
     $data = array();
     foreach( $res->result() as $row ) {
-      $ritem = $this->db->query("SELECT * FROM articles WHERE id = " . $row->data_id )->row();
-			$ritem->media = $this->media_model->get_media_for_path("/articles/$ritem->id", 'general', 1);
-      $data[] = $ritem;
+      $res = $this->db->query("SELECT * FROM articles WHERE id = " . $row->data_id );
+      if( $res ) {
+        $ritem = $res->row();
+			  $ritem->media = $this->media_model->get_media_for_path("/articles/$ritem->id", 'general', 1);
+        $data[] = $ritem;
+      }
     }
     return $data;
   }
