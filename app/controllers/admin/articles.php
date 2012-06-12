@@ -67,7 +67,7 @@ class Articles extends Admin_Controller
 
     $role = $this->session->userdata('logged_user_role');
 
-		if( $this->input->post("save")) {
+		if( $this->input->post("save") || $this->input->post("saveaddm")) {
 			$this->form_validation->set_error_delimiters('<span class="form_error">','</span>');
 			$this->form_validation->set_rules('title','Title','trim|required');
 			$this->form_validation->set_rules('body','Body','trim|required');
@@ -92,8 +92,13 @@ class Articles extends Admin_Controller
         }  
         $this->db->set('created_on', "NOW()", false);
 				$this->db->set('status', 1);
-				$this->db->insert("articles");
-				redirect("/admin/articles");
+        $this->db->insert("articles");
+
+        if( $this->input->post('save')) {
+          redirect("/admin/articles");
+        } else {
+          redirect('/admin/articles/edit/' . $this->db->insert_id() . '/media');
+        }
 			}
 		}	
 			

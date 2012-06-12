@@ -69,14 +69,16 @@ $(function()
 				<tr><td><textarea name="tags" class="mceNoEditor" cols="20" rows="3"><?=set_value('tags')?></textarea></td></tr>
 			</table>
 			</td>
-		</tr>
+    </tr>
+    <!--
 	  <tr>
 			<td>
 				<hr/>
 				<input type="submit" style="background-color: #9f9;" name="save" value="Add" />
 				<input type="submit" name="cancel" value="Cancel" />
 			</td>
-		</tr>
+    </tr>
+    -->
 	</table>
 	</fieldset>
 </div>
@@ -138,7 +140,8 @@ $(function()
   <tr>
     <td>
       <hr/>
-      <input type="submit" class="save-button" name="save" value="Add" />
+      <input type="submit" class="save-button" name="save" value="Save" />
+      <input type="submit" class="save-button" name="saveaddm" value="Save &amp; Add Media" />
       <input type="submit" class="cancel-button" name="cancel" value="Cancel" />
     </td>
   </tr>
