@@ -147,6 +147,16 @@
       calendar
       </div>
     </div>
+    <div class="row">
+      <div class="column grid_3">
+      ad
+      </div>
+    </div>
+    <div class="row">
+      <div class="column grid_3">
+      twitter
+      </div>
+    </div>
   </div>
 </div>
 
