@@ -38,7 +38,7 @@
         <li style="background: #BA9314;"><a href="/browse/books">Bookstore</a></li>
         <li style="background: #967711;"><a href="/calendar">Cinema</a></li>
         <li style="background: #695209;"><a href="/">eBar</a></li>
-        <li style="background: #423406;"><a href="/">Restaurant</a></li>
+       <!-- <li style="background: #423406;"><a href="/">Restaurant</a></li> -->
       </ul>
     </div> <!-- venue-nav -->
 		<div id="header-nav">

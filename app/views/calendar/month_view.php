@@ -4,6 +4,13 @@ $(function(){
 });
 </script>
 
+<div class="row">
+  <div class="column grid_3">
+  foo
+  </div>
+  <div class="column grid_9">
+
+
 <h2><span style="padding: 2px; margin: 2px;">
 	<a href="<?=$prev_month_url?>" title="last month">
 		<img src="/img/cal/arrow_left.png" style="width: 24px; margin-bottom: -5px"/></a>&nbsp;
@@ -115,3 +122,7 @@ $(function(){
 </table>
 
 -->
+
+  </div>
+</div>
+

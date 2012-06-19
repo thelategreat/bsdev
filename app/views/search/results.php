@@ -1,4 +1,10 @@
-	
+
+<div class="row">
+  <div class="column grid_3">
+  foo
+  </div>
+  <div class="column grid_9">
+
 <div id="search_results">
 
 <!--
@@ -62,3 +68,7 @@
 </div>
 
 <?= $pagination ?>
+
+  </div>
+</div>
+

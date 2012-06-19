@@ -16,8 +16,14 @@ function show_location( id )
 $(document).ready(function(){
    $('#location-dialog').jqm();
 });
-
 </script>
+
+<div class="row">
+  <div class="column grid_3">
+  foo
+  </div>
+  <div class="column grid_6">
+
 <div class="event-detail">
 	<?php if( $media->num_rows() > 0 ) { ?>
 		<img class="event_photo" src="/media/<?=$media->row()->uuid?>" width="141" alt="This is a photo of the event" />
@@ -68,3 +74,9 @@ $(document).ready(function(){
 <h2 class="event_date">Hmmm... we could not find that event.</h2>
 	
 <?php } ?>
+
+  </div>
+  <div class="column grid_3">
+  bar
+  </div>
+</div>

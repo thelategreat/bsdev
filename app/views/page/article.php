@@ -12,6 +12,15 @@ function vote( id, vote )
     }, 'json');
 }
 </script>
+
+<div class="row">
+  <div class="column grid_3">
+  foo
+  </div>
+  <div class="column grid_6">
+
+
+
 <div class="article">
 	<div class="article-header">
 		<h3><?=$article->title?></h3>
@@ -81,3 +90,29 @@ function vote( id, vote )
 <?php } ?>
 
 <?php } // if( $allow_comments ) ?>
+
+  </div>
+  <div class="column grid_3">
+    <div class="row">
+      <div class="column grid_3">
+      events
+      </div>
+    </div>
+    <div class="row">
+      <div class="column grid_3">
+      calendar
+      </div>
+    </div>
+    <div class="row">
+      <div class="column grid_3">
+      ad
+      </div>
+    </div>
+    <div class="row">
+      <div class="column grid_3">
+      twitter
+      </div>
+    </div>
+ </div>
+</div>
+

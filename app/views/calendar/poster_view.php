@@ -1,3 +1,9 @@
+<div class="row">
+  <div class="column grid_3">
+  foo
+  </div>
+  <div class="column grid_9">
+
 
 <h2><span style="padding: 2px; margin: 2px;">
 	<a href="<?=$prev_month_url?>" title="last month">
@@ -63,4 +69,8 @@
 		<td><img src="/img/junk/gallery_photo6.jpg" width="200px"/>Some Event</td>
 	</tr>
 	-->
-</table>	
+</table>
+
+  </div>
+</div>
+
