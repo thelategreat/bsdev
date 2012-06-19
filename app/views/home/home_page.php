@@ -55,7 +55,7 @@ $(function() {
     <ul class="events-list">
     <?php foreach( $events->result() as $event ) { ?>
       <li>
-      <img src="/media/<?=$event->uuid?>" style="height: 35px; float: left; margin-right: 4px;" /> 
+      <img src="/media/<?=$event->uuid?>" /> 
       <a href="/events/details/<?=$event->id?>"><?= $event->title ?></a>
       <span class="date"><?=date('M d', strtotime($event->dt_start)) . ' @ '. date('g:i a',strtotime($event->dt_start))?></span>
       </li>
@@ -66,7 +66,8 @@ $(function() {
 
 <div class="row" style="height: 250px; border-bottom: 1px dotted #ddd;">
   <!-- serendipity -->
-  <div class="column grid_8">
+  <div class="column grid_8" style="overflow: auto;" >
+    <div style="width: 1000px;">
     <h3>Serendipity</h3>
     <?php if( array_key_exists('Serendipity', $lists)) { 
       foreach( $lists['Serendipity'] as $item ) { ?>
@@ -79,7 +80,8 @@ $(function() {
       </a>
     <?php } 
     }
-    ?>
+?>
+    </div>
   </div>
   <!-- calendar -->
   <div class="column grid_4">
@@ -127,6 +129,7 @@ $(function() {
       <div class="column grid_4 article-preview">
         <?php if( array_key_exists('v3', $lists)) { 
           if( count($lists['v3']) > 0 )  {  $item = $lists['v3'][0]; ?>
+          <a href="/home/section/<?=$item->group_id?>" class="section"><?=$item->group_name?></a>
           <a href="/article/view/<?=$item->id?>" title="<?=$item->title?>">
           <?php if( count($item->media)) { ?>
             <img src="<?=$item->media[0]['thumbnail']?>" />
@@ -145,6 +148,7 @@ $(function() {
       <div class="column grid_4 article-preview">
          <?php if( array_key_exists('v4', $lists)) { 
           if( count($lists['v4']) > 0 )  {  $item = $lists['v4'][0]; ?>
+          <a href="/home/section/<?=$item->group_id?>" class="section"><?=$item->group_name?></a>
           <a href="/article/view/<?=$item->id?>" title="<?=$item->title?>">
           <?php if( count($item->media)) { ?>
             <img src="<?=$item->media[0]['thumbnail']?>" />
@@ -164,6 +168,7 @@ $(function() {
       <div class="column grid_4 article-preview">
          <?php if( array_key_exists('v5', $lists)) { 
           if( count($lists['v5']) > 0 )  {  $item = $lists['v5'][0]; ?>
+          <a href="/home/section/<?=$item->group_id?>" class="section"><?=$item->group_name?></a>
           <a href="/article/view/<?=$item->id?>" title="<?=$item->title?>">
           <?php if( count($item->media)) { ?>
             <img src="<?=$item->media[0]['thumbnail']?>" />
@@ -181,6 +186,7 @@ $(function() {
       <div class="column grid_4 article-preview">
          <?php if( array_key_exists('v6', $lists)) { 
           if( count($lists['v6']) > 0 )  {  $item = $lists['v6'][0]; ?>
+          <a href="/home/section/<?=$item->group_id?>" class="section"><?=$item->group_name?></a>
           <a href="/article/view/<?=$item->id?>" title="<?=$item->title?>">
           <?php if( count($item->media)) { ?>
             <img src="<?=$item->media[0]['thumbnail']?>" />
@@ -215,6 +221,7 @@ $(function() {
   <div class="column grid_4 article-preview">
     <?php if( array_key_exists('v7', $lists)) { 
       if( count($lists['v7']) > 0 )  {  $item = $lists['v7'][0]; ?>
+        <a href="/home/section/<?=$item->group_id?>" class="section"><?=$item->group_name?></a>
         <a href="/article/view/<?=$item->id?>" title="<?=$item->title?>">
         <?php if( count($item->media)) { ?>
           <img src="<?=$item->media[0]['thumbnail']?>" />
@@ -232,6 +239,7 @@ $(function() {
   <div class="column grid_4 article-preview">
     <?php if( array_key_exists('v8', $lists)) { 
       if( count($lists['v8']) > 0 )  {  $item = $lists['v8'][0]; ?>
+        <a href="/home/section/<?=$item->group_id?>" class="section"><?=$item->group_name?></a>
           <a href="/article/view/<?=$item->id?>" title="<?=$item->title?>">
           <?php if( count($item->media)) { ?>
           <img src="<?=$item->media[0]['thumbnail']?>" />

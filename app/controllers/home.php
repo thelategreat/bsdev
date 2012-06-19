@@ -53,10 +53,10 @@ class Home extends MY_Controller
 				
 		$events = NULL;
 
-		// row across top of page only on home
-		if( $section == 0 ) {
-			$events = $this->event_model->get_next_events( 7 );
-		}
+		// row in sidebar of page only on home
+		//if( $section == 0 ) {
+			$events = $this->event_model->get_next_events( 4 );
+		//}
 				
     // current poll
     $poll = $this->polls_model->get_current_poll();
@@ -66,6 +66,16 @@ class Home extends MY_Controller
     $lists = array();
     foreach( $list_meta as $list_name ) {
       $lists[$list_name] = $this->lists_model->get_list_items_by_name( $list_name );
+    }
+
+    if( $section > 0 ) {
+      $data = array();
+      $res = $this->articles_model->get_published_articles( $section, 10,  1 );
+      foreach( $res->result() as $row ) {
+        $row->media = $this->media_model->get_media_for_path("/articles/$row->id", 'general', 1);
+        $data[] = $row;
+      }
+      $lists['_section'] = $data;
     }
 
     // calendar
@@ -85,9 +95,14 @@ class Home extends MY_Controller
       'tweets' => $tweets
 			);
 		
-		$pg_data = $this->get_page_data('Bookshelf', 'home', $section );
-		$pg_data['content'] = $this->load->view('home/home_page', $view_data, true);
-		$pg_data['section'] = $this->uri->segment(3);
+    $pg_data = $this->get_page_data('Bookshelf', 'home', $section );
+		$pg_data['section'] = $section;
+    
+    if( $section == 0 ) {
+      $pg_data['content'] = $this->load->view('home/home_page', $view_data, true);
+    } else {
+      $pg_data['content'] = $this->load->view('home/section', $view_data, true);
+    }
 		$this->load->view('layouts/standard_page', $pg_data );		
 	}
 	

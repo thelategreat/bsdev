@@ -413,7 +413,10 @@ div.gradient {
 }
 
 .article-preview img {
- height: 100px; float: left; margin: 3px 3px 0 2px; height: 100px;
+ height: 100px; 
+ float: left; 
+ margin: 3px 10px 2px 2px; 
+ height: 100px;
 }
 
 .article-preview h3 {
@@ -440,6 +443,27 @@ div.gradient {
   height: 18px;
 }
 
+.article-preview .section {
+  text-transform: uppercase; 
+  color: darkred;
+}
+
+/* on section page */
+ul.serendipity-list   {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+ul.serendipity-list li {
+  min-height: 80px;
+}
+
+ul.serendipity-list li img {
+  height: 65px;
+  float: left;
+  margin-right: 5px; 
+}  
 /***** Tabs *****/
 div.tabs {height: 2.6em; border-bottom: 1px solid #bbbbbb; margin-bottom:1.2em; position:relative;}
 div.tabs ul {margin:0; position:absolute; bottom:-2px; padding-left:1em;}
@@ -748,11 +772,18 @@ ul.events-list {
 ul.events-list li {
   padding-bottom: 5px;
   border-bottom: 1px solid #ddd;
+  min-height:60px;
 }
 
 ul.events-list li span.date {
   display: block;
   font-style: italic;
+}
+
+ul.events-list li img {
+ height: 55px; 
+ float: left; 
+ margin-right: 5px; 
 }
 
 /* slides */

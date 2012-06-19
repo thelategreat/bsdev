@@ -43,7 +43,15 @@ class lists_model extends CI_Model
     $res = $this->db->query( $q );
     $data = array();
     foreach( $res->result() as $row ) {
-      $res = $this->db->query("SELECT * FROM articles WHERE id = " . $row->data_id );
+ 		$q =<<<EOF
+  SELECT a.id, title, fnStripTags(body) as body, excerpt, ac.category, publish_on, author, 
+        owner, ast.status, a.group as group_id, gt.name as group_name, 
+        u.firstname, u.lastname, u.nickname
+	FROM articles as a, article_categories as ac, article_statuses as ast, group_tree as gt, users as u
+  WHERE a.category = ac.id AND a.status = ast.id AND a.group = gt.id AND u.username = a.owner
+  AND a.id = $row->data_id
+EOF;
+     $res = $this->db->query( $q );
       if( $res->num_rows() ) {
         $ritem = $res->row();
 			  $ritem->media = $this->media_model->get_media_for_path("/articles/$ritem->id", 'general', 1);
