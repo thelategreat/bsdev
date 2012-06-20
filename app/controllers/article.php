@@ -13,6 +13,11 @@ class Article extends MY_Controller
 		parent::__construct();
 		$this->load->model('articles_model');
 		$this->load->model('comments_model');
+		$this->load->model('lists_model');
+		$this->load->model('event_model');
+		$this->load->model('groups_model');
+		$this->load->model('tweets_model');
+    $this->load->helper('cal_helper');
 	}
 	
 	/**
@@ -59,13 +64,36 @@ class Article extends MY_Controller
 		} else {
 			$res = NULL;
 		}
-		
-		$view_data = array(
+
+    // lists    
+    $list_meta = array('Serendipity');
+    $lists = array();
+    foreach( $list_meta as $list_name ) {
+      $lists[$list_name] = $this->lists_model->get_list_items_by_name( $list_name );
+    }
+    // events
+    $events = $this->event_model->get_next_events( 4 );
+     // calendar
+    $cal = $this->load->view('widgets/calendar', 
+      array('cal' => cal_gen( date('n'), date('Y')),
+            'data' => array()), 
+      true);
+
+    // tweets
+    $tweets = $this->load->view('widgets/tweets',
+      array('tweets' => $this->tweets_model->load('bookshelfnews')),
+      true );
+
+    $view_data = array(
 			'article' => $res,
 			'images' => $images,
 			'comments' => $comments,
 			'can_comment' => $can_comment,
-			'allow_comments' => $allow_comments
+      'allow_comments' => $allow_comments,
+      'lists' => $lists,
+      'events' => $events,
+      'cal' => $cal,
+      'tweets' => $tweets
 			);
 		
 		$pg_data = $this->get_page_data('Bookshelf - Home', 'home' );

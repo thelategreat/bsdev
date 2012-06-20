@@ -15,7 +15,27 @@ function vote( id, vote )
 
 <div class="row">
   <div class="column grid_3">
-  foo
+       <?php if( array_key_exists('Serendipity', $lists)) { 
+      echo "<ul class='serendipity-list'>";
+      foreach( $lists['Serendipity'] as $item ) { ?>
+      <li>
+      <a href="/article/view/<?=$item->id?>" title="<?=$item->title?>">
+      <?php if( count($item->media)) { ?>
+        <img src="<?=$item->media[0]['thumbnail']?>" height="150px" />
+      <?php } else { ?>
+        <img src="/img/image_not_found.jpg" height="150px" />
+      <?php } ?>
+      </a>
+      <h3>
+        <a href="/article/view/<?=$item->id?>" title="<?=$item->title?>">
+        <?=$item->title?></a>
+      </h3>
+      <?= $item->excerpt?>
+      </li>
+    <?php } 
+    echo '</ul>';
+    }
+   ?>
   </div>
   <div class="column grid_6">
 
@@ -95,12 +115,21 @@ function vote( id, vote )
   <div class="column grid_3">
     <div class="row">
       <div class="column grid_3">
-      events
+    <h3>Upcoming Events</h3>
+     <ul class="events-list">
+    <?php foreach( $events->result() as $event ) { ?>
+      <li>
+      <img src="/media/<?=$event->uuid?>" /> 
+      <a href="/events/details/<?=$event->id?>"><?= $event->title ?></a>
+      <span class="date"><?=date('M d', strtotime($event->dt_start)) . ' @ '. date('g:i a',strtotime($event->dt_start))?></span>
+      </li>
+    <?php } ?>
+    </ul>
       </div>
     </div>
     <div class="row">
       <div class="column grid_3">
-      calendar
+        <?= $cal ?>
       </div>
     </div>
     <div class="row">
@@ -110,7 +139,7 @@ function vote( id, vote )
     </div>
     <div class="row">
       <div class="column grid_3">
-      twitter
+        <?= $tweets ?>
       </div>
     </div>
  </div>
