@@ -24,6 +24,7 @@ class Calendar extends MY_Controller
 		
 		$this->load->model('maillist_model');
 		$this->load->model('event_model');
+		$this->load->model('lists_model');
 
     //$this->output->enable_profiler( TRUE );
 	}
@@ -128,12 +129,22 @@ class Calendar extends MY_Controller
 		}
 		$next_month_url = "/calendar/view/$which/$next_month/$next_year";
 		$prev_month_url = "/calendar/view/$which/$prev_month/$prev_year";
-		
+
+
+    $list_meta = array('Serendipity');
+    $lists = array();
+    foreach( $list_meta as $list_name ) {
+      $lists[$list_name] = $this->lists_model->get_list_items_by_name( $list_name );
+    }
+
+
+
 		$view_data = array(
 			'view_menu' => $view_menu,
 			'month' => $month,
 			'year' => $year,
-			'cal' => $cal,
+      'cal' => $cal,
+      'lists' => $lists,
 			'next_month_url' => $next_month_url,
 			'prev_month_url' => $prev_month_url
 		);

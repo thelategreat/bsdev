@@ -1,7 +1,27 @@
 
 <div class="row">
   <div class="column grid_3">
-  foo
+     <?php if( array_key_exists('Serendipity', $lists)) { 
+      echo "<ul class='serendipity-list'>";
+      foreach( $lists['Serendipity'] as $item ) { ?>
+      <li>
+      <a href="/article/view/<?=$item->id?>" title="<?=$item->title?>">
+      <?php if( count($item->media)) { ?>
+        <img src="<?=$item->media[0]['thumbnail']?>" height="150px" />
+      <?php } else { ?>
+        <img src="/img/image_not_found.jpg" height="150px" />
+      <?php } ?>
+      </a>
+      <h3>
+        <a href="/article/view/<?=$item->id?>" title="<?=$item->title?>">
+        <?=$item->title?></a>
+      </h3>
+      <?= $item->excerpt?>
+      </li>
+    <?php } 
+    echo '</ul>';
+    }
+?>
   </div>
   <div class="column grid_9">
 

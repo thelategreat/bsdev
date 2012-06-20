@@ -144,7 +144,7 @@
     </div>
     <div class="row">
       <div class="column grid_3">
-      calendar
+        <?= $cal ?>
       </div>
     </div>
     <div class="row">
@@ -154,7 +154,7 @@
     </div>
     <div class="row">
       <div class="column grid_3">
-      twitter
+        <?= $tweets ?>
       </div>
     </div>
   </div>

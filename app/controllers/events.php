@@ -10,7 +10,8 @@ class Events extends MY_Controller
 	 **/
 	function __construct()
 	{
-		parent::__construct();
+    parent::__construct();
+    $this->load->model('lists_model');
 	}
 	
 	/**
@@ -43,12 +44,20 @@ class Events extends MY_Controller
 			$event_extra = NULL;
 			$event_future = NULL;
 		}
-				
+		
+    $list_meta = array('Serendipity');
+    $lists = array();
+    foreach( $list_meta as $list_name ) {
+      $lists[$list_name] = $this->lists_model->get_list_items_by_name( $list_name );
+    }
+
+	
 		$view_data = array(
 			'event' => $event,
 			'media' => $event_media,
 			'extra' => $event_extra,
-			'future' => $event_future
+      'future' => $event_future,
+      'lists' => $lists
 			);
 				
 		$pg_data = $this->get_page_data('Bookshelf - Event', 'event');

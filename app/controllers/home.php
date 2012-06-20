@@ -79,10 +79,15 @@ class Home extends MY_Controller
     }
 
     // calendar
-    $cal = cal_gen( date('n'), date('Y'));
+    $cal = $this->load->view('widgets/calendar', 
+      array('cal' => cal_gen( date('n'), date('Y')),
+            'data' => array()), 
+      true);
 
     // tweets
-    $tweets = $this->tweets_model->load('bookshelfnews');
+    $tweets = $this->load->view('widgets/tweets',
+      array('tweets' => $this->tweets_model->load('bookshelfnews')),
+      true );
 
 		$parents = array_reverse($parents);
 		array_shift($parents);

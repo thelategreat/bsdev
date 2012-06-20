@@ -12,6 +12,7 @@ class Search extends MY_Controller
 	{
 		parent::__construct();
 		$this->load->model('search_model');
+		$this->load->model('lists_model');
 	}
 	
 	function index()
@@ -85,13 +86,20 @@ class Search extends MY_Controller
 		}
 		$pagination .= '</tr></table>';
 		
-		
+		$list_meta = array('Serendipity');
+    $lists = array();
+    foreach( $list_meta as $list_name ) {
+      $lists[$list_name] = $this->lists_model->get_list_items_by_name( $list_name );
+    }
+
+
 		$view_data = array(
 			'results' => $results,
 			'page' => $page,
 			'page_size' => $page_size,
 			'query_string' => $query,
-			'pagination' => $pagination
+      'pagination' => $pagination,
+      'lists' => $lists
 			);		
 				
 		$pg_data = $this->get_page_data('Bookshelf - Search', 'search-results', 0);
