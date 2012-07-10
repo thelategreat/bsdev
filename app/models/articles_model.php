@@ -26,8 +26,11 @@ EOF;
 	
 	if( strlen($query) > 0 ) {
 		$terms = explode(' ', $query );
-		foreach( $terms as $term ) {
-			$q .= " AND (a.title LIKE '%" . $this->db->escape_like_str( $term) . "%')";
+    foreach( $terms as $term ) {
+      # note braces
+			$q .= " AND (a.title LIKE '%" . $this->db->escape_like_str( $term) . "%'";
+			$q .= " OR a.excerpt LIKE '%" . $this->db->escape_like_str( $term) . "%'";
+			$q .= " OR a.body LIKE '%" . $this->db->escape_like_str( $term) . "%')";
 		}
 	}
 		
