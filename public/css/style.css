@@ -757,7 +757,9 @@ blockquote {
 }
 
 blockquote {
-  font: 14px/20px italic Times, serif;
+  font-size:
+  font-family: Times, serif;
+  font-style: italic;
   padding-left: 70px;
   padding-top: 18px;
   padding-bottom: 18px;
