@@ -749,16 +749,15 @@ table.calendar-month ul.event-list li.music {
 blockquote p {
   padding: 0px 10px 0px 0px;
   font-size: 1.1em;
-  float: left;
 }
 
 blockquote {
   padding: 10px;
-  font-size: 1.4em;
+  font-size: 1.1em;
 }
 
 cite {
-  font-size: 1.2em;
+  font-size: 1.05em;
   float: right;
 }
 

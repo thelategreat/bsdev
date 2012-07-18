@@ -38,7 +38,7 @@ EOF;
 		
 		if( $limit ) {
 			$q .= " LIMIT $limit";
-			$q .= " OFFSET " . ($page - 1) * $limit;
+			$q .= " OFFSET " . (($page - 1) * $limit);
 		}
 		
 		return $this->db->query( $q );
