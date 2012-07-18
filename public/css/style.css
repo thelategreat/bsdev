@@ -756,6 +756,21 @@ blockquote {
   font-size: 1.1em;
 }
 
+blockquote {
+  font: 14px/20px italic Times, serif;
+  padding-left: 70px;
+  padding-top: 18px;
+  padding-bottom: 18px;
+  padding-right: 10px;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  margin: 5px;
+  background-image: url(/img/openquote4.gif);
+  background-position: middle left;
+  background-repeat: no-repeat;
+  text-indent: 23px;
+}
+
 cite {
   font-size: 1.05em;
   float: right;
