@@ -66,8 +66,8 @@ class Tweets_model extends CI_Model {
     * @param string User screen name or user ID
     * @return mixed Array of tweets
     */
-    function load($user=null) {
-        
+    function load($user=null) {        
+        $this->load->library('twitter');
         $sql = sprintf("SELECT * FROM tweets
                         WHERE user_id='%s'
                         OR screen_name='%s'",
@@ -77,6 +77,18 @@ class Tweets_model extends CI_Model {
         
         if ($query->num_rows() > 0) {
             $result = $query->result();            
+            if (strtotime($result[0]->time) < strtotime(date('Y-m-d h:i:s') . '-15 minutes')) {
+				$params = array("screen_name"=>$user,
+		                    "count"=>4,
+		                    "user_id"=>''); 
+		        
+		        $tweets = $this->twitter->getTweets($params);
+
+		        if ($tweets) {
+		            $this->tweets_model->save($params, $tweets);            		        
+		        }
+		        return $this->tweets_model->load($user);		     
+            }
             return (unserialize($result[0]->tweets));
         } else {
             return false;
