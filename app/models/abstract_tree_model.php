@@ -35,20 +35,21 @@ abstract class abstract_tree_model extends CI_Model
 		$this->table_name = $table_name;
 	}
 
-	function get_tree( $flds = '*', $parent = 0, $recurse = true )
+	function get_tree( $flds = '*', $parent = 0, $recurse = true, $parent_tree = array() )
 	{		
 		$q = "SELECT $flds FROM $this->table_name WHERE parent_id = $parent ORDER BY sort_order";
 		$res = $this->db->query( $q );
 		
-		$ra = array();
+		$ra = array();		
 		foreach( $res->result() as $row ) {
+			$row->parent_tree = array_merge($parent_tree, array($row->parent_id));
 			$ra[] = $row;
 		}
 		
 		// walk though the rows grabbing children
 		foreach( $ra as $row ) {
 			if( $recurse ) {
-				$row->children = $this->get_tree( $flds, $row->id, $recurse );
+				$row->children = $this->get_tree( $flds, $row->id, $recurse, $row->parent_tree );
 			} else {
 				$row->children = array();
 			}

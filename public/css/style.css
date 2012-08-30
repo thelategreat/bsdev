@@ -229,67 +229,98 @@ a.disabled {
 /* ------------------- */
 /* CSS lotus style nav */
 /* ------------------- */
-ul#topnav {
+#topnav {
+	margin-bottom: 40px;
+}
+#topnav ul{
 	margin: 0; 
-  padding: 0;
-  margin-bottom: 30px;
+	padding: 0;
 	float: left;
 	width: 970px;
-  width: 100%;
+	width: 100%;
 	list-style: none;
 	position: relative; /*--Set relative positioning on the unordered list itself - not on the list item--*/
 	font-size: 1.1em;
 	background: #000;
 	color: #fff;
-  border-top: 1px #333 solid;
-  border-bottom: 1px #333 solid;
-	/*--Bottom right rounded corner--*/
-	-moz-border-radius-topright: 5px;
-	-khtml-border-radius-topright: 5px;
-	-webkit-border-top-right-radius: 5px;
-	/*--Bottom left rounded corner--*/
-	-moz-border-radius-topleft: 5px;
-	-khtml-border-radius-topleft: 5px;
-	-webkit-border-top-left-radius: 5px;
+	border-top: 1px #333 solid;
+	border-bottom: 1px #333 solid;
 }
-ul#topnav li {
+#topnav ul li {
 	float: left;
 	margin: 0; padding: 0;
 	border-right: 1px solid #555; /*--Divider for each parent level links--*/
 }
-ul#topnav li a {
+
+#topnav ul li.selected a {
+	color: #a5b576;
+}
+#topnav ul li a {
 	padding: 5px 10px;
 	display: block;
 	color: #fff;
 	text-decoration: none;
 }
-ul#topnav li:hover { background: #333; border-bottom: 0;  }
+#topnav ul li:hover { background: #333; border-bottom: 0; }
 
-ul#topnav li span {
-	float: left;
-	padding: 5px 0;
-	position: absolute;
-	left: 0; top:27px;
-	display: none; /*--Hide by default--*/
-	width: 970px;
-  width: 100%;
-	background: #111;
-	color: #fff;
-  border-top: 1px #333 solid;
-  font-size: 0.9em;
-  border-bottom: 1px #333 solid;
-	/*--Bottom right rounded corner--*/
-	-moz-border-radius-bottomright: 5px;
-	-khtml-border-radius-bottomright: 5px;
-	-webkit-border-bottom-right-radius: 5px;
-	/*--Bottom left rounded corner--*/
-	-moz-border-radius-bottomleft: 5px;
-	-khtml-border-radius-bottomleft: 5px;
-	-webkit-border-bottom-left-radius: 5px;
+#topnav .subnav ul {
+	border: none;
+	padding: 0;	
+	padding-left: 10px;
 }
-ul#topnav li:hover span { display: block; } /*--Show subnav on hover--*/
-ul#topnav li span a { display: inline; } /*--Since we declared a link style on the parent list link, we will correct it back to its original state--*/
-ul#topnav li span a:hover { font-weight: bold;}
+#topnav .subnav li {
+	border: none;
+}
+#topnav .subnav li a {
+	padding: 0;
+	padding-right: 15px;
+}
+#topnav .subnav li:hover {
+	background: none;
+}
+#topnav .subnav li:hover a {
+	color: #a5b576;
+}
+#topnav nav {
+	float: left;
+	position: relative;
+	margin-bottom: 15px;
+	/*display: none; /*--Hide by default--*/
+	width: 970px;
+	width: 100%;
+	background: #333;
+	color: #fff;
+}
+/* ul#topnav li:hover span { display: block; } /*--Show subnav on hover--*/
+#topnav nav ul {
+	margin: 0; 
+	padding: 0;
+	float: left;
+	width: 970px;
+	width: 100%;
+	list-style: none;
+	position: relative;
+	background: #fff;
+	color: #000;
+}
+#topnav nav a {
+	color: #000;
+}
+#topnav nav ul li {
+	float: left;
+	margin: 0; padding: 0;
+	border-right: 1px solid #555; /*--Divider for each parent level links--*/
+}
+#topnav nav ul li a {
+	color: #000;
+}
+#topnav nav ul li.selected a {
+	background: #ccc;
+	color: #000;
+}
+#topnav nav ul li:hover {
+	background: #aaa;
+}
 
 /* ------------- */
 /* content stuff */

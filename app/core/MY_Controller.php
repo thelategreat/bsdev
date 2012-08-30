@@ -25,14 +25,14 @@ class MY_Controller extends CI_Controller
     
     $section = (int)$section;
 		$groups = $this->groups_model->get_menu_tree( $section );
-    $pages = $this->pages_model->get_pages_tree( );
+		$pages = $this->pages_model->get_pages_tree( );
 
 		$pg_data = array(
 			'page_title' => $title,
 			'css_name' => $css_name,
 			'section' => $section,
 			'groups' => $groups,
-      'debug' => $groups,
+			'debug' => $groups,
 			'main_content_nav' => $this->main_menu_pages( $section, $pages[0]->children ),
 			'style' => '/css/screen.css',
 			'content' => '',
@@ -72,33 +72,97 @@ class MY_Controller extends CI_Controller
     return $s;
   }
 
-  // two level css menu
+  // multi-level css menu
   function main_menu_pages( $section, $pages, $home = true )
   {
-    $s = '<ul id="topnav">';
-    //$s .= '<li><a href="/" ' . ($section == 0 ? ' class="selected"' : '') . '>Home</a></li>';
+  	$curpage = $this->uri->segment(3);
+  	$parent = false;
+  	
+  	foreach ($pages as $page) {
+	  	$parent_tree = $page->parent_tree;
+		while (count($parent_tree) > 0) {
+		  $childpages[] = $this->pages_model->get_pages_tree($parent_tree[count($parent_tree)-1]);
+		  array_splice($parent_tree, count($parent_tree)-1, 1);		      
+		}
+  	}
+
+    $this_page = $this->pages_model->get_parent_tree($this->pages_model->get_page_by_id($curpage));
+
+    $s = '<ul>';
 
     foreach( $pages as $page ) {
       if( $page->page_type == 'link') {
-        $s .= "<li><a href='" . $page->body . "'>$page->title</a>";
+        $s .= "<li";
+        if ($page->id == $curpage || $page->id == $parent) $s .= " class='selected'";
+        $s .= "><a href='" . $page->body . "'>$page->title</a>";
       } else {
-        $s .= "<li><a href='/page/view/$page->id'>$page->title</a>";
+        $s .= "<li";
+        if ($page->id == $curpage || $page->id == $parent) $s .= " class='selected'";
+        $s .= "><a href='/page/view/$page->id'>$page->title</a>";
       }
-      if( count($page->children) > 0 ) {
-        $s .= '<span>';
-        foreach( $page->children as $child ) {
-          if( $child->page_type == 'link') {
-            $s .= "<a href='" . $child->body . "'>$child->title</a>";
-          } else {
-            $s .= "<a href='/page/view/$child->id'>$child->title</a>";
-          }
-        }
-        $s .= '</span>';
-      }
+      
       $s .= "</li>";
     }
     $s .= '</ul>';
-    return $s;
+
+    /* Submenu - shows when either current page id is in the top nav or if it's in the parent tree of the current selected page */
+    $subnav = '';      
+    $pagenav = '';
+
+    if ( $this_page && (in_array( $page->id, $this_page->parent_tree ) || $page->id == $curpage) && count($page->children) > 0) {
+      	
+        $subnav = "<nav class='parent-{$page->id}'><ul>";
+
+        foreach( $page->children as $child ) {					             
+          if( $child->page_type == 'link') {
+            $subnav .= "<li";
+            if ($child->id == $curpage) $subnav .= " class='selected'";
+            $subnav .= "><a href='" . $child->body . "'>$child->title</a></li>";
+          } else {
+            $subnav .= "<li";
+            if ($child->id == $curpage) $subnav .= " class='selected'";
+            $subnav .= "><a href='/page/view/$child->id'>$child->title</a></li>";
+          }
+        }
+        $subnav .= '</ul></nav>';
+        
+        $childpages = $this->pages_model->get_pages_tree($curpage);
+        
+		$i = 0;
+		$nav_levels = array();
+		// We only traverse backwards to level 2 which is the first subnav
+		while ((count($this_page->parent_tree) - $i) > 1) {
+			if (count($childpages) == 0) {
+				if (isset($this_page->parent_tree[count($this_page->parent_tree) - $i])) {
+					$p = $this_page->parent_tree[count($this_page->parent_tree) - $i];
+					$childpages = $this->pages_model->get_pages_tree($p);
+				} else {
+					unset($childpages);
+				}
+			}
+			
+			if (isset($childpages)) {
+		  		$nav_level = "<nav class='subnav'><ul>";
+			  	foreach ($childpages as $child) {
+				  	if (isset($child->title)) $nav_level .= "<li><a href='/page/view/$child->id'>" . $child->title . "</a></li>";
+			  	}
+			  	$nav_level .= "</ul></nav>";
+			  	$nav_levels[] = $nav_level;			
+			}
+			
+			$childpages = array();
+			$i++;
+		}
+		
+		$nav_levels = array_reverse($nav_levels);
+		foreach ($nav_levels as $nav_level) {
+			$pagenav .= $nav_level;
+		}
+	    
+    }
+    
+    return $s . $subnav . $pagenav;
+
   }
 
   // main menu if we are using groups for nav

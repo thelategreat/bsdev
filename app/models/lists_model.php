@@ -44,7 +44,7 @@ class lists_model extends CI_Model
     $data = array();
     foreach( $res->result() as $row ) {
  		$q =<<<EOF
-  SELECT a.id, title, fnStripTags(body) as body, excerpt, ac.category, publish_on, author, 
+  SELECT a.id, title, body, excerpt, ac.category, publish_on, author, 
         owner, ast.status, a.group as group_id, gt.name as group_name, 
         u.firstname, u.lastname, u.nickname
 	FROM articles as a, article_categories as ac, article_statuses as ast, group_tree as gt, users as u

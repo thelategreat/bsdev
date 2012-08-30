@@ -176,7 +176,7 @@ class media_model extends Tag_Model
 			$row->tags = $this->get_tags( 'media', $row->id );
 			$items[] = $row;
 		}
-		
+
 		return $items;
 	}
 	

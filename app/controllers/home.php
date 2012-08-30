@@ -85,10 +85,12 @@ class Home extends MY_Controller
       true);
 
     // tweets
+    $tweet_data = $this->tweets_model->load('bookshelfnews');
+
     $tweets = $this->load->view('widgets/tweets',
       array('tweets' => $this->tweets_model->load('bookshelfnews')),
       true );
-
+      
 		$parents = array_reverse($parents);
 		array_shift($parents);
 		$view_data = array(
