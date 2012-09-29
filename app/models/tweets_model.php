@@ -86,8 +86,8 @@ class Tweets_model extends CI_Model {
 
 		        if ($tweets) {
 		            $this->tweets_model->save($params, $tweets);            		        
-		        }
-		        return $this->tweets_model->load($user);		     
+		            return $this->tweets_model->load($user);		     
+		        }		       
             }
             return (unserialize($result[0]->tweets));
         } else {

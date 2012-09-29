@@ -21,11 +21,12 @@ class MY_Controller extends CI_Controller
 	
 	protected function get_page_data( $title, $css_name, $section = 0 )
 	{
-    $this->load->model('pages_model');
-    
-    $section = (int)$section;
+	    $this->load->model('pages_model');
+	    
+	    $section = (int)$section;
 		$groups = $this->groups_model->get_menu_tree( $section );
 		$pages = $this->pages_model->get_pages_tree( );
+//echo '<pre>'; var_dump($groups);die;
 
 		$pg_data = array(
 			'page_title' => $title,
@@ -33,7 +34,7 @@ class MY_Controller extends CI_Controller
 			'section' => $section,
 			'groups' => $groups,
 			'debug' => $groups,
-			'main_content_nav' => $this->main_menu_pages( $section, $pages[0]->children ),
+			'main_content_nav' => $this->main_menu_groups( $section, $groups ),
 			'style' => '/css/screen.css',
 			'content' => '',
 			'cart' => $this->cart,
@@ -43,7 +44,7 @@ class MY_Controller extends CI_Controller
 			'ad_footer' => $this->get_sidebar('ad_footer', $groups ),
 			'footer' => $this->load->view('layouts/standard_footer', array('pages' => $pages), true )
 		);
-		
+
 		return $pg_data;
 	}
 
@@ -168,14 +169,83 @@ class MY_Controller extends CI_Controller
   // main menu if we are using groups for nav
   function main_menu_groups( $section, $groups )
   {
-    $s = '<ul>';
-    $s .= '<li><a href="/" ' . ($section == 0 ? ' class="selected"' : '') . '>Home</a></li>';
-    foreach( $groups as $group ):
-      $s .= '<li><a href="/home/section/'. $group->id .'" '. ($section == $group->id ? ' class="selected"' : '') .'>'. $group->name .'</a></li>';
-    endforeach;
+  	$parent = false;
 
+	$this->load->library('firephp');  	
+	$this->firephp->log($section, 'Section');
+  	foreach ($groups as $page) {
+	  	$parent_tree = $page->parent_tree;
+		while (count($parent_tree) > 0) {
+		  $childpages[] = $this->pages_model->get_pages_tree($parent_tree[count($parent_tree)-1]);
+		  array_splice($parent_tree, count($parent_tree)-1, 1);		      
+		}
+  	}
+    $this_group = $this->groups_model->get_parent_tree($this->groups_model->get_group_by_id($section));
+
+    $s = '<ul>';
+    $s .= '<li' . ($section == 0 ? ' class="selected"' : '') .' . ><a href="/home/">Home</a></li>';
+
+    foreach( $groups as $group ) {
+      $s .= '<li' . ($section == $group->id ? ' class="selected"' : '') .' . ><a href="/home/section/'. $group->id .'">'. $group->name .'</a></li>';
+    }
     $s .= '</ul>';
-    return $s;
+    
+    $subnav = '';
+
+    foreach ($groups as $group) {	
+
+	    if ( $this_group && (in_array( $group->id, $this_group->parent_tree ) || $group->id == $section) && count($group->children) > 0) {
+
+	        $subnav = "<nav class='parent-{$page->id}'><ul>";
+	        	$this->firephp->log($group, 'Group');
+	        foreach( $group->children as $child ) {	
+
+	            $subnav .= "<li";
+	            if ($child->id == $section) $subnav .= " class='selected'";
+	            $subnav .= "><a href='/home/section/$child->id'>$child->name</a></li>";	          }
+	        }
+	        $subnav .= '</ul></nav>';
+
+	        $childpages = $this->groups_model->get_group_tree($section);
+
+			$i = 0;
+			$nav_levels = array();
+			// We only traverse backwards to level 2 which is the first subnav
+
+			if ($this_group) while ((count($this_group->parent_tree) - $i) > 1) {
+
+				if (count($childpages) == 0) {
+					if (isset($this_group->parent_tree[count($this_group->parent_tree) - $i])) {
+						$p = $this_group->parent_tree[count($this_group->parent_tree) - $i];
+						$childpages = $this->groups_model->get_group_tree($p);
+					} else {
+						unset($childpages);
+					}
+				}
+				
+				if (isset($childpages)) {
+			  		$nav_level = "<nav class='subnav'><ul>";
+				  	foreach ($childpages as $child) {
+					  	if (isset($child->title)) $nav_level .= "<li><a href='/page/view/$child->id'>" . $child->title . "</a></li>";
+				  	}
+				  	$nav_level .= "</ul></nav>";
+				  	$nav_levels[] = $nav_level;			
+				}
+				
+				$childpages = array();
+				$i++;
+			}
+
+			$nav_levels = array_reverse($nav_levels);
+			foreach ($nav_levels as $nav_level) {
+				$pagenav .= $nav_level;
+			}
+
+	    }
+	
+     return $s . ($subnav != false ? $subnav : '');
+    
+//    return $s;
   }
 
 	function main_nav_arrows( $back = NULL, $fwd = NULL )

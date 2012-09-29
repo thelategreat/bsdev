@@ -18,7 +18,7 @@ class Home extends MY_Controller
 		$this->load->model('polls_model');
 		$this->load->model('tweets_model');
 
-    $this->load->helper('cal_helper');
+		$this->load->helper('cal_helper');
 
     //$this->output->enable_profiler( TRUE );
     
@@ -37,7 +37,7 @@ class Home extends MY_Controller
 	function section()
 	{
 		// uri = /home/section/###/page##
-    $section = (int)$this->uri->segment(3);
+		$section = (int)$this->uri->segment(3);
 		$page = (int)$this->uri->segment(4);
 		if( $page <= 0 ) {
 			$page = 1;
@@ -57,7 +57,7 @@ class Home extends MY_Controller
 		//if( $section == 0 ) {
 			$events = $this->event_model->get_next_events( 4 );
 		//}
-				
+		
     // current poll
     $poll = $this->polls_model->get_current_poll();
 
@@ -101,10 +101,10 @@ class Home extends MY_Controller
       'cal' => $cal,
       'tweets' => $tweets
 			);
-		
+
     $pg_data = $this->get_page_data('Bookshelf', 'home', $section );
 		$pg_data['section'] = $section;
-    
+
     if( $section == 0 ) {
       $pg_data['content'] = $this->load->view('home/home_page', $view_data, true);
     } else {

@@ -21,9 +21,16 @@ class Twitter {
             return false;
         }
         
+        $ctx = stream_context_create(array(
+		    'http' => array(
+		        'timeout' => 1
+		        )
+		    )
+		);
         $url = self::TWITTER_API_URL . "screen_name={$screen_name}&count={$count}&user_id={$user_id}";        
         try {
-            $feed = file_get_contents($url);
+            $feed = @file_get_contents($url, 0, $ctx);
+            if (!$feed) return false;
             $xml = simplexml_load_string($feed);   
         } catch (Exception $e) {
             return $e->getMessage();
