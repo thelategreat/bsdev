@@ -19,6 +19,56 @@ class Search extends MY_Controller
 	{
 		$this->results();
 	}
+	
+	/**
+	 * JSON Search
+	 *
+	 * Callback for search results in JSON format
+	 * @param required POST q Query to search for
+	 * @param optional POST size Result size, default 25 results
+	 * @param optional POST type Result type fiter flags 'b'=book 'f'=film
+	 */
+	function json() {
+		$this->load->library('httpstatus');
+		$query = $this->input->post('q');
+		$size = $this->input->post('size');
+		$type = $this->input->post('type');
+		
+		$out = new stdClass();
+		
+		if (!$query || trim($query) == '') {
+			$out->status = $this->httpstatus->status(400, 'No query specified');
+			echo json_encode($out);
+			exit;			
+		}
+		
+		if (!$size) $size = 250;
+		if (!$type) $type = 'all'; // Book & Film
+		
+		$results = array();
+		try {
+			if( strlen(trim($query)) == 13 && (int)$query > 0 && substr($query,0,3) == '978' ) {
+				$this->load->model('products_model');
+				$res = $this->products_model->get_product_by_ean( trim($query) );
+				foreach ($res->result() as $row) {
+					$results[] = $row;
+				}
+			} elseif( strlen(trim($query)) > 0 ) {
+				$res = $this->search_model->search_callback($query, 'books, articles, events');
+				foreach ($res->result() as $row) {
+					$results[] = $row;
+				}
+			} 
+		
+			$out->status = $this->httpstatus->status(200, 'OK');
+			$out->data = $results;
+		} catch (Error $e) {
+			$out->status = $this->httpstatus->status(400, $e->getMessage());
+		}
+		
+		$this->output->set_content_type('application/json');
+		$this->output->set_output(json_encode($out));
+	}
 		
 	/**
 	 * Search

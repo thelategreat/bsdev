@@ -1,7 +1,7 @@
 <?php
-if (!defined('BASEPATH')) exit('No direct script access allowed');   
+if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Events extends MY_Controller 
+class Events extends MY_Controller
 {
 	/**
 	 * CTOR
@@ -13,7 +13,7 @@ class Events extends MY_Controller
     parent::__construct();
     $this->load->model('lists_model');
 	}
-	
+
 	/**
 	 * Home page
 	 *
@@ -23,16 +23,16 @@ class Events extends MY_Controller
 	{
 	  redirect('/calendar');
 	}
-	
+
 	/**
 	 *
 	 */
 	function details()
 	{
 		$id = (int)$this->uri->segment(3);
-		
+
 		$event = $this->event_model->get_event( $id );
-		
+
 		if( $event->num_rows() > 0 ) {
 			$event = $event->row();
 			$event_media = $this->event_model->get_event_media( $id );
@@ -44,14 +44,14 @@ class Events extends MY_Controller
 			$event_extra = NULL;
 			$event_future = NULL;
 		}
-		
+
     $list_meta = array('Serendipity');
     $lists = array();
     foreach( $list_meta as $list_name ) {
       $lists[$list_name] = $this->lists_model->get_list_items_by_name( $list_name );
     }
 
-	
+
 		$view_data = array(
 			'event' => $event,
 			'media' => $event_media,
@@ -59,10 +59,10 @@ class Events extends MY_Controller
       'future' => $event_future,
       'lists' => $lists
 			);
-				
+
 		$pg_data = $this->get_page_data('Bookshelf - Event', 'event');
 		$pg_data['content'] = $this->load->view('events/details', $view_data, true);
-		$this->load->view('layouts/standard_page', $pg_data );	  
+		$this->load->view('layouts/standard_page', $pg_data );
 	}
 
 
@@ -73,9 +73,9 @@ class Events extends MY_Controller
 	{
 		$id = (int)$this->uri->segment(3);
 		$ajax = $this->uri->segment(4);
-		
+
 		$venue = $this->db->query('SELECT * FROM venues WHERE id = ' . intval($id) );
-		
+
 		if( $venue->num_rows() > 0 ) {
 			$venue = $venue->row();
 		} else {
@@ -92,7 +92,7 @@ class Events extends MY_Controller
 		} else {
 			$pg_data = $this->get_page_data('Bookshelf - Event Location', 'event');
 			$pg_data['content'] = $this->load->view('events/venue', $view_data, true);
-			$this->load->view('layouts/standard_page', $pg_data );	  			
+			$this->load->view('layouts/standard_page', $pg_data );
 		}
 	}
 
@@ -102,7 +102,7 @@ class Events extends MY_Controller
 	function media()
 	{
 		$id = (int)$this->uri->segment(3);
-		
+
 		$event = $this->event_model->get_event( $id );
 		if( $event->num_rows() > 0 ) {
 			$event = $event->row();
@@ -116,10 +116,10 @@ class Events extends MY_Controller
 			'event' => $event,
 			'media' => $event_media
 			);
-		
+
 		$pg_data = $this->get_page_data('Bookshelf - Event Media', 'event-media');
 		$pg_data['content'] = $this->load->view('events/media', $view_data, true);
-		$this->load->view('layouts/standard_page', $pg_data );	  
+		$this->load->view('layouts/standard_page', $pg_data );
 	}
 
 }

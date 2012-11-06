@@ -74,6 +74,19 @@ $(function()
 				}, 'json');
 		}
 	});
+	
+	$('#associated_items .insert-img').click(function() {
+		var imgsrc = $(this).attr('data');
+		
+		var ed = tinyMCE.get('article_body');                // get editor instance
+		var range = ed.selection.getRng();                  // get range
+		var newNode = ed.getDoc().createElement ( "img" );  // create img node
+		newNode.src=imgsrc;                           // add src attribute
+		try {
+			range.insertNode(newNode);  
+		} catch(e) {}
+		
+	});
 
 	
 });
@@ -175,6 +188,43 @@ $(function()
 	</fieldset>
 </div>
 
+<div id="associated_items">
+<div class="container">
+	<? foreach ($associated as $assoc) { ?>
+		
+		<article class="associated-item">
+		<? if ($assoc['type'] == 'product') { ?>
+			<span class="title"><?= $assoc['title'] ?></span><br/>
+			<ul class="details">
+				<li><span>EAN:</span> <?= $assoc['ean'] ?></li>
+				<li><span>Author:</span> <?= $assoc['contributor'] ?></li>
+				<li><span>Publisher:</span> <?= $assoc['publisher'] ?></li>
+				<li><span>Pub Date:</span> <?= $assoc['publishing_date'] ?></li>
+				<li><span>Pages:</span> <?= $assoc['pages'] ?></li>
+				<li><span>List Price:</span> <?= $assoc['list_price'] ?></li>
+			</ul>
+			<img src="<?= $assoc['thumbnail'] ?>" width=150 /><br/>
+			<div class="insert-link insert-img" data="<?= $assoc['thumbnail'] ?>">Insert Image</div>
+			<div class="insert-link insert-ref" data="<?= $assoc['thumbnail'] ?>">Insert Reference</div>
+		<? } ?>
+		
+		<? if ($assoc['type'] == 'event') { ?>
+			<span class="title"><?= $assoc['title'] ?></span><br/>
+			<ul class="details">
+				<li><span>Venue:</span> <?= $assoc['venue'] ?></li>
+				<li><span>Start:</span> <?= $assoc['dt_start'] ?></li>
+				<li><span>End:</span> <?= $assoc['dt_end'] ?></li>
+				<li><span>Rating:</span> <?= $assoc['rating'] ?></li>
+			</ul>
+			<img src="<?= $assoc['thumbnail'] ?>" width=150 /><br/>
+			<div class="insert-link insert-img" data="<?= $assoc['thumbnail'] ?>">Insert Image</div>
+			<div class="insert-link insert-ref" data="<?= $assoc['thumbnail'] ?>">Insert Reference</div>		
+		<? } ?>			
+		</article>
+	<? } ?>
+</div>
+</div>
+
 <fieldset><legend>Edit Essay</legend>
 <table style="border: 0">
   <tr>
@@ -220,7 +270,7 @@ $(function()
     <th>Article</th>
   </tr>
   <tr>
-    <td><textarea name="body" rows="15" cols="80"><?= set_value('body',$article->body)?></textarea>
+    <td><textarea id="article_body" name="body" rows="25" style="width:100%"><?= set_value('body',$article->body)?></textarea>
     <br/><?=form_error('body')?></td>
   </tr>
   <tr>
@@ -228,10 +278,13 @@ $(function()
   </tr>
   <tr>
     <td>
-      <textarea name="excerpt" class="mceNoEditor" rows="5" cols="80"><?= set_value('excerpt',$article->excerpt)?></textarea>
+      <textarea name="excerpt" class="mceNoEditor" rows="5" style="width:100%"><?= set_value('excerpt',$article->excerpt)?></textarea>
       <br/><?=form_error('excerpt')?>
 		</td>
   </tr>
 </table>
 </fieldset>
 </form>
+
+
+<div style="clear:both"></div>

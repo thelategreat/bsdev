@@ -1,5 +1,5 @@
 <?php
-if (!defined('BASEPATH')) exit('No direct script access allowed');   
+if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 include("admin_controller.php");
 
@@ -7,7 +7,7 @@ include("admin_controller.php");
 /**
  *
  */
-class Media extends Admin_Controller 
+class Media extends Admin_Controller
 {
 
 	/**
@@ -26,26 +26,26 @@ class Media extends Admin_Controller
 	 */
 	function index()
 	{
-		
+
 		if( $this->input->post("q") !== FALSE ) {
 			$url = '/admin/media/index';
-			// if we have a query			
+			// if we have a query
 			if( trim($this->input->post("q")) != '') {
 				$params = explode(' ', $this->input->post("q"));
 				foreach( $params as $p ) {
 					$url .= '/' . urlencode($p);
 				}
-			}			
+			}
 			redirect( $url );
 		}
-		
-		
+
+
 		$errors = '';
 		$my_root = './media/';
 		$page_size = 25; //$this->config->item('image_browser_page_size');
 		$stags = array();
 		$page = 1;
-		
+
 		// the first segment might be a page number
 		$offs = 4;
 		if( $this->uri->segment(4) && is_numeric($this->uri->segment(4))) {
@@ -70,7 +70,7 @@ class Media extends Admin_Controller
 				$next .= "/$slot";
 			}
 		}
-		
+
 		// ------------
 		// U P L O A D
 		// ------------
@@ -92,7 +92,7 @@ class Media extends Admin_Controller
 				if( $next ) {
 					$path = $this->input->post('path');
 					$this->media_model->add_media_for_path( $path, $uuid, $slot );
-					redirect( $next );					
+					redirect( $next );
 				}
 				redirect('/admin/media/edit/' . $uuid . '/add' );
 			}
@@ -106,20 +106,20 @@ class Media extends Admin_Controller
 			if( $next ) {
 				$path = $this->input->post('path');
 				$this->media_model->add_media_for_path( $path, $uuid, $slot );
-				redirect( $next );					
+				redirect( $next );
 			}
 			redirect('/admin/media/edit/' . $uuid . '/add' );
 		}
-		
+
 		$results = $this->media_model->get_media( null, $stags, $page, $page_size );
-		
+
 		$data = array(
 			'items' => $results,
 			'page' => $page,
 			'stags' => $stags,
 			'errors' => $errors
 			);
-		
+
 		$this->gen_page('Admin - Media', 'admin/media/media_index', $data );
 	}
 
@@ -128,21 +128,21 @@ class Media extends Admin_Controller
 		//$page_size = 25; //$this->config->item('image_browser_page_size');
 		$stags = array();
 		$errors = '';
-		
+
 		if( $this->input->post('q') && strlen(trim($this->input->post('q')))) {
 			$stags = explode(' ', $this->input->post('q'));
 			//log_message( 'error', 'query: ' . $this->input->post('q'));
 		}
-		
+
 		$results = $this->media_model->get_media( null, $stags, $page, $page_size );
-		
+
 		$data = array(
 			'items' => $results,
 			'page' => $page,
 			'stags' => $stags,
 			'errors' => $errors
 			);
-		
+
 		echo json_encode( $data );
 	}
 
@@ -157,7 +157,7 @@ class Media extends Admin_Controller
 				$resp['value']['type'] = $item[0]->type;
 				$resp['value']['title'] = $item[0]->title;
 				$resp['value']['caption'] = $item[0]->caption;
-				
+
 				$resp['error'] = false;
 				$resp['error_msg'] = ' ';
 			}
@@ -171,16 +171,16 @@ class Media extends Admin_Controller
 	 */
 	function edit()
 	{
-		$errors = '';		
+		$errors = '';
 		$is_adding = false;
 		$uuid = $this->uri->segment(4);
 		if( !$uuid ) {
-			redirect('/admin/media/' );			
+			redirect('/admin/media/' );
 		}
 		if( $this->uri->segment(5) == 'add') {
 			$is_adding = true;
 		}
-		
+
 		$page = NULL;
 		// the page number, maybe
 		if( $this->uri->segment(6) && is_numeric($this->uri->segment(6))) {
@@ -189,7 +189,7 @@ class Media extends Admin_Controller
 				$page = 1;
 			}
 		}
-		
+
 		$this->form_validation->set_rules('title','Title','required');
 		$this->form_validation->set_rules('caption','Caption','required');
 		$this->form_validation->set_rules('tt_isbn','tt#/isbn','callback_tt_isbn_check');
@@ -209,7 +209,7 @@ class Media extends Admin_Controller
 				redirect('/admin/media');
 			}
 		}
-		
+
 		// -----------
 		// S A V E
 		// -----------
@@ -219,7 +219,7 @@ class Media extends Admin_Controller
 			$meta['tt_isbn'] = trim(str_replace('-','',$this->input->post('tt_isbn')));
 			$meta['description'] = $this->input->post('description');
 			$meta['license'] = $this->input->post('license');
-			$this->media_model->update_media( $uuid, $meta, $this->input->post('tags') );			
+			$this->media_model->update_media( $uuid, $meta, $this->input->post('tags') );
 			redirect('/admin/media');
 		}
 		// -----------
@@ -231,7 +231,7 @@ class Media extends Admin_Controller
 				unlink( './media/' . $uuid );
 			}
 			if( $this->input->post('page')) {
-				redirect('/admin/media/index/' . $this->input->post('page'));				
+				redirect('/admin/media/index/' . $this->input->post('page'));
 			}
 			redirect('/admin/media');
 		}
@@ -245,28 +245,28 @@ class Media extends Admin_Controller
 				unlink( './media/' . $uuid );
 			}
 			if( $this->input->post('page')) {
-				redirect('/admin/media/index/' . $this->input->post('page'));				
+				redirect('/admin/media/index/' . $this->input->post('page'));
 			}
 			redirect('/admin/media');
 		}
-		
+
 		// -----------
 		// C A N C E L
 		// -----------
 		if( $this->input->post('cancel')) {
 			if( $this->input->post('page')) {
-				redirect('/admin/media/index/' . $this->input->post('page'));				
+				redirect('/admin/media/index/' . $this->input->post('page'));
 			}
 			redirect('/admin/media');
 		}
-		
+
 		$item = $this->media_model->get_media( $uuid );
 		if( !$item ) {
-			redirect('/admin/media');			
+			redirect('/admin/media');
 		}
-		
+
 		$used = $this->media_model->get_media_usage( $uuid );
-				
+
 		$data = array(
 			'item' => $item[0],
 			'used' => $used,
@@ -274,10 +274,10 @@ class Media extends Admin_Controller
 			'errors' => $errors,
 			'is_adding' => $is_adding
 			);
-		
+
 		if( $this->input->post('ajax')) {
 			$this->load->view('admin/media/media_edit', $data );
-		} else {			
+		} else {
 			$this->gen_page('Admin - Media', 'admin/media/media_edit', $data );
 		}
 	}
@@ -287,20 +287,20 @@ class Media extends Admin_Controller
 		$is_ajax = true;
 		$path = $this->input->post('path');
 		$slot = $this->input->post('slot') ? $this->input->post('slot') : 'general' ;
-		
+
 		if( !$path ) {
 			$is_ajax = false;
 			$path = '/' . implode( '/', array_slice($this->uri->segment_array(), 3));
 		}
 		//$path = '/articles/1';
-		
+
 		$view_data = array(
 			'media_path' => $path,
 			'slot' => $slot,
 			'errors' => '',
 			'files' => $this->media_model->get_media_for_path( $path, $slot ),
 			);
-		
+
 		if( !$is_ajax ) {
 			$pg_data = array(
 				'title' => 'Admin - Media',
@@ -308,9 +308,9 @@ class Media extends Admin_Controller
 				'content' => $this->load->view('admin/media/media_browser', $view_data, true),
 				'footer' => $this->load->view('layouts/admin_footer', '', true)
 			);
-			$this->load->view('layouts/admin_page', $pg_data );									
+			$this->load->view('layouts/admin_page', $pg_data );
 		} else {
-			$this->load->view('admin/media/media_browser', $view_data );						
+			$this->load->view('admin/media/media_browser', $view_data );
 		}
 	}
 
@@ -335,7 +335,7 @@ class Media extends Admin_Controller
       $this->load->view('admin/media/media_mce', $view_data );
 
     } else {
-      echo 'Invalid path';  
+      echo 'Invalid path';
     }
   }
 
@@ -398,7 +398,7 @@ class Media extends Admin_Controller
       );
     $this->load->view('admin/media/media_mce', $view_data );
   }
-  
+
 
 	/**
 	 * Add media to path. Called by the popup when the user selected an image
@@ -408,9 +408,9 @@ class Media extends Admin_Controller
 		$path = $this->input->post('path');
 		$slot = $this->input->post('slot') ? $this->input->post('slot') : 'general';
 		$uuid = $this->input->post('uuid');
-		
+
 		$resp = array('error' => false, 'error_msg' => "[$path] [$uuid]" );
-		
+
 		if( $path && $uuid ) {
 			$this->media_model->add_media_for_path( $path, $uuid, $slot );
 		}
@@ -428,17 +428,17 @@ class Media extends Admin_Controller
 		$page_size = $this->config->item('image_browser_page_size');;
 		$stags = array();
 		$page = 1;
-		
+
 		if( $this->input->post("pg")) {
 			$page = $this->input->post("pg");
 		}
-		
+
 		if( $this->input->post("q")) {
 			$stags = explode(' ', $this->input->post("q"));
 		}
-																
+
 		$results = $this->media_model->get_media( null, $stags, $page, $page_size );
-		
+
 		$data = array(
 			'items' => $results,
 			'page' => $page,
@@ -446,8 +446,8 @@ class Media extends Admin_Controller
 			'errors' => $errors,
 			'path' => $this->input->post('path')
 			);
-		
-		$this->load->view('admin/media/media_search', $data );			
+
+		$this->load->view('admin/media/media_search', $data );
 	}
 
 	/**
@@ -458,22 +458,22 @@ class Media extends Admin_Controller
 		$uuid = $this->uri->segment(4);
 		$slot = $this->uri->segment(5);
 		$path = '/' . implode( '/', array_slice($this->uri->segment_array(), 5));
-		
+
 		$this->db->where('uuid', $uuid);
 		$item = $this->db->get('media')->row();
-		
+
 		$this->db->where( 'media_id', $item->id );
 		$this->db->where( 'slot', $slot );
 		$this->db->where( 'path', $path );
 		$this->db->delete( 'media_map' );
-		
+
 		// now this is lame
 		$tmp = explode('/', $path );
 		redirect('/admin/' . $tmp[1] . '/edit/' . $tmp[2] . '/media/' . $slot );
 	}
 
 	/**
-	 * Handle an upload 
+	 * Handle an upload
 	 */
 	private function up( $path, $conf, $uuid = NULL, $title = null )
 	{
@@ -488,10 +488,10 @@ class Media extends Admin_Controller
 		$conf['max_size'] = $this->config->item('max_image_size');
 		$conf['max_width'] = $this->config->item('max_image_width');
 		$conf['max_height'] = $this->config->item('max_image_height');
-		
+
 		$this->load->library('upload', $conf );
 		$this->upload->initialize($conf);
-		
+
 		if( !$this->upload->do_upload('userfile')) {
 			return NULL;
 		} else {
@@ -514,12 +514,12 @@ class Media extends Admin_Controller
 		$uuid = $this->uri->segment(5);
 		$slot = $this->uri->segment(6);
 		$path = '/' . implode( '/', array_slice($this->uri->segment_array(), 6));
-		
+
 		$this->db->where('uuid', $uuid);
 		$item = $this->db->get('media')->row();
-				
+
 		$this->media_model->move( $dir, $path, $slot, $uuid );
-		
+
 		// lame, the sequel
 		$tmp = explode('/', $path );
 		redirect('/admin/' . $tmp[1] . '/edit/' . $tmp[2] . '/media/' . $slot );
@@ -527,23 +527,23 @@ class Media extends Admin_Controller
 
 
 	// check the input looks like one of, blank, tt number or isbn
-	public function tt_isbn_check( $str ) 
+	public function tt_isbn_check( $str )
 	{
 		if( strlen(trim($str)) == 0 ) {
 			return TRUE;
 		}
-		
+
 		// tt number
 		if( preg_match('/tt[0-9]{7}/', $str )) {
 			return TRUE;
 		}
-		
+
 		// isbn
 		$str = trim(str_replace('-','',$str));
 		if(strlen($str) == 13 && preg_match('/\d+/', $str) ) {
 			return TRUE;
-		} 
-		
+		}
+
 		$this->form_validation->set_message('tt_isbn_check','The %s field must be either tt# or an isbn');
 		return FALSE;
 	}

@@ -1,9 +1,9 @@
 <?php
-if (!defined('BASEPATH')) exit('No direct script access allowed');   
+if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 include("admin_controller.php");
 
-class Products extends Admin_Controller 
+class Products extends Admin_Controller
 {
 	/**
 	 * CTOR
@@ -14,9 +14,10 @@ class Products extends Admin_Controller
 	{
     parent::__construct();
 		$this->base_url = '/admin/products';
-		$this->load->model('products_model');
+        $this->load->model('products_model');
+		$this->load->model('articles_model');
 	}
-	
+
 	/**
 	 *
 	 */
@@ -25,15 +26,15 @@ class Products extends Admin_Controller
 		$page_size = $this->config->item('list_page_size');
 		$page = 1;
 		$query = '';
-		
+
 		// 4th seg is page number
 		if( $this->uri->segment(4) && is_numeric($this->uri->segment(4))) {
 			$page = $this->uri->segment(4);
 			if( $page < 1 ) {
 				$page = 1;
 			}
-		}		
-				
+		}
+
 		// seg 5 and beyond are search terms
 		$i = 5;
 		while( $this->uri->segment($i) ) {
@@ -41,21 +42,21 @@ class Products extends Admin_Controller
 			$query .= str_replace('_',' ',$this->uri->segment($i)) . ' ';
 			$i++;
 		}
-		
+
 		if( $this->input->post('q')) {
 			$query = $this->input->post('q');
 		}
-		
+
 		//echo '[' . $query . ']';
 		$prods = $this->products_model->product_list( $query, $page, $page_size );
 		//echo '[' . $this->db->last_query() . ']';
 
-		$view_data = array( 
+		$view_data = array(
 			'products' => $prods,
 			'pager' => mk_pager( $page, $page_size, $prods->num_rows(), "$this->base_url/index", $query ),
 			'query' => $query
 		);
-		
+
 		$this->gen_page('Admin - Products', 'admin/products/products_list', $view_data );
 	}
 
@@ -81,7 +82,7 @@ class Products extends Admin_Controller
       }
     }
 
-    $product = $this->products_model->get_product( $id )->row(); 
+    $product = $this->products_model->get_product( $id )->row();
 
     $view_data = array(
       'product' => $product
@@ -101,7 +102,7 @@ class Products extends Admin_Controller
 		$conf['upload_path'] = '../tmp';
 		$conf['allowed_types'] = 'txt|tab|gz';
 		$conf['max_size'] = 20000;
-		
+
 		$this->load->library('upload', $conf );
 		if( !$this->upload->do_upload()) {
 			echo $this->upload->display_errors();
@@ -109,14 +110,14 @@ class Products extends Admin_Controller
 			$fdata = $this->upload->data();
 			$fname = $fdata['full_path'];
 			$this->do_import( $fname );
-			@unlink( $fname );			
+			@unlink( $fname );
 			redirect( $this->base_url );
 		}
 	}
-	
+
 	// do_schema = true for just the schema calc
 	private function do_import( $fname, $do_schema = false )
-	{		
+	{
 		$pinfo = pathinfo($fname);
 
 		if( $pinfo['extension'] == 'gz' ) {
@@ -127,7 +128,7 @@ class Products extends Admin_Controller
 		$line_count = 0;
 		$fh = @fopen( $fname, 'r' );
 		$headers = array();
-		
+
 		if( $fh ) {
 			while(($line = fgets($fh)) !== false ) {
 				$cols = explode("\t", $line );
@@ -138,7 +139,7 @@ class Products extends Admin_Controller
 					}
 				}
 				else {
-					
+
 					// get the max field sizes so we can gen the schema for the table
 					// this went thru a bunch of iterations so i needed a way to calc
 					// the spec easily
@@ -157,14 +158,14 @@ class Products extends Admin_Controller
 			}
 			fclose( $fh );
 		}
-		
+
 		// gen the schema
 		if( $do_schema ) {
 			echo '<pre>' . $this->gen_schema( 'products', $headers ) . '</pre>';
 			exit;
 		}
 	}
-		
+
 	/**
 	 * generate a schema based on names and lengths found in headers
 	 */
@@ -173,7 +174,7 @@ class Products extends Admin_Controller
 		$s = "CREATE TABLE `$table_name` ( \n";
 		$s .= "  id int(11) NOT NULL AUTO_INCREMENT,\n";
 		$s .= "  prod_type int(11) NOT NULL,\n";
-		
+
 		for( $i = 0; $i < count($headers); $i++ ) {
 			$len = $headers[$i][1];
 			if( $len == 0 ) {
@@ -186,7 +187,7 @@ class Products extends Admin_Controller
 		$s .= "  PRIMARY KEY (`id`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8;\n";
 		return $s;
 	}
-	
+
 	/**
 	 * cleans out junk, quoted strings, and db-escapes
 	 */
@@ -199,7 +200,7 @@ class Products extends Admin_Controller
 		$str = $this->db->escape( $str );
 		return $str;
 	}
-	
+
 	/**
 	 * does the actual import of columns based on names, ean must be the first col
 	 * but the rest can be in any order
@@ -235,7 +236,49 @@ class Products extends Admin_Controller
 					//break;
 					$this->db->query( $query );
 				}
-		}		
+		}
 	}
-	
+
+
+    /* In case the way product images are referenced this abstract image references */
+    private function get_product_img( $ean ) {
+        if ( strlen($ean) != 13 ) return false;
+
+        $prefix = $ean[12];
+        $path = '/product/' . $prefix . '/' . $ean . '.jpg';
+
+        return $path;
+    }
+
+    function article_products_browser() {
+		$is_ajax = true;
+        $article_id = $this->input->post('article_id');
+
+		if( !$article_id) {
+            return false;
+        }
+
+        $products = $this->articles_model->get_products( $article_id );
+        
+		$view_data = array(
+			'article_id' => $article_id,
+			'errors' => '',
+            'files' => $products
+			);
+
+		if( !$is_ajax ) {
+            /*
+            Currently this is an ajax-only call
+                $pg_data = array(
+				'title' => 'Admin - Media',
+				'nav' => $this->load->view('layouts/admin_nav', '', true),
+				'content' => $this->load->view('admin/media/media_browser', $view_data, true),
+				'footer' => $this->load->view('layouts/admin_footer', '', true)
+            );
+			$this->load->view('layouts/admin_page', $pg_data );
+             */
+        } else {
+			$this->load->view('admin/products/article_products_browser', $view_data );
+        }
+    }
 }
