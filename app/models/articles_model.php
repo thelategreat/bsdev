@@ -337,7 +337,7 @@ SQL;
             LEFT JOIN products p ON ap.product_id = p.id
             WHERE ap.article_id = ?";
         $result = $this->db->query($sql, $article_id)->result_array();
-
+        
         if (count($result) == 0 || $result === false) {
             return array();
         }
@@ -348,7 +348,9 @@ SQL;
 		        $prefix = $r['ean'][12];
 		        $path = '/product/' . $prefix . '/' . $r['ean'] . '.jpg';
 		        $r['thumbnail'] = $path;
-		    }		    
+		    }
+		    // Reference used for front-end details insertion
+		    $r['ref'] = $r['ean'] . '_' . str_replace(' ', '-', str_replace('-', '\-', $r['title']));
         }
         return $result;
     }

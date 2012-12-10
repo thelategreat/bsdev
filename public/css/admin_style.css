@@ -1095,3 +1095,17 @@ article.associated-item ul li {
 article.associated-item ul li span {
 	font-weight: bold;
 }
+article .insert-img,
+article .insert-ref {
+	cursor: pointer;
+	background-color: #bee6f4;
+	border-radius: 3px;
+	text-transform: uppercase;
+	text-align: center;
+	padding: 2px;
+	margin: 3px 0;
+}
+article .insert-img:hover,
+article .insert-ref:hover {
+	background-color: #b0bcff;
+}

@@ -79,13 +79,28 @@ $(function()
 		var imgsrc = $(this).attr('data');
 		
 		var ed = tinyMCE.get('article_body');                // get editor instance
-		var range = ed.selection.getRng();                  // get range
+		var range = ed.selection.getRng();		// get range
 		var newNode = ed.getDoc().createElement ( "img" );  // create img node
-		newNode.src=imgsrc;                           // add src attribute
+		newNode.src=imgsrc;                           		// add src attribute
 		try {
 			range.insertNode(newNode);  
-		} catch(e) {}
-		
+		} catch(e) {
+			alert('Place the cursor in the essay text at the position where you wish to insert the image.');
+		}		
+	});
+	
+	$('#associated_items .insert-ref').click(function() {
+		var ref = $(this).attr('data');
+
+		var ed = tinyMCE.get('article_body');                // get editor instance
+		var range = ed.selection.getRng();		// get range
+		var html = '{{' + ref + '}}';
+		try {
+			ed.execCommand('mceInsertContent', false , html);
+		} catch(e) {
+		alert(e.message);
+			alert('Place the cursor in the essay text at the position where you wish to insert the reference.');
+		}		
 	});
 
 	
@@ -205,7 +220,7 @@ $(function()
 			</ul>
 			<img src="<?= $assoc['thumbnail'] ?>" width=150 /><br/>
 			<div class="insert-link insert-img" data="<?= $assoc['thumbnail'] ?>">Insert Image</div>
-			<div class="insert-link insert-ref" data="<?= $assoc['thumbnail'] ?>">Insert Reference</div>
+			<div class="insert-link insert-ref" data="<?= $assoc['ref'] ?>">Insert Reference</div>
 		<? } ?>
 		
 		<? if ($assoc['type'] == 'event') { ?>
