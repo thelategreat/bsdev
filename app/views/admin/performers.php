@@ -1,1 +1,0 @@
-<h2>Performers</h2>
