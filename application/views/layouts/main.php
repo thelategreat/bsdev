@@ -25,7 +25,9 @@
 					 ?>
 						<article class='ym-clearfix'>
 							<h2><a href="/article/view/<?=$item->id;?>"><? echo $item->title; ?></a></h2>
-							<div style='float:left'><img style='margin:5px' src='/i/size/o/<?=substr($item->media[0]['thumbnail'], strrpos($item->media[0]['thumbnail'],'/')+1);?>/w/150' /></div>							
+							<? if (count($item->media) > 0) { ?>
+								<div style='float:left'><img style='margin:5px' src='/i/size/o/<?=substr($item->media[0]['thumbnail'], strrpos($item->media[0]['thumbnail'],'/')+1);?>/w/150' /></div>
+							<? } ?>
 							<p><?=$item->excerpt;?></p>							
 						</article>
 					<? } ?>
