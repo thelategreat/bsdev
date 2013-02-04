@@ -16,7 +16,9 @@ class groups_list_positions_model extends CI_Model
 	}
 	
 	function get_group_lists($group_id) {
-		$q = "SELECT * FROM groups_list_positions WHERE groups_id = '$group_id'";
+		$q = "SELECT groups_list_positions.*, list_positions.name 
+				FROM groups_list_positions 
+				LEFT JOIN list_positions ON list_positions_id = list_positions.id WHERE groups_id = '$group_id'";
 		$res = $this->db->query($q);
 		return $res;
 	}

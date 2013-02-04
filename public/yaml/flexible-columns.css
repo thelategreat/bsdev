@@ -33,13 +33,18 @@
 .ym-col3 { width: 250px; margin-righzt: -250px} /* left column */	
 }
 
+
+.ym-wrapper {
+	max-width: 960px;
+}
+
 a { color: #000}
 
 .dash {border: 1px dotted #ccc}
 .dash h3 {color: #faa;}
 
 
-div { border:1px solid transparent}
+dizv { border:1px solid transparent}
 #main #twitter_feed li {
 	list-style: none;
 	margin-bottom: 2em;

@@ -56,6 +56,11 @@
 					</div>						
 					<? } ?>
 				</div>
+				
+				
+				<? if (isset($lists['position_bottom'])) { 
+					$this->load->view('widgets/horizontal_generic_list', array('name'=>'bottom', 'list'=>$lists['position_bottom']));
+				} ?>
 			</div>
 			<div class="ym-g25 ym-gr">
 				<div class="tooltip" title="Serendipity List"> 

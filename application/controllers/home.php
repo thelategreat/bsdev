@@ -33,15 +33,18 @@ class Home extends MY_Controller
 	 **/
 	function index()
 	{
+		/*
 		$this->output->enable_profiler(TRUE);
+		
 		$sections = array(
 			'benchmark' => TRUE,
 			'controller_info' => TRUE,
 		    'config'  => TRUE,
 		    'queries' => TRUE
 		    );
-		
+				
 		$this->output->set_profiler_sections($sections);
+		*/
 		$this->build_page(0);
 	}
 	
@@ -107,7 +110,13 @@ class Home extends MY_Controller
 			$layout = 'section';
 		}
 		
-		
+		$group_lists = $this->groups_list_positions_model->get_group_lists($section)->result();
+		foreach ($group_lists as $g) {
+			if ($g->lists_id > 0) {
+				$lists['position_' . strtolower($g->name)] = $this->lists_model->get_list_items_by_name( $this->lists_model->get_list($g->lists_id)->name );
+			}
+		}
+
 		$data['nav'] = $nav;
 		$data['lists'] = $lists;
 
