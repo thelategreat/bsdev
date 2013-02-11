@@ -17,9 +17,15 @@
 	<div class="ym-wrapper">
 		<div class="ym-wbox">
 			<div class="ym-g75 ym-gl">
+				
+				<? if (isset($lists['position_top'])) { 
+					$this->load->view('widgets/horizontal_generic_list', array('name'=>'bottom', 'list'=>$lists['position_top']));
+				} ?>
+				
 				<div id='main_article'>
 					<? $article_start = 0; 
 						for ($article_id = 0; $article_id < 1; $article_id++) {
+						if (!isset($lists['_section'][$article_id + $article_start])) continue;
 						$item = $lists['_section'][$article_id + $article_start];
 					 ?>
 						<article class='ym-clearfix tooltip' title='Main Article'>
@@ -29,9 +35,15 @@
 						</article>
 					<? } ?>
 				</div>
+								
+				<? if (isset($lists['position_middle'])) { 
+					$this->load->view('widgets/horizontal_generic_list', array('name'=>'bottom', 'list'=>$lists['position_middle']));
+				} ?>
+				
 				<div class='tooltip' title='Secondary Stories List'>
 					<? $article_start = $article_id; 
 						for ($article_id = 0; $article_id < 2; $article_id++) {
+						if (!isset($lists['_section'][$article_id + $article_start])) continue;
 						$item = $lists['_section'][$article_id + $article_start];
 					 ?>
 						<article class='ym-clearfix'>
@@ -62,7 +74,17 @@
 					$this->load->view('widgets/horizontal_generic_list', array('name'=>'bottom', 'list'=>$lists['position_bottom']));
 				} ?>
 			</div>
+			
+			
+			
+			<? /* Right navbar */ ?>
+			
 			<div class="ym-g25 ym-gr">
+				
+				<? if (isset($lists['position_right'])) { 
+					$this->load->view('widgets/vertical_generic_list', array('name'=>'bottom', 'list'=>$lists['position_right']));
+				} ?>
+				
 				<div class="tooltip" title="Serendipity List"> 
 					<? foreach ($lists['serendipity'] as $item) { ?>
 						<div class='list-item list-v' style='height:150px;margin-bottom:10px;'>
@@ -75,7 +97,9 @@
 						</div>
 					<? } ?>				
 				</div>
+
 			</div>
+
 		</div>
 	</div>
 </div>

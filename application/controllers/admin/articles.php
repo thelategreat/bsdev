@@ -48,6 +48,7 @@ class Articles extends Admin_Controller
 			$query = $this->input->post('q');
 		}
 
+		$page_size = null;
 		$articles = $this->articles_model->get_article_list( NULL, $page, $page_size, $query );
 
 		$view_data = array(

@@ -68,26 +68,65 @@ EOF;
 			return $this->db->query( $q );
 	}
 
+  function get_published_articlesz( $group, $limit = NULL, $page = 1 )
+  {
+    if( $group <= 0 ) {
+      $group = 1;
+    }
+
+    $q = "SELECT a.id, a.title, fnStripTags(a.body) as body, a.excerpt, ac.category, a.publish_on, a.author, ast.status, gt.name as `group`,
+    		(SELECT COUNT(*)
+    				FROM comments
+    				WHERE table_ref = 'articles'
+    				AND table_id = a.id) AS comment_count,
+    		ast.id AS status_id
+    		FROM articles AS a,
+    		group_tree AS  gt,
+    		article_categories AS ac,
+    		article_statuses AS ast
+    		WHERE
+    			a.group = gt.id 
+    		AND a.category = ac.id
+    		AND a.status = ast.id 
+    		AND a.status >= 3 
+    		AND gt.id = $group";
+
+    $q .= " ORDER BY status_id ASC, a.publish_on DESC";
+
+    if( $limit ) {
+      $q .= " LIMIT $limit";
+      $q .= " OFFSET " . ($limit * ($page-1));
+    }
+
+    return $this->db->query( $q );
+  }
+
+
   function get_published_articles( $group, $limit = NULL, $page = 1 )
   {
     if( $group <= 0 ) {
       $group = 1;
     }
 
-    $q =<<<SQL
-select a.id, a.title, fnStripTags(a.body) as body, a.excerpt, ac.category, a.publish_on, a.author, ast.status, gt2.name as `group`,
-	(select count(*) FROM comments WHERE table_ref = 'articles' AND table_id = a.id) as comment_count, ast.id as status_id
-
-	from articles as a, group_tree as gt, group_tree as gt2, article_categories as ac, article_statuses as ast
-	where
-		a.group = gt2.id and
-		gt2.lft between gt.lft and gt.rgt and
-		a.category = ac.id and
-		a.status = ast.id and
-		a.status >= 3 and
-		gt.id = $group
-SQL;
-
+    $q = "SELECT a.id, a.title, fnStripTags(a.body) as body, a.excerpt, ac.category, a.publish_on, a.author, ast.status, gt.name as `group`,
+    		(SELECT COUNT(*)
+    				FROM comments
+    				WHERE table_ref = 'articles'
+    				AND table_id = a.id) AS comment_count,
+    		ast.id AS status_id
+    		FROM articles AS a,
+    		group_tree AS gt,
+    		group_tree AS gt2,
+    		article_categories AS ac,
+    		article_statuses AS ast
+    		WHERE
+			a.group = gt2.id
+			AND gt2.lft between gt.lft and gt.rgt
+    		AND a.category = ac.id
+    		AND a.status = ast.id 
+    		AND a.status >= 3 
+    		AND gt.id = $group";
+    
     $q .= " ORDER BY status_id ASC, a.publish_on DESC";
 
     if( $limit ) {

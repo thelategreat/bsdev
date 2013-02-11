@@ -6,14 +6,17 @@
 	<title><?=$title?></title>
 
 	<!-- style -->
-  <link rel="stylesheet" href="/css/admin_style.css" type="text/css"  media="all" />
-  <link rel="stylesheet" href="/css/admin_style_print.css" type="text/css" media="print" />
 
+  <link rel="stylesheet" href="/css/admin_style_print.css" type="text/css" media="print" />
+  <link rel="stylesheet" href="/css/admin_style.css" type="text/css"  media="all" />
 	<link rel="stylesheet" href="/css/datePicker.css" type="text/css"  media="screen" />
 	<link rel="stylesheet" href="/css/custom-theme/jquery-ui-1.7.2.custom.css" type="text/css"  media="screen" />
+	<link rel='stylesheet' href='http://cdnjs.cloudflare.com/ajax/libs/datatables/1.9.4/css/jquery.dataTables.css' />
 	
 	<!-- javascript -->
-	<script type="text/javascript" src="/js/jquery-1.3.2.min.js" ></script>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js" ></script>
+	<script type='text/javascript' src='http://cdnjs.cloudflare.com/ajax/libs/datatables/1.9.4/jquery.dataTables.min.js'></script>
+	
   <script type="text/javascript" src="/js/jquery.form.js" ></script>
   <script type="text/javascript" src="/js/jquery-ui-1.7.2.custom.min.js" ></script>
   <script type="text/javascript" src="/js/date.js" ></script>
@@ -33,7 +36,7 @@
 		// drop menu
 		$("#dropmenu ul").css({display: "none"}); // Opera Fix 
 		$("#dropmenu li").hover(function(){ 
-		        $(this).find('ul:first').css({visibility: "visible",display: "none"}).show(268); 
+		        $(this).find('ul:first').css({visibility: "visible",display: "none"}).show(); 
 		        },function(){ 
 		        $(this).find('ul:first').css({visibility: "hidden"}); 
 		        }); 

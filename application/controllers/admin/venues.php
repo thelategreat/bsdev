@@ -107,16 +107,17 @@ class Venues extends Admin_Controller
 		if( !$data ) {
 			redirect( $this->root_path );						
 		}
-
+		
 		$content = array(
       'data' => $data,
       'locations' => $this->venues_model->locations_select_list( $data->location_id ),
 			'tabs' => $this->tabs->gen_tabs($this->page_tabs, $cur_tab, $this->root_path . '/edit/' . $data->id),
 			);
 
+		$venue = $data;
 		switch( $cur_tab ) {
 			case 'media':
-			$content['title'] = "Media for location: $venue->name";
+			$content['title'] = "Media for location: $venue->venue";
 			$content['path'] = $this->media_path . '/' . $venue->id;
 			$content['next'] =  $this->root_path . "/edit/$venue->id/media";
 			$page = $this->load->view('admin/media/media_tab', $content, true );

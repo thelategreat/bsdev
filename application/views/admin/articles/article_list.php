@@ -1,3 +1,9 @@
+<script type='text/javascript'>
+	$(document).ready(function() {
+		$('#articles').dataTable();
+	});
+</script>
+
 <style>
 table.pager {
   display: inline;
@@ -7,33 +13,9 @@ table.toolbar {
 }
 </style>
 
-<table class="toolbar">
-<tr>
-  <td>
-    <h3><a class="small" href="/admin/articles/add"><img src="/img/admin/newspaper_add.png" title="Add Essay"/></a> Essays</h3>
-  </td>
-  <td><?= $pager ?></td>
-  <td>
- 	<form method="post" action='/admin/articles/index'>
-		<input id="query" style="font-size: 0.8em;" name="q" value="<?= strlen($query) ? $query : 'search...'?>" size="20" onblur="if(this.value=='') this.value='search...';" onfocus="if(this.value == 'search...') this.value='';"/>
-	</form>
-  </td>
-</tr>
-</table>
-
-
-<!--
-<div style="float: right">
-	<form method="post" action='/admin/articles/index'>
-		<input id="query" style="font-size: 0.8em;" name="q" value="<?= strlen($query) ? $query : 'search...'?>" size="20" onblur="if(this.value=='') this.value='search...';" onfocus="if(this.value == 'search...') this.value='';"/>
-	</form>
-</div>
-
 <h3><a class="small" href="/admin/articles/add"><img src="/img/admin/newspaper_add.png" title="Add Essay"/></a> Essays</h3>
 
--->
-
-<table class="article-list">
+<table id='articles' class="dataTable">
   <thead>
     <tr>
       <th width="35%">Title</th>

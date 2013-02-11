@@ -65,6 +65,7 @@ class Home extends MY_Controller
 		$parents 	= $this->groups_model->get_parents( $section );
 		$events 	= NULL;
 		$nav		= array();
+		$data 		= array();
 
 		$this->benchmark->mark('code_start');
 		// Sidebar events for homepage
@@ -104,7 +105,7 @@ class Home extends MY_Controller
 			$lists['_section'] = $data;
 			
 			$nav['main'] = 'section';
-			$nav['sub'] = $data[0]->group;
+			$nav['sub'] = isset($data[0]->group) ? $data[0]->group : false;
 			
 			$lists['serendipity'] = $this->lists_model->get_list_items_by_name( 'serendipity' );
 			$layout = 'section';
