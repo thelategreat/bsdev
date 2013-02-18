@@ -53,7 +53,7 @@
 								if (!isset($lists['_section'][$article_id + $article_start])) continue;
 								$item = $lists['_section'][$article_id + $article_start];
 						?>
-						<article style='height:150px'>
+						<article>
 							<h3><a href="/article/view/<?=$item->id;?>"><? echo $item->title; ?></a></h3>
 							<p><?=$item->excerpt;?></p>
 						</article>
@@ -65,29 +65,16 @@
 								if (!isset($lists['_section'][$article_id + $article_start])) continue;
 								$item = $lists['_section'][$article_id + $article_start];
 						?>
-						<article style='height:100px'>
+						<article>
 							<h4><a href="/article/view/<?=$item->id;?>"><? echo $item->title; ?></a></h4>
 						</article>
 						<? } ?>
 					</div>
 				</div>
 			</div>
-			<div class="ym-g25 ym-gr" style=''>
-				<div style='height:250px;' class='tooltip' title='Schedule'>
-					<? foreach ($events as $event) { ?>
-						<article class='schedule-event'>
-							<? if (isset($event['uuid'])) { ?>
-								<a href='/events/details/<?=$event['id'];?>'>
-									<div style='float:left'><img style='margin:5px' src='/i/size/o/<?=$event['uuid'];?>/w/50/h/50' /></div>
-									<div style='float:left'><h5><?=$event['title'];?></h5><?=$event['dt_start'];?></div>
-								</a>
-							<? } ?>
-						</article>
-					<? } ?>
-				</div>
-				<div id='twitter_feed' class='tooltip' title='Twitter Feed'>
-					<?=$tweets; ?>
-				</div>
+			<div id='sidebar' class="ym-g25 ym-gr" style=''>
+				<? $this->load->view('widgets/events_vertical'); ?>
+				<? $this->load->view('widgets/tweets', array('tweets' => $tweets)); ?>
 			</div>
 		</div>
 	</div>

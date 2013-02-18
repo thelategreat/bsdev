@@ -21,8 +21,8 @@
 				<? } ?>
 
 			</ul>
-			<form class="ym-searchform">
-				<input class="ym-searchfield" type="search" placeholder="Search..." />
+			<form class="ym-searchform" method=post action='/search/results'>
+				<input class="ym-searchfield" type="search" placeholder="Search..." name='q'/>
 				<input class="ym-searchbutton" type="submit" value="Search" />
 			</form>
 		</div>

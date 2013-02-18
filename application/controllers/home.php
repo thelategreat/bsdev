@@ -68,18 +68,16 @@ class Home extends MY_Controller
 		$data 		= array();
 
 		$this->benchmark->mark('code_start');
+		
+		$tweets = $this->tweets_model->load('bookshelfnews');
 		// Sidebar events for homepage
 		if ($section == 0) {
 			$events = $this->event_model->get_next_events( 4 );
 			$events = $events->result_array();
-		
+
 			$lists['serendipity'] = $this->lists_model->get_list_items_by_name( 'serendipity' );
 			shuffle($lists['serendipity']);
 			
-			$tweets = $this->load->view('widgets/tweets',
-				array('tweets' => $this->tweets_model->load('bookshelfnews')),
-				true );
-				
 			$res = $this->articles_model->get_published_articles( $section, 5,  1 );
 			foreach( $res->result() as $row ) {
 				$row->media = $this->media_model->get_media_for_path("/articles/$row->id", 'general', 1);
@@ -120,6 +118,7 @@ class Home extends MY_Controller
 
 		$data['nav'] = $nav;
 		$data['lists'] = $lists;
+		$data['tweets'] = $tweets;
 
 		$this->load->view('layouts/'.$layout, $data);
 		return;

@@ -1,0 +1,1 @@
+[Event] <a href="<? echo base_url("/events/details/$result->id"); ?>"<h3><?= $result->title; ?></h3></a>

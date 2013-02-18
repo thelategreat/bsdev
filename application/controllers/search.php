@@ -70,12 +70,83 @@ class Search extends MY_Controller
 		$this->output->set_output(json_encode($out));
 	}
 		
+		
+	/*
+	 * Search results page driven by user query in search box
+	 */
+	function results() {
+		$query = $this->input->post('q');
+		$type  = $this->input->post('type');
+		$group = $this->input->post('group');
+		
+		$params = $this->uri->uri_to_assoc(3);
+		if ( isset($params['q']) ) $query = $params['q'];
+		if ( isset( $params['page'] )
+			&& is_int( $params['page'] ) ) {
+				$page = $params['page'];
+			} else {
+				$page = 1;
+			}
+		if ( isset( $params['size'] )
+			&& is_int( $params['size'] ) ) {
+				$page_size = $params['size'];
+			} else {
+				$page_size = 25;
+			}
+		
+		$query = trim($query);
+		
+		// see if this looks like an ISBN 
+		// FIXME dunno if we should keep this ability
+		if( strlen($query) == 13 && is_int($query) && substr($query,0,3) == '978' ) {
+			$this->load->model('products_model');
+			$res = $this->products_model->get_product_by_ean( $query );
+			if( $res->num_rows > 0 ) {
+				$row = $res->row();
+				redirect('/product/view/' . $row->id );
+			}
+		} elseif( strlen( $query ) > 0 ) {
+			$res = $this->search_model->search($query, $type, $page, $page_size );
+			$results = $res->result();
+		} else {
+			$results = array();
+		}
+		
+		
+		$prev = $next = false;
+		if( $page > 1 ) {
+			$prev_page = $page - 1;
+			$params['page'] = $prev_page;
+			$prev = '/search/results/' . $this->assoc_to_uri($params);
+		}
+		if ( count($results) > $page * $page_size ) {
+			$next_page = $page + 1;
+			$params['page'] = $next_page;
+			$next = '/searc/results/' . $this->assoc_to_uri($params);
+		}
+
+
+		$nav['main'] = 'Home';
+		$nav['sub'] = '';
+		$data = array(
+			'results' => $results,
+			'page' => $page,
+			'page_size' => $page_size,
+			'query_string' => $query,
+			'prev' => $prev,
+			'next' => $next,
+			'nav'  => $nav
+			);		
+				
+		$this->load->view('search/results', $data);
+				
+	}
 	/**
 	 * Search
 	 *
 	 * @return void
 	 **/
-	function results()
+	function old_results()
 	{
 		if( $this->input->post('q') ) {
 			$query = $this->input->post('q');

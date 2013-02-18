@@ -35,19 +35,22 @@ class event_model extends CI_Model
 
 	function get_next_events( $count = 10 )
 	{
-		$query = "SELECT * FROM events WHERE dt_start >= NOW() ";
+		$query = "SELECT
+					EVENTS .id,
+					EVENTS .title,
+					EVENTS .dt_start,
+					media.uuid
+				FROM
+					EVENTS
+				LEFT JOIN media_map ON media_map.path = concat('/event/', EVENTS .id)
+				LEFT JOIN media ON media.id = media_map.media_id
+				WHERE
+					TRUE
+				AND dt_start > now()
+				ORDER BY
+					EVENTS .dt_start
+				LIMIT $count";
 
-		$query .= " ORDER BY dt_start ASC LIMIT $count";
-		
-		$query =<<< EOF
-		select events.id, events.title, events.dt_start, media.uuid 
-			FROM events, media_map, media 
-			WHERE media_map.path = CONCAT('/event/', events.id) 
-				AND media.id = media_map.media_id 
-				AND events.dt_start >= NOW()
-				ORDER BY events.dt_start LIMIT $count;
-EOF;
-		
 		return $this->db->query( $query );
 	}
 	

@@ -1,5 +1,3 @@
-
-
 <fieldset><legend>Edit Group</legend>
 <?= form_open('/admin/groups/edit/' . $group->id);?>
 <table style="border: 0">

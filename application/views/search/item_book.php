@@ -1,0 +1,1 @@
+[Book] <a href="<? echo base_url("/product/view/$result->id"); ?>"<h3><?= $result->title; ?></h3></a>

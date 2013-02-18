@@ -52,6 +52,10 @@ class Article extends MY_Controller
 		$comments = array();
 		
 		$res = $this->articles_model->get_article($id);
+		if ($res->num_rows() < 1) {
+			$this->load->view('errors/page_not_found');
+			return;
+		}
 		foreach( $res->result() as $row ) {
 			preg_match_all('/{{(\d{13}).*}}/', $row->body, $matches, false);
 
