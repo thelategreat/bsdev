@@ -51,13 +51,16 @@ class Events extends MY_Controller
       $lists[$list_name] = $this->lists_model->get_list_items_by_name( $list_name );
     }
 
-
+    		$nav['main'] = 'Home';
+			$nav['sub'] = '';
+			
 		$view_data = array(
 			'event' => $event,
 			'media' => $event_media,
 			'extra' => $event_extra,
-      'future' => $event_future,
-      'lists' => $lists
+			'future' => $event_future,
+			'lists' => $lists,
+			'nav'	=> $nav
 			);
 
 		$pg_data = $this->get_page_data('Bookshelf - Event', 'event');
