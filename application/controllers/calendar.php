@@ -25,8 +25,6 @@ class Calendar extends MY_Controller
 		$this->load->model('maillist_model');
 		$this->load->model('event_model');
 		$this->load->model('lists_model');
-
-    //$this->output->enable_profiler( TRUE );
 	}
 
 
@@ -42,23 +40,23 @@ class Calendar extends MY_Controller
 	
 	function do_view( $which )
 	{
-    $view_menu = "<ul class='tabbed'>";
-    $cal_views = array("month","poster","list");
-    // keep the date we are on for different views
-    $curr_view_date = $this->uri->segment(4) ? "/" . $this->uri->segment(4) : "";
-    if( $this->uri->segment(4) ) {
-      $curr_view_date .= $this->uri->segment(5) ? "/" . $this->uri->segment(5) : "";
-    }
-    foreach( $cal_views as $v ) {
-      $view_menu .= '<li ' . ($which == $v ? " class='selected'" : '') . '>';
-      $view_menu .= "<a href='/calendar/view/${v}${curr_view_date}'>$v view</a>";
-      $view_menu .= '</li>';
-    }
-    $view_menu .= "</ul>";
+	    $view_menu = "<ul class='tabbed'>";
+	    $cal_views = array("month","poster","list");
+	    // keep the date we are on for different views
+	    $curr_view_date = $this->uri->segment(4) ? "/" . $this->uri->segment(4) : "";
+	    if( $this->uri->segment(4) ) {
+		    $curr_view_date .= $this->uri->segment(5) ? "/" . $this->uri->segment(5) : "";
+	    }
+	    foreach( $cal_views as $v ) {
+			$view_menu .= '<li ' . ($which == $v ? " class='selected'" : '') . '>';
+			$view_menu .= "<a href='/calendar/view/${v}${curr_view_date}'>$v view</a>";
+			$view_menu .= '</li>';
+	    }
+	    $view_menu .= "</ul>";
 		
-		$today = getdate(time());
-		$month = (int)$this->uri->segment(4) ? (int)$this->uri->segment(4) : $today['mon'];
-		$year = (int)$this->uri->segment(5) ? (int)$this->uri->segment(5) : $today['year'];
+		$today 	= getdate(time());
+		$month 	= (int)$this->uri->segment(4) ? (int)$this->uri->segment(4) : $today['mon'];
+		$year 	= (int)$this->uri->segment(5) ? (int)$this->uri->segment(5) : $today['year'];
 		
 		// adjust
 		$atd = cal_adjust_date( $month, $year );
@@ -102,20 +100,19 @@ class Calendar extends MY_Controller
 							}
 						}
 						array_push($day['events'], array('id' => $event->id, 
-																						 'title' => $event->title,
-																						 'category' => strtolower($event->category),
-																						 'rating' => $rating,
-																						 'start' => date('g:i a',strtotime($event->dt_start)),
-																						 'end' => date('g:i a',strtotime($event->dt_end)),
-																						 'media' => $media																						
-																						) );
+														 'title' => $event->title,
+														 'category' => strtolower($event->category),
+														 'rating' => $rating,
+														 'start' => date('g:i a',strtotime($event->dt_start)),
+														 'end' => date('g:i a',strtotime($event->dt_end)),
+														 'media' => $media	) );
 					}
 				}
 			}
 		}
 		
-		$next_year = (int)$year;
-		$prev_year = (int)$year;
+		$next_year 	= (int)$year;
+		$prev_year 	= (int)$year;
 		$next_month = (((int)$month)+1);
 		$prev_month = (((int)$month)-1);
 		
@@ -130,27 +127,30 @@ class Calendar extends MY_Controller
 		$next_month_url = "/calendar/view/$which/$next_month/$next_year";
 		$prev_month_url = "/calendar/view/$which/$prev_month/$prev_year";
 
-
+/*
     $list_meta = array('Serendipity');
     $lists = array();
     foreach( $list_meta as $list_name ) {
       $lists[$list_name] = $this->lists_model->get_list_items_by_name( $list_name );
     }
 
-
-
+*/
+	$lists = array();
+    	$nav['main'] = 'Home';
+		$nav['sub'] = '';
+		
 		$view_data = array(
 			'view_menu' => $view_menu,
 			'month' => $month,
 			'year' => $year,
-      'cal' => $cal,
-      'lists' => $lists,
+		      'cal' => $cal,
+		      'lists' => $lists,
 			'next_month_url' => $next_month_url,
-			'prev_month_url' => $prev_month_url
+			'prev_month_url' => $prev_month_url,
+			'nav' => $nav
 		);
 			
-		$pg_data = $this->get_page_data('Bookshelf - calendar', 'calendar' );
-		$pg_data['sidebar_left'] = NULL;
+		$pg_data = $this->get_page_data('Bookshelf - calendar', 'calendar' );		
 		
 		if( $which == 'list') {
 			$pg_data['content'] = $this->load->view('calendar/list_view', $view_data, true);

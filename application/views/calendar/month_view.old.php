@@ -1,74 +1,34 @@
-<div id="main" class='ym-clearfix'>
-	<div class="ym-wrapper">
-		<div class="ym-wbox">
-			<div class="ym-g100">
-				<div id='cal' style='height:auto' class='tooltip' title='Event Calendar'>
-					<h2><span style="padding: 2px; margin: 2px;">
-						<a href="<?=$prev_month_url?>" title="last month">
-							<img src="/img/cal/arrow_left.png" style="width: 24px; margin-bottom: -5px"/></a>&nbsp;
-						<a href="<?=$next_month_url?>" title="next month">
-							<img src="/img/cal/arrow_right.png" style="width: 24px; margin-bottom: -5px"/></a>
-					</span> | 
-					<?= date("F",mktime(0, 0, 0, $month, 1, $year))?> <?= $year ?>
-					</h2>
-					
-					<?= $view_menu ?>
-
-					<table class="calendar-month">
-						<thead>
-							<tr>
-								<th width="14.25%">Sun</th>
-								<th width="14.25%">Mon</th>
-								<th width="14.25%">Tue</th>
-								<th width="14.25%">Wed</th>
-								<th width="14.25%">Thu</th>
-								<th width="14.25%">Fri</th>
-								<th width="14.25%">Sat</th>
-							</tr>
-						</thead>
-						<tbody>
-					
-							<?php foreach( $cal as $week ) {
-								echo '<tr>';
-								foreach( $week as $day ) { 
-									// figure which month we are in and class day accordingly
-									$class = '';
-									$dt = explode( '/', $day['date'] );
-									if( $dt[1] != $month ) {
-										$class = 'class="other"';					
-									}
-									?>
-									<td <?=$class?>><span class="day-num"><?= $day['num'] ?></span>
-										<ul class="event-list">
-										<?php foreach( $day['events'] as $event ) { ?>
-											<li class="<?=$event['category']?>"><a title="<?=$event['title'] ?><br/>@ <?=$event['start'] ?><br/><?=$event['rating'] ?>" href="/events/details/<?= $event['id']?>"><?= $event['title'] ?></a></li>
-										<?php } ?>
-										</ul>
-									</td>
-								<?php }
-								echo '</tr>';
-							}?>
-					
-						</tbody>
-					</table>
-
-					
-				</div>				
-			</div>
-		</div>
-	</div>
-</div>
-
-
-<? /*
-
-
 <script type="text/javascript">
 $(function(){
 	$(".calendar-month a[title]").tooltip({ position: "top center", opacity: 0.99, offset: [10,10], effect: "slide"});
 });
 </script>
 
+<div class="row">
+  <div class="column grid_3">
+     <?php if( array_key_exists('Serendipity', $lists)) { 
+      echo "<ul class='serendipity-list'>";
+      foreach( $lists['Serendipity'] as $item ) { ?>
+      <li>
+      <a href="/article/view/<?=$item->id?>" title="<?=$item->title?>">
+      <?php if( count($item->media)) { ?>
+        <img src="<?=$item->media[0]['thumbnail']?>" height="150px" />
+      <?php } else { ?>
+        <img src="/img/image_not_found.jpg" height="150px" />
+      <?php } ?>
+      </a>
+      <h3>
+        <a href="/article/view/<?=$item->id?>" title="<?=$item->title?>">
+        <?=$item->title?></a>
+      </h3>
+      <?= $item->excerpt?>
+      </li>
+    <?php } 
+    echo '</ul>';
+    }
+?>
+  </div>
+  <div class="column grid_9">
 
 
 <h2><span style="padding: 2px; margin: 2px;">
@@ -186,4 +146,3 @@ $(function(){
   </div>
 </div>
 
-*/ ?>
