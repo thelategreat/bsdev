@@ -37,6 +37,12 @@
 .ym-wrapper {
 	max-width: 960px;
 }
+.ym-wbox {
+	padding: 0;
+}
+.ym-wbox.sidebar {
+	padding-left: 20px;
+}
 
 a { color: #000}
 li { list-style: none}
@@ -62,6 +68,49 @@ li { list-style: none}
 }
 #sidebar ul li {
 	margin: 0;
+}
+
+
+/* Article */
+article#article .article-header .meta {
+	margin-bottom:20px;
+}
+article#article .article-header h1.title {
+	font-family: 'Fjalla One', sans-serif;
+	font-size: 40px;
+	line-height: 1.4em;
+	margin-bottom: 15px;
+}
+article#article .article-header h2.byline {
+	font-family: 'Karla', sans-serif;
+	font-size: 13px;
+	margin-bottom: 60px;
+}
+article#article .article-image-main {
+	float:right;
+}
+article#article .meta {
+	font-family: 'Karla', sans-serif;
+}
+article#article .meta .date {
+	float:right;
+	font-size: 13px;
+}
+article#article .meta .section {
+	font-size: 18px;
+}
+article#article #teaser {
+	font-family: 'Karla', sans-serif;
+	font-size: 20px;
+}
+article#article #article_body {
+	font-family: 'Droid Serif', serif;
+	font-size: 15px;
+	padding-left: 110px;
+	padding-right: 90px;
+}
+article#article #article_body p:first-child {
+	padding-left: 0;
 }
 
 /* Widgets */

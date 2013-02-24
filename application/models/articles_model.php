@@ -160,17 +160,19 @@ SQL;
     return $this->db->query( $q );
   }
 
+  	/* Get a single article as referenced by its ID
+  	 * @param Article ID
+  	 * @returns Article result
+  	 */
 	function get_article( $id )
 	{
-		$q =<<<EOF
-SELECT a.id, title, body, ac.category, updated_on, author, ast.status, publish_on, gt.name as `group`
-	FROM articles as a, article_categories as ac, article_statuses as ast, group_tree as gt
-	WHERE a.category = ac.id AND a.status = ast.id AND a.group = gt.id
-EOF;
+		$q = "
+			SELECT a.id, title, body, ac.category, updated_on, author, ast.status, publish_on, gt.name AS `group`, excerpt
+				FROM articles as a, article_categories as ac, article_statuses as ast, group_tree as gt
+				WHERE a.category = ac.id AND a.status = ast.id AND a.group = gt.id";
 
 		$q .= " AND a.id = " . $this->db->escape(intval($id));
 		return $this->db->query( $q );
-
 	}
 
   function get_articles_by_group( $group, $limit = NULL, $page = 1 )

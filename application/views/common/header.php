@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<link href='http://fonts.googleapis.com/css?family=Droid+Serif|Fjalla+One|Karla:400,700&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+	
 	<meta charset="utf-8"/>
 	<title><? echo (isset($title) ? $title : (isset($page_title) ? $page_title : '')); ?></title>
 

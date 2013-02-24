@@ -74,10 +74,23 @@ class Article extends MY_Controller
 			$data[] = $row;
 		}
 		$lists['_section'] = $data;
-		
+
 		$data['lists'] = $lists;
 
-		$this->load->view('layouts/'.$layout, $data);
+    	$nav['main'] = 'Home';
+		$nav['sub'] = '';
+
+		$view_data = array(
+			'nav' => $nav,
+			'lists' => $lists
+		);
+			
+		$pg_data = $this->get_page_data('Bookshelf', 'article_view' );		
+		
+		$pg_data['content'] = $this->load->view('layouts/article', $view_data, true);			
+		$pg_data['lists'] = $lists;
+
+		$this->load->view('layouts/standard_page', $pg_data );		
 
 		/*
 		
