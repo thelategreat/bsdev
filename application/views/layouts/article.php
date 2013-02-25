@@ -7,7 +7,6 @@
 						for ($article_id = 0; $article_id < 1; $article_id++) {
 
 						$item = $lists['_section'][$article_id + $article_start];
-
 					 ?>
 						<article class='ym-clearfix'>
 							<div class="article-header">
@@ -31,7 +30,7 @@
 					<? } ?>		
 				</article>
 			</div>
-			<div class="ym-g25 ym-gr" style='; border: 1px dashed #aac'>
+			<div class="ym-g25 ym-gr">
 				<div class="ym-wbox sidebar">
 					<div style='height:350px;'>
 						<h3>Book buying info</h3>

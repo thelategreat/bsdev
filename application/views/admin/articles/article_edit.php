@@ -1,6 +1,6 @@
 <script type="text/javascript" src="/js/ajaxupload.js" ></script>
 <script type="text/javascript" src="/js/admin_mb.js" ></script>
-
+ 
 <script>
 /* image picker callback */
 function mediaBrowserCallback( field_name, url, type, win ) {
