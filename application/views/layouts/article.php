@@ -32,9 +32,19 @@
 			</div>
 			<div class="ym-g25 ym-gr">
 				<div class="ym-wbox sidebar">
-					<div style='height:350px;'>
-						<h3>Book buying info</h3>
-					</div>
+					<? if (isset($associated_products)) { ?>
+					<div id='associated_products'>
+					<? foreach($associated_products as $item) { ?>
+						<aside class='associated-product' id='associated_<?=$item['id'];?>'>
+							<a href="<? echo base_url('/product/view/' . $item['id']); ?>"><h2><?=$item['title'];?></h2></a>
+							<div class='author'><?=$item['contributor'];?></div>
+							<div class='category'><?=$item['bisac_text'];?></div>
+							<div class='pages'><?=$item['pages'];?> pages</div>
+							<div class='price'>$ <?=$item['bs_price'];?></div>
+						</aside>
+						
+					<? } } ?>
+					</div>					
 					<div style='height:350px;'>
 						<h3>Other books and links</h3>
 					</div>

@@ -72,6 +72,9 @@ li { list-style: none}
 
 
 /* Article */
+article#article {
+	padding-top: 25px;
+}
 article#article .article-header .meta {
 	margin-bottom:20px;
 }
@@ -110,9 +113,33 @@ article#article #article_body {
 	padding-right: 90px;
 }
 article#article #article_body p:first-child {
-	padding-left: 0;
+	text-indent: -110px;
+}
+article#article #article_body p {
+	text-indent: 110px;
 }
 
+
+/* Article - Assoicated Products */
+body.article_view #associated_products {
+	padding-top: 55px;
+}
+aside.associated-product {
+	font-family: 'Karla', sans-serif;
+	font-size: 13px;
+	padding-bottom: 25px;
+}
+aside.associated-product div {
+	margin-top: 10px;
+}
+aside.associated-product h2 {
+	font-family: 'Fjalla One', sans-serif;
+	font-size: 20px;
+}
+aside.associated-product div.price {
+	font-size: 16px;
+	font-weight: bold;
+}
 /* Widgets */
 div.widget-vertical {
 	margin-bottom: 10px;

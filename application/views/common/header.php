@@ -11,11 +11,11 @@
 
 	<!-- (en) Add your meta data here -->
 
-	<link href="/yaml/flexible-columns.css" rel="stylesheet" type="text/css"/>
+	<link href="<? echo base_url('/yaml/flexible-columns.css'); ?>" rel="stylesheet" type="text/css"/>
 
-	<link href="/js/tooltipster-master/css/tooltipster.css" rel="stylesheet" type="text/css"/>
-	<link href="/js/tooltipster-master/css/themes/tooltipster-shadow.css" rel="stylesheet" type="text/css"/>
-	<link href="/js/tooltipster-master/css/themes/tooltipster-punk.css" rel="stylesheet" type="text/css"/>	
+	<link href="<? echo base_url('/js/tooltipster-master/css/tooltipster.css');?>" rel="stylesheet" type="text/css"/>
+	<link href="<? echo base_url('/js/tooltipster-master/css/themes/tooltipster-shadow.css');?>" rel="stylesheet" type="text/css"/>
+	<link href="<? echo base_url('/js/tooltipster-master/css/themes/tooltipster-punk.css');?>" rel="stylesheet" type="text/css"/>	
 	<!--[if lte IE 7]>
 	<link href="/yaml/core/iehacks.css" rel="stylesheet" type="text/css" />
 	<![endif]-->

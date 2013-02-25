@@ -85,9 +85,16 @@ class Article extends MY_Controller
 			'lists' => $lists
 		);
 			
+			
+		/* Associated products and events */
+	   	$associated_products = $this->articles_model->get_products( $id );
+    	$associated_events 	 = $this->articles_model->get_events( $id );
+    	
 		$pg_data = $this->get_page_data('Bookshelf', 'article_view' );		
 		
-		$pg_data['content'] = $this->load->view('layouts/article', $view_data, true);			
+		$view_data['associated_products'] = $associated_products;
+    	$view_data['associated_events'] = $associated_events;
+    	$pg_data['content'] = $this->load->view('layouts/article', $view_data, true);			
 		$pg_data['lists'] = $lists;
 
 		$this->load->view('layouts/standard_page', $pg_data );		
