@@ -25,6 +25,9 @@ class Articles extends Admin_Controller
 	 */
 	function index()
 	{
+		// Make sure the tag table is there
+		$this->tag_model->create_tag_tables('articles');
+		
 		$page_size = $this->config->item('list_page_size');
 		$page = 1;
 		$query = '';
@@ -213,7 +216,6 @@ class Articles extends Admin_Controller
 				$tags = explode(',', $tags);
 
 				//$this->tag_model->delete_tags('articles', $article_id);
-				$this->tag_model->create_tag_tables('articles');
 				$this->tag_model->delete_tags('articles', $article_id);
 				$this->tag_model->save_tags('articles', $article_id, $tags);
 				
