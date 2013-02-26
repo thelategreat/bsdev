@@ -118,7 +118,20 @@ article#article #article_body p:first-child {
 article#article #article_body p {
 	text-indent: 110px;
 }
-
+article#article .article-tags {
+	font-family: 'Karla', sans-serif;
+}
+article#article .article-tags .title {
+	font-size: 16px;
+	font-weight:bold;
+	padding-bottom:15px;
+}
+article#article .article-tags .tags {
+	font-size: 13px;
+}
+article#article .article-tags .tags a {
+	margin-right: 15px;
+}
 
 /* Article - Assoicated Products */
 body.article_view #associated_products {

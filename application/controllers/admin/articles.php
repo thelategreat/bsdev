@@ -15,8 +15,9 @@ class Articles extends Admin_Controller
 		parent::__construct();
 		$this->load->model('articles_model');
 		$this->load->model('groups_model');
-    $this->load->model('lists_model');
-    $this->load->model('users_model');
+	    $this->load->model('lists_model');
+	    $this->load->model('users_model');
+	    $this->load->model('tag_model');
 	}
 
 	/**
@@ -176,9 +177,9 @@ class Articles extends Admin_Controller
 			redirect("/admin/articles");
 		}
 
-    $role = $this->session->userdata('logged_user_role');
+		$role = $this->session->userdata('logged_user_role');
 
-    $cur_tab = 'details';
+		$cur_tab = 'details';
 		if( $this->uri->segment(5)) {
 			$cur_tab = strtolower($this->uri->segment(5));
 		}
@@ -191,7 +192,7 @@ class Articles extends Admin_Controller
 			$this->form_validation->set_rules('body','Body','trim|required');
 			$this->form_validation->set_rules('excerpt','Excerpt','trim|required');
 
-      if( $this->form_validation->run()) {
+			if( $this->form_validation->run()) {
 				$this->db->where('id', $article_id);
 				$this->db->set('title', $this->input->post('title'));
 				$this->db->set('group', $this->input->post('group'), false);
@@ -200,13 +201,22 @@ class Articles extends Admin_Controller
 				$this->db->set('status', $this->input->post('status'), false);
 				$this->db->set('venue', $this->input->post('venue'), false);
 				$this->db->set('publish_on', $this->input->post('publish_on'));
-        $this->db->set('body', $this->input->post('body'));
-        if( $role == 'admin' || $role == 'editor') {
-          $this->db->set('owner', $this->input->post('user'));
-        }
+		        $this->db->set('body', $this->input->post('body'));
+
+	        if( $role == 'admin' || $role == 'editor') {
+	          $this->db->set('owner', $this->input->post('user'));
+	        }
 				$this->db->set('excerpt', $this->input->post('excerpt'));
-				$this->db->set('tags', $this->input->post('tags'));
 				$this->db->update("articles");
+				
+				$tags = $this->input->post('tags');
+				$tags = explode(',', $tags);
+
+				//$this->tag_model->delete_tags('articles', $article_id);
+				$this->tag_model->create_tag_tables('articles');
+				$this->tag_model->delete_tags('articles', $article_id);
+				$this->tag_model->save_tags('articles', $article_id, $tags);
+				
 				redirect("/admin/articles");
 			}
 		}
@@ -233,13 +243,16 @@ class Articles extends Admin_Controller
 		if( !$article ) {
 			redirect("/admin/articles");
 		}
+		
+		$tags = $this->tag_model->get_tags('articles', $article_id);
+		$article->tags = implode(', ', $tags);
 
-    if( $role == 'admin' || $role == 'editor ') {
-      $user_select = $this->users_model->user_select( $article->owner, 0, 3 );
-    } else {
-      $user = $this->users_model->get_username( $article->owner )->row();
-      $user_select = $user->firstname . ' ' . $user->lastname;
-    }
+	    if( $role == 'admin' || $role == 'editor ') {
+	      $user_select = $this->users_model->user_select( $article->owner, 0, 3 );
+	    } else {
+	      $user = $this->users_model->get_username( $article->owner )->row();
+	      $user_select = $user->firstname . ' ' . $user->lastname;
+	    }
 
     	$associated_products = $this->articles_model->get_products( $article_id );
     	$associated_events 	 = $this->articles_model->get_events( $article_id );

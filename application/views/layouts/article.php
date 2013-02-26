@@ -25,6 +25,17 @@
 								<div id='teaser'><?=$item->excerpt;?></div>						
 								<div id='article_body'><?=$item->body;?></div>
 							</div>
+							
+							<div class='article-tags'>
+								<? if (count($tags) > 0) { ?>
+								<div class='title'>FILE UNDER</div>
+								<div class='tags'>
+								<? foreach ($tags as $tag) { ?>
+									<a href='<? echo base_url('/articles/tags/'.$tag);?>'><?=$tag;?></a> 
+								<? } ?>
+								</div>
+								<? } ?>
+							</div>
 
 						</article>
 					<? } ?>		

@@ -16,8 +16,9 @@ class Article extends MY_Controller
 		$this->load->model('lists_model');
 		$this->load->model('event_model');
 		$this->load->model('groups_model');
-		$this->load->model('tweets_model');
+		$this->load->model('tag_model');
 		$this->load->helper('cal_helper');
+
 	}
 	
 	/**
@@ -90,10 +91,14 @@ class Article extends MY_Controller
 	   	$associated_products = $this->articles_model->get_products( $id );
     	$associated_events 	 = $this->articles_model->get_events( $id );
     	
+    	$tags = $this->tag_model->get_tags( 'articles', $id );
+    	
 		$pg_data = $this->get_page_data('Bookshelf', 'article_view' );		
 		
 		$view_data['associated_products'] = $associated_products;
     	$view_data['associated_events'] = $associated_events;
+    	$view_data['tags'] = $tags;
+    	
     	$pg_data['content'] = $this->load->view('layouts/article', $view_data, true);			
 		$pg_data['lists'] = $lists;
 

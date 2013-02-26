@@ -13,7 +13,7 @@ class Tag_model extends CI_Model
 	{
 		parent::__construct();
 	}
-	
+		
 	/**
 	 * save tags for a given id
 	 *
@@ -24,10 +24,9 @@ class Tag_model extends CI_Model
 	function save_tags( $table_name, $iid, $tags )
 	{
 		// locking??
-		$tags = explode(' ', $tags);
 		$this->db->where("${table_name}_id", $iid );
 		$this->db->delete( "${table_name}_tag_map" );
-		
+
 		foreach( $tags as $tag ) {
 			$tid = $this->db->query("SELECT id FROM ${table_name}_tags WHERE name = '$tag'");
 			if( $tid->num_rows()) {
@@ -42,6 +41,17 @@ class Tag_model extends CI_Model
 			}
 			$this->db->query("INSERT INTO ${table_name}_tag_map (${table_name}_id, ${table_name}_tag_id) VALUE ($iid, $tid)");
 		}						
+	}
+	
+	/**
+	 * Delete tags for a given record
+	 * @param string Name of table
+	 * @param int Id of the item
+	 */
+	function delete_tags( $table_name, $iid ) 
+	{
+		$this->db->where("{$table_name}_id", $iid);
+		$this->db->delete("{$table_name}_tag_map");
 	}
 	
 	/**
@@ -63,11 +73,15 @@ class Tag_model extends CI_Model
 			$tra[] = $row->name;
 		}
 		asort( $tra );
+		
+		return $tra;
+		/*
 		foreach( $tra as $tag ) {
 			$tags .= $tag . " ";			
 		}
 		
 		return trim($tags);		
+		*/
 	}
 
 	/**
@@ -83,7 +97,7 @@ class Tag_model extends CI_Model
 			$this->db->query("DROP TABLE IF EXISTS ${table_name}_tag_map");
 		}
 		// this is our tag table
-		$this->db->query( "CREATE TABLE `${table_name}_tags` (
+		$this->db->query( "CREATE TABLE IF NOT EXISTS `${table_name}_tags` (
 		  			`id` int(11) NOT NULL AUTO_INCREMENT,
 		  			`name` varchar(50) DEFAULT NULL,
 		  			`slug` varchar(50) DEFAULT NULL,
@@ -92,7 +106,7 @@ class Tag_model extends CI_Model
 					) ENGINE=MyISAM DEFAULT CHARSET=utf8");
 
 		// this is the map
-		$this->db->query( "CREATE TABLE `${table_name}_tag_map` (
+		$this->db->query( "CREATE TABLE IF NOT EXISTS `${table_name}_tag_map` (
 		  			`id` int(11) NOT NULL AUTO_INCREMENT,
 		  			`${table_name}_id` int(11) NOT NULL,
 		  			`${table_name}_tag_id` int(11) NOT NULL,

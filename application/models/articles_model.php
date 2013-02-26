@@ -372,6 +372,10 @@ SQL;
         return true;
     }
 
+    /* Get the products associated with an article
+     * @param required Article ID
+     * @return product result
+     */
     function get_products( $article_id )
     {
         $sql = "SELECT * FROM article_products ap
@@ -395,4 +399,5 @@ SQL;
         }
         return $result;
     }
+    
 }
