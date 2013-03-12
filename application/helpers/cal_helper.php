@@ -23,41 +23,80 @@ function cal_gen( $month, $year )
 	}
 	
 	$days_in_month = cal_days_in_month( CAL_GREGORIAN, $month, $year );
-  $date = getdate(mktime(12,0,0,$month,1,$year));
+ 	$date = getdate(mktime(12,0,0,$month,1,$year));
 
-  $first = $date['wday'];
-  $prev = cal_adjust_date($month-1,$year);
-  $days_in_last_month = cal_days_in_month( CAL_GREGORIAN, $prev[0], $prev[1]);
-  $next = cal_adjust_date($month+1,$year);
-  $week_no = (int)date("W", mktime(12,0,0,$month,1,$year));
-  $d = -$first + 1;		
+	$first = $date['wday'];
+	$prev = cal_adjust_date($month-1,$year);
+	$days_in_last_month = cal_days_in_month( CAL_GREGORIAN, $prev[0], $prev[1]);
+	$next = cal_adjust_date($month+1,$year);
+	$week_no = (int)date("W", mktime(12,0,0,$month,1,$year));
+	$d = -$first + 1;		
 	
 	$week = 0;
 	while( $d <= $days_in_month ) {
-    for( $i = 0; $i < 7; $i++ ) {
-			// last month
-			if( $d < 1 ) {
-				$cal[$week][$i]['num'] = ($days_in_last_month + $d);
-				$adt = cal_adjust_date( $month - 1, $year );
-				$cal[$week][$i]['date'] = ($days_in_last_month + $d) . "/$adt[0]/$adt[1]";
-				$cal[$week][$i]['day'] = ($days_in_last_month + $d);
-      }
-      elseif( $d <= $days_in_month ) {
-				$cal[$week][$i]['num'] = $d;
-				$cal[$week][$i]['date'] = "$d/$month/$year";
-				$cal[$week][$i]['day'] = $d;
-    	} 
-			elseif( $d > $days_in_month ) {
-				$cal[$week][$i]['num'] = ($d - $days_in_month);
-				$adt = cal_adjust_date( $month + 1, $year );
-				$cal[$week][$i]['date'] = ($d - $days_in_month) . "/$adt[0]/$adt[1]" ;
-				$cal[$week][$i]['day'] = ($d - $days_in_month);
-  		}
-			$cal[$week][$i]['events'] = array();
-      $d++;
+	    for( $i = 0; $i < 7; $i++ ) {
+				// last month
+				if( $d < 1 ) {
+					$cal[$week][$i]['num'] = ($days_in_last_month + $d);
+					$adt = cal_adjust_date( $month - 1, $year );
+					$cal[$week][$i]['date'] = $adt[1] . '-' . $adt[0] . '-' . ($d + $days_in_last_month);
+					$cal[$week][$i]['day'] = ($days_in_last_month + $d);
+	      }
+	      elseif( $d <= $days_in_month ) {
+					$cal[$week][$i]['num'] = $d;
+					$cal[$week][$i]['date'] = $year . '-' . $month . '-' . $d;
+					$cal[$week][$i]['day'] = $d;
+	    	} 
+				elseif( $d > $days_in_month ) {
+					$cal[$week][$i]['num'] = ($d - $days_in_month);
+					$adt = cal_adjust_date( $month + 1, $year );
+					$cal[$week][$i]['date'] = $adt[1] . '-' . $adt[0] . '-' . ($d - $days_in_month);
+					$cal[$week][$i]['day'] = ($d - $days_in_month);
+	  		}
+				$cal[$week][$i]['events'] = array();
+	      $d++;
 		}
 		$week++;
 	}
+
+	return $cal;
+}
+
+function week_cal_gen( $day, $month, $year )
+{    
+	
+	$cal = array( 1 );
+	for( $i = 0; $i < 1; $i++ ) {
+		$cal[$i] = array( 7 );
+		for( $j = 0; $j < 7; $j++ ) {
+			$cal[$i][$j] = array( 'num' => '' . (($i + 1) * $j));
+		}
+	}
+
+	$days_in_month = cal_days_in_month( CAL_GREGORIAN, $month, $year );
+ 	$date = getdate(mktime(12,0,0,$month,$day,$year));
+
+	$first = $date['wday'];
+
+	$prev = cal_adjust_date($month-1,$year);
+	$days_in_last_month = cal_days_in_month( CAL_GREGORIAN, $prev[0], $prev[1]);
+	$next = cal_adjust_date($month+1,$year);
+	$week_no = (int)date("W", mktime(12,0,0,$month,1,$year));
+
+	$d = $date['mday'];		
+
+    $week = 0;
+
+    $day_of_week = $first;
+    for( $i = 0; $i < 7; $i++ ) {
+		// last month
+		$cal[$week][$i]['num'] = $d;
+		$cal[$week][$i]['date'] = $year . '-' . $month . '-' . $d;
+		$cal[$week][$i]['day'] = $day_of_week++ % 7; 
+		$cal[$week][$i]['events'] = array();
+      $d++;
+	}
+
 	return $cal;
 }
 

@@ -98,7 +98,7 @@ class Article extends MY_Controller
 		$view_data['associated_products'] = $associated_products;
     	$view_data['associated_events'] = $associated_events;
     	$view_data['tags'] = $tags;
-    	
+
     	$pg_data['content'] = $this->load->view('layouts/article', $view_data, true);			
 		$pg_data['lists'] = $lists;
 

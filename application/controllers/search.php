@@ -13,6 +13,7 @@ class Search extends MY_Controller
 		parent::__construct();
 		$this->load->model('search_model');
 		$this->load->model('lists_model');
+		$this->load->model('tag_model');
 	}
 	
 	function index()
@@ -141,6 +142,16 @@ class Search extends MY_Controller
 		$this->load->view('search/results', $data);
 				
 	}
+	
+	
+	/** 
+	 * Search by tags
+	 */
+	 function tags($tag) {
+		 $results = $this->tag_model->search( 'articles', $tag);
+		 
+	 }
+	
 	/**
 	 * Search
 	 *

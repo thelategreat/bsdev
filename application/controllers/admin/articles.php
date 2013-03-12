@@ -258,6 +258,7 @@ class Articles extends Admin_Controller
 
     	$associated_products = $this->articles_model->get_products( $article_id );
     	$associated_events 	 = $this->articles_model->get_events( $article_id );
+
     	$associated = array_merge($associated_products, $associated_events);
     	
 		$view_data = array(

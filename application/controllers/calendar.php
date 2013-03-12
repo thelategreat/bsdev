@@ -30,18 +30,35 @@ class Calendar extends MY_Controller
 
 	function index()
 	{
-		$this->do_view('month');
+		$this->do_view('week');
 	}
-	
-	function view()
+
+
+	/* JSON call to retrieve data about a particular event */
+	function details_json() {
+		$event_id = $this->input->post('eventId');
+
+		$details = $this->event_model->get_event($event_id)->result();
+		if ($details) $details = $details[0];
+
+		echo json_encode($details);
+	}
+
+	/* Choose the view to display from a restricted list */
+	function view( $period = false )
 	{
-		$this->do_view($this->uri->segment(3));
+		$period = strtolower(trim($period));
+		if (in_array( $period, array('week', 'month', 'list'))) {
+			$this->do_view( $period );
+		} else {
+			$this->do_view ( 'month' );
+		}
 	}
 	
 	function do_view( $which )
 	{
 	    $view_menu = "<ul class='tabbed'>";
-	    $cal_views = array("month","poster","list");
+	    $cal_views = array("month","week","list");
 	    // keep the date we are on for different views
 	    $curr_view_date = $this->uri->segment(4) ? "/" . $this->uri->segment(4) : "";
 	    if( $this->uri->segment(4) ) {
@@ -57,16 +74,23 @@ class Calendar extends MY_Controller
 		$today 	= getdate(time());
 		$month 	= (int)$this->uri->segment(4) ? (int)$this->uri->segment(4) : $today['mon'];
 		$year 	= (int)$this->uri->segment(5) ? (int)$this->uri->segment(5) : $today['year'];
-		
+		$weeknum = (int)$this->uri->segment(6) ? (int)$this->uri->segment(6) : 0; 
+	
 		// adjust
-		$atd = cal_adjust_date( $month, $year );
-		$month = $atd[0];
-		$year = $atd[1];
+		$atd 	= cal_adjust_date( $month, $year );
+		$month 	= $atd[0];
+		$year 	= $atd[1];
 		
-		// gen the calendar grid		
-		$cal = cal_gen( $month, $year );
 		// TODO: fill $cal with events
-		$filter = array('view' => 'month', 'year' => $year, 'month' => $month);
+		$filter = array('view' => 'month', 'year' => $year, 'month' => $month, 'day' => $today['mday'], 'type' => 'film');
+		if ( $which == 'week' ) {
+			$filter['view'] = 'week';
+			// gen the calendar grid		
+			$cal = week_cal_gen( $today['mday'], $month, $year );
+		} else {
+			// gen the calendar grid		
+			$cal = cal_gen( $month, $year );
+		}
 		$events = $this->event_model->get_events( $filter );
 
 		foreach( $events->result() as $event ) {
@@ -76,12 +100,12 @@ class Calendar extends MY_Controller
 						$day['events'] = array();
 					}
 					// dd/mm/yyyy
-					$edate = date('j/n/Y', strtotime($event->dt_start));
+					$edate = date('Y-n-d', strtotime($event->dt_start));
 					if( $edate == $day['date'] ) {
 						// grab media
 						$media = $this->event_model->get_event_media( $event->id );
 						if( $media && $media->num_rows() > 0 ) {
-							$media = '/media/' . $media->row()->uuid;
+							$media = $media->row()->uuid;
 						} else {
 							// default image
 							if( file_exists( 'img/defaults/' . $event->category . '.jpg'  )) {
@@ -99,7 +123,10 @@ class Calendar extends MY_Controller
 								$rating = $row->rating;
 							}
 						}
-						array_push($day['events'], array('id' => $event->id, 
+
+						/* These are placed in reverse order because they right-float on the page
+							so we need them arranged backwards */
+						array_unshift($day['events'], array('id' => $event->id, 
 														 'title' => $event->title,
 														 'category' => strtolower($event->category),
 														 'rating' => $rating,
@@ -109,6 +136,12 @@ class Calendar extends MY_Controller
 					}
 				}
 			}
+		}
+
+		if ( $which == 'week' ) {
+			$newcal = array();
+			$newcal[0] = $cal[$weeknum];
+			$cal = $newcal;
 		}
 		
 		$next_year 	= (int)$year;
@@ -143,8 +176,8 @@ class Calendar extends MY_Controller
 			'view_menu' => $view_menu,
 			'month' => $month,
 			'year' => $year,
-		      'cal' => $cal,
-		      'lists' => $lists,
+		    'cal' => $cal,
+		    'lists' => $lists,
 			'next_month_url' => $next_month_url,
 			'prev_month_url' => $prev_month_url,
 			'nav' => $nav
@@ -156,6 +189,8 @@ class Calendar extends MY_Controller
 			$pg_data['content'] = $this->load->view('calendar/list_view', $view_data, true);
 		} else if( $which == 'month' ) {
 			$pg_data['content'] = $this->load->view('calendar/month_view', $view_data, true);
+		} else if( $which == 'week' ) {
+			$pg_data['content'] = $this->load->view('calendar/week_view', $view_data, true);
 		} else {
 			$pg_data['content'] = $this->load->view('calendar/poster_view', $view_data, true);			
 		}

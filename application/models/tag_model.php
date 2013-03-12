@@ -54,6 +54,17 @@ class Tag_model extends CI_Model
 		$this->db->delete("{$table_name}_tag_map");
 	}
 	
+	function search( $table_name, $tag ) {
+		$tag = $this->db->escape($tag);
+		
+		$q = "SELECT {$table_name}_id as id FROM {$table_name}_tag_map 
+				LEFT JOIN {$table_name}_tags ON {$table_name}_tag_map.{$table_name}_tag_id = {$table_name}_tags.id
+				WHERE slug = {$tag}";
+		$query = $this->db->query($q);
+		
+		return $query->result();
+	}
+	
 	/**
 	 * return tags for a given id
 	 *
@@ -70,7 +81,7 @@ class Tag_model extends CI_Model
 			AND b.${table_name}_id = $id";
 		$t = $this->db->query( $q );
 		foreach( $t->result() as $row ) {
-			$tra[] = $row->name;
+			$tra[] = trim($row->name);
 		}
 		asort( $tra );
 		

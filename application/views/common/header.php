@@ -24,10 +24,10 @@
 	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
 	
-	<? /*
+	
 	<script type="text/javascript" src="/js/jquery.tools.min.js" ></script>
 	<script type="text/javascript" src="/js/jqModal.js"></script>
 	<script type="text/javascript" src="/js/jquery.qtip.min.js"></script>
 	<script type="text/javascript" src="/js/jquery.cycle.lite.js"></script>
-	*/ ?>
+	
 </head>

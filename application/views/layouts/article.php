@@ -31,7 +31,7 @@
 								<div class='title'>FILE UNDER</div>
 								<div class='tags'>
 								<? foreach ($tags as $tag) { ?>
-									<a href='<? echo base_url('/articles/tags/'.$tag);?>'><?=$tag;?></a> 
+									<a href='<? echo base_url('/search/tags/'.$tag);?>'><?=$tag;?></a> 
 								<? } ?>
 								</div>
 								<? } ?>
@@ -52,16 +52,25 @@
 							<div class='category'><?=$item['bisac_text'];?></div>
 							<div class='pages'><?=$item['pages'];?> pages</div>
 							<div class='price'>$ <?=$item['bs_price'];?></div>
-						</aside>
-						
+						</aside>						
 					<? } } ?>
 					</div>					
-					<div style='height:350px;'>
-						<h3>Other books and links</h3>
-					</div>
-					<div style='height:350px;'>
-						<h3>Ad space</h3>
-					</div>
+					<div id='associated_events'>
+					<h2 class='title'>Events</h2>
+					<? foreach($associated_events as $item) { ?>
+						<aside class='associated-event' id='associated_<?=$item['id'];?>'>
+							<a href="<? echo base_url('/events/details/' . $item['id']); ?>"><h2><?=$item['title'];?></h2></a>
+							<div class='venue'><?=$item['venue'];?></div>
+							<div class='time'><? if (date('Y-m-d', strtotime($item['dt_start'])) == date('Y-m-d', strtotime($item['dt_end']))) { ?>
+								<?=date('D M d', strtotime($item['dt_start']));?><br>
+								<?=date('g:i a', strtotime($item['dt_start']));?> to <?=date('g:i a', strtotime($item['dt_end']));?>
+							<? } else { ?>
+								<?=date('D M d g:i a', strtotime($item['dt_start']));?> to <?=date('D M d g:i a', strtotime($item['dt_end']));?>
+							<? } ?>
+							</div>
+						</aside>						
+					<? } ?>
+					</div>					
 				</div>
 			</div>
 		</div>

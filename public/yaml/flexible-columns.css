@@ -46,6 +46,10 @@
 
 a { color: #000}
 li { list-style: none}
+body {
+	font-family: 'Karla', sans-serif;
+	font-size: 13px;
+}
 
 .dash {border: 1px dotted #ccc}
 .dash h3 {color: #faa;}
@@ -134,26 +138,185 @@ article#article .article-tags .tags a {
 }
 
 /* Article - Assoicated Products */
-body.article_view #associated_products {
+body.article_view #associated_products,
+body.article_view #associated_events {
 	padding-top: 55px;
 }
-aside.associated-product {
+body.article_view #associated_products .title,
+body.article_view #associated_events .title {
+	font-family: 'Fjalla One', sans-serif;
+	font-size: 40px;
+	line-height: 1.4em;
+}
+aside.associated-product,
+aside.associated-event {
 	font-family: 'Karla', sans-serif;
 	font-size: 13px;
 	padding-bottom: 25px;
 }
-aside.associated-product div {
+aside.associated-product div,
+aside.associated-event div {
 	margin-top: 10px;
 }
-aside.associated-product h2 {
+aside.associated-product h2,
+aside.associated-event h2 {
 	font-family: 'Fjalla One', sans-serif;
 	font-size: 20px;
 }
-aside.associated-product div.price {
+aside.associated-product div.price,
+aside.associated-event div.time {
 	font-size: 16px;
 	font-weight: bold;
 }
 /* Widgets */
 div.widget-vertical {
 	margin-bottom: 10px;
+}
+
+
+
+
+/* Calendar Views */
+#cal_week #calnav {
+	background:#fff;
+}
+#cal_week article:hover,
+#cal_month article:hover {
+	cursor:pointer;
+}
+#cal_month div.title,
+#cal_week div.title {
+	font-size: 18px;
+	margin: 10px 0 30px 0;
+}
+#cal_month article {
+	text-align: right;
+}
+#cal_month article .title {
+	font-size:16px;
+}
+#cal_month div.date {
+	margin-bottom: 30px;
+}
+#cal_week div.divider{
+	border-top: 1px solid #000;
+}
+#cal_month div.divider {
+	float:left;
+	width:100%;
+	margin-bottom: 40px;
+}
+#cal_week div.date {
+	font-size: 24px;
+}
+#cal_week div.date span {
+	font-weight: bold;
+}
+#cal_week div.today {
+	min-height: 200px;
+}
+#cal_week div.today .date {
+	margin-left: 20px;
+}
+#cal_week div.today .title {
+	font-size:40px;
+	font-family: 'Fjalla One', sans-serif;
+}
+#cal_week div.today article.event {
+	float:right;
+	text-align: right;
+	margin-left:20px;
+	width:220px;
+}
+#cal_week .time {
+	font-size: 24px;
+	margin-bottom: 16px;
+}
+#cal_week div.next-two {
+	margin-bottom: 40px;
+}
+#cal_week div.day-50 {
+	width: 49%;
+	float:left;
+	display:block;
+	min-height: 200px;
+}
+#cal_week div.next-two .day-50 .date {
+	margin-left: 100px;
+}
+#cal_week div.next-two article.event {
+	float:right;
+	text-align: right;
+	margin-left:20px;
+	width:100px;
+}
+#cal_week div.next-two .title {
+	font-size:16px;
+	font-family: 'Fjalla One', sans-serif;
+}
+#cal_week div.today .time {
+	font-size: 24px;
+	margin-bottom: 16px;
+}
+#cal_week div.last .day-33 {
+	width: 33%;
+	float:left;
+	display:block;
+	min-height: 200px;
+}
+#cal_week div.day-33 .container {
+	padding-right:10px;
+	padding-top:7px;
+}
+#cal_week div.last .date {
+	font-size: 13px;
+	float:right;
+	clear:both;
+}
+#cal_week div.last article {
+	margin-top:20px;
+	padding-top:20px;
+}
+#cal_week div.last .time {
+	font-size: 13px;
+	clear:both;
+	float:right;
+}
+#cal_week div.last .title {
+	font-size:16px;
+	font-family: 'Fjalla One', sans-serif;
+	clear:both;
+	text-align:right;
+}
+#cal_week div#details .title {
+	font-size: 40px;
+	font-weight:bold;
+}
+#cal_week div.bord,
+#cal_month div.bord {
+	border: none;
+	box-shadow: none;
+	border-right: 1px solid #000;
+}
+
+#cal_month div.day-12-5 {
+	width: 12.5%;
+	min-height: 200px;
+	float:left;
+	border-top: 1px solid #000;
+}
+#cal_month div.day-12-5 .container {
+	padding: 10px;
+}
+#cal_week .rating,
+#cal_month .rating {
+	background: #aaa;
+	padding: 3px;
+	color: #000;
+	font-size: 16px;
+}
+#cal_week #details,
+#cal_month #details {
+	display:none;
+	margin-bottom: 25px;
 }

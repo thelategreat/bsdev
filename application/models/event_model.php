@@ -17,7 +17,7 @@ class event_model extends CI_Model
 	/**
 	 *
 	 */
-	function get_event( $id )
+	function get_event_old( $id )
 	{
 		$this->db->where('events.id', intval($id) );
 		$this->db->join('event_audience', 'events.audience = event_audience.id');
@@ -61,6 +61,9 @@ class event_model extends CI_Model
 	{
 		$query = "SELECT e.id, e.created_on, e.updated_on, e.submitter_id, e.title, e.venue, e.dt_start, e.dt_end, e.body, e.rating, ec.category, e.audience, e.event_ref, e.venue_ref ";
 		$query .= " FROM events AS e, event_categories as ec WHERE e.category = ec.id ";
+		if (isset($filter['type'])) {
+			$query .= " AND ec.category = '{$filter['type']}' ";
+		}
 
 		switch( $filter['view']) {
 			case 'day':
@@ -214,6 +217,23 @@ EOF;
 	function get_audiences( )
 	{
 		return $this->db->query("SELECT * FROM event_audience");
+	}
+
+	/* Gets the details about a specific event - 
+	 * used in the JSON callback for movie details so this includes a join on the films table */
+	function get_event($id) {
+		$sql = "SELECT
+					*
+				FROM
+					EVENTS
+				LEFT JOIN event_categories ON event_categories.id = EVENTS .category
+				LEFT JOIN event_audience ON events.audience = event_audience.id
+				LEFT JOIN media_map ON media_map.path = concat('/event/', events.id)
+				LEFT JOIN media ON media.id = media_map.media_id
+				LEFT JOIN films ON films.id = EVENTS .event_ref
+				WHERE
+						EVENTS .id = '$id'";
+		return $this->db->query($sql);
 	}
 
 }
