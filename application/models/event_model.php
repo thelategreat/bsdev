@@ -225,14 +225,14 @@ EOF;
 		$sql = "SELECT
 					*
 				FROM
-					EVENTS
-				LEFT JOIN event_categories ON event_categories.id = EVENTS .category
+					events
+				LEFT JOIN event_categories ON event_categories.id = events .category
 				LEFT JOIN event_audience ON events.audience = event_audience.id
 				LEFT JOIN media_map ON media_map.path = concat('/event/', events.id)
 				LEFT JOIN media ON media.id = media_map.media_id
-				LEFT JOIN films ON films.id = EVENTS .event_ref
+				LEFT JOIN films ON films.id = events .event_ref
 				WHERE
-						EVENTS .id = '$id'";
+						events .id = '$id'";
 		return $this->db->query($sql);
 	}
 
