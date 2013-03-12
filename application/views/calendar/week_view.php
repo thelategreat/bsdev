@@ -4,6 +4,16 @@
 		<div class="ym-wbox">
 			<div class="ym-g100">
 				<div id='cal_week' style='height:auto'> 
+					<div id="details">
+						<div class='title'></div>
+						<img class='poster' src=''></img><br>
+						Directed by <span class='director'></span><br/>
+						<span class='country'></span> <span class='year'></span><br>
+						<span class='running_time'></span> minutes<br>
+						<span class='rating'></span><br>
+						<div class='description'></div>
+					</div>
+					
 					<div class='title'>Now Playing at the Bookshelf Cinema</div>					
 
 					<div class='divider today ym-clearfix'>
@@ -96,13 +106,4 @@
 			</div>
 		</div>
 	</div>
-</div>
-<div id="details">
-	<div class='title'></div>
-	<img class='poster' src=''></img><br>
-	Directed by <span class='director'></span><br/>
-	<span class='country'></span> <span class='year'></span><br>
-	<span class='running_time'></span> minutes<br>
-	<span class='rating'></span><br>
-	<div class='description'></div>
 </div>
