@@ -23,6 +23,11 @@ class Products extends Admin_Controller
 	 */
 	function index()
 	{
+		//$result = $this->products_model->getProduct(9780001837119);
+		//$result = $this->products_model->searchProduct('penguin');
+		//new dBug($result);die;
+
+		/*
 		$page_size = $this->config->item('list_page_size');
 		$page = 1;
 		$query = '';
@@ -58,20 +63,44 @@ class Products extends Admin_Controller
 		);
 
 		$this->gen_page('Admin - Products', 'admin/products/products_list', $view_data );
+		*/
+	
+		$query = $this->input->post('q');
+		$prods = array();
+		$total = 0;
+
+		if ($query) $prods = $this->products_model->searchProduct($query);
+		
+		if (isset($prods) && $prods !== false) {
+			$total = count($prods);
+		}
+
+		$page_size = $this->config->item('list_page_size');
+		$page = 1;
+
+		$view_data = array(
+			'products' => $prods,
+			'pager' => mk_pager( $page, $page_size, $total, "$this->base_url/index", $query ),
+			'q' => $query
+		);
+
+		$this->gen_page('Admin - Products', 'admin/products/index', $view_data);
 	}
 
 	// TODO
-	function edit()
+	function edit($id = false)
   {
-    $id = (int)$this->uri->segment(4);
+    $id = (int)$id;
+
     if( !$id ) {
-      redirect($this->base_url);
+		redirect($this->base_url);
     }
 
     if( $this->input->post('cancel')) {
       redirect($this->base_url);
     }
-		if( $this->input->post('save')) {
+	
+	if( $this->input->post('save')) {
 			$this->form_validation->set_error_delimiters('<span class="form_error">','</span>');
 			$this->form_validation->set_rules('title','Title','trim|required');
 			$this->form_validation->set_rules('ean','EAN','trim|required|min_length[12]|max_length[13]');
@@ -82,10 +111,22 @@ class Products extends Admin_Controller
       }
     }
 
-    $product = $this->products_model->get_product( $id )->row();
+    $product = $this->products_model->getProduct( $id );
+
+    if ($product == false) {
+    	redirect($this->base_url);
+    }
+
+    $options['record_statuses'] = $this->products_model->getOptions('record_statuses', 'id', 'name');
+    $options['record_types'] = $this->products_model->getOptions('record_types', 'id', 'name');
+    $options['record_sources'] = $this->products_model->getOptions('record_sources', 'id', 'name');
+    $options['format_codes'] = $this->products_model->getOptions('format_codes', 'id', 'code');
+    $options['product_category'] = $this->products_model->getOptions('product_category', 'id', 'name');
+    
 
     $view_data = array(
-      'product' => $product
+      'product' => $product,
+      'options' => $options
     );
 		$this->gen_page('Admin - Products', 'admin/products/product_edit', $view_data );
 	}

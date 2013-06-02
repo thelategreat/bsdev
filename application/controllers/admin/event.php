@@ -33,7 +33,7 @@ class Event extends Admin_Controller
 	/**
 	 *
 	 */
-	function add()
+	function add_event()
 	{
 		$this->load->helper('form');
 		$this->load->library('form_validation');
@@ -101,6 +101,76 @@ class Event extends Admin_Controller
 			);
 
 		$this->gen_page('Admin - Event', 'admin/calendar/event_add', $widgets );
+	}
+
+	function add_film()
+	{
+		$this->load->helper('form');
+		$this->load->library('form_validation');
+
+		if( $this->input->post('cancel')) {
+			redirect('/admin/calendar');
+		}
+
+		// this is so we can carry the date from the last entered event
+		$start_date = $this->input->post('event_date_start');
+		if( !$start_date ) {
+			$start_date = date('Y-m-d');
+		}
+
+		$this->form_validation->set_error_delimiters('','');
+		$this->form_validation->set_rules('title', 'title', 'trim|required');
+		$this->form_validation->set_rules('event_date_start', 'Start Date', 'trim');
+		$this->form_validation->set_rules('event_date_end', 'End Date', 'trim');
+		$this->form_validation->set_rules('venue_ref', 'Venue', 'trim');
+
+		if( $this->form_validation->run()) {
+			$data = array();
+			$data['submitter_id'] = 1;
+			$data['title'] = $this->input->post('title');
+			$data['venue'] = $this->input->post('venue');
+			$data['category'] = $this->input->post('category');
+			$data['audience'] = $this->input->post('audience');
+			$data['body'] = $this->input->post('body');
+			$data['event_ref'] = $this->input->post('event_ref');
+			$data['venue_ref'] = $this->input->post('venue_ref');
+			$data['dt_start'] = $this->input->post('event_date_start') . " " . $this->get_time_post('event_time_start');
+			$data['dt_end'] = $this->input->post('event_date_end') . " " . $this->get_time_post('event_time_end');
+			$id = $this->event_model->add_event( $data );
+
+			// make link to existing media, if film
+			if( $data['category'] == '1' ) { // TODO: make this lookup
+				$film = $this->db->query("SELECT * FROM films WHERE title = " . $this->db->escape($data['title']));
+				if( $film->num_rows() > 0 ) {
+					$film = $film->row();
+					$mmid = $this->db->query("SELECT * FROM media_map WHERE path = '/films/" . $film->id . "' ORDER BY sort_order" );
+					if( $mmid->num_rows() > 0 ) {
+						$mmid = $mmid->row();
+						$this->db->query('INSERT INTO media_map (media_id,path,sort_order,slot) VALUES ('.$mmid->media_id.",'/event/$id',0,'general')");
+					}
+				}
+			}
+
+
+			if( $this->input->post('addedit')) {
+				redirect('/admin/event/edit/' . $id . '/media' );
+			} else if($this->input->post('addanother')) {
+				//redirect('/admin/event/add');
+				// fall through but keep the last date
+			} else {
+				redirect('/admin/calendar');
+			}
+		}
+
+		$widgets = array(
+			"start_time_widget" => $this->get_time_widget('event_time_start', mktime( 12, 0, 0 )), //time()),
+			"end_time_widget" => $this->get_time_widget('event_time_end', mktime( 13, 0, 0 )),//time() + 60*60),
+			"audience_select" => $this->get_audience_select(),
+			"category_select" => $this->get_category_select(1),
+			"start_date" => $start_date
+			);
+
+		$this->gen_page('Admin - Event', 'admin/calendar/film_add', $widgets );
 	}
 
 	/**
@@ -204,7 +274,8 @@ class Event extends Admin_Controller
 			if( $cat == "1" ) {
 				$res = $this->db->query("select id, title, description, running_time from films where id = $id");
 				foreach( $res->result() as $row ) {
-					$data[] = array('id'=>$row->id,'title'=>$row->title,'time'=>$row->running_time,'description'=>$row->description);
+					//$data[] = array('id'=>$row->id,'title'=>$row->title,'time'=>$row->running_time,'description'=>$row->description);
+					$data[] = array('label'=>$row->title, 'value'=>$row->id);
 				}
 			}
 		} elseif( $query && $cat ) {
@@ -212,7 +283,8 @@ class Event extends Admin_Controller
 			if( $cat == "1" ) {
 				$res = $this->db->query("select id, title, running_time from films where lower(title) like '%" . strtolower($query) . "%'");
 				foreach( $res->result() as $row ) {
-					$data[] = array('cat'=>$cat,'id'=>$row->id,'name'=>$row->title,'time'=>$row->running_time);
+					//$data[] = array('cat'=>$cat,'id'=>$row->id,'name'=>$row->title,'time'=>$row->running_time);
+					$data[] = array('label'=>$row->title, 'value'=>$row->id);
 				}
 			}
 		}
@@ -263,7 +335,23 @@ class Event extends Admin_Controller
 
 	function lookup_venue()
 	{
-		$xml = '';
+		$query = $this->input->post("query");
+		$data = array();
+
+		if( $query ) {
+				$sql = "SELECT id, venue 
+						FROM venues
+						WHERE LOWER(venue)
+						LIKE '%" . $this->db->escape_like_str(strtolower($query)) . "%'";						
+				$res = $this->db->query($sql);
+				foreach( $res->result() as $row ) {					
+					$data[] = array('label'=>htmlspecialchars($row->venue), 'value'=>$row->id);
+				}
+		}
+
+		echo json_encode( $data );
+
+	 /*$xml = '';
 		$query = $this->input->post("query");
 		$id = $this->input->post("id");
 
@@ -280,7 +368,7 @@ class Event extends Admin_Controller
 		$xml .= '</results>';
 
 		header('content-type: text/xml');
-		echo $xml;
+		echo $xml; */ 
 	}
 
 
@@ -394,7 +482,7 @@ class Event extends Admin_Controller
 	protected function get_category_select( $category = NULL )
 	{
 		$sel = '<select name="category" id="fld_category" onchange="sel_category();" >';
-		$cats = $this->event_model->get_categories();
+		$cats = $this->event_model->get_categories( $category );
 		foreach( $cats->result() as $cat ) {
 			$sel .= "<option value='$cat->id' ";
 			if( $category && $category == $cat->id ) {

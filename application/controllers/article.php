@@ -36,6 +36,7 @@ class Article extends MY_Controller
 	{
 		$this->load->model('products_model');
 		$this->load->model('media_model');
+		$this->db->db_select();
 		$data = array();
 		$layout = 'article';
 

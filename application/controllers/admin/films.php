@@ -380,5 +380,26 @@ EOF;
 		
 		return $data;
 	}
+
+	/**
+		Lookup Show Times
+		Used as a callback to look up show times in the events events_times 
+		@param Film ID (POST)
+		@return JSON encoded list of film times
+	*/
+	function lookup_showtimes() {
+		$film_id = $this->input->post('id');
+		$result = array();
+
+		if (!$film_id) return json_encode($result);
+
+		$sql = "SELECT * FROM 
+				events_times
+				WHERE films_id = " . $this->db->escape($film_id);
+		$query = $this->db->query($sql);
+		$results = $query->result_array();
+		echo json_encode($results);
+
+	}
 }
 

@@ -16,31 +16,23 @@
 	?>
 	<tr><td>Subject</td><td><?=$item->bisac_text?></td></tr>
 	<tr><td>Publisher</td><td><?=$item->publisher?></td></tr>
-	<tr><td>Pub. Date</td><td><?=$item->publishing_date?></td></tr>
-	<tr><td>Format</td><td><?=$item->binding_text?></td></tr>
+	<tr><td>Pub. Date</td><td><?=$item->publish_date?></td></tr>
+	<tr><td>Format</td><td><?=$item->format?></td></tr>
 	<tr><td>Pages</td><td><?=$item->pages?></td></tr>
   <tr><td>Size</td><td><?=$item->size?></td></tr>
 </table>
 
 </div> <!-- product-detail -->
 
-  <?php if( $item->bs_price ) { ?>
+  <?php if( $item->sell_price ) { ?>
     <div class="big-price">
         <a style="float: left;" href="/cart/additem/<?=$item->id?>" title="Add to Cart"><img src="/img/icons/add_to_cart.png" /></a>
-        <p>Bookshelf Price: <?='$' . money_format("%i",$item->bs_price) ?></p>
+        <p>Bookshelf Price: <?='$' . money_format("%i",$item->sell_price) ?></p>
     </div>
   <?php } ?>
 
-
-<?php
-
-$oth = explode('|', $item->othertext_code_text);
-$ot = explode('|', $item->othertext);
-for( $i = 0; $i < count($ot); $i++ ) {
-	echo '<h3>' . $oth[$i] . '</h3>';
-	echo '<p>' . $ot[$i] . '</p>';
-}
-
-
-
-?>
+  <?php 
+  	foreach ($item->othertext as $it) { ?>
+  		<h2><?=$it->type;?></h2>
+  		<p><?=$it->text;?></p>
+  	<?php } ?>

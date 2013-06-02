@@ -136,9 +136,12 @@ $(document).ready(function() {
 </script>
 
 <div class="leftCol">
-	<table><tr>
-	<td><h3><a href="/admin/event/add"><img src="/img/admin/calendar_add.png" style="cursor: pointer" title="New Event"/></a> Calendar</h3></td><td></td>
-	</tr></table>
+	<br>
+	<a href="/admin/event/add_event">Add Event</a>
+	<br>
+	<a href="/admin/event/add_film">Add Film</a>
+
+	
 	<div class="scrollable" style="height: 500px">
 	<ul class="event_list">
 	<?php foreach( $events->result() as $row ) {

@@ -256,6 +256,8 @@ function sel_event_time_end()
 }
 
 $(document).ready(function() {
+	return;
+
 	Date.format = "yyyy-mm-dd";
 	$('.date-pick').datePicker({ startDate: '2000-01-01' });
 	$('#fld_event_date_start').blur( function() { leave_first_date(); });

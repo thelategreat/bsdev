@@ -7,6 +7,7 @@ class articles_model extends CI_Model
   function __construct()
   {
     parent::__construct();
+    $this->db->db_select();
   }
 
 	// used by admin
@@ -166,6 +167,7 @@ SQL;
   	 */
 	function get_article( $id )
 	{
+    $this->db->db_select();
 		$q = "
 			SELECT a.id, title, body, ac.category, updated_on, author, ast.status, publish_on, gt.name AS `group`, excerpt
 				FROM articles as a, article_categories as ac, article_statuses as ast, group_tree as gt
@@ -284,14 +286,14 @@ SQL;
     {
         $this->db->where('article_id', $article_id);
         $this->db->where('event_id', $event_id);
-        $query = $this->db->get('article_events');
+        $query = $this->db->get('articles_events');
         if ( $query->num_rows() > 0 ) {
             return false; // This item is already associated
         }
 
-        $this->db->set('event_id', $event_id);
-        $this->db->set('article_id', $article_id);
-        $this->db->insert('article_events');
+        $this->db->set('events_id', $event_id);
+        $this->db->set('articles_id', $article_id);
+        $this->db->insert('articles_events');
 
         return true;
     }
@@ -303,9 +305,9 @@ SQL;
      */
     function remove_event( $article_id, $event_id )
     {
-        $this->db->where('article_id', $article_id);
-        $this->db->where('event_id', $event_id);
-        $query = $this->db->delete('article_events');
+        $this->db->where('articles_id', $article_id);
+        $this->db->where('events_id', $event_id);
+        $query = $this->db->delete('articles_events');
 
         return true;
     }
@@ -316,7 +318,7 @@ SQL;
     {
     	$this->load->model('event_model');
     	
-        $sql = "SELECT * FROM article_events ae
+        $sql = "SELECT * FROM articles_events ae
             LEFT JOIN events e ON ae.event_id = e.id
             WHERE ae.article_id = ?";
         $result = $this->db->query($sql, $article_id)->result_array();
@@ -344,16 +346,16 @@ SQL;
      */
     function add_product( $article_id, $product_id )
     {
-        $this->db->where('article_id', $article_id);
-        $this->db->where('product_id', $product_id);
-        $query = $this->db->get('article_products');
+        $this->db->where('articles_id', $article_id);
+        $this->db->where('producss_id', $product_id);
+        $query = $this->db->get('articles_products');
         if ( $query->num_rows() > 0 ) {
             return false; // This item is already associated
         }
 
-        $this->db->set('article_id', $article_id);
-        $this->db->set('product_id', $product_id);
-        $this->db->insert('article_products');
+        $this->db->set('articles_id', $article_id);
+        $this->db->set('products_id', $product_id);
+        $this->db->insert('articles_products');
 
         return true;
     }
@@ -365,9 +367,9 @@ SQL;
      */
     function remove_product( $article_id, $product_id )
     {
-        $this->db->where('article_id', $article_id);
-        $this->db->where('product_id', $product_id);
-        $query = $this->db->delete('article_products');
+        $this->db->where('articles_id', $article_id);
+        $this->db->where('products_id', $product_id);
+        $query = $this->db->delete('articles_products');
 
         return true;
     }
@@ -378,7 +380,7 @@ SQL;
      */
     function get_products( $article_id )
     {
-        $sql = "SELECT * FROM article_products ap
+        $sql = "SELECT * FROM articles_products ap
             LEFT JOIN products p ON ap.product_id = p.id
             WHERE ap.article_id = ?";
         $result = $this->db->query($sql, $article_id)->result_array();

@@ -188,7 +188,14 @@ EOF;
 
 	function get_future_dates( $category, $title )
 	{
-		return $this->db->query("SELECT * FROM events WHERE category = $category AND title = " . $this->db->escape($title). " AND dt_start >= NOW()");
+		$sql = "SELECT * FROM events WHERE category = " . 
+			$this->db->escape($category) . 
+			" AND title = " . 
+			$this->db->escape($title) . 
+			" AND dt_start >= NOW()";
+
+		return $this->db->query($sql)->result();
+
 	}
 
 	function get_extra_info( $event )
@@ -209,9 +216,22 @@ EOF;
 		return $extra;
 	}
 
-	function get_categories( )
+	/** 
+		Get Categories - Retrieve event categories
+		@param int or array of ints of category IDs
+		@return result
+	*/
+	function get_categories( $id = false )
 	{
-		return $this->db->query("SELECT * FROM event_categories");
+		$sql = "SELECT * FROM event_categories WHERE true";
+		if ( $id ) {
+			if (is_array($id)) {
+				$id = implode(',', $id);
+			}
+			$sql .= " AND id IN ({$id})";
+		} 
+		$sql .= " ORDER BY category ASC";
+		return $this->db->query($sql);
 	}
 
 	function get_audiences( )
@@ -233,7 +253,24 @@ EOF;
 				LEFT JOIN films ON films.id = events .event_ref
 				WHERE
 						events .id = '$id'";
-		return $this->db->query($sql);
+		
+		$result = $this->db->query($sql);
+		$return = $result->row();
+
+		$sql = "SELECT
+					articles.id,
+					articles.title,
+					articles.author,
+					articles.excerpt
+				FROM
+					articles_events
+				LEFT JOIN articles ON articles_events.articles_id = articles.id
+				WHERE
+					events_id = {$id}";
+		$result = $this->db->query($sql)->result();
+		$return->associated_essays = $result;
+
+		return $return;
 	}
 
 }
