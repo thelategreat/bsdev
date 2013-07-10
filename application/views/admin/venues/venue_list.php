@@ -1,17 +1,40 @@
-<div style="float: right">
-</div>
+<script type='text/javascript'>
+	$(document).ready(function() {
+		$('#venues').dataTable();
+	});
+</script>
 
-<h3><a class="small" href="/admin/venues/add" title="Add Venue"><img src="/img/admin/house_go.png" /></a> Venues</h3>
-<table>
-<tr>
-  <th>name</th>
-  <th>location</th>
-</tr>
-<?php $i = 0;
-  foreach( $data as $row ) { ?>
-  <tr <?php if($i % 2 == 0) { echo 'class="odd"'; } ?> >
-    <td><a href="/admin/venues/edit/<?= $row->id ?>" title="Edit Venue"><?= $row->venue ?></td></a>
-    <td><a href="/admin/locations/edit/<?= $row->location_id ?>" title="Edit Location"><?= $row->location ?></a></td>
-  </tr>
-<?php $i++; } ?>
-</table>
+
+<div class=container>
+	<header>Venues</header>
+
+	<br>
+
+	<nav>
+		<a href="/admin/venues/add/">
+		<button id='btn_add'>
+	    	<i class="icon-plus icon-2x"></i> Add Venue 
+		</button>
+		</a>
+	</nav>
+	<br>
+
+	<table id='venues' class="dataTable">
+	  <thead>
+	    <tr>
+	      <th width="35%">Name</th>
+	      <th>Location</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	  	<?php 
+	  	 foreach( $data as $row ) { ?>
+		  <tr>
+		    <td><a href="/admin/venues/edit/<?= $row->id ?>" title="Edit Venue"><?= $row->name ?></td></a>
+		    <td><a href="/admin/locations/edit/<?= $row->locations_id ?>" title="Edit Location"><?= $row->location_name ?></a></td>
+		  </tr>
+		 <?php } ?>
+	  </tbody>
+	 </table>
+
+ </div>

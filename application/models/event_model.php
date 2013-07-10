@@ -25,12 +25,22 @@ class event_model extends CI_Model
 	}
 
 	/**
-	 *
+		Get the media for an event 
 	 */
 	function get_event_media( $id )
 	{
-		$res = $this->db->query("SELECT m.uuid FROM media_map as mm, media as m WHERE mm.path = '/event/" . intval($id) . "' AND m.id = mm.media_id ORDER BY mm.sort_order");
-		return $res;
+		$sql = "SELECT m.uuid FROM 
+				media_map as mm, 
+				media as m 
+				WHERE mm.path = '/event/" . intval($id) . 
+				"' AND m.id = mm.media_id ORDER BY mm.sort_order";
+		$result = $this->db->query($sql)->result();
+
+		if ($result) {
+			return $result[0];
+		}
+
+		return $result;
 	}
 
 	function get_next_events( $count = 10 )
@@ -59,10 +69,10 @@ class event_model extends CI_Model
 	 */
 	function get_events( $filter )
 	{
-		$query = "SELECT e.id, e.created_on, e.updated_on, e.submitter_id, e.title, e.venue, e.dt_start, e.dt_end, e.body, e.rating, ec.category, e.audience, e.event_ref, e.venue_ref ";
+		$query = "SELECT e.id, e.created_on, e.updated_on, e.submitter_id, e.title, e.venue, e.dt_start, e.dt_end, e.body, e.rating, ec.name as category, e.audience, e.event_ref, e.venue_ref ";
 		$query .= " FROM events AS e, event_categories as ec WHERE e.category = ec.id ";
 		if (isset($filter['type'])) {
-			$query .= " AND ec.category = '{$filter['type']}' ";
+			$query .= " AND ec.name = '{$filter['type']}' ";
 		}
 
 		switch( $filter['view']) {
@@ -123,7 +133,7 @@ EOF;
 		$offs = (($page - 1) * $limit);
 
 		$sql =<<<EOF
-			SELECT e.id, e.title, e.dt_start, e.audience, ea.audience as audience_name, e.category, ec.category AS category_name
+			SELECT e.id, e.title, e.dt_start, e.audience, ea.audience as audience_name, e.category, ec.name AS category_name
 			FROM events as e, event_audience as ea, event_categories as ec
 				WHERE (title LIKE '%$term%' OR body LIKE '%$term%')
 				AND ea.id = e.audience AND ec.id = e.category
@@ -216,6 +226,41 @@ EOF;
 		return $extra;
 	}
 
+
+	/**
+		Search for an event by title
+		@param term
+		@return result
+	*/
+	function searchEventsByTitle($term, $limit = 25)
+	{
+		$sql = "SELECT *, 'event' as type 
+				FROM events WHERE LOWER(title) LIKE '%" . $this->db->escape_like_str($term) . "%'
+				ORDER BY title
+				LIMIT $limit
+				";
+		$result = $this->db->query($sql)->result();
+
+		return $result;
+	}
+
+	/**
+		Search for a film by title 
+		@param term
+		@return result
+	*/
+	function searchFilmsByTitle($term, $limit = 25)
+	{
+		$sql = "SELECT *, 'film' as type 
+				FROM films WHERE LOWER(title) LIKE '%" . $this->db->escape_like_str($term) . "%'
+				ORDER BY title
+				LIMIT $limit
+				";
+		$result = $this->db->query($sql)->result();
+
+		return $result;
+	}
+
 	/** 
 		Get Categories - Retrieve event categories
 		@param int or array of ints of category IDs
@@ -230,32 +275,87 @@ EOF;
 			}
 			$sql .= " AND id IN ({$id})";
 		} 
-		$sql .= " ORDER BY category ASC";
+		$sql .= " ORDER BY name ASC";
 		return $this->db->query($sql);
 	}
 
-	function get_audiences( )
+	/** 
+		Get Audiences - Retrieve event audiences 
+		@param int or array of ints of category IDs
+		@return result
+	*/
+	function get_audiences( $id = false )
 	{
-		return $this->db->query("SELECT * FROM event_audience");
+		$sql = "SELECT * FROM event_audiences WHERE true";
+		if ( $id ) {
+			if (is_array($id)) {
+				$id = implode(',', $id);
+			}
+			$sql .= " AND id IN ({$id})";
+		} 
+		$sql .= " ORDER BY name ASC";
+		return $this->db->query($sql);
+	}
+
+	/** 
+		Get Venues - Retrieve event venues 
+		@param int or array of ints of category IDs
+		@return result
+	*/
+	function get_venues( $id = false )
+	{
+		$sql = "SELECT * FROM venues WHERE true";
+		if ( $id ) {
+			if (is_array($id)) {
+				$id = implode(',', $id);
+			}
+			$sql .= " AND id IN ({$id})";
+		} 
+		$sql .= " ORDER BY name ASC";
+		return $this->db->query($sql);
 	}
 
 	/* Gets the details about a specific event - 
 	 * used in the JSON callback for movie details so this includes a join on the films table */
 	function get_event($id) {
 		$sql = "SELECT
-					*
+					*, events.title as title,
+					dt_start as date_start, dt_end as date_end, 
+					event_categories.name as category,
+					event_audiences.name as audience
 				FROM
 					events
 				LEFT JOIN event_categories ON event_categories.id = events .category
-				LEFT JOIN event_audience ON events.audience = event_audience.id
+				LEFT JOIN event_audiences ON events.audience = event_audiences.id
 				LEFT JOIN media_map ON media_map.path = concat('/event/', events.id)
 				LEFT JOIN media ON media.id = media_map.media_id
 				LEFT JOIN films ON films.id = events .event_ref
 				WHERE
 						events .id = '$id'";
-		
+	
 		$result = $this->db->query($sql);
 		$return = $result->row();
+
+		if (!$return) return false;
+
+		$sql = "SELECT 
+					* 
+				FROM
+					venues 
+				WHERE id = '{$return->venues_id}'";
+		$venue_result = $this->db->query($sql);
+		$return->venue = $venue_result->row();
+
+		$sql = "SELECT start_time, end_time
+				FROM events_times WHERE events_id = '$id'";
+		$times_result = $this->db->query($sql);
+		$times = $times_result->result();
+		$event_times = array();
+		if ($times) foreach ($times as $time) {
+			$d = date('Y-m-d', strtotime($time->start_time));
+			$event_times[$d] = $time;
+		}
+		$return->dates = $event_times;
 
 		$sql = "SELECT
 					articles.id,
@@ -271,6 +371,115 @@ EOF;
 		$return->associated_essays = $result;
 
 		return $return;
+	}
+
+	/**
+	   Get a film ID based on the events_times ID
+	   @param event_times ID
+	   @return film ID or false
+	*/
+	function get_film_id_by_event_time_id( $id ) {
+		if (!is_numeric($id)) return false;
+
+		$sql = "SELECT films_id FROM events_times WHERE id = '$id'";
+		$result = $this->db->query($sql);
+
+		$ret = $result->row();
+
+		if ($ret) {
+			return ($ret->films_id);
+		}
+		return false;
+	}
+
+	/**
+		Get all event details based on events_times ID
+		This is used for the event edit page after a calendar event is clicked 
+		@param event_times ID
+		@return event object or false
+	*/
+	function get_event_by_event_time_id( $id ) {
+		if (!is_numeric($id)) return false;
+
+		$sql = "SELECT events.*, 
+					events_times.start_time, 
+					events_times.end_time 
+			FROM events_times 
+			LEFT JOIN events ON events_times.events_id = events.id
+			WHERE events_times.id = '$id'";
+		$result = $this->db->query($sql);
+
+		$ret = $result->row();
+
+		if ($ret) {
+			return $ret; 
+		}
+		return false;
+	}
+
+	/**
+		Get film info
+		@param Film ID
+		@return Film data object or false
+	*/
+	function get_film($film_id) {
+		$sql = "SELECT * FROM films WHERE id = '{$film_id}'";
+		$result = $this->db->query($sql);
+
+		$ret = $result->row();
+
+		return $ret;
+	}
+
+
+	function get_calendar_events($start, $end) {
+		$start = date('Y-m-d', $start);
+		$end = date('Y-m-d', $end);
+
+		$sql = "SELECT
+					et.id, 
+					films.title, 
+					et.start_time AS start,
+					et.end_time AS end
+				FROM
+					FILMS
+				LEFT JOIN events_times et ON et.films_id = films.id
+				WHERE
+					start_time >= '$start'
+				AND start_time <= '$end'";
+
+		$film_events = $this->db->query($sql)->result();
+
+		foreach ($film_events as &$it) {
+			$it->allDay = false;
+			$it->className = 'film';
+			$it->color = '#0B3';
+		}
+
+
+		$sql = "SELECT
+					et.id, 
+					events.title, 
+					et.start_time AS start,
+					et.end_time AS end
+				FROM
+					events
+				LEFT JOIN events_times et ON et.events_id = events.id
+				WHERE
+					start_time >= '$start'
+				AND start_time <= '$end'";
+
+		$event_events = $this->db->query($sql)->result();
+
+		foreach ($event_events as &$it) {
+			$it->allDay = false;
+			$it->className = 'event';
+			$it->color = '#30B';
+		}
+
+		$result = array_merge($film_events, $event_events);
+
+		return $result;
 	}
 
 }

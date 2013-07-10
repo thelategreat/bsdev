@@ -69,7 +69,7 @@ class Products extends Admin_Controller
 		$prods = array();
 		$total = 0;
 
-		if ($query) $prods = $this->products_model->searchProduct($query);
+		if ($query) $prods = $this->products_model->searchProduct($query, 100);
 		
 		if (isset($prods) && $prods !== false) {
 			$total = count($prods);
@@ -307,19 +307,6 @@ class Products extends Admin_Controller
             'files' => $products
 			);
 
-		if( !$is_ajax ) {
-            /*
-            Currently this is an ajax-only call
-                $pg_data = array(
-				'title' => 'Admin - Media',
-				'nav' => $this->load->view('layouts/admin_nav', '', true),
-				'content' => $this->load->view('admin/media/media_browser', $view_data, true),
-				'footer' => $this->load->view('layouts/admin_footer', '', true)
-            );
-			$this->load->view('layouts/admin_page', $pg_data );
-             */
-        } else {
-			$this->load->view('admin/products/article_products_browser', $view_data );
-        }
+		$this->load->view('admin/products/article_products_browser', $view_data );
     }
 }

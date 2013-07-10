@@ -31,147 +31,171 @@ class Event extends Admin_Controller
 	}
 
 	/**
-	 *
+	 Add an event
 	 */
 	function add_event()
 	{
-		$this->load->helper('form');
-		$this->load->library('form_validation');
-
-		if( $this->input->post('cancel')) {
-			redirect('/admin/calendar');
-		}
-
-		// this is so we can carry the date from the last entered event
-		$start_date = $this->input->post('event_date_start');
-		if( !$start_date ) {
-			$start_date = date('Y-m-d');
-		}
-
-		$this->form_validation->set_error_delimiters('','');
-		$this->form_validation->set_rules('title', 'title', 'trim|required');
-		$this->form_validation->set_rules('event_date_start', 'Start Date', 'trim');
-		$this->form_validation->set_rules('event_date_end', 'End Date', 'trim');
-		$this->form_validation->set_rules('venue_ref', 'Venue', 'trim');
-
-		if( $this->form_validation->run()) {
-			$data = array();
-			$data['submitter_id'] = 1;
-			$data['title'] = $this->input->post('title');
-			$data['venue'] = $this->input->post('venue');
-			$data['category'] = $this->input->post('category');
-			$data['audience'] = $this->input->post('audience');
-			$data['body'] = $this->input->post('body');
-			$data['event_ref'] = $this->input->post('event_ref');
-			$data['venue_ref'] = $this->input->post('venue_ref');
-			$data['dt_start'] = $this->input->post('event_date_start') . " " . $this->get_time_post('event_time_start');
-			$data['dt_end'] = $this->input->post('event_date_end') . " " . $this->get_time_post('event_time_end');
-			$id = $this->event_model->add_event( $data );
-
-			// make link to existing media, if film
-			if( $data['category'] == '1' ) { // TODO: make this lookup
-				$film = $this->db->query("SELECT * FROM films WHERE title = " . $this->db->escape($data['title']));
-				if( $film->num_rows() > 0 ) {
-					$film = $film->row();
-					$mmid = $this->db->query("SELECT * FROM media_map WHERE path = '/films/" . $film->id . "' ORDER BY sort_order" );
-					if( $mmid->num_rows() > 0 ) {
-						$mmid = $mmid->row();
-						$this->db->query('INSERT INTO media_map (media_id,path,sort_order,slot) VALUES ('.$mmid->media_id.",'/event/$id',0,'general')");
-					}
-				}
-			}
-
-
-			if( $this->input->post('addedit')) {
-				redirect('/admin/event/edit/' . $id . '/media' );
-			} else if($this->input->post('addanother')) {
-				//redirect('/admin/event/add');
-				// fall through but keep the last date
-			} else {
-				redirect('/admin/calendar');
-			}
-		}
-
 		$widgets = array(
-			"start_time_widget" => $this->get_time_widget('event_time_start', mktime( 12, 0, 0 )), //time()),
-			"end_time_widget" => $this->get_time_widget('event_time_end', mktime( 13, 0, 0 )),//time() + 60*60),
+			"start_time_widget" => $this->get_time_widget('time_start', mktime( 12, 0, 0 )), //time()),
+			"end_time_widget" => $this->get_time_widget('time_end', mktime( 13, 0, 0 )),//time() + 60*60),
 			"audience_select" => $this->get_audience_select(),
 			"category_select" => $this->get_category_select(),
-			"start_date" => $start_date
+			"venue_select" => $this->get_venues_select()
 			);
-
 		$this->gen_page('Admin - Event', 'admin/calendar/event_add', $widgets );
 	}
 
-	function add_film()
-	{
-		$this->load->helper('form');
-		$this->load->library('form_validation');
 
+	/**
+	 Edit a calendar event 
+	 */
+	function edit_event($id)
+	{
+		if (!$id) redirect('/admin/calendar');
+		$event = $this->event_model->get_event_by_event_time_id($id);
+
+		$widgets = array(
+			"start_time_widget" => $this->get_time_widget('time_start', strtotime($event->start_time)),
+			"end_time_widget" => $this->get_time_widget('time_end', strtotime($event->end_time)),
+			"audience_select" => $this->get_audience_select($event->audience),
+			"category_select" => $this->get_category_select($event->category),
+			"venue_select" => $this->get_venues_select($event->venues_id),
+			"event"	=> $event
+			);
+		$this->gen_page('Admin - Event', 'admin/calendar/event_add', $widgets );
+	}
+
+	/**
+	 Add a film
+	 */
+	function add_film($event_id = false)
+	{
 		if( $this->input->post('cancel')) {
 			redirect('/admin/calendar');
 		}
 
-		// this is so we can carry the date from the last entered event
-		$start_date = $this->input->post('event_date_start');
-		if( !$start_date ) {
-			$start_date = date('Y-m-d');
+		$film = $film_id = false;
+		if ($event_id) {
+			$film_id = $this->event_model->get_film_id_by_event_time_id($event_id);
+			$film = $this->event_model->get_film($film_id);
 		}
 
-		$this->form_validation->set_error_delimiters('','');
-		$this->form_validation->set_rules('title', 'title', 'trim|required');
-		$this->form_validation->set_rules('event_date_start', 'Start Date', 'trim');
-		$this->form_validation->set_rules('event_date_end', 'End Date', 'trim');
-		$this->form_validation->set_rules('venue_ref', 'Venue', 'trim');
-
-		if( $this->form_validation->run()) {
-			$data = array();
-			$data['submitter_id'] = 1;
-			$data['title'] = $this->input->post('title');
-			$data['venue'] = $this->input->post('venue');
-			$data['category'] = $this->input->post('category');
-			$data['audience'] = $this->input->post('audience');
-			$data['body'] = $this->input->post('body');
-			$data['event_ref'] = $this->input->post('event_ref');
-			$data['venue_ref'] = $this->input->post('venue_ref');
-			$data['dt_start'] = $this->input->post('event_date_start') . " " . $this->get_time_post('event_time_start');
-			$data['dt_end'] = $this->input->post('event_date_end') . " " . $this->get_time_post('event_time_end');
-			$id = $this->event_model->add_event( $data );
-
-			// make link to existing media, if film
-			if( $data['category'] == '1' ) { // TODO: make this lookup
-				$film = $this->db->query("SELECT * FROM films WHERE title = " . $this->db->escape($data['title']));
-				if( $film->num_rows() > 0 ) {
-					$film = $film->row();
-					$mmid = $this->db->query("SELECT * FROM media_map WHERE path = '/films/" . $film->id . "' ORDER BY sort_order" );
-					if( $mmid->num_rows() > 0 ) {
-						$mmid = $mmid->row();
-						$this->db->query('INSERT INTO media_map (media_id,path,sort_order,slot) VALUES ('.$mmid->media_id.",'/event/$id',0,'general')");
-					}
-				}
-			}
-
-
-			if( $this->input->post('addedit')) {
-				redirect('/admin/event/edit/' . $id . '/media' );
-			} else if($this->input->post('addanother')) {
-				//redirect('/admin/event/add');
-				// fall through but keep the last date
-			} else {
-				redirect('/admin/calendar');
-			}
-		}
 
 		$widgets = array(
 			"start_time_widget" => $this->get_time_widget('event_time_start', mktime( 12, 0, 0 )), //time()),
 			"end_time_widget" => $this->get_time_widget('event_time_end', mktime( 13, 0, 0 )),//time() + 60*60),
 			"audience_select" => $this->get_audience_select(),
 			"category_select" => $this->get_category_select(1),
-			"start_date" => $start_date
+			"venue_select"		=> $this->get_venue_select(2),
+			"film_id"			=> $film_id,
+			"title"				=> $film != false ? $film->title : ''
 			);
 
 		$this->gen_page('Admin - Event', 'admin/calendar/film_add', $widgets );
 	}
+
+	/**
+	 AJAX call to remove a calendar event 
+	 */
+	 public function ajax_remove_event() {
+	 	$id = $this->input->post('event_id');
+
+	 	$this->db->trans_start();
+	 	$sql = "DELETE FROM events_times WHERE events_id = '{$id}'";
+	 	$this->db->query($sql);
+	 	$sql = "DELETE FROM events WHERE id = '{$id}'";
+	 	$this->db->query($sql);
+	 	$this->db->trans_complete();
+
+	 	if ($this->db->trans_status() === false) {
+	 		$output = array('success'=>'false');
+	 		log_message('debug', "AJAX remove event {$id} FAIL");
+	 	} else {
+	 		$output = array('success'=>'true');
+	 		log_message('debug', "AJAX remove event {$id} OK");
+	 	}
+
+	 	echo json_encode($output);
+	 }
+	/**
+		AJAX call to add an event
+	*/
+	public function ajax_add_event() {
+		log_message('debug', 'AJAX add event');
+
+		$category = $this->input->post('category');
+		$audience = $this->input->post('audience');
+		$title 	= $this->input->post('title');
+		$body	= $this->input->post('body');
+		$venue 	= $this->input->post('venue');
+		$start 	= $this->input->post('start');
+		$end   	= $this->input->post('end');
+		$start_time_hour  = $this->input->post('time_start_hour');
+		$start_time_min   = $this->input->post('time_start_min');
+		if ($start_time_min == '0') $start_time_min = '00';
+		$start_time_am_pm = $this->input->post('time_start_am_pm');
+		$end_time_hour    = $this->input->post('time_end_hour');
+		$end_time_min     = $this->input->post('time_end_min');
+		if ($end_time_min == '0') $end_time_min = '00';
+		$end_time_am_pm   = $this->input->post('time_end_am_pm');
+
+		if (!($body && $venue && $start && $end  && $start_time_hour && $start_time_min && $start_time_am_pm
+				&& $end_time_hour && $end_time_min && $end_time_am_pm)) {
+			echo json_encode(array('status'=>false, 'message'=>'Fields are missing'));
+			exit;
+		}
+
+		$start_time = date('Y-m-d H:i', strtotime($start . ' ' . $start_time_hour . ':' . $start_time_min . ' ' . $start_time_am_pm));
+		$end_time = date('Y-m-d H:i', strtotime($end . ' ' . $end_time_hour . ':' . $end_time_min . ' ' . $end_time_am_pm));
+
+		// If there's an event id on the page it's an update, otherwise it's a new event request
+		if ($this->input->post('event_id') === false) {
+			log_message('debug', 'AJAX add event - new event');
+			$sql = "INSERT INTO events (title, venues_id, body, category, audience)
+				VALUES ("
+					. $this->db->escape($title) . ", " 
+					. $this->db->escape($venue) . ", "
+					. $this->db->escape($body) . ", "
+					. $this->db->escape($category) . ", "
+					. $this->db->escape($audience) . ")";
+			$query = $this->db->query($sql);
+			$id = mysql_insert_id();
+
+			$sql = "INSERT INTO events_times (events_id, start_time, end_time) 
+					VALUES (" 
+						. $this->db->escape($id) . ", " 
+						. $this->db->escape($start_time) . ", " 
+						. $this->db->escape($end_time) . ")";
+			$this->db->query($sql);
+
+			if ($this->db->affected_rows() > 0) {
+				echo json_encode(array('status'=>true, 'message'=>'OK'));
+			}
+		} else {
+			log_message('debug', 'AJAX add event - update existing event ' . $this->input->post('event_id'));
+			$sql = "UPDATE events SET 
+				title = " . $this->db->escape($title) . ", 
+				venues_id = " . $this->db->escape($venue) . ",
+				body = " . $this->db->escape($body) . ",
+				category = " . $this->db->escape($category) . ",
+				audience = " . $this->db->escape($audience) . "
+				WHERE id = " . $this->db->escape($this->input->post('event_id'));
+			$query = $this->db->query($sql);
+
+			$sql = "UPDATE events_times SET 
+				start_time = " . $this->db->escape($start_time) . ",
+				end_time = " . $this->db->escape($end_time) . "
+				WHERE events_id = " . $this->db->escape($this->input->post('event_id'));;
+
+			$query = $this->db->query($sql);
+
+			if ($query != false) {
+				echo json_encode(array('status'=>true, 'message'=>'OK'));
+			}
+		}
+		
+	}
+
 
 	/**
 	 *
@@ -399,8 +423,10 @@ class Event extends Admin_Controller
 			$hr = date('H',$time);
 			$min = date('i',$time);
 			if( $hr >= 12 ) {
-				$hr = $hr - 12;
 				$ampm = 'pm';
+			}
+			if ($hr > 12) {
+				$hr -= 12;
 			}
 			if( $min > 45 ) {
 				$min = "00";
@@ -420,7 +446,7 @@ class Event extends Admin_Controller
 		}
 
 		$s = "";
-		$s .= '<select name="'.$name.'_hour" id="fld_'.$name.'_hour" onchange="sel_'.$name.'();">';
+		$s .= '<select name="'.$name.'_hour" id="fld_'.$name.'_hour" >';
 		for( $i = 1; $i < 13; $i++ ) {
 			$s .= "<option";
 			if( $hr && $i == $hr ) {
@@ -430,7 +456,7 @@ class Event extends Admin_Controller
 		}
 		$s .= '</select>';
 
-		$s .= '<select name="'.$name.'_min" id="fld_'.$name.'_min" onchange="sel_'.$name.'();">';
+		$s .= '<select name="'.$name.'_min" id="fld_'.$name.'_min" >';
 		//foreach(array("00","15","30","45") as $mint ) {
 		for( $mint = 0; $mint < 60; $mint += 5 ) {
 			$s .= "<option value='$mint'";
@@ -441,7 +467,7 @@ class Event extends Admin_Controller
 		}
 		$s .= '</select>';
 
-		$s .= '<select name="'.$name.'_am_pm" id="fld_'.$name.'_am_pm" onchange="sel_'.$name.'();">';
+		$s .= '<select name="'.$name.'_am_pm" id="fld_'.$name.'_am_pm" >';
 		foreach( array("am","pm") as $zone ) {
 			$s .= "<option";
 			if( $ampm && $zone == $ampm ) {
@@ -479,37 +505,69 @@ class Event extends Admin_Controller
 		return true;
 	}
 
-	protected function get_category_select( $category = NULL )
+	protected function get_venues_select( $filter_id = NULL )
 	{
-		$sel = '<select name="category" id="fld_category" onchange="sel_category();" >';
-		$cats = $this->event_model->get_categories( $category );
-		foreach( $cats->result() as $cat ) {
-			$sel .= "<option value='$cat->id' ";
-			if( $category && $category == $cat->id ) {
+		$sel = '<select name="venue" id="fld_venue" >';
+		$results = $this->event_model->get_venues( $filter_id );
+		foreach( $results->result() as $it) {
+			$sel .= "<option value='{$it->id}' ";
+			if( $filter_id && $filter_id == $it->id ) {
 				$sel .= 'selected="selected"';
 			}
-			$sel .= ">$cat->category</option>";
+			$sel .= ">" . ucwords($it->name) . "</option>";
 		}
 		$sel .= '</select>';
 		return $sel;
 	}
 
-	protected function get_audience_select( $audience = NULL )
+	protected function get_category_select( $filter_id = NULL )
 	{
-		$sel = '<select name="audience" id="fld_audience" onchange="sel_audience();" >';
-		$auds = $this->event_model->get_audiences();
-		foreach( $auds->result() as $aud ) {
-			$sel .= "<option value='$aud->id' ";
-			if( $audience && $audience == $aud->id ) {
+		$sel = '<select name="category" id="fld_category">';
+		$results  = $this->event_model->get_categories( $filter_id );
+		foreach( $results->result() as $it) {
+			$sel .= "<option value='{$it->id}' ";
+			if( $filter_id && $filter_id == $it->id ) {
 				$sel .= 'selected="selected"';
 			}
-			$sel .= ">$aud->audience</option>";
+			$sel .= ">" . ucwords($it->name) . "</option>";
+		}
+		$sel .= '</select>';
+		return $sel;
+	}
 
+	protected function get_venue_select( $filter_id = NULL )
+	{
+		$sel = '<select name="venue" id="fld_venue">';
+		$results  = $this->event_model->get_venues( $filter_id );
+		foreach( $results->result() as $it) {
+			$sel .= "<option value='{$it->id}' ";
+			if( $filter_id && $filter_id == $it->id ) {
+				$sel .= 'selected="selected"';
+			}
+			$sel .= ">" . ucwords($it->name) . "</option>";
+		}
+		$sel .= '</select>';
+		return $sel;
+	}
+
+	protected function get_audience_select( $filter_id = NULL )
+	{
+		$sel = '<select name="audience" id="fld_audience">';
+		$results  = $this->event_model->get_audiences( $filter_id );
+		foreach( $results->result() as $it) {
+			$sel .= "<option value='{$it->id}' ";
+			if( $filter_id && $filter_id == $it->id ) {
+				$sel .= 'selected="selected"';
+			}
+			$sel .= ">" . ucwords($it->name) . "</option>";
 		}
 		$sel .= '</select>';
 		return $sel;
     }
 
+    /**
+    	Browser callback for article items association view
+    */
     function article_events_browser() {
 		$this->load->model('articles_model');
 
@@ -543,5 +601,30 @@ class Event extends Admin_Controller
 			$this->load->view('admin/events/article_events_browser', $view_data );
         }
     }
+
+    /**
+    	Browser callback for article items association view
+    */
+    function article_films_browser() {
+		$this->load->model('articles_model');
+
+        $is_ajax = true;
+        $article_id = $this->input->post('article_id');
+
+		if( !$article_id) {
+            return false;
+        }
+
+        $events = $this->articles_model->get_films( $article_id );
+
+        $view_data = array(
+			'article_id' => $article_id,
+			'errors' => '',
+            'files' => $events
+			);
+
+		$this->load->view('admin/events/article_films_browser', $view_data );
+    }
+
 
 }

@@ -19,12 +19,23 @@ class Calendar extends Admin_Controller
 	
 	function index()
 	{
-		$this->month();
+		$this->gen_page('Admin - Calendar', 'admin/calendar/index', array());
 	}
+
+	function get_events() {
+		$start 	= $this->input->post('start');
+		$end 	= $this->input->post('end');
+		
+		$events = $this->event_model->get_calendar_events($start, $end);
+
+		echo json_encode($events);
+	}
+	
 	
 	/** TODO
 	 * - year transition with week number is broken
 	 */
+	/*
 	function month()
 	{
 		$s = '';
@@ -148,9 +159,11 @@ class Calendar extends Admin_Controller
 		
 		$this->gen_page('Admin - Calendar', 'admin/calendar/calendar', $data );
 	}
-	
+	*/
+
 	/** TODO
 	 */
+	/*
 	function week()
 	{
 		$today = getdate(time());
@@ -307,9 +320,10 @@ class Calendar extends Admin_Controller
 		$data['events'] = $events;
 	
 		$this->gen_page('Admin - Calendar', 'admin/calendar/calendar', $data );
-	}
+	}*/
 	
 	// TODO
+	/*
 	function day()
 	{
 	 	$today = getdate(time());
@@ -553,5 +567,6 @@ class Calendar extends Admin_Controller
 		}
 		return $d;
 	 }
+	 */
 }
 

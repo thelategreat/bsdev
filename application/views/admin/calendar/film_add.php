@@ -1,9 +1,15 @@
-
+<? /*
 <script type="text/javascript" language="javascript">
 <?=file_get_contents(dirname(__FILE__) . '/js/event.js');?>
 </script>
+*/ ?>
 <script type='text/javascript'>
 	$(function() {
+
+		<? if (isset($film_id) && $film_id) { ?>
+			displayShowTimes(<?=$film_id;?>);
+		<? } ?>
+
 		$('#fld_title').autocomplete({ 
 			source: function(request, response) {
                 $.ajax({ url: "<?php echo site_url('admin/event/lookup_json'); ?>",
@@ -20,7 +26,7 @@
 				event.preventDefault();
                 if( ui.item.value != undefined ) {
                 	$('#fld_title').val( ui.item.label );
-                	$('#fld_id').val( ui.item.value );
+                	$('#fld_event_ref').val( ui.item.value );
 
                 	displayShowTimes( ui.item.value );
                 }
@@ -49,107 +55,111 @@
             }
 		});
 		$('.datepicker').datepicker({ dateFormat: 'yy-mm-dd' });
+		$('#fld_event_date_start').change(function() {
+			$('#fld_event_date_end').val($(this).val());
+		});
+		$('#btn_add_event').click(function() {
+			var id = $('#fld_event_ref').val();
+			var venue = $('#fld_venue').val();
+			var start = $('#fld_event_date_start').val();
+			var end   = $('#fld_event_date_end').val();
+			var start_time_hour = $('#fld_event_time_start_hour').val();
+			var start_time_min = $('#fld_event_time_start_min').val();
+			var start_time_am_pm = $('#fld_event_time_start_am_pm').val();
+			var end_time_hour = $('#fld_event_time_end_hour').val();
+			var end_time_min = $('#fld_event_time_end_min').val();
+			var end_time_am_pm = $('#fld_event_time_end_am_pm').val();
+
+			$.post('/admin/films/ajax_add_showtime', 
+				{id: id,
+					venue: venue,
+					start: start,
+					end: end,
+					start_time_hour: start_time_hour,
+					start_time_min: start_time_min,
+					start_time_am_pm: start_time_am_pm,
+					end_time_hour: end_time_hour,
+					end_time_min: end_time_min,
+					end_time_am_pm: end_time_am_pm}, 
+				function (data) {
+					if (data.status == false) {
+						alert(data.message);
+					}
+					displayShowTimes($('#fld_event_ref').val()); 
+				}, 'json');
+		});
 
 
-		function displayShowTimes( $id ) {
-			$.post('/admin/films/lookup_showtimes', {id: $id}, function(data) {
-				console.log(data);
+		$('#container').delegate('a.delete', 'click', function(e) {
+			e.preventDefault();
+			$.post('/admin/films/remove_showtime', 
+				{id: $(this).attr('value')},
+				function(data) {
+					console.log(data);
+					displayShowTimes($('#fld_event_ref').val());
+				});
+		});
 
+
+
+		function displayShowTimes( id ) {
+			$.post('/admin/films/lookup_showtimes', {id: id}, function(data) {
+				var table = $('table.results');
+				$('table.results tbody').empty();
+				$.each(data, function(index, val) {
+					table.append('<tr><td>' + val.date+ '</td><td>' 
+						+ val.start + '</td><td>' 
+						+ val.end + '</td><td>'
+						+ '<a class="delete" value="' + val.id + '">DEL</a></tr>');
+				})
 			}, 'json' );
 		}
+
+
 	});
 </script>
 
 <div class=container>
-	<header>Add Event</header>
+	<header>Add Film Showtime</header>
 
+	<a href='/admin/calendar'>
+		<button>
+			<i class="icon-chevron-left icon"></i> Calendar 
+		</button>
+	</a>
 	<aside class=instruction>
 		Choose the film, date and venue then click Add to create a new movie listing
 	</aside>
-	
+
+	<section>
+		<div style="float:right;width:30%;padding: 5px">
+			<h1>Show Times</h1>
+			<table class='results'>
+			<thead>
+				<tr><td>Date</td><td>Start Time</td><td>End Time</td><td></td><tr>
+			</thead>
+			<tbody>
+				
+			</tbody>
+		</table>
+		</div>
+		<div style="float:left">
+		<table class='form-table'>
+			<tr><th>Category</th><td><?= $category_select ?></td>
+			<tr><th>Audience</th><td><?= $audience_select ?></td>
+			<tr><th>Title</th><td><input  placeholder='Search...' name=title id='fld_title' value="<?=$title?>"/><input name='event_ref' type='hidden' id='fld_event_ref' value="<?=$film_id?>"/></td></tr>
+			<tr><th>Start Date</th><td><input placeholder='Click for calendar' class="datepicker short" name="event_date_start" id="fld_event_date_start" /></td></tr>
+			<tr><th>Start Time</th><td><?=$start_time_widget?></td></tr>
+			<tr><th>End Date</th><td><input placeholder='Click for calendar' class="datepicker short" name="event_date_end" id="fld_event_date_end" /></td></tr>
+			<tr><th>End Time</th><td><?=$end_time_widget?></td></tr>
+			<tr><th>Venue</th><td><?= $venue_select ?></td></tr>
+		</table>
+		</div>
+
+		<div class="clear"></div>
+		<button id="btn_add_event" class='iconbutton'>
+				<i class="icon-save icon-2x"></i> Add Showtime
+		</button>
+	</section>
 
 </div>
-
-
-<h3>Add Event</h3>
-	
-<table>
-	<tr><td valign="top">
-	<fieldset><legend>Details</legend>
-<form id="event_form" action="/admin/event/add" method="POST" onsubmit="return validate(this, event);">
-<input type="hidden" name="id" id="fld_id" value="-1" />
-
-
-<table>
-	<tr>
-		<td><label for="category">Category</label></td>
-		<td>
-			<?= $category_select ?>
-		</td>
-	</tr>
-	<tr>
-		<td><label for="audience">Audience</label></td>
-		<td>
-			<?= $audience_select ?>
-		</td>
-	</tr>
-	<tr>
-		<td><label for="title">Title</label></td>
-		<td colspan="3">
-			<input name="title" size="70" id="fld_title" autocomplete="off" />
-			<input name="event_ref" type="hidden" id="fld_event_ref" />
-		</td>
-	</tr>
-	<tr>
-		<td><label for="event_date_start">Start Date</label></td>
-		<td><input class="datepicker" name="event_date_start" size="12" onblur="" id="fld_event_date_start" value="<?=$start_date?>"/><span class="small">yyyy-mm-dd<span></td>
-		<td><label for="event_time_start">Start Time</label></td>
-		<td>
-			<?=$start_time_widget?>
-		</td>
-	</tr>
-	<tr>
-		<td><label for="event_date_end">End Date</label></td>
-		<td><input class="datepicker" name="event_date_end" size="12" onblur="" id="fld_event_date_end" value="<?=$start_date?>" /><span class="small">yyyy-mm-dd<span></td>
-		<td><label for="event_time_end">End Time</label></td>
-		<td>
-			<?=$end_time_widget?>
-		</td>
-	</tr>
-	<tr>
-		<td><label for="venue">Venue</label></td>
-		<td colspan="3">
-			<input name="venue" size="50" id="fld_venue" autocomplete="off" />
-			<input name="venue_ref" type="hidden" id="fld_venue_id" />
-		</td>
-	</tr>
-	<? /*
-	<tr>
-		<td valign="top">Description</td>
-	  <td colspan="3"><textarea name="body" rows="10" cols="70" id="fld_body"></textarea></td>
-	</tr>
-	*/ ?>
-</table>
-<p/>
-<? /*
-<span id='fld_event_date_startMsg'></span>
-<span id='fld_event_date_endMsg'></span>
-</fieldset>
-<table class="button-bar">
-	<tr>
-		<td>
-			<input class="save-button" type="submit" name="add" value="Save" />
-			<input class="save-button1" type="submit" name="addedit" value="Save &amp; add media" />
-			<input class="save-button2" type="submit" name="addanother" value="Save &amp; add another" />
-		</td>
-		<td align="right">
-			<input class="cancel-button" type="submit" name="cancel" value="Cancel" onclick="cancelAction=true"/>
-		</td>
-	</tr>
-</table>
-*/ ?>
-</form>
-
-</td>
-</tr>
-</table>

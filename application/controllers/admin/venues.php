@@ -33,7 +33,7 @@ class Venues extends Admin_Controller
 	
 	function index()
 	{
-		$data = $this->venues_model->venues_list()->result();
+		$data = $this->venues_model->venues_list();
 		
 		$pg_data = array(
 			'data' => $data 
@@ -76,18 +76,22 @@ class Venues extends Admin_Controller
 	}
 
 
+	/**
+		Edit the venue
+	*/
 	function edit()
 	{
 		$venue_id = (int)$this->uri->segment(4);
+
 		if( !$venue_id ) {
 			redirect( $this->root_path );						
 		}
-				
+			
 		if( $this->input->post("save")) {
 			$this->db->where('id', $this->input->post('id'));
-      unset($_POST["save"]);
-      $this->db->set('location_id', $this->input->post('locations'));
-      unset($_POST["locations"]);
+      		unset($_POST["save"]);
+      		$this->db->set('locations_id', $this->input->post('locations_id'));
+      		unset($_POST["locations"]);
 			$this->db->update( $this->table_name, $_POST );
 			redirect( $this->root_path );
 		}
@@ -108,9 +112,18 @@ class Venues extends Admin_Controller
 			redirect( $this->root_path );						
 		}
 		
+
+		$locations_list = $this->venues_model->locations_list();
+		$location_options = array();
+		if ($locations_list) foreach ($locations_list as $it) 
+		{
+			$location_options[$it->id] = $it->name;
+		}
+
 		$content = array(
-      'data' => $data,
-      'locations' => $this->venues_model->locations_select_list( $data->location_id ),
+	        'data' => $data,
+	        'location_options' => $location_options,
+	        'selected_location' => $data->locations_id,
 			'tabs' => $this->tabs->gen_tabs($this->page_tabs, $cur_tab, $this->root_path . '/edit/' . $data->id),
 			);
 

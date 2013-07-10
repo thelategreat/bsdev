@@ -6,7 +6,7 @@
 					<? $article_start = 0; 
 						for ($article_id = 0; $article_id < 1; $article_id++) {
 
-						$item = $lists['_section'][$article_id + $article_start];
+						//$item = $lists['_section'][$article_id + $article_start];
 					 ?>
 						<article class='ym-clearfix'>
 							<div class="article-header">
@@ -15,7 +15,7 @@
 									<div class='section'><?=$item->group ?></div>
 								</div>
 								<div class='article-image article-image-main'>
-									<img src='/i/size/o/<?=substr($item->media[0]['thumbnail'], strrpos($item->media[0]['thumbnail'],'/')+1);?>/w/190' />
+									<img src='/i/size/o/<?=substr($item->media[0]['thumbnail'], strrpos($item->media[0]['thumbnail'],'/')+1);?>/w/200' />
 								</div>
 								
 								<h1 class='title'><?=$item->title?></h1>

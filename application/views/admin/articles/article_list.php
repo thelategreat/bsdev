@@ -13,7 +13,14 @@ table.toolbar {
 }
 </style>
 
-<h3><a class="small" href="/admin/articles/add"><img src="/img/admin/newspaper_add.png" title="Add Essay"/></a> Essays</h3>
+<nav>
+    <a href="/admin/articles/add/">
+      <button id='btn_add'>
+        <i class="icon-plus icon-2x"></i> Add Essay 
+      </button>
+    </a>
+  </nav>
+  <br>
 
 <table id='articles' class="dataTable">
   <thead>

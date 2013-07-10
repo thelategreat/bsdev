@@ -23,10 +23,10 @@ $(function() {
     ?>
 	<tr <?= ($count % 2) != 0 ? "class='odd'" : "" ?>>
 	  <td width="10%">
-			<img src="<?=$file['thumbnail']?>" width="70" />
+			<img src="<?=$file->thumbnail?>" width="70" />
 		</td>
-        <td><?=$file['title']?> - <?=$file['contributor']?></td>
-        <td><a href="#" class="remove book" data="<?= $file['id']?>">Remove</a></td>
+        <td><?=$file->title?> - <?=$file->contributor?></td>
+        <td><a href="#" class="remove book" data="<?= $file->id?>">Remove</a></td>
 	</tr>
 <?php $count++; }?>
 </table>

@@ -161,21 +161,43 @@ SQL;
     return $this->db->query( $q );
   }
 
-  	/* Get a single article as referenced by its ID
-  	 * @param Article ID
-  	 * @returns Article result
+  	/** 
+      Get a single article as referenced by its ID
+  	  @param Article ID
+  	  @returns Article result
   	 */
 	function get_article( $id )
 	{
     $this->db->db_select();
 		$q = "
-			SELECT a.id, title, body, ac.category, updated_on, author, ast.status, publish_on, gt.name AS `group`, excerpt
+			SELECT a.id, title, body, ac.category, updated_on, author, ast.status, publish_on, gt.name AS `section`, excerpt
 				FROM articles as a, article_categories as ac, article_statuses as ast, group_tree as gt
 				WHERE a.category = ac.id AND a.status = ast.id AND a.group = gt.id";
 
 		$q .= " AND a.id = " . $this->db->escape(intval($id));
+
+    $result = $this->db->query( $q );
+
 		return $this->db->query( $q );
 	}
+
+  /**
+    Get the tags associated to an article
+    @param Article ID
+    @returns tag array
+    */
+  function get_article_tags( $id ) 
+  {
+    $this->db->db_select();
+    $sql = "SELECT name, slug FROM articles_tag_map
+          LEFT JOIN articles_tags ON articles_tags.id = articles_tag_id
+          WHERE articles_tag_map.articles_id = $id";
+
+    $res = $this->db->query( $sql );
+    if ($res) return $res->result();
+
+    return false;
+  }
 
   function get_articles_by_group( $group, $limit = NULL, $page = 1 )
   {
@@ -262,6 +284,10 @@ SQL;
 		return $s;
 	}
 
+  /**
+    Venue select dropdown builder
+    -- what the hell is this doing in a model anyway?
+    */
   function venue_select( $default = 1 )
   {
     $s = '<select name="venue" id="venue-sel">';
@@ -271,11 +297,80 @@ SQL;
 			if( $default == $row->id ) {
 				$s .= " selected ";
 			}
-			$s .= '>' . $row->venue . '</option>';
+			$s .= '>' . $row->name. '</option>';
 		}
 		$s .= '</select>';
     return $s;
   }
+
+    /* Add a film association to an article
+     * @param required Article ID
+     * @param requried Film ID
+     * @return boolean Success
+     */
+    function add_film( $article_id, $film_id)
+    {
+        $this->db->where('articles_id', $article_id);
+        $this->db->where('films_id', $film_id);
+        $query = $this->db->get('articles_films');
+        if ( $query->num_rows() > 0 ) {
+            return false; // This item is already associated
+        }
+
+        $this->db->set('films_id', $film_id);
+        $this->db->set('articles_id', $article_id);
+        $this->db->insert('articles_films');
+
+        return true;
+    }
+    
+    /* Remove a film association to an article
+     * @param required Film ID
+     * @param requried Event ID
+     * @return boolean Success
+     */
+    function remove_film( $film_id, $event_id )
+    {
+        $this->db->where('articles_id', $film_id);
+        $this->db->where('films_id', $event_id);
+        $query = $this->db->delete('articles_films');
+
+        return true;
+    }
+    /* Add an article association to an article
+     * @param required Article ID
+     * @param requried Event ID
+     * @return boolean Success
+     */
+    function add_associated_article( $article_id, $associated_article_id )
+    {
+        $this->db->where('articles_id', $article_id);
+        $this->db->where('associated_article_id', $associated_article_id);
+        $query = $this->db->get('articles_articles');
+        if ( $query->num_rows() > 0 ) {
+            return false; // This item is already associated
+        }
+
+        $this->db->set('associated_article_id', $associated_article_id);
+        $this->db->set('articles_id', $article_id);
+        $this->db->insert('articles_articles');
+
+        return true;
+    }
+    
+    /* Remove an article association to an article
+     * @param required Article ID
+     * @param requried Event ID
+     * @return boolean Success
+     */
+    function remove_associated_article( $article_id, $associated_article_id )
+    {
+        $this->db->where('articles_id', $article_id);
+        $this->db->where('associated_article_id', $associated_article_id);
+        $query = $this->db->delete('articles_articles');
+
+        return true;
+    }
 
     /* Add an event association to an article
      * @param required Article ID
@@ -284,8 +379,8 @@ SQL;
      */
     function add_event( $article_id, $event_id )
     {
-        $this->db->where('article_id', $article_id);
-        $this->db->where('event_id', $event_id);
+        $this->db->where('articles_id', $article_id);
+        $this->db->where('events_id', $event_id);
         $query = $this->db->get('articles_events');
         if ( $query->num_rows() > 0 ) {
             return false; // This item is already associated
@@ -313,30 +408,113 @@ SQL;
     }
 
     
+    /**
+      Get the articles related to an article 
+      @param Article ID
+      @return Array of events with theumbnails or false
+    */
+    function get_associated_articles( $article_id )
+    {
+        $sql = "SELECT * FROM articles_articles aa 
+            LEFT JOIN articles a ON aa.associated_article_id = a.id
+            WHERE aa.articles_id = ?";
+        $result = $this->db->query($sql, $article_id)->result();
 
+        if (!$result) {
+          return false;
+        }
+
+        foreach ($result as &$r) {
+          $r->type = 'article';
+          $img = $this->articles_model->get_article_media( $r->articles_id );
+          if ($img) {
+            $r->image = '/media/' . $img->uuid;
+          } else {
+            $r->image = '/img/image_not_found.jpg';
+          }
+        }
+        return $result;
+    }
+
+    /**
+      Get the events related to an article 
+      @param Article ID
+      @return Array of events with theumbnails or false
+    */
     function get_events( $article_id )
     {
     	$this->load->model('event_model');
     	
         $sql = "SELECT * FROM articles_events ae
-            LEFT JOIN events e ON ae.event_id = e.id
-            WHERE ae.article_id = ?";
-        $result = $this->db->query($sql, $article_id)->result_array();
+            LEFT JOIN events e ON ae.events_id = e.id
+            WHERE ae.articles_id = ?";
+        $result = $this->db->query($sql, $article_id)->result();
 
-        if (count($result) == 0 || $result === false) {
-	        return array();
+        if (!$result) {
+	        return false;
         }
 
         foreach ($result as &$r) {
-	        $r['type'] = 'event';
-	        $img = $this->event_model->get_event_media( $r['event_id'] );
-            if ($img->num_rows() > 0) {
-                $r['thumbnail'] = '/media/' . $img->row()->uuid;
-            } else {
-                $r['thumbnail'] = '/img/image_not_found.jpg';
-            }
+          $r->type = 'event';
+	        $img = $this->event_model->get_event_media( $r->events_id );
+          if ($img) {
+            $r->image = '/media/' . $img->uuid;
+          } else {
+            $r->image = '/img/image_not_found.jpg';
+          }
         }
         return $result;
+    }
+
+    /**
+      Get the films related to an article 
+      @param Article ID
+      @return Array of events with theumbnails or false
+    */
+    function get_films( $article_id )
+    {
+      $this->load->model('films_model');
+      
+        $sql = "SELECT * FROM articles_films af
+            LEFT JOIN films f ON af.films_id = f.id
+            WHERE af.articles_id = ?";
+        $result = $this->db->query($sql, $article_id)->result();
+
+        if (!$result) {
+          return false;
+        }
+
+        foreach ($result as &$r) {
+          $r->type = 'film';
+          $img = $this->films_model->get_film_media( $r->films_id );
+          if ($img) {
+            $r->image = '/media/' . $img->uuid;
+          } else {
+                $r->image = '/img/image_not_found.jpg';
+          }
+        }
+
+        return $result;
+    }
+    
+
+    /**
+      Get the media for an event 
+     */
+    function get_article_media( $id )
+    {
+      $sql = "SELECT m.uuid FROM 
+          media_map as mm, 
+          media as m 
+          WHERE mm.path = '/article/" . intval($id) . 
+          "' AND m.id = mm.media_id ORDER BY mm.sort_order";
+      $result = $this->db->query($sql)->result();
+
+      if ($result) {
+        return $result[0];
+      }
+
+      return $result;
     }
 
     /* Add a product association to an article
@@ -347,7 +525,7 @@ SQL;
     function add_product( $article_id, $product_id )
     {
         $this->db->where('articles_id', $article_id);
-        $this->db->where('producss_id', $product_id);
+        $this->db->where('products_id', $product_id);
         $query = $this->db->get('articles_products');
         if ( $query->num_rows() > 0 ) {
             return false; // This item is already associated
@@ -374,32 +552,57 @@ SQL;
         return true;
     }
 
-    /* Get the products associated with an article
-     * @param required Article ID
-     * @return product result
+    /**
+     Get the products associated with an article
+     @param required Article ID
+     @return product result
      */
     function get_products( $article_id )
     {
-        $sql = "SELECT * FROM articles_products ap
-            LEFT JOIN products p ON ap.product_id = p.id
-            WHERE ap.article_id = ?";
-        $result = $this->db->query($sql, $article_id)->result_array();
+        $sql = "SELECT p.*, pub.name as publisher FROM bookshelf.articles_products ap
+            LEFT JOIN products.products p ON ap.products_id = p.id
+            LEFT JOIN products.publishers pub ON p.publisher_id = pub.id
+            WHERE ap.articles_id = ?";
+        $result = $this->db->query($sql, $article_id)->result();
         
         if (count($result) == 0 || $result === false) {
             return array();
         }
 
         foreach ($result as &$r) {
-	        $r['type'] = 'product';
-	        if ( strlen($r['ean']) == 13 ) {
-		        $prefix = $r['ean'][12];
-		        $path = '/product/' . $prefix . '/' . $r['ean'] . '.jpg';
-		        $r['thumbnail'] = $path;
-		    }
+          /* There may be a more efficient way to do this, but there are multiple contributors
+          per product (possibly) and a join needs catch all the contributors and then concat them
+          into a single field */
+          $sql = "SELECT GROUP_CONCAT(name SEPARATOR '|') as name FROM 
+                products.products_contributors pc 
+                LEFT JOIN products.contributors c ON pc.contributors_id = c.id
+                WHERE pc.products_id = {$r->id}";
+          $cont_result = $this->db->query($sql)->result();
+          $r->contributor = $cont_result[0]->name;
+
+	        $r->type = 'product';
+          $r->thumbnail = $this->get_product_image_by_ean($r->ean);
 		    // Reference used for front-end details insertion
-		    $r['ref'] = $r['ean'] . '_' . str_replace(' ', '-', str_replace('-', '\-', $r['title']));
+		    $r->ref = $r->ean . '_' . str_replace(' ', '-', str_replace('-', '\-', $r->title));
         }
         return $result;
+    }
+
+    /**
+      Get the product image file reference by the product EAN
+      Or return the 'image not found' image if the file doesn't exist
+    */
+    function get_product_image_by_ean($ean) 
+    {
+      if (strlen($ean) == 13) {
+        $prefix = $ean[12];
+        $path = "/product/$prefix/$ean" . ".jpg";
+
+        $curpath = getcwd();
+        if (is_file($curpath . $path)) return $path;
+
+        return $this->config->item('image_not_found_image');
+      }
     }
     
 }

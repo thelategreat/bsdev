@@ -19,14 +19,14 @@ $(function() {
 </tr>
 <?php
 	$count = 0;
-    foreach( $files as $file ) {
+    if ($files) foreach( $files as $file ) {
     ?>
 	<tr <?= ($count % 2) != 0 ? "class='odd'" : "" ?>>
 	  <td width="10%">
-			<img src="<?=$file['thumbnail']?>" width="70" />
+			<img src="<?=$file->image?>" width="70" />
 		</td>
-        <td><?=$file['title']?> </td>
-        <td><a href="#" class="remove event" data="<?= $file['id']?>">Remove</a></td>      
+        <td><?=$file->title?> </td>
+        <td><a href="#" class="remove event" data="<?= $file->id?>">Remove</a></td>      
 	</tr>
 <?php $count++; }?>
 </table>

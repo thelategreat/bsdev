@@ -395,11 +395,97 @@ EOF;
 
 		$sql = "SELECT * FROM 
 				events_times
-				WHERE films_id = " . $this->db->escape($film_id);
+				WHERE films_id = " . $this->db->escape($film_id)
+				. " ORDER BY start_time";
 		$query = $this->db->query($sql);
-		$results = $query->result_array();
-		echo json_encode($results);
+		
+		$out = array();
+		foreach ($query->result() as $row) {
+			$row->date = date('Y-m-d', strtotime($row->start_time));
+			$row->start = date('h:i a', strtotime($row->start_time));
+			$row->end = date('h:i a', strtotime($row->end_time));
+			$out[] = $row;
+		}
+		echo json_encode($out);
+	}
 
+	/** 
+		Remove a show time
+		@param Events_times table ID
+	*/
+	function remove_showtime() {
+		$id = $this->input->post('id');
+
+		if (!$id) {
+			echo json_encode(array('status'=>false, 'message'=>'Missing ID'));
+			exit;
+		}
+
+		$sql = "DELETE FROM events_times WHERE id = " . $this->db->escape($id);
+		$this->db->query($sql);
+
+		if ($this->db->affected_rows() > 0) {
+			echo json_encode(array('status'=>true));
+		} else {
+			echo json_encode(array('status'=>false, 'message'=>'ID not found'));
+		}		
+	}
+
+	/** 
+		AJAX call to add a show time
+		@param Film ID
+		@param Venue
+		@param Start and end dates and times
+	*/
+	function ajax_add_showtime() {
+		$id 	= $this->input->post('id');
+		$venue 	= $this->input->post('venue');
+		$start 	= $this->input->post('start');
+		$end   	= $this->input->post('end');
+		$start_time_hour  = $this->input->post('start_time_hour');
+		$start_time_min   = $this->input->post('start_time_min');
+		if ($start_time_min == '0') $start_time_min = '00';
+		$start_time_am_pm = $this->input->post('start_time_am_pm');
+		$end_time_hour    = $this->input->post('end_time_hour');
+		$end_time_min     = $this->input->post('end_time_min');
+		if ($end_time_min == '0') $end_time_min = '00';
+		$end_time_am_pm   = $this->input->post('end_time_am_pm');
+
+		if (!($id && $venue && $start && $end  && $start_time_hour && $start_time_min && $start_time_am_pm
+				&& $end_time_hour && $end_time_min && $end_time_am_pm)) {
+			echo json_encode(array('status'=>false, 'message'=>'Fields are missing'));
+			exit;
+		}
+
+		$start_time = date('Y-m-d H:i', strtotime($start . ' ' . $start_time_hour . ':' . $start_time_min . ' ' . $start_time_am_pm));
+		$end_time = date('Y-m-d H:i', strtotime($end . ' ' . $end_time_hour . ':' . $end_time_min . ' ' . $end_time_am_pm));
+
+		$sql = "SELECT COUNT(*) AS count
+			FROM events_times 
+			WHERE films_id = " . $this->db->escape($id) . "
+			AND start_time = '{$start_time}'
+			AND end_time = '{$end_time}'";
+		$query = $this->db->query($sql);
+		$result = $query->row();
+
+		if ($result->count > 0) {
+			echo json_encode(array('status'=>false, 'message'=>'Event already exists'));
+			exit;
+		}
+
+		$sql = "INSERT INTO events_times (films_id, start_time, end_time) 
+				VALUES (" 
+					. $this->db->escape($id) . ", " 
+					. $this->db->escape($start_time) . ", " 
+					. $this->db->escape($end_time) . ")";
+		//echo $sql;
+		$values = array($this->db->escape($id), $this->db->escape($start_time), $this->db->escape($end_time));
+		//var_dump($values);
+		$this->db->query($sql);
+
+		if ($this->db->affected_rows() > 0) {
+			echo json_encode(array('status'=>true, 'message'=>'OK'));
+		}
 	}
 }
 

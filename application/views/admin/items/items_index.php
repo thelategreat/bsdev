@@ -36,10 +36,10 @@ $(document).ready(function() {
 		var q = $('input[name="search"]').val();
 		$('#search_status').html('Searching...');
 		$.post('/search/json', {q: q, size: 25, type: 'bf'}, function(data) {
-			$('#search_status, #search_results').html('');
+			$('#search_status, .results').html('');
 			if (data.status.code == 200) {
 				$.each(data.data, function(index, value) {
-					$('#search_results').append('<div class="search_result ' + value.type + '" data="' + value.id + '"><b>' + value.title + '</b> - ' + value.author + '</div>');
+					$('#search_results_' + value.type + ' .results').append('<div class="search_result ' + value.type + '" data="' + value.id + '"><b>' + value.title + '</b> ' + (value.author ? ' - ' + value.author : '') + '</div>');
 				});
 			} else {
 				$('#search_status').html(data.status.message);
@@ -53,7 +53,14 @@ $(document).ready(function() {
 
 function registerResultClicks() {
     $('.search_result').click(function() {
-        if ($(this).hasClass('book')) {
+        if ($(this).hasClass('article')) {
+            $.post('/admin/articles/addarticle', {associated_article_id: $(this).attr('data'), article_id: <?= $this->uri->segment(4) ?>}, function(data) {
+                if (data.ok == true) {
+                    reload();
+                }
+            }, 'json');
+        }
+        if ($(this).hasClass('product')) {
             $.post('/admin/articles/additem', {product_id: $(this).attr('data'), article_id: <?= $this->uri->segment(4) ?>}, function(data) {
                 if (data.ok == true) {
                     reload();
@@ -62,6 +69,14 @@ function registerResultClicks() {
         }
         if ($(this).hasClass('event')) {
             $.post('/admin/articles/addevent', {event_id: $(this).attr('data'), article_id: <?= $this->uri->segment(4) ?>}, function(data) {
+                if (data.ok == true) {
+                    reload();
+                }
+            }, 'json');
+        }
+        if ($(this).hasClass('film')) {
+        	console.log('add film')
+            $.post('/admin/articles/addfilm', {film_id: $(this).attr('data'), article_id: <?= $this->uri->segment(4) ?>}, function(data) {
                 if (data.ok == true) {
                     reload();
                 }
@@ -76,6 +91,12 @@ function reload()
 	if( $('#slot_select')) {
 		slot = $('#slot_select').val();
 	}
+	$.post('/admin/articles/article_articles_browser',
+        { article_id: <?= $this->uri->segment(4) ?> },
+		function(data) {
+			$('#article_area').html( data );
+		}
+    );
 	$.post('/admin/products/article_products_browser',
         { article_id: <?= $this->uri->segment(4) ?> },
 		function(data) {
@@ -89,11 +110,27 @@ function reload()
 			$('#events_area').html( data );			
 			registerHandlers();			
 		});
+
+	$.post('/admin/event/article_films_browser',
+        { article_id: <?= $this->uri->segment(4) ?> },
+		function(data) {
+			$('#films_area').html( data );			
+			registerHandlers();			
+		});
 }
 
 function registerHandlers() {
 	$('.remove').click(function() {
 		var id = $(this).attr('data');
+
+		if ($(this).hasClass('article')) {
+			$.post('/admin/articles/removearticle', {associated_article_id: $(this).attr('data'), article_id: <?= $this->uri->segment(4) ?>}, function(data) {
+                if (data.ok == true) {
+                    reload();
+                }
+            }, 'json');
+		}
+		
 		if ($(this).hasClass('book')) {
 			$.post('/admin/articles/removeitem', {product_id: $(this).attr('data'), article_id: <?= $this->uri->segment(4) ?>}, function(data) {
                 if (data.ok == true) {
@@ -109,6 +146,14 @@ function registerHandlers() {
                 }
             }, 'json');
 		}
+
+		if ($(this).hasClass('film')) {
+			$.post('/admin/articles/removefilm', {event_id: $(this).attr('data'), article_id: <?= $this->uri->segment(4) ?>}, function(data) {
+                if (data.ok == true) {
+                    reload();
+                }
+            }, 'json');
+		}
 	});
 }
 
@@ -116,6 +161,10 @@ $(function() {
 		reload();
 });
 </script>
+
+<style type='text/css'>
+	.results {max-height: 200px;overflow-y:scroll;}
+</style>
 
 <?=$tabs?>
 
@@ -135,9 +184,17 @@ Slot: <select id="slot_select" name="slot" onchange="reload()">
 </select>
 
 Search for item: <input type="text" name="search" /><button id="search_submit">Search</button><div id="search_status"></div><br/>
-<div id="search_results"></div>
+<div id="search_results" style='width:100%'>
+	<div id="search_results_article" style='width:22%;margin-right:2%;float:left'><h2>Articles</h2><div class='results'></div></div>
+	<div id="search_results_product" style='width:22%;margin-right:2%;float:left'><h2>Products</h2><div class='results'></div></div>
+	<div id="search_results_event" style='width:22%;margin-right:2%;float:left'><h2>Events</h2><div class='results'></div></div>
+	<div id="search_results_film" style='width:22%;float:left'><h2>Films</h2><div class='results'></div></div>
+</div>
+<div style='clear:both'></div>
 
 <hr/>
+<div id="article_area" ></div>
 <div id="product_area" ></div>
 <div id="events_area" ></div>
+<div id="films_area" ></div>
 <hr/>

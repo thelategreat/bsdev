@@ -30,7 +30,7 @@
 		</tr>
 	</thead>
 	<?php $i = 0;
-	if (isset($products) && $products != false) foreach( $products->result() as $product ) { ?>
+	if (isset($products) && $products != false) foreach( $products as $product ) { ?>
 		<tr <?= ($i % 2) ? 'class="odd"' : ''?>>
 			<td><a href="/admin/products/edit/<?=$product->id?>"><?=$product->ean?></a></td>
 			<td><?=str_max_len($product->title,90)?></td>

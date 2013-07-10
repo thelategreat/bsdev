@@ -8,8 +8,11 @@
 	<!-- style -->
 
   <link rel="stylesheet" href="<? echo base_url('/css/admin_style_print.css');?>" type="text/css" media="print" />
+  <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+  
   <link rel="stylesheet" href="<? echo base_url('/css/admin_style.css');?>" type="text/css"  media="all" />
-	<link rel="stylesheet" href="<? echo base_url('/css/datePicker.css');?>" type="text/css"  media="screen" />
+  <link rel="stylesheet" href="<? echo base_url('/css/glyphicons.css');?>" type="text/css"  media="all" />
+	<?/*<link rel="stylesheet" href="<? echo base_url('/css/datePicker.css');?>" type="text/css"  media="screen" />*/?>
 	<link rel="stylesheet" href="<? echo base_url('/css/custom-theme/jquery-ui-1.7.2.custom.css');?>" type="text/css"  media="screen" />
 	<link rel='stylesheet' href='http://cdnjs.cloudflare.com/ajax/libs/datatables/1.9.4/css/jquery.dataTables.css' />
 	

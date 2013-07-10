@@ -19,7 +19,7 @@
 			<div class="ym-g75 ym-gl">
 				<div id='articles' style='height:auto' class='tooltip' title='Main Articles'>
 					<? $article_start = 0; 
-						for ($article_id = 0; $article_id < 2; $article_id++) {
+						for ($article_id = 0; $article_id < 3; $article_id++) {
 							if (!isset($lists['_section'][$article_id + $article_start])) continue;
 							$item = $lists['_section'][$article_id + $article_start];
 					 ?>

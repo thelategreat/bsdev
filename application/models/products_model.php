@@ -135,14 +135,14 @@ function getProduct($id) {
 					articles.excerpt,
 					articles.author, 
 					articles.display_priority
-			FROM article_products
-			LEFT JOIN articles ON article_products.article_id = articles.id
-			WHERE product_id = {$id}";
+			FROM articles_products
+			LEFT JOIN articles ON articles_products.articles_id = articles.id
+			WHERE products_id = {$id}";
 	$item->associated_essays = $this->db->query($sql)->result();
 	return $item;
 }
 
-function searchProduct($terms) {
+function searchProduct($terms, $limit) {
 	$this->dbp->db_select();
 
 	if ($terms) foreach ($terms as &$term) {
@@ -156,7 +156,7 @@ function searchProduct($terms) {
 		if ($val != null) $keys[$key] = true;
 	}
 
-	$sql = "SELECT products.*, c.name as contributor, pub.name as publisher FROM products 
+	$sql = "SELECT 'product' as type, products.*, c.name as contributor, pub.name as publisher FROM products 
 			LEFT JOIN products_contributors pc ON pc.products_id = products.id
 			LEFT JOIN contributors c ON pc.contributors_id = c.id 
 			LEFT JOIN publishers pub ON pub.id = products.publisher_id
@@ -173,10 +173,21 @@ function searchProduct($terms) {
 	if (isset($keys['ean'])) {
 		$sql .= " AND ean LIKE '{$terms['ean']}'";
 	}
-		
+
+	// This is used for an OR search across all terms
+	if (isset($keys['all'])) {
+		$sql .= " AND ( LOWER(products.title) LIKE '%{$terms['all']}%' 
+						OR LOWER(c.name) LIKE '%{$terms['all']}%'
+						OR LOWER(pub.name) LIKE '%{$terms['all']}%'
+						OR ean LIKE '%{$terms['all']}%' )";
+	}
+	$sql .= " ORDER BY title
+				LIMIT $limit";
+	
 	$query = $this->dbp->query($sql);
 	$this->db->db_select();
-	return $query;
+
+	return $query->result();
 }
 	
 

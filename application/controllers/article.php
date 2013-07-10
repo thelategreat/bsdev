@@ -35,7 +35,9 @@ class Article extends MY_Controller
 	function view($id=false)
 	{
 		$this->load->model('products_model');
+		$this->load->model('venues_model');
 		$this->load->model('media_model');
+		$this->load->model('events_times_model');
 		$this->db->db_select();
 		$data = array();
 		$layout = 'article';
@@ -58,24 +60,26 @@ class Article extends MY_Controller
 			$this->load->view('errors/page_not_found');
 			return;
 		}
-		foreach( $res->result() as $row ) {
-			preg_match_all('/{{(\d{13}).*}}/', $row->body, $matches, false);
 
-			foreach ($matches[1] as $key=>$match) {				
-				$items[$key] = $this->products_model->get_product_by_ean($match);				
-			}
-			foreach ($matches[0] as $key=>$match) {
-				if ($items[$key]->row()) {
-					$row->body = str_replace($match, $this->render_product_detail($items[$key]), $row->body);	
-				} else {
-					$row->body = str_replace($match, '', $row->body);	
-				}
-			}
-			
-			$row->media = $this->media_model->get_media_for_path("/articles/$row->id", 'general', 1);
-			$data[] = $row;
+		$item = $res->row();
+		
+		preg_match_all('/{{(\d{13}).*}}/', $item->body, $matches, false);
+
+		foreach ($matches[1] as $key=>$match) {				
+			$items[$key] = $this->products_model->get_product_by_ean($match);				
 		}
-		$lists['_section'] = $data;
+		foreach ($matches[0] as $key=>$match) {
+			if ($items[$key]->row()) {
+				$row->body = str_replace($match, $this->render_product_detail($items[$key]), $item->body);	
+			} else {
+				$row->body = str_replace($match, '', $item->body);	
+			}
+		}
+		
+		$item->media = $this->media_model->get_media_for_path("/articles/$item->id", 'general', 1);
+    	$item->tags = $this->tag_model->get_tags( 'articles', $id );
+
+		$lists['_section'] = $item;
 
 		$data['lists'] = $lists;
 
@@ -84,25 +88,48 @@ class Article extends MY_Controller
 
 		$view_data = array(
 			'nav' => $nav,
-			'lists' => $lists
+			'lists' => $lists,
+			'item' => $item
 		);
 			
 			
 		/* Associated products and events */
-	   	$associated_products = $this->articles_model->get_products( $id );
-    	$associated_events 	 = $this->articles_model->get_events( $id );
-    	
-    	$tags = $this->tag_model->get_tags( 'articles', $id );
+    	$associated_events 	= $this->articles_model->get_events( $id );
+    	$item->associated_events = false;
+    	if ($associated_events) {
+	    	$item->associated_events = array();
+    		foreach ($associated_events as $it) {
+    			$ev = new stdClass();
+    			$ev = $it;
+    			$ev->venue = $this->venues_model->get_venue( $it->venues_id );
+    			$ev->times = $this->events_times_model->get_event_times( $it->id );
+
+
+    			$item->associated_events[] = $ev;
+    		}
+    	}
+
+    	$associated_films		= $this->articles_model->get_films( $id );	
+    	$item->associated_films = false;
+    	if ($associated_events) {
+	    	$item->associated_films = array();
+    		foreach ($associated_films as $it) {
+    			$ev = new stdClass();
+    			$ev = $it;
+    			$ev->times = $this->events_times_model->get_film_times( $it->id );
+
+    			$item->associated_films[] = $ev;
+    		}
+    	}
+
+	   	$item->associated_products 	= $this->articles_model->get_products( $id );
     	
 		$pg_data = $this->get_page_data('Bookshelf', 'article_view' );		
 		
-		$view_data['associated_products'] = $associated_products;
-    	$view_data['associated_events'] = $associated_events;
-    	$view_data['tags'] = $tags;
 
     	$pg_data['content'] = $this->load->view('layouts/article', $view_data, true);			
 		$pg_data['lists'] = $lists;
-
+new dBug($view_data);
 		$this->load->view('layouts/standard_page', $pg_data );		
 
 		/*

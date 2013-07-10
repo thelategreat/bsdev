@@ -55,10 +55,7 @@ class Search extends MY_Controller
 					$results[] = $row;
 				}
 			} elseif( strlen(trim($query)) > 0 ) {
-				$res = $this->search_model->search_callback($query, 'books, articles, events');
-				foreach ($res->result() as $row) {
-					$results[] = $row;
-				}
+				$results = $this->search_model->search_callback($query, 'books, articles, events');
 			} 
 		
 			$out->status = $this->httpstatus->status(200, 'OK');

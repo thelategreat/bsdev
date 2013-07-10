@@ -1,4 +1,52 @@
+<script type='text/javascript'>
+	$(document).ready(function() {
+		$('#films').dataTable();
+	});
+</script>
 
+
+<div class=container>
+	<header>Films</header>
+
+	<nav>
+		<a href="/admin/films/add/">
+			<button id='btn_add'>
+				<i class="icon-plus icon-2x"></i> Add Film 
+			</button>
+		</a>
+	</nav>
+	<br>
+
+	<section>
+		<table id='films'>
+			<thead>
+				<td>title</td>
+				<td>director</td>
+				<td>year</td>
+				<td>rating</td>
+			</thead>
+			<tbody>
+		<?php
+		 	$i = 0;
+			foreach( $films->result() as $row): ?>
+			<tr <?= ($i % 2) ? 'class="odd"' : ''?>>
+				<td><a href="/admin/films/edit/<?=$row->id?>"><?=$row->title?></a></td>
+				<td><?=$row->director?></td>
+				<td><?=$row->year?></td>
+				<td><?=$row->rating?></td>
+			</tr>
+		<?php 
+			$i++;
+			endforeach; ?>
+			</tbody>
+		</table>
+		
+	</section>
+
+</div>
+
+<? 
+/*
 <style>
 table.pager {
   display: inline;
@@ -54,4 +102,4 @@ table.toolbar {
 	$i++;
 	endforeach; ?>
 </table>
-
+*/ ?>
