@@ -8,6 +8,9 @@ class articles_model extends CI_Model
   {
     parent::__construct();
     $this->db->db_select();
+
+    $this->site_db = $this->config->item('site_db');
+    $this->prod_db = $this->config->item('prod_db');
   }
 
 	// used by admin
@@ -559,9 +562,9 @@ SQL;
      */
     function get_products( $article_id )
     {
-        $sql = "SELECT p.*, pub.name as publisher FROM bookshelf.articles_products ap
-            LEFT JOIN products.products p ON ap.products_id = p.id
-            LEFT JOIN products.publishers pub ON p.publisher_id = pub.id
+        $sql = "SELECT p.*, pub.name as publisher FROM {$this->site_db}.articles_products ap
+            LEFT JOIN {$this->prod_db}.products p ON ap.products_id = p.id
+            LEFT JOIN {$this->prod_db}.publishers pub ON p.publisher_id = pub.id
             WHERE ap.articles_id = ?";
         $result = $this->db->query($sql, $article_id)->result();
         
@@ -574,8 +577,8 @@ SQL;
           per product (possibly) and a join needs catch all the contributors and then concat them
           into a single field */
           $sql = "SELECT GROUP_CONCAT(name SEPARATOR '|') as name FROM 
-                products.products_contributors pc 
-                LEFT JOIN products.contributors c ON pc.contributors_id = c.id
+                {$this->prod_db}.products_contributors pc 
+                LEFT JOIN {$this->prod_db}.contributors c ON pc.contributors_id = c.id
                 WHERE pc.products_id = {$r->id}";
           $cont_result = $this->db->query($sql)->result();
           $r->contributor = $cont_result[0]->name;

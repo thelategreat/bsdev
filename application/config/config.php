@@ -312,6 +312,16 @@ $config['time_reference'] = 'local';
 $config['rewrite_short_tags'] = FALSE;
 
 
+/*
+|--------------------
+|Database names 
+|--------------------
+|Strictly we shouldn't have to use this, but since we're using more than one database
+|this is the easiest way to abstract the database names that I can think of.
+*/
+$config['site_db'] = 'bookshelf';
+$config['prod_db'] = 'products';
+
 
 /* End of file config.php */
 /* Location: ./system/application/config/config.php */

@@ -14,6 +14,8 @@ class Products_model extends CI_Model
     // Connect the products database which is separate from everything else
     $this->dbp = $this->load->database('prod', true);
     
+    $this->site_db = $this->config->item('site_db');
+    $this->prod_db = $this->config->item('prod_db');
 }
 
 /* Select a single product by EAN
