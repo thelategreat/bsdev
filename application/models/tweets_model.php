@@ -67,6 +67,10 @@ class Tweets_model extends CI_Model {
     * @return mixed Array of tweets
     */
     function load($user=null) {        
+        $params = array("screen_name"=>$user,
+                    "count"=>4,
+                    "user_id"=>''); 
+
         $this->load->library('twitter');
         $sql = sprintf("SELECT * FROM tweets
                         WHERE user_id='%s'
@@ -80,21 +84,47 @@ class Tweets_model extends CI_Model {
 
             if (strtotime($result[0]->time) < strtotime(date('Y-m-d H:i:s') . '-15 minutes')) {
 
-				$params = array("screen_name"=>$user,
-		                    "count"=>4,
-		                    "user_id"=>''); 
 		        
 		        $tweets = $this->twitter->getTweets($params);
 
 		        if ($tweets) {
+                    foreach ($tweets as &$it) {
+                        $it = $this->tweets_model->make_links_clickable($it);
+                    }
 		            $this->tweets_model->save($params, $tweets);
 		            return $this->tweets_model->load($user);		     
 		        }		       
             }
-            return (unserialize($result[0]->tweets));
+            $tweets = (unserialize($result[0]->tweets));
+            foreach ($tweets as $it) {
+                $it->formatted_date = date('Y-m-d h:i a', strtotime($it->created_at));
+            }
+            return $tweets;
         } else {
+            $tweets = $this->twitter->getTweets($params);
+
+            if ($tweets) {
+                foreach ($tweets as &$it) {
+                    $it = $this->tweets_model->make_links_clickable($it);
+                }
+                $this->tweets_model->save($params, $tweets);
+                return $this->tweets_model->load($user);             
+            }              
+
             return false;
         }
+    }
+
+    /**
+        Make Links Clickable
+        Links in tweets should be rendered as clickable anchors
+        @param string Tweet
+        @return string Adjusted tweet
+    */
+    function make_links_clickable($tweet) {
+        $tweet->text = preg_replace('@(https?://([-\w\.]+)+(:\d+)?((/[\w/_\.%\-+~]*)?(\?\S+)?)?)@', 
+                '<a href="$1">$1</a>', $tweet->text);
+        return $tweet;
     }
     
 }

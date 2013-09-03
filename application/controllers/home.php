@@ -15,7 +15,8 @@ class Home extends MY_Controller
 		$this->load->model('event_model');
 		$this->load->model('groups_model');
 		$this->load->model('lists_model');
-		$this->load->model('polls_model');
+		$this->load->model('pages_model');
+		//$this->load->model('polls_model');
 		$this->load->model('tweets_model');
 		$this->load->model('groups_list_positions_model');
 		$this->load->model('list_positions_model');
@@ -59,9 +60,14 @@ class Home extends MY_Controller
 		$this->build_page($section, $page);
 	}
 	
+	/** 
+	General page builder - all sections get generated here
+	@param Section number (0 is the default i.e. home page)
+	@param Page # in the section (was used in old generator, maybe not necessary here)
+	*/
 	private function build_page( $section, $page = 1 )
 	{
-		$page_size 	= 10;
+		$page_size 	= 10; 
 		$parents 	= $this->groups_model->get_parents( $section );
 		$events 	= NULL;
 		$nav		= array();
@@ -70,25 +76,31 @@ class Home extends MY_Controller
 		$this->benchmark->mark('code_start');
 		
 		$tweets = $this->tweets_model->load('bookshelfnews');
+
+		$nav = $this->pages_model->get_pages_tree();
+		
 		// Sidebar events for homepage
 		if ($section == 0) {
-			$events = $this->event_model->get_next_events( 4 );
-			$events = $events->result_array();
+			$movies = $this->event_model->get_upcoming_films( 2 );
+			$events = $this->event_model->get_upcoming_events( 4, date('Y-m-d', strtotime('+2 weeks')) );
+			
+
+			
 
 			$lists['serendipity'] = $this->lists_model->get_list_items_by_name( 'serendipity' );
 			shuffle($lists['serendipity']);
 			
-			$res = $this->articles_model->get_published_articles( $section, 5,  1 );
-			foreach( $res->result() as $row ) {
-				$row->media = $this->media_model->get_media_for_path("/articles/$row->id", 'general', 1);
-				$data[] = $row;
-			}
-			$lists['_section'] = $data;
+			$articles = $this->articles_model->get_published_articles( $section, 5,  1 );
+			if ($articles) foreach( $articles as &$it) {
+				$it->media = $this->media_model->get_media_for_path("/articles/$it->id", 'general', 1);
+			}			
+			$lists['_section'] = $articles;
 
 			$nav['main'] = 'Home';
 			$nav['sub'] = '';
 			
-			$data['tweets'] = $tweets;		
+			$data['tweets'] = $tweets;	
+			$data['movies'] = $movies;	
 			$data['events'] = $events;
 			$data['nav'] 	= $nav;
 			$layout = 'main';
@@ -116,7 +128,7 @@ class Home extends MY_Controller
 			}
 		}
 
-		$data['nav'] = $nav;
+		$data['nav'] = $nav[0]->children;
 		$data['lists'] = $lists;
 		$data['tweets'] = $tweets;
 

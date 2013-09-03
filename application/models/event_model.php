@@ -43,25 +43,65 @@ class event_model extends CI_Model
 		return $result;
 	}
 
-	function get_next_events( $count = 10 )
+	/**
+	Gets a list of upcoming events
+	@param (optional) Maximum number of events
+	@param (optional) Latest date of event
+	@return Array of event objects
+	*/
+	function get_upcoming_events( $count = 10, $end_date = false )
 	{
 		$query = "SELECT
-					events.id,
-					events.title,
-					events.dt_start,
-					media.uuid
+					events_times.*, events.*, 
+					event_categories.name as category,
+					event_audiences.name as audience
 				FROM
-					events
-				LEFT JOIN media_map ON media_map.path = concat('/event/', events.id)
-				LEFT JOIN media ON media.id = media_map.media_id
+					events_times
+					LEFT JOIN events ON events.id = events_times.events_id
+					LEFT JOIN event_categories ON events.categories_id = event_categories.id
+					LEFT JOIN event_audiences ON events.audiences_id = event_audiences.id
+					LEFT JOIN ratings ON events.ratings_id = ratings.id
 				WHERE
 					TRUE
-				AND dt_start > now()
+				AND films_id IS NULL
+				AND events_times.start_time > NOW() ";
+				if ($end_date) {
+					$query .= " AND events_times.start_time < '$end_date' ";
+				}
+				$query .= "
 				ORDER BY
-				    events.dt_start
+					events_times.start_time
 				LIMIT $count";
 
-		return $this->db->query( $query );
+		return $this->db->query( $query )->result();
+	}
+
+	/**
+	Gets a list of upcoming films
+	@param (optional) Maximum number of events
+	@param (optional) Latest date of event
+	@return Array of event objects
+	*/
+	function get_upcoming_films( $count = 10, $end_date = false)
+	{
+		$query = "SELECT
+					*
+				FROM
+					events_times
+					LEFT JOIN films ON films.id = events_times.films_id
+				WHERE
+					TRUE
+				AND events_id IS NULL
+				AND events_times.start_time > NOW() ";
+				if ($end_date) {
+					$query .= " AND events_times.start_time < '$end_date' ";
+				}
+				$query .= "
+				ORDER BY
+					events_times.start_time
+				LIMIT $count";
+
+		return $this->db->query( $query )->result();
 	}
 
 	/**
@@ -69,8 +109,13 @@ class event_model extends CI_Model
 	 */
 	function get_events( $filter )
 	{
-		$query = "SELECT e.id, e.created_on, e.updated_on, e.submitter_id, e.title, e.venue, e.dt_start, e.dt_end, e.body, e.rating, ec.name as category, e.audience, e.event_ref, e.venue_ref ";
-		$query .= " FROM events AS e, event_categories as ec WHERE e.category = ec.id ";
+		$query = "SELECT e.*, ratings.rating as rating, ec.name as category
+					FROM events e
+					LEFT JOIN event_categories ec ON e.categories_id = ec.id
+					LEFT JOIN ratings ON e.ratings_id = ratings.id
+					LEFT JOIN event_audiences ON e.audiences_id = event_audiences.id ";
+
+
 		if (isset($filter['type'])) {
 			$query .= " AND ec.name = '{$filter['type']}' ";
 		}
@@ -322,14 +367,16 @@ EOF;
 					*, events.title as title,
 					dt_start as date_start, dt_end as date_end, 
 					event_categories.name as category,
-					event_audiences.name as audience
+					event_audiences.name as audience,
+					ratings.name as rating
 				FROM
 					events
-				LEFT JOIN event_categories ON event_categories.id = events .category
-				LEFT JOIN event_audiences ON events.audience = event_audiences.id
+				LEFT JOIN event_categories ON event_categories.id = events .categories_id
+				LEFT JOIN event_audiences ON events.audiences_id = event_audiences.id
 				LEFT JOIN media_map ON media_map.path = concat('/event/', events.id)
 				LEFT JOIN media ON media.id = media_map.media_id
 				LEFT JOIN films ON films.id = events .event_ref
+				LEFT JOIN ratings ON events.ratings_id = ratings.id
 				WHERE
 						events .id = '$id'";
 	

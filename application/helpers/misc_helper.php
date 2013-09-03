@@ -303,3 +303,55 @@ function str_max_len( $str, $max = false )
 	}
 	return $str;
 }
+
+
+/**
+	Depending on the type of list object (article, product, etc) the file paths
+	are somewhat different and the resizer needs to know where to look. Or, if it's an external 
+	link, we need to return that directly.
+
+	@param Item object
+	@param Width
+	@param Height
+	*/
+function imageLinkHelper($item, $width=false, $height=false) {
+
+	/* Depending on the type of record, images are stored differently */
+
+	switch ($item->object_type) {
+		case 'article':
+			// No image found
+			if (!isset($item->media[0]['thumbnail'])) {
+				$ret = base_url('/images/image_not_found.jpg');
+				return $ret;
+			}
+
+			// This isn't a stored media link, it's an external link
+			if (strtolower($item->media[0]['type']) == 'link') {
+				return $item->media[0]['thumbnail'];
+			}
+
+			// Media link to send through the resizer
+			$ret = base_url("/i/size/o/{$item->media[0]['thumbnail']}");
+		break;
+
+		case 'product':
+			$ret = '/i/size/o/product--' . substr($item->ean, -1) . '--' . $item->ean;
+		break;
+
+		default:
+			$ret = null;
+		break;
+	}
+
+	// The dimensions specified in the link to the helper - this controls the resizer
+	if ($width) {
+			$ret .= "/w/{$width}";
+		}
+		if ($height) {
+			$ret .= "/h/{$height}";
+		}
+
+	return $ret;
+
+}

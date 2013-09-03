@@ -1,15 +1,43 @@
-<h3><a class="small" href="/admin/lists/add/" title="Add List"><img src="/img/admin/text_list_bullets.png" /></a> Lists</h3>
+<script type='text/javascript'>
+	$(document).ready(function() {
+		$('#lists').dataTable();
+	});
+</script>
 
-<table>
-<tr>
-  <th>List</th>
-  <th>Owner</th>
-</tr>
-<?php foreach( $lists->result() as $list ) { ?>
-<tr>
-  <td><a href='/admin/lists/edit/<?=$list->id?>'><?= $list->name ?></a></td>
-  <td><?= $list->creator ?></td>
-</tr>
-<?php } ?>
+<div class=container>
+	<header>Lists</header>
 
+	<aside class=instruction>
+		Choose the film, date and venue then click Add to create a new movie listing
+	</aside>
 
+	<nav>
+		<a href="/admin/lists/add">
+			<button id='btn_add'>
+				<i class="icon-plus icon"></i> Add List
+			</button>
+		</a>
+	</nav>
+	<br>
+
+	<section>
+		<table id='lists' class="dataTable">
+		  <thead>
+		    <tr>
+		      <th width="85%">List Name</th>
+		      <th>Owner</th>
+		    </tr>
+		  </thead>
+		<?php
+		 	$cnt = 0;
+			foreach( $lists->result() as $it) { ?>
+			<tr <?= ($cnt % 2) != 0 ? 'class="odd"' : ''?> >
+			  <td><a href="/admin/lists/edit/<?= $it->id ?>"><?= str_max_len($it->name, 40); ?></a></td>
+		    <td>
+		    	<?=$it->creator; ?>
+		    </td>
+		</tr>
+		<?php $cnt++; } ?>
+		</table>
+	</section>
+</div>

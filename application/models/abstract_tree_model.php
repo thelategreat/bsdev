@@ -53,6 +53,8 @@ abstract class abstract_tree_model extends CI_Model
 			} else {
 				$row->children = array();
 			}
+
+			$row->depth = count($row->children);
 		}
 		
 		return $ra;

@@ -4,15 +4,12 @@
 		$section = "";
 	}
 ?>
-<? $this->load->view('common/header'); ?>
-<body class='<? if (isset($css_name)) echo $css_name;?>'>
-<div class="ym-wrapper">
-	<div class="ym-wbox">
-		<header>
-			<h1>The Bookshelf</h1>
-		</header>
+<? $this->load->view('common/header.php'); ?>
+<div id="content_wrapper <? if (isset($css_name)) echo $css_name;?>">
 
-<? $this->load->view('common/nav', $nav); ?>
-
+<? // Start vertical side menu ?>
+    <?php $this->load->view('/layouts/vertical_nav'); ?>
+    
 <?= $content; ?>
-<? $this->load->view('common/footer'); ?>
+
+<? $this->load->view('/common/footer'); ?>

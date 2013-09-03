@@ -1,4 +1,8 @@
 <?php
+
+/**
+ This is the image processor that resizes and caches resized images.  It's only function is size()
+ */
 class I extends MY_Controller
 {
   public function __construct()
@@ -11,11 +15,16 @@ class I extends MY_Controller
   {
     redirect('/');
   }
+  
+/**
+  Calling /i/size/o/filename/w/100/h/100
+  would call for the file named filename at a maximum height of 100 and max width of 100
+  to pass forward slashes use --
+  */
   public function size()
   { 
-    //echo "here";
     $props = $this->uri->ruri_to_assoc();
-    
+
     if (!isset($props['o'])) exit(0);
     $w = -1;
     $h = -1;

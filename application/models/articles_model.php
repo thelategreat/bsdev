@@ -112,7 +112,10 @@ EOF;
       $group = 1;
     }
 
-    $q = "SELECT a.id, a.title, fnStripTags(a.body) as body, a.excerpt, ac.category, a.publish_on, a.author, ast.status, gt.name as `group`,
+    $q = "SELECT a.id, a.title, fnStripTags(a.body) as body, 
+        a.excerpt, ac.category, a.publish_on, 
+        a.author, ast.status, gt.name as `group`,
+        'article' as object_type,
     		(SELECT COUNT(*)
     				FROM comments
     				WHERE table_ref = 'articles'
@@ -138,7 +141,7 @@ EOF;
       $q .= " OFFSET " . ($limit * ($page-1));
     }
 
-    return $this->db->query( $q );
+    return $this->db->query( $q )->result();
   }
 
 

@@ -187,6 +187,15 @@ class media_model extends Tag_Model
 		return $res;
 	}
 
+	
+	/**
+		Get the media for a particular path.  This will return all the files that are associated
+		to the path
+		@param Path name
+		@param Media slot (optional - used to identify purpose of the media)
+		@param Result limit
+		@return List of file paths suitable to pass to the image helper
+	*/
 	function get_media_for_path( $path, $slot = 'general', $count = 0 )
 	{
         $query = "SELECT m.* FROM media as m, media_map as mm WHERE mm.media_id = m.id AND mm.path = '$path' AND mm.slot = '$slot' ORDER BY mm.sort_order";
@@ -216,11 +225,12 @@ class media_model extends Tag_Model
 				  if( isset($row->thumbnail) && strlen($row->thumbnail)) {
 						$info['thumbnail'] =  $row->thumbnail;
 				  } else {
-						$info['thumbnail'] = "/media/logos/youtube.jpg";
+						$info['thumbnail'] = "media--logos--youtube";
 					}
 					break;
 				default:
-					$info['thumbnail'] = '/media/' . $info['uuid'];
+					$info['thumbnail_fullpath'] = 'media/' . $info['uuid'];
+					$info['thumbnail'] = 'media--' . $info['uuid'];
 		  }
 
 			$files[] = $info;

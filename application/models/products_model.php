@@ -13,6 +13,7 @@ class Products_model extends CI_Model
 
     // Connect the products database which is separate from everything else
     $this->dbp = $this->load->database('prod', true);
+    $this->db->db_select();
     
     $this->site_db = $this->config->item('site_db');
     $this->prod_db = $this->config->item('prod_db');
@@ -23,7 +24,8 @@ class Products_model extends CI_Model
 	@returns Product object (NOT db result) or FALSE if nothing is found */
 function getProduct($id) {
 	$this->dbp->db_select();
-	$sql = "SELECT products.*, 
+
+	$sql = "SELECT products.*,
 					record_statuses.name as record_status,
 					record_statuses.id as record_status_id,
 					record_types.name as record_type,
@@ -64,7 +66,10 @@ function getProduct($id) {
 
 	$result = $this->dbp->query($sql);
 	
-	if ($result->num_rows() == 0) return false;
+	if ($result->num_rows() == 0) { 
+		$this->dbp->db_select();
+		return false;
+	}
 	
 	$item = $result->row();
 	$sql = "SELECT othertext_codes.name as type, othertext.text as text 
@@ -141,6 +146,8 @@ function getProduct($id) {
 			LEFT JOIN articles ON articles_products.articles_id = articles.id
 			WHERE products_id = {$id}";
 	$item->associated_essays = $this->db->query($sql)->result();
+
+	$this->db->db_select();
 	return $item;
 }
 

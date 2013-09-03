@@ -1,10 +1,9 @@
-<div id='twitter_feed' class='widget-vertical tooltip' title='Twitter Feed'>
-	<ul class="twitter-feed">
-	<?php foreach( $tweets as $tweet ) { ?>
-		<li><em><?=date('Y-m-d', strtotime($tweet['pubDate']));?></em>
-			<br/>
-			<?=$tweet['title']?>
-		</li>
-	<?php } ?>
-	</ul>
-</div>
+<?php if (count($tweets) > 0) { ?>
+<ul>
+<?php foreach( $tweets as $tweet ) { ?>
+	<li><div class='title'><?=fmt_date($tweet->created_at, false);?></div>
+		<div class='text'><?=$tweet->text;?></div>
+	</li>
+<? } ?>
+</ul>
+<?php } ?>

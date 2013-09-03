@@ -112,12 +112,16 @@ class Lists extends Admin_Controller
 		redirect('/admin/lists');
 	}
 
-  // ajax
+  /**
+    Ajax function to save a list from the admin area
+    @param List ID
+    @param List name
+    @param List items - array with title, type, id
+  */ 
 	function save()
 	{		
 		$error = '';
 		$id = $this->input->post('id');
-		
     $name = $this->input->post('name');
     $items = $this->input->post('items');
     $can_delete = NULL;
@@ -125,17 +129,26 @@ class Lists extends Admin_Controller
       $can_delete = $this->input->post('can_delete');  
     }
 
+    $success = true;
     if( $id && $name ) {
-			$items = json_decode( $items, true ); //explode('||', $items );
+			$items = json_decode( $items, true ); 
       if( $id == -1 ) {
         $owner = $this->session->userdata('logged_user', NULL );
-				$this->lists_model->add_list( $name, $owner, $can_delete, $items );
+				$success = $this->lists_model->add_list( $name, $owner, $can_delete, $items );
 			} else {
-				$this->lists_model->update_list( $id, $name, $can_delete, $items );
+				$success = $this->lists_model->update_list( $id, $name, $can_delete, $items );
 			}
 		}		
-				
-		echo json_encode(array('error'=>$error));
+		
+    $out = array();
+    if ($success !== true) {
+      $out['success'] = 'true';
+    }	else {
+      $out['success'] = 'false';
+      $out['error'] = $success;
+    }	
+
+		echo json_encode($out);
 	}
 
 } //  

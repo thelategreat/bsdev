@@ -1,0 +1,202 @@
+/*---content div layout for home ----*/
+#main_content {
+	margin:0 0 0 40px;
+	padding:0 25px 25px 15px;
+	width:610px;
+}
+
+
+.feature_heading { /*---redbars----*/
+	background:#d21616;
+	color:#ffffff;
+	margin:0 0 10px 0;
+	padding-left:0px;
+	width:100%;
+	height:30px;
+	text-transform:uppercase;
+	font-family:'Open Sans Condensed', sans-seriff;
+	font-weight:bold;
+	font-size:1.3em;
+}
+
+
+#sidebar_home {
+	float:right;
+	width:240px;
+	margin:0 20px 0 0px;
+	padding-left:15px;
+	border-left:1px solid #c8c7c7;
+}
+
+
+.section_heading { /* ---grey bars with teaser section heading---*/
+	background:#626262;
+	color:#ffffff;
+	margin:2px 0 2px 0;
+	padding-left:10px;
+	width:90%;
+	text-transform:uppercase;
+	font-family:'Open Sans Condensed', sans-seriff;
+	font-weight:bold;
+	font-size:1.2em;
+}
+
+
+
+.featured {
+	background: #d21616 url('../images/featured_heading.png') left center no-repeat ;
+}
+
+.serendipity {
+	background: #d21616 url('../images/serendipity_heading.png') left center no-repeat ;
+}
+
+
+
+/* some general styles where the size can be changed depending on which list they are in.*/
+div.columnBlock h1  {
+	color:#d21616;
+	margin:0px 2px 0px 0px;
+	padding-left:25px;
+	text-transform:uppercase;
+	font-family:'Arvo', sans-seriff;
+	font-weight:bold;
+	font-size:.8em;
+}
+
+div.columnBlock h2  {
+	color:#626262;
+	margin:0px 0px;
+	text-transform:uppercase;
+	font-family:'Open Sans Condensed', sans-seriff;
+	font-weight:bold;
+	font-size:1.0em;
+}
+                
+div.columnBlock h3  {
+	color:#626262;
+	margin:3px 0px 10px 0px;
+	font-family:'Open Sans Semibold', sans-seriff;
+	font-size:.95em;
+	font-style:italic;
+}
+			
+div.columnBlock p {
+	color:#000000;
+	margin:0px 0px;
+	font-family:'Open Sans Semibold', sans-seriff;
+	font-size:.9em;
+}			
+				
+
+
+/*---styles for the two column stacked info (on the homepage)--*/
+
+.stackedColumn_2 {
+    float: left;
+    width: 290px; /* or fixed amount */
+}
+
+div.columnBlock {
+    margin: 10px 0 10px 0;
+	padding-bottom:10px;
+	border-bottom:1px solid #cccccc;
+	display:table;
+
+}
+.even {
+	border-right:1px solid #cccccc;
+	margin-right: 10px; /* or fixed amount */
+	padding-right:4px;
+}
+.odd {
+	border-right:0px solid #cccccc;
+}
+
+
+
+
+/* some general styles where the size can be changed depending on which list they are in.*/
+ul.enclosure {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+
+
+li.colz h1  {
+	color:#d21616;
+	height:20px;
+	margin:0px 2px 0px 0px;
+	padding-left:25px;
+	text-transform:uppercase;
+	font-family:'Arvo', sans-seriff;
+	font-weight:bold;
+	font-size:.8em;
+}
+
+li.colz h2  {
+	color:#626262;
+	margin:0px 0px;
+	text-transform:uppercase;
+	font-family:'Open Sans Condensed', sans-seriff;
+	font-weight:bold;
+	font-size:1.0em;
+}
+                
+li.cols h3  {
+	color:#626262;
+	margin:3px 0px 10px 0px;
+	font-family:'Open Sans Semibold', sans-seriff;
+	font-size:.95em;
+	font-style:italic;
+}
+			
+li.colz p {
+	color:#717074;
+	margin:0px 0px;
+	font-family:'Open Sans Semibold', sans-seriff;
+	font-size:.9em;
+}			
+				
+
+
+/*---styles for the two column stacked info (on the homepage)--*/
+
+li.colz {
+    margin: 0px 0 0px 15px;
+	padding:10px;
+	border-bottom:1px solid #cccccc;
+	border-left:1px solid #cccccc;
+	display:table;
+	}
+
+				
+div.imageFloat { /*---for floating images and adding captions---*/
+	/*float:left; 
+	margin:0 5px 0px 0px; 
+	color:#666666;*/
+	padding:6px;
+	}
+
+div.imageFloat h1 { /*-- red heading with an icon beside it --*/
+	color:#7D1718;
+	margin:0px 2px 10px 0px;
+	padding-left:18px;
+	text-transform:none;
+	font-family:'Open Sans Condensed', sans-seriff;
+	font-weight:bold;
+	font-size:1em;
+	display:block;
+	height:auto;
+}
+
+div.imageFloat h2 { /*-- grey text --*/
+	color:#717074;
+	margin:0px 2px 0px 0px;
+	text-transform:none;
+	font-family:'Open Sans Condensed', sans-seriff;
+	font-weight:normal;
+	font-size:0.9em; 
+}
+
