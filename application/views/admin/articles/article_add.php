@@ -1,3 +1,247 @@
+<script type="text/javascript" src="/js/ajaxupload.js" ></script>
+<script type="text/javascript" src="/js/admin_mb.js" ></script>
+ 
+<script>
+/* image picker callback */
+function mediaBrowserCallback( field_name, url, type, win ) {
+  browserField = field_name;
+  browserWin = win;
+  window.open('/admin/media/mce/articles/<?=$article->id?>','browserWindow','modal,width=600,height=600,scrollbars=yes');
+}
+
+function add_to_list()
+{
+  var listid = $('#lists-sel').val();
+
+  $.post("/admin/lists/addtolist",{ listid: listid, url: 'article/view/<?=$article->id?>'},
+    function( data ) {
+      if( data.ok ) {
+        alert( data.msg );
+      } else {
+        alert( data.msg );
+      }
+    }, 'json');
+}
+
+function add_category()
+{
+	$('#new-cat-row').toggle('slow');
+	return false;
+}
+
+function add_group()
+{
+	$('#new-group-row').toggle('slow');
+	return false;
+}
+
+$(function()
+{	
+	$('.datepicker').datepicker({ dateFormat: 'yy-mm-dd' });
+	
+	$('#new-cat').keypress(function(event) {
+		if( event.keyCode == 13 ) {
+			event.preventDefault();
+			$('#new-cat-row').hide('slow');
+			$.post("/admin/articles/addcat", {cat: $('#new-cat').val() },
+				function( data ) {
+					if( data.ok ) {
+						$('#new-cat').val('');
+						var opts = $('#category-sel').attr('options');
+						opts[opts.length] = new Option(data.cat, data.id, true, true);
+					} else {
+						alert(data.msg);
+					}
+				}, 'json');
+		}
+	});
+
+	$('#new-group').keypress(function(event) {
+		if( event.keyCode == 13 ) {
+			event.preventDefault();
+			$('#new-group-row').hide('slow');
+			$.post("/admin/articles/addgroup", { group: $('#new-group').val() },
+				function( data ) {
+					if( data.ok ) {
+						$('#new-group').val('');
+						var opts = $('#group-sel').attr('options');
+						opts[opts.length] = new Option(data.group, data.id, true, true);
+					} else {
+						alert(data.msg);
+					}
+				}, 'json');
+		}
+	});
+	
+	$('#associated_items .insert-img').click(function() {
+		var imgsrc = $(this).attr('data');
+		
+		var ed = tinyMCE.get('article_body');                // get editor instance
+		var range = ed.selection.getRng();		// get range
+		var newNode = ed.getDoc().createElement ( "img" );  // create img node
+		newNode.src=imgsrc;                           		// add src attribute
+		try {
+			range.insertNode(newNode);  
+		} catch(e) {
+			alert('Place the cursor in the essay text at the position where you wish to insert the image.');
+		}		
+	});
+	
+	$('#associated_items .insert-ref').click(function() {
+		var ref = $(this).attr('data');
+
+		var ed = tinyMCE.get('article_body');                // get editor instance
+		var range = ed.selection.getRng();		// get range
+		var html = '{{' + ref + '}}';
+		try {
+			ed.execCommand('mceInsertContent', false , html);
+		} catch(e) {
+		alert(e.message);
+			alert('Place the cursor in the essay text at the position where you wish to insert the reference.');
+		}		
+	});
+
+	
+});
+</script>
+
+
+
+<div class=container>
+	<header>Essay</header>
+
+	<aside class=instruction>
+		
+	</aside>
+	
+	<nav>
+		<?= $tabs ?>
+	</nav>
+	<br>
+
+
+</div>
+
+
+
+
+<form class="general" action="/admin/articles/add" method="post">
+
+<section id="meta" style="float:left">
+		<header>Metadata</header>
+		<table class='form-table'>
+			<tr><th>Status</th><td><?= $status_select ?></td>
+			<tr><th>Venue</th><td><?= $venue_select ?></td>
+			<tr><th>Category</th><td><?= $category_select ?></td>
+			<tr><th>Display Prioirty</th><td><?= $priority_select ?></td></tr>
+			<tr><th>Tags</th><td><textarea name="tags" class="mceNoEditor" cols="20" rows="2"><?=set_value('tags',$article->tags)?></textarea></td></tr>
+		</table>
+</section>
+
+<div style='clear:both' ></div>
+
+
+<section id="editor">
+	<header>Article Detail</header>
+				<div id="associated_items" style='float:right;width:25%'> 
+				<div class="container">
+					<header>Associated Items</header>
+					<? foreach ($associated as $assoc) { ?>
+						
+						<article class="associated-item">
+						<? if ($assoc->type == 'product') { ?>
+							<span class="title"><?= $assoc->title ?></span><br/>
+							<ul class="details">
+								<li><span>EAN:</span> <?= $assoc->ean ?></li>
+								<li><span>Author:</span> <?= $assoc->contributor ?></li>
+								<li><span>Publisher:</span> <?= $assoc->publisher ?></li>
+								<li><span>Pub Date:</span> <?= $assoc->publish_date ?></li>
+								<li><span>Pages:</span> <?= $assoc->pages ?></li>
+								<li><span>List Price:</span> <?= $assoc->list_price ?></li>
+							</ul>
+							<img src="<?= $assoc->thumbnail ?>" width=150 /><br/>
+							<div class="insert-link insert-img" data="<?= $assoc->thumbnail ?>">Insert Image</div>
+							<div class="insert-link insert-ref" data="<?= $assoc->ref ?>">Insert Reference</div>
+						<? } ?>
+						
+						<? if ($assoc->type == 'film') { ?>
+							<span class="title"><?= $assoc->title ?></span><br/>
+							<ul class="details">
+								<li><span>Director:</span> <?= $assoc->director ?></li>
+								<li><span>Running Time:</span> <?= $assoc->running_time?></li>
+								<li><span>Rating:</span> <?= $assoc->rating ?></li>
+							</ul>
+							<img src="<?= $assoc->image ?>" width=150 /><br/>
+							<div class="insert-link insert-img" data="<?= $assoc->image ?>">Insert Image</div>
+							<div class="insert-link insert-ref" data="film_<?= $assoc->id ?>">Insert Reference</div>
+						<? } ?>			
+
+						<? if ($assoc->type == 'article') { ?>
+							<span class="title"><?= $assoc->title ?></span><br/>
+							<ul class="details">
+								<li><span>Author:</span> <?= $assoc->author?></li>
+							</ul>
+							<img src="<?= $assoc->image ?>" width=150 /><br/>
+							<div class="insert-link insert-img" data="<?= $assoc->image ?>">Insert Image</div>
+							<div class="insert-link insert-ref" data="article_<?= $assoc->id ?>">Insert Reference</div>	
+						<? } ?>			
+						<? if ($assoc->type == 'event') { ?>
+							<span class="title"><?= $assoc->title ?></span><br/>
+							<ul class="details">
+								<li><span>Venue:</span> <?= $assoc->venue ?></li>
+								<li><span>Start:</span> <?= $assoc->dt_start ?></li>
+								<li><span>End:</span> <?= $assoc->dt_end ?></li>
+								<li><span>Rating:</span> <?= $assoc->rating ?></li>
+							</ul>
+							<img src="<?= $assoc->image ?>" width=150 /><br/>
+							<div class="insert-link insert-img" data="<?= $assoc->image ?>">Insert Image</div>
+							<div class="insert-link insert-ref" data="event_<?= $assoc->id ?>">Insert Reference</div>
+						<? } ?>			
+						</article>
+					<? } ?>
+				</div>
+				</div>
+		<table class='form-table' style='float:left; width: 70%'>
+			<tr><th>Title</th><td><input name="title" size="60" value="<?= set_value('title',$article->title)?>"/></td></tr>
+    	    <td><?=form_error('title')?></td>
+    	    <tr><th>User</th><td><?= $user_select ?></td></tr>
+      		<tr><th>Publication Date</th><td><input title="YYYY-MM-DD" placholder='YYYY-MM-DD' class="datepicker short" name="publish_on" size="12" id="fld_publish_on" value="<?=date('Y-m-d')?>"/></td></tr>
+      		<tr><th>Section</th><td><?= $group_select ?></td>
+      		<tr>
+      			<th>Body</th>
+      			<td>
+      				<textarea id="article_body" name="body" rows="25" style="width:100%"><?= set_value('body',$article->body)?></textarea>
+
+      			</td>
+      		</tr>
+    		<br/><?=form_error('body')?></td>
+			<tr><th>Teaser</th><td><textarea name="excerpt" rows="5" style="width:100%"><?= set_value('excerpt',$article->excerpt)?></textarea></td></tr>
+      		<br/><?=form_error('excerpt')?>
+      	</table>
+
+</section>
+
+<div style="clear:both"></div>
+
+<nav>
+	<button type='submit' id="save-button" class='iconbutton' name='save' value="Save">
+		<i class="icon-save icon-2x"></i> Save
+	</button>
+	<a href='/admin/articles'>
+		<button type='submit' id='cancel-button' class='iconbutton' name='cancel' value='Cancel'> 
+			<i class='icon-reply icon-2x'></i> Cancel 
+		</button>
+	</a>
+</nav>
+</form>
+
+
+<div style="clear:both"></div>
+
+
+<? /*
+
+
 <script>
 $(function()
 {
@@ -254,3 +498,4 @@ $(function()
 </table>
 </fieldset>
 </form>
+*/ ?>

@@ -22,6 +22,11 @@ $page_data['slots] = 'front,back';              // any extra slots required. com
 */
 ?>
 
+<style type='text/css'>
+	div#results div { border-bottom: 1px dashed #ccc; margin-bottom:20px;}
+	th {background-color:#cec;}
+</style>
+
 <script language="javascript" type="text/javascript">
 $(document).ready(function() {
 	 $('input[name="search"]').keypress(function(e) {
@@ -122,7 +127,7 @@ function reload()
 function registerHandlers() {
 	$('.remove').click(function() {
 		var id = $(this).attr('data');
-
+		
 		if ($(this).hasClass('article')) {
 			$.post('/admin/articles/removearticle', {associated_article_id: $(this).attr('data'), article_id: <?= $this->uri->segment(4) ?>}, function(data) {
                 if (data.ok == true) {
@@ -185,7 +190,7 @@ Slot: <select id="slot_select" name="slot" onchange="reload()">
 
 Search for item: <input type="text" name="search" /><button id="search_submit">Search</button><div id="search_status"></div><br/>
 <div id="search_results" style='width:100%'>
-	<div id="search_results_article" style='width:22%;margin-right:2%;float:left'><h2>Articles</h2><div class='results'></div></div>
+	<div id="search_results_article" style='width:22%;margin-right:2%;float:left;'><h2>Articles</h2><div class='results'></div></div>
 	<div id="search_results_product" style='width:22%;margin-right:2%;float:left'><h2>Products</h2><div class='results'></div></div>
 	<div id="search_results_event" style='width:22%;margin-right:2%;float:left'><h2>Events</h2><div class='results'></div></div>
 	<div id="search_results_film" style='width:22%;float:left'><h2>Films</h2><div class='results'></div></div>
@@ -193,8 +198,10 @@ Search for item: <input type="text" name="search" /><button id="search_submit">S
 <div style='clear:both'></div>
 
 <hr/>
-<div id="article_area" ></div>
-<div id="product_area" ></div>
-<div id="events_area" ></div>
-<div id="films_area" ></div>
+<div id='results'>
+	<div id="article_area" ></div>
+	<div id="product_area" ></div>
+	<div id="events_area" ></div>
+	<div id="films_area" ></div>
+</div>
 <hr/>

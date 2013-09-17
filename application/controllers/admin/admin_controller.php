@@ -45,7 +45,7 @@ class Admin_Controller extends CI_Controller
 		if( is_array($view_data) ) {
 			$content = $this->load->view($content, $view_data, true);
 		}
-		
+
 		// load the navigation
 		$nav = $this->load->view('layouts/admin_nav', '', true);
 		
@@ -57,7 +57,7 @@ class Admin_Controller extends CI_Controller
 		if( file_exists(APPPATH . "/views/layouts/admin_nav_$role.php")) {
 			$nav = $this->load->view("layouts/admin_nav_$role", '', true);			
 		}
-		
+
 		$pg_data = array(
 			'title' => $title,
 			'nav' => $nav,
@@ -65,6 +65,7 @@ class Admin_Controller extends CI_Controller
 			'content' => $content,
 			'footer' => $this->load->view('layouts/admin_footer', '', true)
 		);
+		
 		$this->load->view('layouts/admin_page', $pg_data );				
 	}
 	

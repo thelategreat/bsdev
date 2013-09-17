@@ -4,6 +4,19 @@
 
 <head>
 	<title><?=$title?></title>
+<? /*
+	<!-- javascript -->
+	<script type="text/javascript" src="/js/jquery-1.3.2.min.js" ></script>
+  <script type="text/javascript" src="/js/jquery.form.js" ></script>
+  <script type="text/javascript" src="/js/jquery-ui-1.7.2.custom.min.js" ></script>
+  <script type="text/javascript" src="/js/date.js" ></script>
+  <script type="text/javascript" src="/js/jquery.datePicker.js" ></script>
+  <script type="text/javascript" src="/js/jquery.simplemodal.min.js" ></script>
+  <script type="text/javascript" src="/js/jquery.json-1.3.min.js" ></script>
+  <script type="text/javascript" src="/js/jquery.qtip.min.js" ></script>
+  <script type="text/javascript" src="/js/jquery.cookie.js" ></script>
+*/ ?>
+
 
 	<!-- style -->
 
@@ -22,10 +35,10 @@
 	<script type='text/javascript' src='http://cdnjs.cloudflare.com/ajax/libs/datatables/1.9.4/jquery.dataTables.min.js'></script>
 	
   <script type="text/javascript" src="<? echo base_url('/js/jquery.form.js');?>" ></script>
-  <?/*<script tyddpe="text/javascript" src="<? echo base_url('/js/jquery-ui-1.7.2.custom.min.js');?>" ></script>*/?>
+  <script type="text/javascript" src="<? echo base_url('/js/jquery-ui-1.7.2.custom.min.js');?>" ></script>
   <script type="text/javascript" src="<? echo base_url('/js/date.js');?>" ></script>
-  <?/*<script type="text/javascript" src="<? echo base_url('/js/jquery.datePicker.js');?>" ></script>*/?>
-  <script type="text/javascript" src="<? echo base_url('/js/jquery.simplemodal.min.js');?>" ></script>
+  <script type="text/javascript" src="<? echo base_url('/js/jquery.datePicker.js');?>" ></script>
+  <script type="text/javascript" src="<? echo base_url('/js/jquery.simplemodal.1.4.4.min.js');?>" ></script>
   <script type="text/javascript" src="<? echo base_url('/js/jquery.json-1.3.min.js');?>" ></script>
   <script type="text/javascript" src="<? echo base_url('/js/jquery.qtip.min.js');?>" ></script>
   <script type="text/javascript" src="<? echo base_url('/js/jquery.cookie.js');?>" ></script>

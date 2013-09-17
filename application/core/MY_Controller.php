@@ -21,28 +21,26 @@ class MY_Controller extends CI_Controller
 	
 	protected function get_page_data( $title, $css_name, $section = 0 )
 	{
-	    $this->load->model('pages_model');
+	    //$this->load->model('pages_model');
 	    
-	    $section = (int)$section;
-		$groups = $this->groups_model->get_menu_tree( $section );
-		$pages = $this->pages_model->get_pages_tree( );
+	    
+		//	'section' => $section,
+		//	'groups' => $groups,
+	    // 	'debug' => $groups,
+	    // 'main_content_nav' => $this->main_menu_groups( $section, $groups ),
+	  //   'sidebar_nav' => $this->get_sidebar_nav(),
+			// 'sidebar_left' => $this->get_sidebar('left', $groups, $section ),
+			// 'sidebar_right' => $this->get_sidebar('right', $groups, $section ),
+			// 'ad_footer' => $this->get_sidebar('ad_footer', $groups ),
+	    // 'footer' => $this->load->view('layouts/standard_footer', array('pages' => $pages), true )
+
 //echo '<pre>'; var_dump($groups);die;
 
 		$pg_data = array(
 			'page_title' => $title,
-			'css_name' => $css_name,
-			'section' => $section,
-			'groups' => $groups,
-			'debug' => $groups,
-			'main_content_nav' => $this->main_menu_groups( $section, $groups ),
-			'style' => '/css/screen.css',
+			'css_name' => $css_name,			
 			'content' => '',
-			'cart' => $this->cart,
-			'sidebar_nav' => $this->get_sidebar_nav(),
-			'sidebar_left' => $this->get_sidebar('left', $groups, $section ),
-			'sidebar_right' => $this->get_sidebar('right', $groups, $section ),
-			'ad_footer' => $this->get_sidebar('ad_footer', $groups ),
-			'footer' => $this->load->view('layouts/standard_footer', array('pages' => $pages), true )
+			'cart' => $this->cart
 		);
 
 		return $pg_data;

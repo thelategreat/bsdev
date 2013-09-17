@@ -929,12 +929,12 @@ ul.gallery {
 }
 
 .media-edit-preview {
-	background-color: #888; 
-	background-image: url('/img/gimp_transparency.png');
+	background-color: #eee; 
+	/*background-image: url('/img/gimp_transparency.png');*/
 	padding: 5px; 
 	text-align: center; 
-	border-bottom: 2px solid #333;
- 	border-right: 2px solid #333; 
+	float:right;
+	width:50%;
 }
 
 /* wiki */

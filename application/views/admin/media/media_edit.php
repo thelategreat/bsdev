@@ -1,24 +1,5 @@
 <script type="text/javascript">
 
-// foolin around
-function bw_filter()
-{
-	var cvs = $('#theCanvas')[0];
-	if( !cvs ) return;
-	var ctx = cvs.getContext('2d');
-	
-	var imgd = ctx.getImageData(0, 0, cvs.width, cvs.height);
-	var pix = imgd.data;
-	for (var i = 0, n = pix.length; i < n; i += 4) {
-		var grayscale = pix[i  ] * .3 + pix[i+1] * .59 + pix[i+2] * .11;
-		pix[i  ] = grayscale; 	// red
-		pix[i+1] = grayscale; 	// green
-		pix[i+2] = grayscale; 	// blue
-	// alpha
-	}
-	ctx.putImageData(imgd, 0, 0);
-}
-
 function toggle_size()
 {
 	var cvs = $('#theCanvas')[0];
@@ -92,6 +73,34 @@ $(document).ready(function() {
 });
 
 </script>
+
+
+<div class=container>
+	<header>Media</header>
+</div>
+
+<form class="general" action="/admin/media/edit/<?=$item->uuid?><?= $is_adding ? '/add' : ''?>" method="post">
+
+<div class="media-edit-preview" id="media-edit-preview">
+	<?php if( $item->type == "link") { 
+		echo get_embed_object( $item->title );
+	} else { ?>
+		<?php if( file_exists('media/'. $item->uuid)) { ?>
+			<img id="theImage" src="/media/<?= $item->uuid ?>" />
+			<canvas id="theCanvas"></canvas>
+		<?php } else { ?>
+			<img id="theImage" src="/img/image_not_found.jpg" />
+		<? } ?>
+<?php } ?>
+</div>
+<section id="meta" style="float:left">
+	<table class='form-table'>
+		<tr><th>Caption</th><td><input name="caption" size="50" value="<?= $item->caption ?>" /></td>
+		<tr><th>TT# / ISBN</th><td><input name="tt_isbn" size="17" value="<?= $item->tt_isbn ?>" /></td>
+		<tr><th>Description</th><td><textarea name="description" class="mceNoEditor" rows="5" cols="40"><?= $item->description ?></textarea></td>
+		<tr><th>Tags</th><td><input name="tags" size="50" value="<?= $item->tags ?>" /></td></tr>
+	</table>
+</section>
 
 <table>
 	<tr>
@@ -228,7 +237,7 @@ $(document).ready(function() {
 							<img id="theImage" src="/img/image_not_found.jpg" />
 						<? } ?>
 				<?php } ?>
-			</div>
+				</div>
 			<?php echo validation_errors('<div class="error">', '</div>'); ?>
 		</td>
 	</tr>

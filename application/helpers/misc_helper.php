@@ -347,10 +347,32 @@ function imageLinkHelper($item, $width=false, $height=false) {
 	// The dimensions specified in the link to the helper - this controls the resizer
 	if ($width) {
 			$ret .= "/w/{$width}";
-		}
-		if ($height) {
-			$ret .= "/h/{$height}";
-		}
+	}
+	if ($height) {
+		$ret .= "/h/{$height}";
+	}
+
+	return $ret;
+}
+
+/**
+	In some cases an object isn't being passed but we still want to use the image cache. 
+	This takes a direct file path and converst to the image helper format 
+*/
+function imgCache($url, $width=false, $height=false) {
+	if ($url[0] == '/') $url = substr($url, 1);
+	$url = str_replace('/', '--', $url);
+	$url = str_replace('.jpg', '', $url);
+
+	$ret = base_url("/i/size/o/{$url}");
+
+	// The dimensions specified in the link to the helper - this controls the resizer
+	if ($width) {
+		$ret .= "/w/{$width}";
+	}
+	if ($height) {
+		$ret .= "/h/{$height}";
+	}
 
 	return $ret;
 

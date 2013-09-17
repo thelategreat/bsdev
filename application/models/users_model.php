@@ -55,6 +55,16 @@ EOF;
     return $this->db->get('users');
   }
 
+  function get_user_by_id( $id)
+  {
+    $this->db->where('id', $id);
+    $result = $this->db->get('users');
+    if ($result) return $result->row();
+
+    return false;
+  }
+
+
   function add_user()
   {
     

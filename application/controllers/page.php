@@ -26,11 +26,13 @@ class Page extends MY_Controller
 
     	$id = (int)$id;
 		$page = $this->pages_model->get_page_by_id( $id );
+		
 		$nav = $this->pages_model->get_pages_tree( $page->parent_id );
 		
 		$data = array('title' => 'Page Not Found', 'body' => '');
 		if( $page ) {
 			$data['title'] = $page->title;
+			$data['name'] = $page->title;
 			$data['body'] = $page->body;
 			$data['nav'] = $nav;
 			$data['page'] = $page;

@@ -163,7 +163,7 @@ $(function()
 								<li><span>Pages:</span> <?= $assoc->pages ?></li>
 								<li><span>List Price:</span> <?= $assoc->list_price ?></li>
 							</ul>
-							<img src="<?= $assoc->thumbnail ?>" width=150 /><br/>
+							<img src="<?=imgCache($assoc->thumbnail, 150,150);?>" /><br/>
 							<div class="insert-link insert-img" data="<?= $assoc->thumbnail ?>">Insert Image</div>
 							<div class="insert-link insert-ref" data="<?= $assoc->ref ?>">Insert Reference</div>
 						<? } ?>
@@ -175,7 +175,7 @@ $(function()
 								<li><span>Running Time:</span> <?= $assoc->running_time?></li>
 								<li><span>Rating:</span> <?= $assoc->rating ?></li>
 							</ul>
-							<img src="<?= $assoc->image ?>" width=150 /><br/>
+							<img src="<?=imgCache($assoc->image, 150,150);?>" /><br/>
 							<div class="insert-link insert-img" data="<?= $assoc->image ?>">Insert Image</div>
 							<div class="insert-link insert-ref" data="film_<?= $assoc->id ?>">Insert Reference</div>
 						<? } ?>			
@@ -185,7 +185,7 @@ $(function()
 							<ul class="details">
 								<li><span>Author:</span> <?= $assoc->author?></li>
 							</ul>
-							<img src="<?= $assoc->image ?>" width=150 /><br/>
+							<img src="<?=imgCache($assoc->image, 150,150);?>" /><br/>
 							<div class="insert-link insert-img" data="<?= $assoc->image ?>">Insert Image</div>
 							<div class="insert-link insert-ref" data="article_<?= $assoc->id ?>">Insert Reference</div>	
 						<? } ?>			
@@ -195,9 +195,8 @@ $(function()
 								<li><span>Venue:</span> <?= $assoc->venue ?></li>
 								<li><span>Start:</span> <?= $assoc->dt_start ?></li>
 								<li><span>End:</span> <?= $assoc->dt_end ?></li>
-								<li><span>Rating:</span> <?= $assoc->rating ?></li>
 							</ul>
-							<img src="<?= $assoc->image ?>" width=150 /><br/>
+							<img src="<?=imgCache($assoc->image, 150,150);?>" /><br/>
 							<div class="insert-link insert-img" data="<?= $assoc->image ?>">Insert Image</div>
 							<div class="insert-link insert-ref" data="event_<?= $assoc->id ?>">Insert Reference</div>
 						<? } ?>			

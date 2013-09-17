@@ -75,9 +75,12 @@ class Home extends MY_Controller
 
 		$this->benchmark->mark('code_start');
 		
+		// Get the tweets for the @bookshelfnews account
 		$tweets = $this->tweets_model->load('bookshelfnews');
 
-		$nav = $this->pages_model->get_pages_tree();
+		// The nav is coming from the group tree / model.  There's a similar call for the pages
+		// which works the same way.
+		$nav = $this->groups_model->get_group_tree();
 		
 		// Sidebar events for homepage
 		if ($section == 0) {

@@ -1,3 +1,6 @@
+/**
+ This is the media browser 
+*/
 var MediaBrowser = function() 
 {
 	// everything is private
@@ -45,7 +48,7 @@ var MediaBrowser = function()
                 query = $("#q").val();
             }
       			$.post('/admin/media/search', { ajax: 1, q: query, pg: pg, path: _P.params['path'] },
-      				function(data) {
+      				function(data) {                
       					$('#popup_content').html( data );
       					$('#search_form').submit(function() {
       					   MediaBrowser.search_view(); 

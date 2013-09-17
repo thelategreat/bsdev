@@ -73,26 +73,22 @@ class Tag_model extends CI_Model
 	 */
 	function get_tags( $table_name, $id )
 	{
-		$tags = '';
-		$tra = array();
+		$tags = array();
 		$q = "SELECT a.name 
-			FROM ${table_name}_tags as a, ${table_name}_tag_map as b 
+			FROM {$table_name}_tags as a
+			LEFT JOIN ${table_name}_tag_map as b
+			ON a.id = b.{$table_name}_tag_id
 			WHERE a.id = b.${table_name}_tag_id 
-			AND b.${table_name}_id = $id";
-		$t = $this->db->query( $q );
-		foreach( $t->result() as $row ) {
-			$tra[] = trim($row->name);
+			AND b.{$table_name}_id = $id";
+		$query = $this->db->query( $q );
+
+		foreach( $query->result() as $row ) {
+			$tags[] = trim($row->name);
 		}
-		asort( $tra );
+		asort( $tags );
 		
-		return $tra;
-		/*
-		foreach( $tra as $tag ) {
-			$tags .= $tag . " ";			
-		}
-		
-		return trim($tags);		
-		*/
+		return $tags;
+		//		return implode(' ', $tags);
 	}
 
 	/**

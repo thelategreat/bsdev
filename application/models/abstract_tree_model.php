@@ -35,6 +35,12 @@ abstract class abstract_tree_model extends CI_Model
 		$this->table_name = $table_name;
 	}
 
+	/**
+		Gets the tree of children and from some starting point
+		@param Fields to return
+		@param Parent members (root)
+		@return A tree of children and parents
+	*/
 	function get_tree( $flds = '*', $parent = 0, $recurse = true, $parent_tree = array() )
 	{		
 		$q = "SELECT $flds FROM $this->table_name WHERE parent_id = $parent ORDER BY sort_order";
@@ -54,10 +60,30 @@ abstract class abstract_tree_model extends CI_Model
 				$row->children = array();
 			}
 
+			$row->child_ids = $this->get_child_ids($row->children);
+
 			$row->depth = count($row->children);
 		}
 		
 		return $ra;
+	}
+
+	/**
+		Takes an array of child elements and returns just the IDs of those children
+		- used to give the list of child IDs to an element as a property so that the children
+		don't have to be searched for that data. This lets us set a parent menu option to active when
+		a child is selected because we can compare current page ID to the list of child IDs easily.
+
+		@param Array of child objects
+		@return Array of child IDs
+		*/
+	function get_child_ids( $children ) {
+		$ids = array();
+		foreach ($children as $child) {
+			if (isset($child->id)) $ids[] = $child->id;
+		}
+
+		return $ids;
 	}
 	
 	// get one row
@@ -79,7 +105,7 @@ abstract class abstract_tree_model extends CI_Model
 		$max = $this->db->query("SELECT MAX(sort_order) as m FROM $this->table_name")->row();
 		$data['sort_order'] = $max->m + 1;
 		$this->db->insert($this->table_name, $data );
-    $this->build_mptt_tree( 1, 1 );
+    	$this->build_mptt_tree( 1, 1 );
 	}
 
 	function update( $id, $data )

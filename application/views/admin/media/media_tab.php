@@ -54,13 +54,37 @@ function check_upload()
 }
 
 $(function() {		
-		reload();	
+	reload();	
+
+	$('#upload-button').click(function() {
+		$('#upload_div').toggle('slow');
+	});
+
+	$('#search_submit').click(function() {
+		$('#search_status').html('Searching...');
+		$('#search_results').show();
+	})
+
+	$('#searchform').submit(function(e) {
+		e.preventDefault();
+	});
 });
 </script>
 
 <?=$tabs?>
 
 <h3><?=$title?></h3>
+<div style='float:right'>
+	<form id='searchform' method='post'>
+		Search for media: <input type="text" name="search" /><button id="search_submit">Search</button><div id="search_status"></div><br/>
+	</form>
+</div>
+
+<nav>
+	<button type='submit' id='upload-button' class='iconbutton' name='upload' value='Upload'> 
+		<i class='icon-upload icon-2x'></i> Upload 
+	</button>
+</nav>
 
 <?php if( !isset($slot)) { $slot = 'general'; ?>
   <input type="hidden" id="slot_select" name="slot" value="general" />
@@ -77,7 +101,7 @@ Slot: <select id="slot_select" name="slot" onchange="reload()">
 <!--
 <button onclick="reload()"><img width="16" src="/img/admin/reload.png" /></button>
 -->
-<button onclick="MediaBrowser.init({path: '<?=$path?>', width: 815, height: 300 });" title="search media library"><img src="/img/admin/image_link.png" /></button>
+<button onclick="MediaBrowser.init({path: '<?=$path?>', width: 815, height: 600 });" title="search media library"><img src="/img/admin/image_link.png" /></button>
 <!-- upload form -->
 <button onclick="$('#upload_div').toggle('slow');" title="add media"><img src="/img/admin/upload.png" width="16px"/></button>
 <div id="upload_div" style="display: none;">
@@ -123,6 +147,23 @@ Slot: <select id="slot_select" name="slot" onchange="reload()">
 	</fieldset>
 	</form>
 </div>
+ 
+
+<div id="search_results" style='width:100%;border:1px solid #aca;padding:5px;display:none'>
+
+	Here's some stuff
+</div>
+<div style='clear:both'></div>
+
+<hr/>
+<div id='results'>
+	<div id="article_area" ></div>
+	<div id="product_area" ></div>
+	<div id="events_area" ></div>
+	<div id="films_area" ></div>
+</div>
+<hr/>
+
 
 <hr/>
 <div id="media_area" ></div>

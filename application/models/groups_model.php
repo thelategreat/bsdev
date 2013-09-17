@@ -18,6 +18,7 @@ class Groups_model extends abstract_tree_model
 		return $this->get_tree('id, parent_id, deletable, name, active');
 	}
 	
+  /*
 	function get_menu_tree( $section )
 	{
     if( empty($section)) {
@@ -31,8 +32,9 @@ class Groups_model extends abstract_tree_model
 		endforeach;		
 		
 		// always one level deep
-		foreach( $groups as $row ) {
+		foreach( $groups as &$row ) {
 			$row->children = $this->get_tree( $flds, $row->id, false );
+      $row->child_ids = $this->get_child_ids($row->children);
 		}
 
     // grab the parents
@@ -46,11 +48,13 @@ class Groups_model extends abstract_tree_model
         $group = $this->find_node( $level['id'], $top );
         if( $group ) {
           $group->children = $this->get_tree( $flds, $group->id, false );
+          //$group->child_ids = $this->get_child_ids($group->children);
           $top = $group->children;
         }
     }
+
 		return $groups;
-	}
+	}*/
 
   function find_node( $id, $groups )
   {

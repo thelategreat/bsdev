@@ -42,6 +42,7 @@
 
 $route['default_controller'] = "home";
 $route['scaffolding_trigger'] = "";
+$route['404_override'] = 'error404';
 
 
 /* End of file routes.php */
