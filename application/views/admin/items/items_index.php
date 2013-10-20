@@ -42,6 +42,7 @@ $(document).ready(function() {
 		$('#search_status').html('Searching...');
 		$.post('/search/json', {q: q, size: 25, type: 'bf'}, function(data) {
 			$('#search_status, .results').html('');
+			$('#search_results').show();
 			if (data.status.code == 200) {
 				$.each(data.data, function(index, value) {
 					$('#search_results_' + value.type + ' .results').append('<div class="search_result ' + value.type + '" data="' + value.id + '"><b>' + value.title + '</b> ' + (value.author ? ' - ' + value.author : '') + '</div>');
@@ -190,10 +191,10 @@ Slot: <select id="slot_select" name="slot" onchange="reload()">
 
 Search for item: <input type="text" name="search" /><button id="search_submit">Search</button><div id="search_status"></div><br/>
 <div id="search_results" style='width:100%'>
-	<div id="search_results_article" style='width:22%;margin-right:2%;float:left;'><h2>Articles</h2><div class='results'></div></div>
-	<div id="search_results_product" style='width:22%;margin-right:2%;float:left'><h2>Products</h2><div class='results'></div></div>
-	<div id="search_results_event" style='width:22%;margin-right:2%;float:left'><h2>Events</h2><div class='results'></div></div>
-	<div id="search_results_film" style='width:22%;float:left'><h2>Films</h2><div class='results'></div></div>
+	<div id="search_results_article" style='width:22%;margin-right:2%;float:left;'><header>Articles</header><div class='results'></div></div>
+	<div id="search_results_product" style='width:22%;margin-right:2%;float:left'><header>Products</header><div class='results'></div></div>
+	<div id="search_results_event" style='width:22%;margin-right:2%;float:left'><header>Events</header><div class='results'></div></div>
+	<div id="search_results_film" style='width:22%;float:left'><header>Films</header><div class='results'></div></div>
 </div>
 <div style='clear:both'></div>
 

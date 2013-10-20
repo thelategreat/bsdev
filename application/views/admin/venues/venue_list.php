@@ -13,7 +13,7 @@
 	<nav>
 		<a href="/admin/venues/add/">
 		<button id='btn_add'>
-	    	<i class="icon-plus icon-2x"></i> Add Venue 
+	    	<i class="icon-plus icon"></i> Add Venue 
 		</button>
 		</a>
 	</nav>

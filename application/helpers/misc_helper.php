@@ -313,34 +313,45 @@ function str_max_len( $str, $max = false )
 	@param Item object
 	@param Width
 	@param Height
+	@param Slot (optional) specifies which slot to use, otherwise takes the first image
 	*/
-function imageLinkHelper($item, $width=false, $height=false) {
+function imageLinkHelper($item, $width=false, $height=false, $slot = 'general') {
+	if (!isset($item->media)) { 
+		$ret = base_url('/images/image_not_found.jpg');
+		return $ret;
+	}
+	if (count($item->media) == 0) return;
 
 	/* Depending on the type of record, images are stored differently */
 
+	if (!isset($item->object_type)) $item->object_type = $item->type;
 	switch ($item->object_type) {
-		case 'article':
-			// No image found
-			if (!isset($item->media[0]['thumbnail'])) {
-				$ret = base_url('/images/image_not_found.jpg');
-				return $ret;
-			}
-
-			// This isn't a stored media link, it's an external link
-			if (strtolower($item->media[0]['type']) == 'link') {
-				return $item->media[0]['thumbnail'];
-			}
-
-			// Media link to send through the resizer
-			$ret = base_url("/i/size/o/{$item->media[0]['thumbnail']}");
-		break;
-
 		case 'product':
 			$ret = '/i/size/o/product--' . substr($item->ean, -1) . '--' . $item->ean;
 		break;
 
 		default:
-			$ret = null;
+			if ($slot) {
+				if ($item->media) foreach ($item->media as $media) {
+					if ($media->slot == $slot) {
+					// No image found
+						if (!isset($media->uuid)) {
+							$ret = base_url('/images/image_not_found.jpg');
+							return $ret;
+						}	
+					}
+					// This isn't a stored media link, it's an external link
+					if (isset($media->type) && strtolower($media->type) == 'link') {
+						return $media->thumbnail;
+					}
+					// Media link to send through the resizer
+					if (isset($media->thumbnail)) {
+						$ret = base_url("/i/size/o/{$media->thumbnail}");
+					} else {
+						$ret = base_url("/i/size/o/media--{$media->uuid}");
+					}
+				}
+			}
 		break;
 	}
 

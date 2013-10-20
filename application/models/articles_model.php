@@ -176,15 +176,20 @@ SQL;
 	{
     $this->db->db_select();
 		$q = "
-			SELECT a.id, title, body, ac.category, updated_on, author, ast.status, publish_on, gt.name AS `section`, excerpt
+			SELECT a.id, title, body, ac.category, updated_on, author, ast.status, publish_on, gt.name AS `section`, excerpt,
+        'article' as object_type
 				FROM articles as a, article_categories as ac, article_statuses as ast, group_tree as gt
 				WHERE a.category = ac.id AND a.status = ast.id AND a.group = gt.id";
 
 		$q .= " AND a.id = " . $this->db->escape(intval($id));
 
-    $result = $this->db->query( $q );
+    $result = $this->db->query( $q )->result();
 
-		return $this->db->query( $q );
+    if ($result) {
+       return $result[0]; 
+     } 
+     return false;
+		//return $this->db->query( $q );
 	}
 
   /**
@@ -205,25 +210,29 @@ SQL;
     return false;
   }
 
+  /**
+    Get the articles in a given group 
+    */
   function get_articles_by_group( $group, $limit = NULL, $page = 1 )
   {
-    $q =<<<SQL
-    select a.id, title, fnStripTags(body) as body, excerpt, ac.category, publish_on, author, ast.status, gt.name as `group`
-    from articles as a, group_tree as gt, article_categories as ac, article_statuses as ast
-      where a.group = gt.id
-        and a.category = ac.id
-        and a.status = ast.id
-        and (gt.id = $group OR gt.parent_id = $group)
+    $q = <<<SQL
+    SELECT a.id, title, fnStripTags(body) as plaintext_body, body, excerpt, ac.category, publish_on, author, 
+          ast.status, gt.name as `group`
+    FROM articles a
+    LEFT JOIN group_tree gt ON a.group = gt.id 
+    LEFT JOIN article_categories ac ON a.category = ac.id 
+    LEFT JOIN article_statuses ast ON a.status = ast.id 
+    WHERE 
+      gt.id = '$group' OR gt.parent_id = '$group'
+    ORDER BY a.publish_on DESC
 SQL;
-
-    $q .= " ORDER BY a.publish_on DESC";
 
     if( $limit ) {
       $q .= " LIMIT $limit";
       $q .= " OFFSET " . ($limit * ($page-1));
     }
 
-    return $this->db->query( $q );
+    return $this->db->query( $q )->result();
   }
 
 	function category_select( $default = 0 )
@@ -481,7 +490,7 @@ SQL;
     {
       $this->load->model('films_model');
       
-        $sql = "SELECT * FROM articles_films af
+        $sql = "SELECT films_id FROM articles_films af
             LEFT JOIN films f ON af.films_id = f.id
             WHERE af.articles_id = ?";
         $result = $this->db->query($sql, $article_id)->result();
@@ -490,17 +499,12 @@ SQL;
           return false;
         }
 
+        $results = array();
         foreach ($result as &$r) {
-          $r->type = 'film';
-          $img = $this->films_model->get_film_media( $r->films_id );
-          if ($img) {
-            $r->image = '/media/' . $img->uuid;
-          } else {
-                $r->image = '/img/image_not_found.jpg';
-          }
+          $results[] = $this->films_model->get_film($r->films_id);
         }
 
-        return $result;
+        return $results;
     }
     
 
@@ -509,7 +513,7 @@ SQL;
      */
     function get_article_media( $id )
     {
-      $sql = "SELECT m.uuid FROM 
+      $sql = "SELECT m.uuid, slot FROM 
           media_map as mm, 
           media as m 
           WHERE mm.path = '/article/" . intval($id) . 

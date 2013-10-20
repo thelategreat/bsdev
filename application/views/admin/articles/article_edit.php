@@ -2,12 +2,33 @@
 <script type="text/javascript" src="/js/admin_mb.js" ></script>
  
 <script>
+
 /* image picker callback */
 function mediaBrowserCallback( field_name, url, type, win ) {
-  browserField = field_name;
-  browserWin = win;
-  window.open('/admin/media/mce/articles/<?=$article->id?>','browserWindow','modal,width=600,height=600,scrollbars=yes');
+
+	var cmsURL = '<?=base_url('admin/tinymce/browse/articles/' . $article->id);?>';
+	
+	tinyMCE.init({
+	    file_browser_callback: function(field_name, url, type, win) { 
+	        tinymce.activeEditor.windowManager.open({
+	            title: "My file browser",
+	            url: '/admin/tinymce/browse/articles/<?=$article->id?>',
+	            width: 800,
+	            height: 600
+	        }, {
+	            oninsert: function(url) {
+	                win.document.getElementById(field_name).value = url; 
+	            }
+	        });
+	    }
+	});
+
+    return false;
+
 }
+
+
+initMCE('articles/<?=$article->id;?>');
 
 function add_to_list()
 {
@@ -113,21 +134,11 @@ $(function()
 
 <div class=container>
 	<header>Essay</header>
-
-	<aside class=instruction>
-		
-	</aside>
-	
 	<nav>
 		<?= $tabs ?>
 	</nav>
 	<br>
-
-
 </div>
-
-
-
 
 <form class="general" action="/admin/articles/edit/<?=$article->id?>" method="post">
 
@@ -175,8 +186,8 @@ $(function()
 								<li><span>Running Time:</span> <?= $assoc->running_time?></li>
 								<li><span>Rating:</span> <?= $assoc->rating ?></li>
 							</ul>
-							<img src="<?=imgCache($assoc->image, 150,150);?>" /><br/>
-							<div class="insert-link insert-img" data="<?= $assoc->image ?>">Insert Image</div>
+							<img src="<?=imageLinkHelper($assoc, 150,150);?>" /><br/>
+							<div class="insert-link insert-img" data="/media/<?= $assoc->media[0]->uuid ?>">Insert Image</div>
 							<div class="insert-link insert-ref" data="film_<?= $assoc->id ?>">Insert Reference</div>
 						<? } ?>			
 
@@ -207,6 +218,7 @@ $(function()
 		<table class='form-table' style='float:left; width: 70%'>
 			<tr><th>Title</th><td><input name="title" size="60" value="<?= set_value('title',$article->title)?>"/></td></tr>
     	    <td><?=form_error('title')?></td>
+			<tr><tH>Author Byline:</th><td><input name="author" size="60" value="<?= set_value('author',$article->author)?>"/></td></tr>
     	    <tr><th>User</th><td><?= $user_select ?></td></tr>
       		<tr><th>Publication Date</th><td><input title="YYYY-MM-DD" placholder='YYYY-MM-DD' class="datepicker short" name="publish_on" size="12" id="fld_publish_on" value="<?=date('Y-m-d')?>"/></td></tr>
       		<tr><th>Section</th><td><?= $group_select ?></td>

@@ -1,0 +1,401 @@
+
+
+/*---content div layout for cinema ----*/
+#main_content.subpage {
+	margin:0 40px 0 260px;
+	padding:0 15px 15px 25px;
+	width:670px;
+}
+
+.feature_heading { /*red bars*/
+	background:#d21616;
+	width:100%;
+	height:30px;
+	}
+
+.feature_heading h1 { 
+	color:#ffffff;
+	margin:0px 0 0px 0px;
+	padding:1px 0px 0px 28px;
+	text-transform:uppercase;
+	font-family:'Open Sans Condensed', sans-seriff;
+	font-weight:bold;
+	font-size:20px;
+}
+
+/*---sidebar stuff----*/
+
+#sidebar_cinema, #list_left {
+	float:left;
+	width:210px;
+	margin:0 20px 0 10px;
+	padding-left:10px;
+	border-left:1px solid #c8c7c7;
+	border-right:1px solid #c8c7c7;
+}
+
+.section_heading { /* ---grey bars with teaser section heading---*/
+	background:#626262;
+	margin:2px 0 2px 0;
+	height:30px;
+	width:95%;
+	
+}
+.section_heading h1 { /*---grey bars with an icon----*/
+	color:#ffffff;
+	margin:0px 0 0px 0px;
+	padding:2px 0px 0px 28px;
+	text-transform:uppercase;
+	font-family:'Open Sans Condensed', sans-seriff;
+	font-weight:bold;
+	font-size:1.2em;
+}
+
+.section_heading h2 { /*---grey bars without an icon----*/
+	color:#ffffff;
+	margin:0px 0 0px 0px;
+	padding:1px 0px 0px 6px;
+	text-transform:uppercase;
+	font-family:'Open Sans Condensed', sans-seriff;
+	font-weight:bold;
+	font-size:1.2em;
+}
+
+
+.star_red {
+	background:#d21616 url('../images/icon_star_wh.png') left center no-repeat ;
+}
+
+.star_grey {
+	background:#626262 url('../images/icon_star_wh.png') left center no-repeat ;
+}
+
+.music_red {
+	background:#d21616 url('../images/icon_music_wh.png') left center no-repeat ;
+}
+
+.film_red {
+	background:#d21616 url('../images/icon_film_wh.png') left center no-repeat ;
+}
+
+.book_red {
+	background:#d21616 url('../images/icon_book_wh.png') left center no-repeat ;
+}
+
+
+.featured,.featured_cinema  {
+	background: #d21616 url('../images/featured_heading.png') left center no-repeat ;				
+}
+
+.playing{
+	background: #d21616 url('../images/playing_heading.png') left center no-repeat ;
+}
+
+.concerts{
+	background: #d21616 url('../images/concerts_heading.png') left center no-repeat ;
+}
+
+
+/*---styles for the two column info--*/
+
+#featured_column {
+    float: left;
+    width: 430px; /* or fixed amount */
+	margin-right: 10px; 
+	padding-right:4px;	
+}
+
+
+#featured_column a {
+	text-decoration: underline;
+}
+
+
+.cinema_highlights { /* ---grey bars with teaser section heading---*/
+	background:#626262 url('../images/cinema_highlights_heading.png') left center no-repeat;
+	color:#ffffff;
+	margin:0px 0 2px 0px;
+	padding-left:20px;
+	width:90%;
+	height:30px;
+	text-transform:uppercase;
+	font-family:'Open Sans Condensed', sans-seriff;
+	font-weight:bold;
+	font-size:1.2em;
+}
+
+
+#highlight_column, #list_right {
+    float: left;
+    width: 200px; 
+	padding-left:10px;
+	border-left:1px solid #cccccc;	
+}
+
+
+div.columnBlock {
+    margin: 10px 0 10px 0;
+	padding-bottom:10px;
+	border-bottom:1px solid #cccccc;
+	display:table;
+}
+
+
+div.columnBlock h1  {
+	color:#d21616;
+	height:20px;
+	margin:5px 2px 5px 0px;
+	padding-left:25px;
+	text-transform:uppercase;
+	font-family:'Arvo', sans-seriff;
+	font-weight:bold;
+	font-size:.8em;
+}
+
+div.columnBlock h2  {
+	color:#626262;
+	margin:0px 0px;
+	text-transform:uppercase;
+	font-family:'Open Sans Condensed', sans-seriff;
+	font-weight:bold;
+	font-size:1.0em;
+}
+                
+div.columnBlock h3  {
+	color:#626262;
+	margin:3px 0px 10px 0px;
+	font-family:'Open Sans Semibold', sans-seriff;
+	font-size:.95em;
+	font-style:italic;
+}
+
+div#featured_column div.columnBlock,
+div#featured_column div.columnBlock p{
+	/* margin:0px 0px; */
+	font-family: 'Merriweather', serif;
+	font-weight:300;
+	color:#000000;
+	font-size:.96em;
+	line-height:1.5em;
+}
+
+div#featured_column div.columnBlock p:first-child:first-letter {
+	font-size : 270%;
+	font-weight:700;
+	font-weight : bold;
+	padding:12px 3px 0 0;
+	float : left;
+	color : #000;
+}
+
+div#featured_column div.columnBlock p:first-line {
+	line-height:1em;
+}
+
+div#featured_column div.columnBlock h2 {
+	margin:0px 0px 10px 0;
+	font-family: 'Open Sans', serif;
+	font-weight:700;
+	color:#000000;
+	font-size:1em;
+	line-height:1.5em;
+	text-transform: capitalize;
+}
+
+div#featured_column div.columnBlock h2 {
+	font-style:normal;
+}
+
+
+div#featured_column div.columnBlock h3 {
+	font-style:normal;
+}
+
+
+
+div#highlight_column div.columnBlock p {
+	margin:0px 0px 0px 5px;
+	font-family:'Open Sans Semibold', sans-seriff;
+	color:#717074;
+	font-size:.9em;
+	line-height:1.4em;
+}
+
+div#highlight_column div.columnBlock h2 {
+	font-style:normal;
+	font-size:.9em;
+}
+	
+				
+div.imageFloat { /*---for floating images and adding captions---*/
+	float:left; 
+	margin:0 5px 0px 0px; 
+	padding:6px;
+	}
+
+div#featured_cinema_column div.columnBlock div.imageFloat h1 { /*-- red heading without an icon beside it --*/
+	color:#7D1718;
+	margin:0px 2px 0px 0px;
+	padding-left:0px;
+	text-transform:none;
+	font-family:'Open Sans Condensed', sans-seriff;
+	font-weight:bold;
+	font-size:1em;
+}
+
+div#featured_cinema_column div.columnBlock div.imageFloat h2 { /*-- grey text --*/
+	color:#000000;
+	margin:0px 2px 0px 0px;
+	padding:0;
+	text-transform:none;
+	font-family: 'Open Sans', serif;
+	font-weight:boldl;
+	font-size:0.8em; 
+}
+
+div.imageFloat h3 { /*-- grey text --*/
+	color:#717074;
+	margin:0px 2px 0px 0px;
+	padding:0;
+	text-transform:none;
+	font-family:'Open Sans', sans-seriff;
+	font-weight:normal;
+	font-size:0.8em; 
+}
+
+
+#cinema_showtimes {
+}
+
+#cinema_showtimes h1{
+	background:#ffffff url('../images/icon_clock_gr.png') left center no-repeat ;
+	color:#626262;
+	margin:5px 2px 5px 0px;
+	padding-left:20px;
+	text-transform:uppercase;
+	font-family:'Arvo', sans-seriff;
+	font-weight:bold;
+	font-size:.8em;
+	height:17px;
+}
+
+#cinema_showtimes h3{
+	font-size:.9em;
+	color:#626262;
+	margin:3px 0px 10px 0px;
+	font-family:'Open Sans Semibold', sans-seriff;
+	font-size:.95em;
+}
+
+
+div.comments,div.tags,div.related{
+	color:#ffffff;
+	background-color:#999999;
+	margin:0px 0 0px 0px;
+	padding:1px 5px 0px 28px;
+	text-transform:uppercase;
+	font-family:'Open Sans Condensed', sans-seriff;
+	font-weight:bold;
+	font-size:1.2em;
+
+}
+
+
+#cinema_showtimes h3{
+	font-size:.9em;
+	color:#626262;
+}
+
+#cinema_showtimes a.readMore{
+	font-size:.8em;
+	font-weight:bold;
+	color:#990000;
+	padding-bottom:5px;
+}
+
+div.comments{
+	background:#999999 url('../images/icon_chat_wh.png') left center no-repeat;
+}
+
+div.related{
+	background:#999999 url('../images/icon_apples_wh.png') left center no-repeat;
+}
+
+div.tags {
+	background:#999999 url('../images/icon_tag_wh.png') left center no-repeat ;
+}
+
+#social_media p,
+#associated_data p
+{
+	margin:0px 0px 0px 5px;
+	font-family:'Open Sans Semibold', sans-seriff;
+	color:#717074;
+	font-size:.9em;
+	line-height:1.4em;
+}
+
+#social_media h3,
+#associated_data h3
+ {
+	color:#d21616;
+	margin:5px 2px 5px 0px;
+	padding-left:20px;
+	text-transform:uppercase;
+	font-family:'Arvo', sans-seriff;
+	font-weight:bold;
+	font-size:.8em;
+	height:17px;
+
+}
+#social_media h4,
+#associated_data h4 {
+	color:#990000;
+	margin:3px 2px 15px 0px;
+	padding-left:20px;
+	font-family:'Open Sans Semibold', sans-seriff;
+	font-weight:bold;
+	font-size:.9em;
+	height:17px;
+}
+#associated_data section {
+	margin-bottom: 20px;
+}
+
+.book {
+background:transparent url('../images/icon_book.png') left center no-repeat ;
+}
+
+.film {
+background:transparent url('../images/icon_film.png') left center no-repeat ;
+}
+
+
+#essayDetail_column {
+float: left;
+    width: 200px; 
+}
+
+#essayDetail_column p, #essay_column p {
+	margin:0px 0px 0px 0px;
+	font-family:'Open Sans Semibold', sans-seriff;
+	color:#717074;
+	font-size:.9em;
+	line-height:1.4em;
+}
+
+#essay_column {
+    float: right;
+    width: 435px; /* or fixed amount */
+	margin-left: 10px; 
+	padding-left:10px;
+	border-left:1px solid #CCCCCC;	
+}
+
+#essay_column table tr th {
+	text-transform:uppercase;
+	font-family:'Arvo', sans-seriff;
+	font-weight:bold;
+	font-size:.8em;
+	text-align:left;
+}

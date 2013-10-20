@@ -7,10 +7,6 @@
 <div class=container>
 	<header>Lists</header>
 
-	<aside class=instruction>
-		Choose the film, date and venue then click Add to create a new movie listing
-	</aside>
-
 	<nav>
 		<a href="/admin/lists/add">
 			<button id='btn_add'>

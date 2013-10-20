@@ -8,7 +8,7 @@
     <!--this creates the nav button- the nave row is dynamically created based on the number of panels below-->
     <h2 class="navHeading"><?=$i;?></h2>
     <!--item # from the array - in this case 1.-->
-    <img src="<?echo imageLinkHelper($list[$i], 100, 100); ?>" height=100 width=100 alt="Look After Mom" title="Look After Mom" />
+    <img src="<?echo imageLinkHelper($list[$i], 100, 100); ?>" height=100 width=100  />
     <!--build this link to the image- -->
     <h1 class="reading"><?=$list[$i]->category;?></h1>
     <!--category variable goes in this h1 tag-->
@@ -17,7 +17,7 @@
     <h3 class="itemTitle"><?=$list[$i]->title;?></h3>
     <!--title of the item variable goes in this h3 tag-->
     <p><?=$list[$i]->excerpt;?></p>
-    <p><a href="#" class="readMore">read more >></a></p>
+    <p><a href="/article/view/<?=$list[$i]->id;?>" class="readMore">read more >></a></p>
     <div class="clear"></div>
     <!--this is here to clear the image float..hopefully this fixes the issue you had on iPad-->
   </div>

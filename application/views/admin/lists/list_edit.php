@@ -28,7 +28,7 @@ function do_search( page )
           html += '<li id="' + data.data[i].id + '">' + data.data[i].title + '</li>';
         }
         html += '</ul>'
-        $('#search-results').html( html );
+        $('#search_results').html( html ).show();
         // make drag-n-drop
         $('#draglist li').draggable({
           revert: "invalid",
@@ -67,7 +67,7 @@ function do_search1( page )
           html += '<li id="' + data.data[i].id + '">' + data.data[i].title + '</li>';
         }
         html += '</ul>'
-        $('#search-results').html( html );
+        $('#search_results').html( html ).show();
         // make drag-n-drop
         $('#draglist li').draggable({
           revert: "invalid",
@@ -198,6 +198,7 @@ $(function() {
     $('#search_status').html('Searching...');
     $.post('/search/json', {q: q, size: 25, type: 'bf'}, function(data) {
       $('#search_status, .results').html('');
+      $('#search_results').show();
       if (data.status.code == 200) {
         $.each(data.data, function(index, value) {
           $('#search_results_' + value.type + ' .results').append('<li class="listitem color_' + value.type + ' " data-id="' + value.id + '" data-type="' + value.type + '"><b>' + value.title + (value.dt_start != null ? " <time>" + value.dt_start + "</time>" : "") + '</b> ' + (value.author ? ' - ' + value.author : '') + '</li>');
@@ -243,7 +244,7 @@ $(function() {
 
 
 <div class=container>
-  <header>List Editor <? if (isset($list->name)) echo "- {$list->name}"; ?></header>
+  <header>List <? if (isset($list->name)) echo "- {$list->name}"; ?></header>
 
   <aside class=instruction>
     Search for items to add to the list from the search box, add to the list by dragging. Reorder list items by dragging the handle. Double-click items to remove from the list.
@@ -313,7 +314,7 @@ Slot: <select id="slot_select" name="slot" onchange="reload()">
 
 
 Search for essays, products, and events: <input type="text" name="search" /><button id="search_submit">Search</button><div id="search_status"></div><br/>
-<div id="search_results" style='width:100%; border: 1px solid #ccc;height:20px;'>
+<div id="search_results" style='width:100%; height:20px;border:none'>
   
   <div style='width:24%;margin-right:1%;float:left;height:auto'><h4 class='color_article'>Article</h4><hr>
     <div id='search_results_article' style='height:170px;overflow-y:scroll'>

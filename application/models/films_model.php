@@ -15,18 +15,51 @@ class films_model extends CI_Model
  */
 function get_film_media( $id )
 {
-	$sql = "SELECT m.uuid FROM 
-			media_map as mm, 
-			media as m 
-			WHERE mm.path = '/films/" . intval($id) . 
-			"' AND m.id = mm.media_id ORDER BY mm.sort_order";
+	$sql = "SELECT media.uuid, slot FROM 
+			media_map LEFT JOIN media ON media_map.media_id = media.id
+			WHERE media_map.path = '/films/{$id}'";
 	$result = $this->db->query($sql)->result();
 
 	if ($result) {
-		return ($result[0]);
+		return ($result);
 	}
 
 	return $result;
+}
+
+/**
+	Get an individual film by ID
+	@param ID
+*/
+function get_film( $id ) 
+{
+	if (!is_numeric($id)) return false;
+	$sql = "SELECT *, title AS name FROM films WHERE id = '$id'";
+	$query = $this->db->query($sql);
+	$result = $query->result();
+
+	if ($result) {
+		$return = $result[0];
+		$return->type = 'film';
+		$return->object_type = 'film';
+		$return->media = self::get_film_media( $id );
+		$return->showtimes = self::get_upcoming_showtimes( $id );
+		return $return;
+	}
+
+	return false;
+}
+
+function get_upcoming_showtimes( $id ) 
+{
+	$sql = "SELECT * FROM events_times WHERE films_id = '{$id}' 
+			AND start_time > date_sub(NOW(), INTERVAL 2 WEEK)
+			ORDER BY start_time 
+			";
+	$query = $this->db->query($sql);
+	$results = $query->result();
+
+	return $results;
 }
 
     

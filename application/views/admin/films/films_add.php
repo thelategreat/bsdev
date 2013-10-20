@@ -57,76 +57,67 @@ function lookup()
 	return false;
 }
 
+
+$(document).ready(function() {
+	initMCE();
+});
+
+
 </script>
 
-<h3>Add Film</h3>
+<div class=container>
+	<header>Add Film</header>
+	<br>
 
 <?= form_open('admin/films/add', array('class'=>'general')); ?>
-<table style="border: 0">
-	<tr><td valign="top">
-		<fieldset><legend>Details</legend>
-		<table style="border: 0">
-			<tr>
-				<td><label for="ttno">tt#</label></td>
-				<td><input name="ttno" type="text" value="<?set_value('ttno')?>"/></td>
+
+<section> 
+		<fieldset><legend>Film Details</legend>
+		<table class='form-table'>
+			<tr><th>TT #</th>
+				<td><input name="ttno" type="text" value="<?=set_value('ttno')?>"/></td>
 				<td class="form_error"><?=form_error('ttno')?></td>
 			</tr>
-			<tr>
-				<td><label for="title" onclick="do_lookup()">title</label></td>
-				<td><input name="title" id="title" type="text" size="40" class="required" value="<?=set_value('title')?>"/>
-				<button onclick="return lookup();">IMDB</button></td>
-				<td> <span class="form_error"><?=form_error('title')?></span></td>
+			<tr><th>Title</th><td><input id="title" name="title" type="text" size="40" class="required" value="<?=set_value('title')?>"/>
+				<button onclick="return lookup();">IMDB Lookup</button></td>
+				<td class="form_error"><?=form_error('title')?></td>
 			</tr>
-			<tr>
-				<td><label for="director">director</label></td>
-				<td><input name="director" id="director" type="text" class="required" value="<?=set_value('director')?>"/></td>
-				<td><span class="form_error"><?=form_error('director')?></span></td>
+			<tr><th>Director</th><td><input name="director" type="text" class="required" value="<?=set_value('director')?>"/></td>
+				<td class="form_error"><?=form_error('director')?></td>
 			</tr>
-			<tr>
-				<td><label for="country">country</label></td>
-				<td><input name="country" id="country" type="text" value="<?=set_value('country')?>"/></td>
-				<td><span class="form_error"><?=form_error('country')?></span></td>
+			<tr><th>Country</th><td><input name="country" type="text" value="<?=set_value('country')?>"/></td>
+				<td class="form_error"><?=form_error('country')?></td>
 			</tr>
-			<tr>
-				<td colspan="3">
-					<table style="border: 0">
-						<tr>
-							<td><label for="year">year</label></td>
-							<td><input name="year" id="year" type="text" size="4" value="<?=set_value('year')?>"/></td>
-							<td><label for="running_time">running time</label></td>
-							<td><input name="running_time" id="running_time" type="text" size="4" value="<?=set_value('running_time')?>"/></td>
-							<td><label for="aspect_ratio">aspect ratio</label></td>
-							<td><input name="aspect_ratio" id="aspect_ratio" type="text" size="10" value="<?=set_value('aspect_ratio')?>"/></td>
-						</tr>
-						<tr>
-							<td><span class="form_error"><?=form_error('year')?></span></td>
-							<td><span class="form_error"><?=form_error('running_time')?></span></td>
-							<td><span class="form_error"><?=form_error('aspect_ratio')?></span></td>
-						</tr>
-					</table>
-				</td>
-			<tr>
-				<td><label for="rating">rating</label></td>
-				<td><input name="rating" id="rating" type="text" value="<?=set_value('rating')?>"/></td>
+			<tr><th>Year</th><td><input name="country" type="text" value="<?=set_value('year')?>"/></td></tr>
+			<tr><th>Running Time (mins)</th><td><input name="running_time" type="text" size="4" value="<?=set_value('running_time')?>"/></td></tr>
+			<tr><th>Aspect Ratio</th><td><input name="aspect_ratio" type="text" size="10" value="<?=set_value('aspect_ratio')?>"/></td></tr>
+			<tr><th>Rating</th><td><input name="rating" type="text" value="<?=set_value('rating')?>"/></td>
 				<td class="form_error"><?=form_error('rating')?></td>
 			</tr>
-			<tr>
-				<td><label for="link" onclick="do_link_lookup()">link</label></td>
+			<tr><th>Link</th>
 				<td><input name="link" id="link" type="text" size="50" value="<?=set_value('link')?>"/></td>
 				<td class="form_error"><?=form_error('link')?></td>
 			</tr>
+			<tr><th>Description</th>
+				<td><textarea name="description"><?=set_value('description')?></textarea></td>
+			</tr>
 		</table>
-	</td>
-	<td valign="top">
-		<fieldset><legend>Description</legend>
-			<textarea name="description" id="description" cols="60" rows="25"><?=set_value('description')?></textarea>
-		</fieldset>
-	</td>
-	</tr>
-</table>
-<br/>
-<input class="save-button" type="submit" name="add" value="Save" />
-<input class="save-button1" type="submit" name="addedit" value="Save &amp; Add Media" />
-&nbsp;
-<input class="cancel-button" type="submit" name="cancel" value="Cancel" />
+	</fieldset>
+</section>
+
+
+<div style="clear:both"></div>
+
+<nav>
+	<button type='submit' id="save-button" class='save-button' name='add' value="Save">
+		<i class="icon-save icon-2x"></i> Save
+	</button>
+	<button type='submit' id='save-add-button' class='save-button2' name='addedit' value='Save &amp; Add Media'>
+		<i class='icon-save icon-2x'></i> Save &amp; Add Media 
+	</button>
+	<button type='submit' id='cancel-button' class='cancel-button' name='cancel' value='Cancel'> 
+		<i class='icon-reply icon-2x'></i> Cancel 
+	</button>
+</nav>
 </form>
+</div>

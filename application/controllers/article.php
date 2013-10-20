@@ -41,6 +41,7 @@ class Article extends MY_Controller
 		$this->db->db_select();
 		$data = array();
 		$layout = 'article';
+		$nav = $this->groups_model->get_group_tree();
 
 		if( !$id ) {
 			redirect("/");
@@ -55,14 +56,13 @@ class Article extends MY_Controller
 		// empty
 		$comments = array();
 		
-		$res = $this->articles_model->get_article($id);
-		if ($res->num_rows() < 1) {
-			$this->load->view('errors/page_not_found');
+		$item = $this->articles_model->get_article($id);
+
+		if (!$item) {
+			$this->load->view('errors/page_not_found', array('nav'=>$nav[0]->children));
 			return;
 		}
 
-		$item = $res->row();
-		
 		preg_match_all('/{{(\d{13}).*}}/', $item->body, $matches, false);
 
 		foreach ($matches[1] as $key=>$match) {				
@@ -83,13 +83,12 @@ class Article extends MY_Controller
 
 		$data['lists'] = $lists;
 
-    	$nav['main'] = 'Home';
-		$nav['sub'] = '';
 
 		$view_data = array(
 			'nav' => $nav,
 			'lists' => $lists,
-			'item' => $item
+			'item' => $item,
+			'nav' => $nav[0]->children
 		);
 			
 			
@@ -111,7 +110,7 @@ class Article extends MY_Controller
 
     	$associated_films		= $this->articles_model->get_films( $id );	
     	$item->associated_films = false;
-    	if ($associated_events) {
+    	if ($associated_films) {
 	    	$item->associated_films = array();
     		foreach ($associated_films as $it) {
     			$ev = new stdClass();
@@ -124,12 +123,12 @@ class Article extends MY_Controller
 
 	   	$item->associated_products 	= $this->articles_model->get_products( $id );
     	
-		$pg_data = $this->get_page_data('Bookshelf', 'article_view' );		
+		$pg_data = $this->get_page_data('Bookshelf', 'article_view', false, array('books','bookstore') );		
 		
 
     	$pg_data['content'] = $this->load->view('layouts/article', $view_data, true);			
 		$pg_data['lists'] = $lists;
-new dBug($view_data);
+
 		$this->load->view('layouts/standard_page', $pg_data );		
 
 		/*

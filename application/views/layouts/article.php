@@ -1,46 +1,66 @@
-<div id="main" class='ym-clearfix'>
-	<div class="ym-wrapper">
-		<div class="ym-wbox">
-			<div class="ym-g75 ym-gl">
-				<article id='article' class='tooltip' title='Article'>
-					<? $article_start = 0; 
-						for ($article_id = 0; $article_id < 1; $article_id++) {
+<link rel="stylesheet" type="text/css" media="screen" href="<? echo base_url('/css/bookshelf_calendar.css');?>" />
+<link rel="stylesheet" type="text/css" media="screen" href="<? echo base_url('/css/slider_subpage.css');?>" />
+<link rel="stylesheet" type="text/css" media="screen" href="<? echo base_url('/css/bookshelf_subpage.css');?>" />
 
-						//$item = $lists['_section'][$article_id + $article_start];
-					 ?>
-						<article class='ym-clearfix'>
-							<div class="article-header">
-								<div class='meta'>
-									<time class='date'><?=date('j M Y',strtotime($item->publish_on))?></time>
-									<div class='section'><?=$item->group ?></div>
-								</div>
-								<div class='article-image article-image-main'>
-									<img src='/i/size/o/<?=substr($item->media[0]['thumbnail'], strrpos($item->media[0]['thumbnail'],'/')+1);?>/w/200' />
-								</div>
-								
-								<h1 class='title'><?=$item->title?></h1>
-								<h2 class='byline'><?=$item->author?></h2>							
-							</div>
-							<div class='article-content'>			
-								<div id='teaser'><?=$item->excerpt;?></div>						
-								<div id='article_body'><?=$item->body;?></div>
-							</div>
-							
-							<div class='article-tags'>
-								<? if (count($tags) > 0) { ?>
-								<div class='title'>FILE UNDER</div>
-								<div class='tags'>
-								<? foreach ($tags as $tag) { ?>
-									<a href='<? echo base_url('/search/tags/'.$tag);?>'><?=$tag;?></a> 
-								<? } ?>
-								</div>
-								<? } ?>
-							</div>
+<div id="list_left">
+	<? if (isset($events) && count($events) > 0) { ?>
+	<div class="section_heading">
+		<h2>
+			Event Highlights
+		</h2>
+	</div>
+	<? if (isset($events)) foreach ($events as $it) { ?>
+      <div class="sidebar_item <? if ($it === end($events)) echo 'last' ?>">
+        <h1 class="<?=$it->category;?>"><?=ucwords($it->category);?></h1>
+        <a href="/events/<?=$it->id;?>"><h2><?=$it->title;?></h2></a>
+        <h3><?= date('D M j, g:i A', strtotime($it->start_time)); ?></h3>
+      </div>
+    <? } ?>	
+   	<? } ?>
+	<div class="section_heading">
+		<h2>
+			@Bookshelf News
+		</h2>
+	</div>
+	<div class="sidebar_item">
+		<? /*= $tweets */?>	
+	</div>
+</div>
 
-						</article>
-					<? } ?>		
-				</article>
+<div id="main_content" class="subpage">
+	<div id='featured_column'>
+		<div class='columnBlock'>
+	      <h1 class='book'><?=$item->section;?></h1>
+										
+			<div class='imageFloat'>
+				<img src='<? echo imageLinkHelper($item, $width=170, $height=false); ?>' width=170/>
+				<h2><?=date('j M Y',strtotime($item->publish_on))?></h2>
+				<h3 class='byline'><?=$item->author?></h3>
 			</div>
+		
+		<h2><?=$item->title?></h2>
+		<div id='article_body'><?=$item->body;?></div>
+
+		<div class='article-tags'>
+			<? if (isset($tags) && count($tags) > 0) { ?>
+			<div class='title'>FILE UNDER</div>
+				<div class='tags'>
+				<? foreach ($tags as $tag) { ?>
+					<a href='<? echo base_url('/search/tags/'.$tag);?>'><?=$tag;?></a> 
+				<? } ?>
+				</div>
+			</div>
+			<? } ?>		
+		</div>
+	</div>
+</div>
+
+<div id='list_right'>
+
+	List right
+</div>
+
+	<? /*	
 			<div class="ym-g25 ym-gr">
 				<div class="ym-wbox sidebar">
 					<? if (isset($associated_products)) { ?>
@@ -55,6 +75,7 @@
 						</aside>						
 					<? } } ?>
 					</div>					
+					<? if (isset($associated_events)) { ?>
 					<div id='associated_events'>
 					<h2 class='title'>Events</h2>
 					<? foreach($associated_events as $item) { ?>
@@ -69,10 +90,15 @@
 							<? } ?>
 							</div>
 						</aside>						
-					<? } ?>
+					<? } 
+					}?>
 					</div>					
 				</div>
 			</div>
+
+			*/ ?>
+
+			<div style='clear:both'></div>
 		</div>
 	</div>
 </div>

@@ -19,7 +19,7 @@ class MY_Controller extends CI_Controller
 		parent::__construct();
 	}
 	
-	protected function get_page_data( $title, $css_name, $section = 0 )
+	protected function get_page_data( $title, $css_name, $section = 0, $active_links )
 	{
 	    //$this->load->model('pages_model');
 	    
@@ -40,7 +40,8 @@ class MY_Controller extends CI_Controller
 			'page_title' => $title,
 			'css_name' => $css_name,			
 			'content' => '',
-			'cart' => $this->cart
+			'cart' => $this->cart,
+			'active_links' => $active_links
 		);
 
 		return $pg_data;

@@ -1,21 +1,35 @@
-<div style="float: right">
-</div>
+<script type='text/javascript'>
+  $(document).ready(function() {
+    $('#datatable').dataTable();
+  });
+</script>
+<div class=container>
+  <header>Locations</header>
+<br>
 
-<h3><a class="small" href="/admin/locations/add" title="Add Location"><img src="/img/admin/house_go.png" /></a> Locations</h3>
-<table>
-<tr>
-  <th>name</th>
-  <th>address</th>
-  <th>city</th>
-  <th>postal</th>
-</tr>
-<?php $i = 0;
-  foreach( $data as $row ) { ?>
-  <tr <?php if($i % 2 == 0) { echo 'class="odd"'; } ?> >
+<a href="/admin/locations/add">
+  <button>
+    <i class="icon-plus icon"></i> Add Location 
+  </button>
+</a>
+<br>
+
+<table id='datatable'>
+<thead>
+  <th>Name</th>
+  <th>Address</th>
+  <th>City</th>
+  <th>Postal</th>
+</thead>
+<tbody>
+<? foreach( $data as $row ) { ?>
+  <tr> 
     <td><a href="/admin/locations/edit/<?= $row->id ?>"><?= $row->name ?></td></a>
     <td><?= $row->address ?></td>
     <td><?= $row->city ?></td>
     <td><?= $row->postal ?></td>
   </tr>
-<?php $i++; } ?>
+<? } ?>
+</tbody>
 </table>
+</div>

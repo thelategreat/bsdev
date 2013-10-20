@@ -11,7 +11,7 @@
 	<nav>
 		<a href="/admin/films/add/">
 			<button id='btn_add'>
-				<i class="icon-plus icon-2x"></i> Add Film 
+				<i class="icon-plus icon"></i> Add Film 
 			</button>
 		</a>
 	</nav>

@@ -14,15 +14,25 @@ function deactivate( id )
 }
 
 </script>
-<div style="float: right">
-</div>
-<h3><a class="small" href="/admin/pages/add/"><img src="/img/admin/page_white_add.png" title="Add Page"/></a> Pages</h3>
+<div class=container>
+	<header>Lists</header>
+
+	<nav>
+		<a href="/admin/pages/add">
+			<button id='btn_add'>
+				<i class="icon-plus icon"></i> Add Page
+			</button>
+		</a>
+	</nav>
+	<br>
+
 <table>
 <tr>
-  <th>title</th>
-  <th>order</th>
-  <th>active</th>
-  <th></th>
+  <th>Title</th>
+  <th>Order</th>
+  <th>Active</th>
+  <th>Delete</th>
 </tr>
 <?php emit_tree_rows( '/admin/pages', $titles, 5, 'title' );?>
 </table>
+</div>

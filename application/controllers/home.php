@@ -88,15 +88,13 @@ class Home extends MY_Controller
 			$events = $this->event_model->get_upcoming_events( 4, date('Y-m-d', strtotime('+2 weeks')) );
 			
 
-			
-
 			$lists['serendipity'] = $this->lists_model->get_list_items_by_name( 'serendipity' );
 			shuffle($lists['serendipity']);
 			
 			$articles = $this->articles_model->get_published_articles( $section, 5,  1 );
 			if ($articles) foreach( $articles as &$it) {
 				$it->media = $this->media_model->get_media_for_path("/articles/$it->id", 'general', 1);
-			}			
+			}	
 			$lists['_section'] = $articles;
 
 			$nav['main'] = 'Home';
@@ -115,6 +113,7 @@ class Home extends MY_Controller
 				$row->media = $this->media_model->get_media_for_path("/articles/$row->id", 'general', 1);
 				$data[] = $row;
 			}
+
 			$lists['_section'] = $data;
 			
 			$nav['main'] = 'section';

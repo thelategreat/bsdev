@@ -70,6 +70,28 @@ function show_refs(uuid)
 
 $(document).ready(function() {
 	loadImage();
+
+	$('#delete-button').click(function(e) {
+		e.preventDefault();
+		var numRefs = $('#references_table').find('tr').length;
+
+		if (numRefs > 0) {
+			alert("This media can't be deleted since it's being used. Pleased see the references table below and delete the media from the referring articles.");
+
+			return;
+		}
+
+		if (confirm('Really delete this media?')) {
+			// Delete it, not referenced
+			$.getJSON('/admin/media/delete/<?=$item->uuid?>', function(data) {
+				if (data.success == false) {
+					alert(data.message);
+				} else {
+					location.href = "<?=$redirect?>";
+				}
+			});
+		}
+	});
 });
 
 </script>
@@ -79,7 +101,10 @@ $(document).ready(function() {
 	<header>Media</header>
 </div>
 
-<form class="general" action="/admin/media/edit/<?=$item->uuid?><?= $is_adding ? '/add' : ''?>" method="post">
+<form class="general" action="/admin/media/edit/<?=$item->uuid?><?= $is_adding ? '/add' : ''?>" 
+		method="post" enctype="multipart/form-data" >
+
+<?php echo validation_errors('<div class="error">', '</div>'); ?>
 
 <div class="media-edit-preview" id="media-edit-preview">
 	<?php if( $item->type == "link") { 
@@ -93,15 +118,62 @@ $(document).ready(function() {
 		<? } ?>
 <?php } ?>
 </div>
-<section id="meta" style="float:left">
+<section id="meta" style="float:left; width:40%">
 	<table class='form-table'>
-		<tr><th>Caption</th><td><input name="caption" size="50" value="<?= $item->caption ?>" /></td>
-		<tr><th>TT# / ISBN</th><td><input name="tt_isbn" size="17" value="<?= $item->tt_isbn ?>" /></td>
+		<tr><th>Caption</th><td><input type='text' name="caption" size="50" value="<?= $item->caption ?>" /></td>
+		<tr><th>TT# / ISBN</th><td><input type='text' name="tt_isbn" size="17" value="<?= $item->tt_isbn ?>" /></td>
 		<tr><th>Description</th><td><textarea name="description" class="mceNoEditor" rows="5" cols="40"><?= $item->description ?></textarea></td>
-		<tr><th>Tags</th><td><input name="tags" size="50" value="<?= $item->tags ?>" /></td></tr>
+		<tr><th>Tags</th><td><input type='text' name="tags" size="50" value="<?=$item->tags ?>" /></td></tr>
+		<?php if( $item->type != "link" && !$is_adding ) { ?>			
+		<tr><th>Replacement Image</th>
+			<td>
+				<input type="file" name="userfile" />
+			</td>
+		</tr>
+	<?php } ?>
 	</table>
 </section>
+<div style='clear:both' />
 
+<section id='references' style="border:1px solid #aaa;padding:5px">
+	<h3>This media is referenced in the following places:</h3>
+	<table>
+		<thead>
+			<tr style='border-bottom: 1px solid black'><td width='50%'>Name</td><td width='10%'>Type</td><td>Link</td></tr>
+		</thead>
+	</table>
+	<div style='height: 120px;overflow-y:scroll'>
+	<table id='references_table'>
+		<tbody>
+			<? foreach ($used as $it) { ?>
+				<tr>
+					<td width='50%'><?= $it->title; ?></td>
+					<td width='10%'><?= $it->type; ?></td>
+					<td><a href="<?=$it->edit_url;?>"><?=$it->edit_url;?></a></td></tr>
+			<? } ?>
+		</tbody>
+	</table>
+	</div>
+</section>
+<nav>
+	<? if ($this->session->userdata('sourcepage')) { ?>
+	<a href="<?= base_url($this->session->userdata('sourcepage')); ?>">
+	<button type='button' id='back-button' class='iconbutton'>
+			<i class='icon-angle-left icon-2x'></i> Back 
+	</button>
+	</a>
+	<? } ?>
+	<button type='submit' id="save-button" class='iconbutton' name='save' value="Save">
+		<i class="icon-save icon-2x"></i> Save 
+	</button>
+	<button type='submit' id='delete-button' class='iconbutton' name='rm' value='Delete'>
+		<i class='icon-trash icon-2x'></i> Delete
+	</button>
+</nav>
+
+
+
+<? /* **** THE STUFF BELOW THIS IS THE OLD PAGE *****  ?>
 <table>
 	<tr>
 	<td valign="top" style="padding-right: 20px; width: 40%">
@@ -151,7 +223,7 @@ $(document).ready(function() {
 	<?php if( !$is_adding ) { ?>
 		<input type="submit" name="cancel" value="Cancel" />
 		&nbsp;&nbsp;&nbsp;&nbsp;
-		<?php if( $used->num_rows() == 0 ) { ?>
+		<?php if( count($used) == 0 ) { ?>
 	 	  <input onclick="return confirm('Really delete this?');" style="background-color: #f99" type="submit" name="delete" value="Delete" />
 		<?php
 		}
@@ -173,7 +245,7 @@ $(document).ready(function() {
 						<p class="error small"><?= $msg ?></p>
 						<h4>References</h4>
 						<table style="margin-top: -10px;">
-							<?php foreach( $used->result() as $row ) { 
+							<?php foreach( count($used) as $row ) { 
 								$tmp = explode('/', $row->path );
 								array_splice( $tmp, 2, 0, 'edit');
 								$path = implode('/', $tmp );
@@ -184,10 +256,10 @@ $(document).ready(function() {
 
 			 	  	<input onclick="return confirm('Really delete this media and all references?');" style="background-color: #f99" type="submit" name="deleterefs" value="Delete All" />
 
-					<?php } else if( $used->num_rows() != 0 ) { ?>
+					<?php } else if( count($used) != 0 ) { ?>
 						<h4>References</h4>
 						<table style="margin-top: -10px;">
-							<?php foreach( $used->result() as $row ) { 
+							<?php foreach( $used as $row ) { 
 								$tmp = explode('/', $row->path );
 								array_splice( $tmp, 2, 0, 'edit');
 								$path = implode('/', $tmp );
@@ -217,7 +289,7 @@ $(document).ready(function() {
 					<h4>References</h4>
 					<table style="margin-top: -10px;">
 						<?php
-						foreach( $used->result() as $row ) { 
+						foreach( $used as $row ) { 
 							$tmp = explode('/', $row->path );
 							array_splice( $tmp, 2, 0, 'edit');
 							$path = implode('/', $tmp );
@@ -243,4 +315,4 @@ $(document).ready(function() {
 	</tr>
 </table>
 
-
+<? */ ?>

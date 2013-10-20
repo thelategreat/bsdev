@@ -1,4 +1,7 @@
-<h3>Add Location</h3>
+<div class=container>
+  <header>Add Location</header>
+<br>
+
 <?=$error_msg?>
 
 <form method="post">

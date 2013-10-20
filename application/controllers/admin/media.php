@@ -22,10 +22,15 @@ class Media extends Admin_Controller
 	}
 
 	/**
-	 *
+	 * This is both the index and the form processor.  Based on the presence of various post fields.
 	 */
 	function index()
 	{
+		$errors = '';
+		$my_root = './media/';
+		$page_size = 25; //$this->config->item('image_browser_page_size');
+		$stags = array();
+		$page = 1;
 
 		if( $this->input->post("q") !== FALSE ) {
 			$url = '/admin/media/index';
@@ -38,13 +43,6 @@ class Media extends Admin_Controller
 			}
 			redirect( $url );
 		}
-
-
-		$errors = '';
-		$my_root = './media/';
-		$page_size = 25; //$this->config->item('image_browser_page_size');
-		$stags = array();
-		$page = 1;
 
 		// the first segment might be a page number
 		$offs = 4;
@@ -168,12 +166,17 @@ class Media extends Admin_Controller
 
 
 	/**
-	 *
+	 * This processes edits, based on post variables it may or may not take an upload.
 	 */
 	function edit()
 	{
 		$errors = '';
 		$is_adding = false;
+		$redirect = $this->session->userdata('sourcepage');
+		if ($redirect) {
+			$redirect = base_url('/admin/media');
+		} 
+
 		$uuid = $this->uri->segment(4);
 		if( !$uuid ) {
 			redirect('/admin/media/' );
@@ -188,17 +191,18 @@ class Media extends Admin_Controller
 			$page = $this->uri->segment(6);
 			if( $page < 1 ) {
 				$page = 1;
+		var_dump($_POST);die;	
 			}
 		}
 
-		$this->form_validation->set_rules('title','Title','required');
+		//$this->form_validation->set_rules('title','Title','required');
 		$this->form_validation->set_rules('caption','Caption','required');
 		$this->form_validation->set_rules('tt_isbn','tt#/isbn','callback_tt_isbn_check');
 
 		// -----------
 		// R E P L A C E (upload)
 		// -----------
-		if( $this->input->post("replace")) {
+		if( isset($_FILES['userfile']) && $_FILES['userfile']['size'] > 0) {
 			$my_root = './media/';
 			$conf['allowed_types'] = 'jpg|png';
 			$conf['upload_path'] = $my_root;
@@ -206,8 +210,8 @@ class Media extends Admin_Controller
 			if( !$uuid ) {
 				// TODO: give some feedback here
 			} else {
-				//redirect('/admin/media/edit/' . $uuid );
-				redirect('/admin/media');
+				$redirect = $this->session->userdata('sourcepage');
+				redirect($redirect);	
 			}
 		}
 
@@ -220,9 +224,64 @@ class Media extends Admin_Controller
 			$meta['tt_isbn'] = trim(str_replace('-','',$this->input->post('tt_isbn')));
 			$meta['description'] = $this->input->post('description');
 			$meta['license'] = $this->input->post('license');
-			$this->media_model->update_media( $uuid, $meta, $this->input->post('tags') );
-			redirect('/admin/media');
+			$this->media_model->update_media( $uuid, $meta, explode(' ', $this->input->post('tags')) );
+			redirect(current_url());
 		}
+
+		// -----------
+		// C A N C E L
+		// -----------
+		if( $this->input->post('cancel')) {
+			redirect($redirect);
+		}
+
+		$item = $this->media_model->get_media( $uuid );		
+		if( !$item ) {
+			redirect($redirect);
+		}
+
+		$used = $this->media_model->get_media_usage( $uuid );
+
+		$data = array(
+			'item' => $item[0],
+			'used' => $used,
+			'page' => $page,
+			'errors' => $errors,
+			'is_adding' => $is_adding,
+			'redirect' => $redirect
+			);
+
+		if( $this->input->post('ajax')) {
+			$this->load->view('admin/media/media_edit', $data );
+		} else {
+			$this->gen_page('Admin - Media', 'admin/media/media_edit', $data );
+		}
+	}
+
+	function delete($uuid)
+	{
+		$success = false;
+		$message = '';
+		$used = $this->media_model->get_media_usage( $uuid );
+
+		if (count($used) > 0) {
+			$success = false;
+			$message = 'Media is assigned and cannot be deleted';
+		} else {
+			$this->media_model->remove_upload( $uuid );
+			if( file_exists( './media/' . $uuid )) {
+				$success = unlink( './media/' . $uuid );
+				if ($success == false) {
+					$message = 'Cannot delete file';
+				}
+			}
+		}
+
+		$output = array('success'=>$success, 'message'=>$message);
+		echo json_encode($output);
+		exit;
+
+
 		// -----------
 		// D E L E T E
 		// -----------
@@ -233,6 +292,13 @@ class Media extends Admin_Controller
 			}
 			if( $this->input->post('page')) {
 				redirect('/admin/media/index/' . $this->input->post('page'));
+			}
+			$redirect = $this->session->userdata('sourcepage');
+			if ($redirect) {
+				$this->session->unset_userdata('sourcepage');
+				redirect($redirect);
+			} else {
+				redirect('/admin/media');
 			}
 			redirect('/admin/media');
 		}
@@ -250,44 +316,17 @@ class Media extends Admin_Controller
 			}
 			redirect('/admin/media');
 		}
-
-		// -----------
-		// C A N C E L
-		// -----------
-		if( $this->input->post('cancel')) {
-			if( $this->input->post('page')) {
-				redirect('/admin/media/index/' . $this->input->post('page'));
-			}
-			redirect('/admin/media');
-		}
-
-		$item = $this->media_model->get_media( $uuid );
-		if( !$item ) {
-			redirect('/admin/media');
-		}
-
-		$used = $this->media_model->get_media_usage( $uuid );
-
-		$data = array(
-			'item' => $item[0],
-			'used' => $used,
-			'page' => $page,
-			'errors' => $errors,
-			'is_adding' => $is_adding
-			);
-
-		if( $this->input->post('ajax')) {
-			$this->load->view('admin/media/media_edit', $data );
-		} else {
-			$this->gen_page('Admin - Media', 'admin/media/media_edit', $data );
-		}
 	}
 
+	/** 
+	 * Browser that generates the actual list of images in the media map tab as well as links and 
+	 * other stuff.
+	 */
 	function browser()
 	{
 		$is_ajax = true;
 		$path = $this->input->post('path');
-		$slot = $this->input->post('slot') ? $this->input->post('slot') : 'general' ;
+		$slot = $this->input->post('slot');
 
 		if( !$path ) {
 			$is_ajax = false;
@@ -313,6 +352,24 @@ class Media extends Admin_Controller
 		} else {
 			$this->load->view('admin/media/media_browser', $view_data );
 		}
+	}
+
+	/**
+	 * Update a media map entry slot setting.  
+	 * This is used from the media browser when changing the slots.
+	 */
+	function update_media_map( ) {
+		$slot = $this->input->post('slot');
+		$map_id = $this->input->post('map_id');
+
+		if (!$slot || !$map_id) return false;
+
+		$this->db->set('slot', $slot);
+		$this->db->where('id', $map_id);
+		$this->db->update('media_map');
+
+		$result = array('status'=>'success');
+		echo json_encode($result);
 	}
 
   function mce()
@@ -418,7 +475,47 @@ class Media extends Admin_Controller
 		echo json_encode( $resp );
 	}
 
+	/**
+	 * New media browser add function - takes an array of media ids and adds them to the subject
+	 */
+	function add_ajax()
+	{
+		$path = $this->input->post('path');
+		$slot = $this->input->post('slot') ? $this->input->post('slot') : 'general';
+		$uuid = $this->input->post('uuid');
 
+		if (!$path && !$uuid) {
+			$resp = array('success' => false, 'message' => "Missing path or UUID" );
+			echo json_encode($resp);
+			return;
+		}
+
+		$return = $this->media_model->add_media_for_path( $path, $uuid, $slot );
+
+		echo json_encode($return);
+	}
+
+
+
+	/**
+	 * AJAX search function
+	 */
+	function search_json() {
+		$page_size = $this->config->item('image_browser_page_size');;
+		$page = 1;
+		$stags = array();
+		$results = array();
+			
+		$query = $this->input->post('q');
+		if ($query === false) echo json_encode($results);
+
+		$stags = explode(' ', $query);
+		$page = $this->input->post("pg");
+
+		$results = $this->media_model->get_media( null, $stags, $page, $page_size );
+
+		echo json_encode($results);
+	}
 	/**
 	 * Called by the popup media browser for selecting
 	 */
@@ -462,7 +559,6 @@ class Media extends Admin_Controller
 
 		$this->db->where('uuid', $uuid);
 		$item = $this->db->get('media')->row();
-
 		$this->db->where( 'media_id', $item->id );
 		$this->db->where( 'slot', $slot );
 		$this->db->where( 'path', $path );
@@ -485,20 +581,23 @@ class Media extends Admin_Controller
 		} else {
 			$is_replace = true;
 		}
-		$conf['file_name'] = $uuid;
+		$conf['file_name'] 	= $uuid;
 		$conf['allowed_types'] = 'jpg|jpeg|png';
-		$conf['max_size'] = $this->config->item('max_image_size');
-		$conf['max_width'] = $this->config->item('max_image_width');
+		$conf['max_size'] 	= $this->config->item('max_image_size');
+		$conf['max_width'] 	= $this->config->item('max_image_width');
 		$conf['max_height'] = $this->config->item('max_image_height');
 
 		$this->load->library('upload', $conf );
 		$this->upload->initialize($conf);
 
 		if( !$this->upload->do_upload('userfile')) {
-			//new dBug($_FILES);
-			//new dBug($this->upload->data());
-			//$errors = $this->upload->display_errors();
-			//new dBug($errors);
+			new dBug($_POST);
+			new dBug($_FILES);
+			new dBug($this->upload->data());
+			echo 'Error in processing upload: ';
+			$errors = $this->upload->display_errors();
+			new dBug($errors);
+			die;
 			return null;
 		} else {
 			$data = $this->upload->data();

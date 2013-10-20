@@ -16,10 +16,10 @@ p {
 }
 
 a, a:hover, a:visited, a:link{
-	display:block;
-	color: #981793;
+	color: #000;
 	text-decoration: none;
 }
+
 
 
 /*----making the background appear as it should-----*/
@@ -38,6 +38,8 @@ a, a:hover, a:visited, a:link{
 	background:#ffffff;
 	margin:0 0 0 20px;
 }
+
+
 
 /*------- all of the items contained in the top div-------*/
 #search_wrapper {
@@ -239,6 +241,9 @@ ul#nav li span a:hover {
 	width:35px;
 	margin-left:7px;
 }
+#vertical_nav a {
+	display:block;
+}
 
 .v_nav_bookstore,.v_nav_cinema,.v_nav_ebar {
 	margin:0;
@@ -306,6 +311,7 @@ a.readMore:hover {
 .sidebar_item {
 	padding:10px 0;
 	border-bottom: 1px solid #990000;
+	width: 95%;
 }
 
 .last{

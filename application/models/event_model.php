@@ -94,7 +94,7 @@ class event_model extends CI_Model
 				AND events_id IS NULL
 				AND events_times.start_time > NOW() ";
 				if ($end_date) {
-					$query .= " AND events_times.start_time < '$end_date' ";
+					$query .= " AND events_times.start_time <= '$end_date' ";
 				}
 				$query .= "
 				ORDER BY
@@ -102,6 +102,86 @@ class event_model extends CI_Model
 				LIMIT $count";
 
 		return $this->db->query( $query )->result();
+	}
+
+	function get_month_films( $month_number ) 
+	{
+		$query = "SELECT
+					*
+				FROM
+					events_times
+					LEFT JOIN films ON films.id = events_times.films_id
+				WHERE
+					TRUE
+				AND events_id IS NULL
+				AND events_times.start_time >= '" . date("Y-$month_number-01") . "'
+				AND events_times.start_time <= DATE_ADD('" . date("Y-$month_number-d") . "', INTERVAL 1 MONTH)
+				ORDER BY
+					events_times.start_time";
+
+		$films =  $this->db->query( $query )->result();
+
+		$cache = array();
+		foreach ($films as &$it) {
+			if (isset($cache[$it->id])) $it->media = $cache[$it->id];
+
+			$query = "SELECT
+						* 
+					FROM media_map
+					LEFT JOIN media ON media_map.media_id = media.id
+					WHERE media_map.path = '/films/{$it->id}'";
+			$media = $this->db->query( $query )->result();
+
+			$it->media = $media;
+			$cache[$it->id] = $it->media;
+		}
+
+		return $films;
+	}
+
+	/**
+		Get the list of unique film names playing in the given month
+	*/
+	function get_month_films_by_name( $month_number ) 
+	{
+		$query = "SELECT
+					distinct(films_id)	
+				FROM
+					events_times
+				WHERE
+					TRUE
+				AND events_id IS NULL
+				AND events_times.start_time >= '" . date("Y-$month_number-01") . "'
+				AND events_times.start_time <= DATE_ADD('" . date("Y-$month_number-d") . "', INTERVAL 1 MONTH)
+				ORDER BY
+					events_times.start_time";
+
+		$films =  $this->db->query( $query )->result();
+
+		if (count($films) == 0) return $films;
+
+		$film_ids = array();
+		foreach ($films as $it) {
+			$film_ids[] = $it->films_id;
+		}
+		$film_ids = implode(',', $film_ids);
+
+		$query = "SELECT * FROM films WHERE id IN ($film_ids)";
+		$films = $this->db->query( $query )->result();
+
+		foreach ($films as &$it) {
+			$it->object_type = 'film';
+			$query = "SELECT
+						* 
+					FROM media_map
+					LEFT JOIN media ON media_map.media_id = media.id
+					WHERE media_map.path = '/films/{$it->id}'";
+			$media = $this->db->query( $query )->result();
+
+			$it->media = $media;
+		}
+
+		return $films;
 	}
 
 	/**
@@ -150,7 +230,9 @@ EOF;
 
 		$query .= " ORDER BY dt_start ASC";
 
-		return $this->db->query( $query );
+		$q = $this->db->query( $query );
+		echo $query;die;
+		return $q->result_array();
 	}
 
 	/**
@@ -368,7 +450,7 @@ EOF;
 					dt_start as date_start, dt_end as date_end, 
 					event_categories.name as category,
 					event_audiences.name as audience,
-					ratings.name as rating
+					ratings.rating
 				FROM
 					events
 				LEFT JOIN event_categories ON event_categories.id = events .categories_id

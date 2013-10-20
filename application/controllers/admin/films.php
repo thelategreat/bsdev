@@ -16,38 +16,17 @@ class Films extends Admin_Controller
 		$this->view();
 	}
 
+	/**
+		 Basic index. Datatables handles all sorting so there's nothing fancy here 
+	*/
 	function view()
 	{
-		$query = 'search...';
-		$limit = $this->config->item('list_page_size');
-		$filter = array(
-			'page' => 1
-			);
-			
-		$segs = $this->uri->uri_to_assoc(4);
-		foreach( $segs as $k => $v ) {
-			$filter[$k] = $v;
-		}
-
-		if( $this->input->post('q')) {
-			$tmp = explode(' ', $this->input->post('q'));
-			if( count($tmp)) {
-				foreach( $tmp as $q ) {
-					$this->db->or_like('title', $q );
-				}
-			}
-		}
-		
 		$this->db->order_by('title');
-		$this->db->limit( $limit, (intval($filter['page'])-1) * $limit );  // limit, offset
 		$films = $this->db->get('films');
 		
 		$data = array(
 			'films' => $films, 
-			'pager' => mk_pager( $filter['page'], $limit, $films->num_rows(), '/admin/films/view/page'),
-			'query' => $query 
 			);
-		
 		
 		$this->gen_page('Admin - Films', 'admin/films/films_list', $data );
 	}
@@ -159,7 +138,7 @@ class Films extends Admin_Controller
 			$data = array(
 				'film' => $film,
 				'tabs' => $tabs,
-				'title' => "Media for: $film->title",											// the page title
+				'title' => "Media for $film->title",											// the page title
 				'path' => '/films/' . $film->id,								// the page in the db for this
 				'next' => "/admin/films/edit/$film->id/media",  // the web path to this tab		
 				);
@@ -178,11 +157,13 @@ class Films extends Admin_Controller
 		if( $id ) {
 			$this->db->where('id', $id );
 			$film = $this->db->delete('films');
-			// media
+
 			// TODO: remove disk images as well!!
 			$this->db->where('path', "/films/$id" );
 			$film = $this->db->delete('media_map');
-			
+		
+			$this->db->where('films_id', $id);
+			$film = $this->db->delete('events_times');	
 		}
 		redirect('/admin/films');
 	}

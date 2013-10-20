@@ -1,74 +1,68 @@
-<script type='text/javascript' src='/js/views/calendar_events.js'></script>
-<div id="main" class='ym-clearfix'>
-	<div class="ym-wrapper">
-		<div class="ym-wbox">
-			<div class="ym-g100">
-				<div id='cal' style='height:auto'> 
-					<h2><span style="padding: 2px; margin: 2px;">
-						<a href="<?=$prev_month_url?>" title="last month">
-							<img src="/img/cal/arrow_left.png" style="width: 24px; margin-bottom: -5px"/></a>&nbsp;
-						<a href="<?=$next_month_url?>" title="next month">
-							<img src="/img/cal/arrow_right.png" style="width: 24px; margin-bottom: -5px"/></a>
-					</span> | 
-					<?= date("F",mktime(0, 0, 0, $month, 1, $year))?> <?= $year ?>
-					</h2>
-					
-					<?= $view_menu ?>
+<link rel="stylesheet" type="text/css" media="screen" href="<? echo base_url('/css/bookshelf_calendar.css');?>" />
+<link rel="stylesheet" type="text/css" media="screen" href="<? echo base_url('/css/slider_subpage.css');?>" />
+<link rel="stylesheet" type="text/css" media="screen" href="<? echo base_url('/js/bxslider/jquery.bxslider.css');?>" />
+
+<script src="<?echo base_url('js/bxslider/jquery.bxslider.js');?>"></script>
+<script src="<?echo base_url('js/bxslider/script.js');?>"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    $('.bxslider').bxSlider({
+	  minSlides: 3,
+	  maxSlides: 5,
+	  slideWidth: 120,
+	  slideMargin: 10
+	});
+  });
+</script>
 
 
-					<div id='cal_month' style='height:auto'>
-
-						<div id="details">
-							Directed by <span class='director'></span>
-							<br/>
-							<span class='country'></span> <span class='year'></span>
-							<br/>
-							<span class='running_time'></span> minutes
-							<div class='rating'></div>
-						</div>
-	
-						<div class='title'>Now Playing at the Bookshelf Cinema</div>					
-
-						<?php 
-						$weeknum = 0;
-						foreach( $cal as $week ) { ?>
-						<div class='divider today ym-clearfix'>
-							<?php for ($i=0; $i < 6; $i++) { ?>
-								<div class='day-12-5 bord'>
-									<div class='container'>
-										<div class='date'><span><?= date('l', strtotime($cal[$weeknum][$i]['date']));?></span> <?= date('j', strtotime($cal[$weeknum][$i]['date']));?></div>	
-
-									<?php foreach ($cal[$weeknum][$i]['events'] as $event) { ?>
-										<article class='event' event='<?=$event['id'];?>'>
-											<div class='time'><?=$event['start'];?></div>
-											<div class='title'><?=$event['title'];?></div>
-										</article>
-									<?php }?>
-
-									</div>	
-								</div>
-							<? } ?>
-							<div class='day-12-5'>
-								<div class='container'>
-									<div class='date'><span><?= date('l', strtotime($cal[$weeknum][6]['date']));?></span> <?= date('j', strtotime($cal[$weeknum][6]['date']));?></div>	
-
-									<?php foreach ($cal[$weeknum][$i]['events'] as $event) { ?>
-										<article class='event' event='<?=$event['id'];?>'>
-											<div class='time'><?=$event['start'];?></div>
-											<div class='title'><?=$event['title'];?></div>
-										</article>
-									<?php }?>
-
-								</div>	
-							</div>
-						</div>
-						<?php $weeknum++; } ?>
-					</div>
-
-				</div>				
-			</div>
-		</div>
+<div id="sidebar_cinema">
+	<? if (count($events) > 0) { ?>
+	<div class="section_heading">
+		<h2>
+			Event Highlights
+		</h2>
 	</div>
-
+	<? foreach ($events as $it) { ?>
+      <div class="sidebar_item <? if ($it === end($events)) echo 'last' ?>">
+        <h1 class="<?=$it->category;?>"><?=ucwords($it->category);?></h1>
+        <a href="/events/<?=$it->id;?>"><h2><?=$it->title;?></h2></a>
+        <h3><?= date('D M j, g:i A', strtotime($it->start_time)); ?></h3>
+      </div>
+    <? } ?>	
+   	<? } ?>
+	<div class="section_heading">
+		<h2>
+			@Bookshelf News
+		</h2>
+	</div>
+	<div class="sidebar_item">
+		<?= $tweets ?>	
+	</div>
 </div>
 
+<div id="main_content" class="subpage">
+        <div class="feature_heading film_red ">
+          <h1>FILM</h1>
+        </div>
+        <ul class="bxslider">
+        	<? foreach ($films_this_month as $it) { ?>
+        	<li>
+        		<a href="<?= base_url('/films/view/' . $it->id);?>">
+              <img src="<? echo imageLinkHelper($it, $width=120, $height=false); ?>" />
+        		<h1><?=$it->title;?></h1>
+        		<h2></h2>
+            </a>
+        		<? /* <h2>Brad Pitt, Catherine Zeta Jones, Jonny Depp</h2> */ ?>
+        	</li>
+        <? } ?>
+        </ul>
+        <!---this is the red header bar-->
+        <div class="feature_heading calendar-month">
+          <h1><?=$month_name;?></h1>
+        </div>
+        <? echo draw_calendar($month,$year,$cal_events); ?>
+      </div>
+    </div>
+
+ <div class=clear></div>

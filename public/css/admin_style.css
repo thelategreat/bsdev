@@ -205,7 +205,6 @@ table thead  tr {
 }
 
 table th { 
-	/*
 	text-align: left; 
 	background-color: #ddd;
 	/* background-image: url(/img/admin/gray-grad.png); */
@@ -231,13 +230,10 @@ td.label {
     font-weight: bold;
 }
 
-table.media_table {
-	font-size: 0.9em;
-}
-
 table.media_table td {
 	padding: 5px;
 	border-bottom: 1px solid #aaa;
+	text-align:left;
 }
 
 table.media_table td img {
@@ -487,37 +483,18 @@ input[type=submit], button {
 
 .save-button 
 {
-	font-weight: bold;
 	color: #090;
 }
 
 .save-button1
 {
-	font-weight: bold;
 	color: #070;
 }
 
 .save-button2 
 {
-	font-weight: bold;
 	color: #050;
 }
-
-.cancel-button 
-{
-	background: -webkit-gradient(linear, 0% 40%, 0% 70%, from(#e9e9e9), to(#d3d3d3));
-	background: -moz-linear-gradient(top,  #e9e9e9,  #d3d3d3);;
-	font-style: italic;
-}
-
-.delete-button 
-{
-	background: -webkit-gradient(linear, 0% 40%, 0% 70%, from(#e9e9e9), to(#d3d3d3));
-	background: -moz-linear-gradient(top,  #e9e9e9,  #d3d3d3);;
-	font-style: italic;
-	color: #f00;
-}
-
 
 input[readonly] {
     font-style: italic;
@@ -1082,10 +1059,24 @@ input.short {
 	min-width: 0;
 }
 
+a.buttonlink {
+	border: 1px solid #aaa;
+	background: #eee;
+	border-radius: 3px;
+	padding: 3px;
+	color: #000;
+}
+a.buttonlink:hover {
+	background: #ddf;
+}
+
 button.iconbutton { 
 	width: 145px;
 	font-size: 12px;
 	line-height: 20px;
+}
+button.iconbutton.small {
+	width: 50px;
 }
 button.iconbutton .icon {
 	float: left;
@@ -1118,6 +1109,7 @@ button:focus {
 	text-align: left;
 	padding: 10px;
 	width: 200px;
+	background: none;
 }
 #content .form-table td {
 	margin-bottom: 9px;
@@ -1168,4 +1160,34 @@ article .insert-ref {
 article .insert-img:hover,
 article .insert-ref:hover {
 	background-color: #b0bcff;
+}
+
+div.result-image {
+	float:left;
+	width:70px;
+	height:120px;
+	border: 2px solid #eee;
+	margin: 5px;
+	overflow: hidden;
+}
+div.result-image.selected {
+	border: 2px solid red;
+}
+div#search_results {
+	width:100%;
+	border:1px solid #aaa;
+	display:none;
+	height:250px;
+}
+div#search_results header {
+	border-bottom: 1px solid #000;
+	font-size: 0.9em;
+	padding: 0.1em;
+	line-height:25px;
+}
+div#search_results .items {
+	height: 210px;	
+	background: #eaeaea;
+	overflow-y: scroll;
+	padding: 5px;
 }

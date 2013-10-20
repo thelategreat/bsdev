@@ -15,6 +15,7 @@ class Section extends MY_Controller
 		$this->load->model('lists_model');
 		$this->load->model('list_positions_model');
 		$this->load->model('groups_list_positions_model');		
+		$this->load->model('articles_model');
 	}
 
   function index()
@@ -47,9 +48,14 @@ class Section extends MY_Controller
 		
 		/* The lists assigned to this group with their positions */
 		$data['lists'] = $this->groups_list_positions_model->get_group_named_lists($id);
+
+		$articles = $this->articles_model->get_published_articles( $id, 10 );
+		$data['articles'] = $articles;	
 	
 		//$pg_data = $this->get_page_data('Bookshelf - ' . $data['title'], 'home' );
+		$pg_data = $this->get_page_data('Bookshelf', 'section', false, array('books','bookstore') );		
   		$pg_data['content'] = $this->load->view('page/section', $data, true);
+
 
 		$this->load->view('layouts/standard_page', $pg_data );
 	}

@@ -101,7 +101,7 @@
 				<? if (isset($event)) { ?>
 					<?=$event->body;?>
 				<? } ?>
-			</textarea></td></tr>'
+			</textarea></td></tr>
 			<tr><th>Start Date</th><td><input placeholder='Click for calendar' class="datepicker short" name="start" id="fld_start" 
 				<? if (isset($event)) { ?>
 					value="<?=date('Y-m-d', strtotime($event->start_time));?>"

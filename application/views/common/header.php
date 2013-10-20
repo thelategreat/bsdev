@@ -47,7 +47,13 @@
         </form>
       </div>
       <? // End Search Box ?>
-      <h2><span>Books.</span><span>Films.</span><span>Music.</span><span>Food.</span><span>Ideas.</span></h2>
+      <h2>
+        <span <? if (isset($active_links) && in_array('books', $active_links)) echo 'class="active"'; ?>>Books.</span>
+        <span <? if (isset($active_links) && in_array('films', $active_links)) echo 'class="active"'; ?>>Films.</span>
+        <span <? if (isset($active_links) && in_array('music', $active_links)) echo 'class="active"'; ?>>Music.</span>
+        <span <? if (isset($active_links) && in_array('food', $active_links)) echo 'class="active"';  ?>>Food.</span>
+        <span <? if (isset($active_links) && in_array('ideas', $active_links)) echo 'class="active"'; ?>>Ideas.</span>
+      </h2>
       
     </div>
     <? // End search wrapper ?>
@@ -73,61 +79,7 @@
             <? 
             } 
           } ?>
-
-          <? /*
-          <li class="active"><a href="#">Home</a></li>
-          <li class="calendar"><a href="#">Calendar</a>
-            <? // Subnav Starts Here ?>
-            <span> <a href="#">Film</a> | <a href="#">Music</a> | <a
-             href="#">Books</a> </span>
-            <? // Subnav Ends Here ?>
-          </li>
-          <li><a href="#">Trending</a></li>
-          <li><a href="#">Storylines</a></li>
-          <li><a href="#">Stranger Than Fiction</a></li>
-          <li><a href="#">Self-Health</a></li>
-          <li><a href="#">YouthPhoria</a></li>
-          <li><a href="#">Artcetera</a></li>
-          <li class="last"><a href="#">Around Town</a></li>
-          */ ?>
-        </ul>
       </div>
       <? // End menu ?>
     </div>
     <? // End header ?>
-
-<? /*
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<link href='http://fonts.googleapis.com/css?family=Droid+Serif|Fjalla+One|Karla:400,700&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
-	
-	<meta charset="utf-8"/>
-	<title><? echo (isset($title) ? $title : (isset($page_title) ? $page_title : '')); ?></title>
-
-	<!-- Mobile viewport optimisation -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-	<!-- (en) Add your meta data here -->
-
-	<link href="<? echo base_url('/yaml/flexible-columns.css'); ?>" rel="stylesheet" type="text/css"/>
-
-	<link href="<? echo base_url('/js/tooltipster-master/css/tooltipster.css');?>" rel="stylesheet" type="text/css"/>
-	<link href="<? echo base_url('/js/tooltipster-master/css/themes/tooltipster-shadow.css');?>" rel="stylesheet" type="text/css"/>
-	<link href="<? echo base_url('/js/tooltipster-master/css/themes/tooltipster-punk.css');?>" rel="stylesheet" type="text/css"/>	
-	<!--[if lte IE 7]>
-	<link href="/yaml/core/iehacks.css" rel="stylesheet" type="text/css" />
-	<![endif]-->
-
-	<!--[if lt IE 9]>
-	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-	<![endif]-->
-	
-	
-	<script type="text/javascript" src="/js/jquery.tools.min.js" ></script>
-	<script type="text/javascript" src="/js/jqModal.js"></script>
-	<script type="text/javascript" src="/js/jquery.qtip.min.js"></script>
-	<script type="text/javascript" src="/js/jquery.cycle.lite.js"></script>
-	
-</head>
-*/ ?>

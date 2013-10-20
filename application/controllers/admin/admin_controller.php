@@ -48,7 +48,6 @@ class Admin_Controller extends CI_Controller
 
 		// load the navigation
 		$nav = $this->load->view('layouts/admin_nav', '', true);
-		
 		// we can have role specific menus if the role is tagged onto the end
 		// eventually it would be cool to gen this dynamically, based on the
 		// perms but I don't want the db hit so need to build a data gen first

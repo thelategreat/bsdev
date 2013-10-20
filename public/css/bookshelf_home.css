@@ -83,7 +83,7 @@ div.columnBlock h3  {
 			
 div.columnBlock p {
 	color:#000000;
-	margin:0px 0px;
+	/* margin:0px 0px; */
 	font-family:'Open Sans Semibold', sans-seriff;
 	font-size:.9em;
 }			

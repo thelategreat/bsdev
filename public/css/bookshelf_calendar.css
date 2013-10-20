@@ -1,0 +1,195 @@
+
+/*---content div layout for cinema ----*/
+#main_content.subpage {
+	margin:0 40px 0 260px;
+	padding:0 15px 15px 25px;
+	width:670px;
+}
+
+.feature_heading { /*red bars*/
+	background:#d21616;
+	width:100%;
+	height:30px;
+	}
+
+.feature_heading h1 { 
+	color:#ffffff;
+	margin:0px 0 0px 0px;
+	padding:1px 0px 0px 28px;
+	text-transform:uppercase;
+	font-family:'Open Sans Condensed', sans-seriff;
+	font-weight:bold;
+	font-size:1.2em;
+}
+
+/*---sidebar stuff----*/
+
+#sidebar_cinema {
+	float:left;
+	width:210px;
+	margin:0 20px 0 10px;
+	padding-left:10px;
+	border-left:1px solid #c8c7c7;
+	border-right:1px solid #c8c7c7;
+}
+
+.section_heading { /* ---grey bars with teaser section heading---*/
+	background:#626262;
+	margin:2px 0 2px 0;
+	height:30px;
+	width:95%;
+	
+}
+.section_heading h1 { /*---grey bars with an icon----*/
+	color:#ffffff;
+	margin:0px 0 0px 0px;
+	padding:2px 0px 0px 28px;
+	text-transform:uppercase;
+	font-family:'Open Sans Condensed', sans-seriff;
+	font-weight:bold;
+	font-size:1.2em;
+}
+
+.section_heading h2 { /*---grey bars without an icon----*/
+	color:#ffffff;
+	margin:0px 0 0px 0px;
+	padding:1px 0px 0px 6px;
+	text-transform:uppercase;
+	font-family:'Open Sans Condensed', sans-seriff;
+	font-weight:bold;
+	font-size:1.2em;
+}
+
+
+
+* calendar */
+table.calendar		{ 
+	border-left:1px solid #999; 
+	font-family:'Open Sans Semibold', sans-seriff;
+}
+tr.calendar-row	{  }
+td.calendar-day	{ min-height:80px; font-size:11px; position:relative; } * html div.calendar-day { height:80px; }
+td.calendar-day:hover	{ background:#eceff5; }
+td.calendar-day-np	{ background:#eee; min-height:80px; } * html div.calendar-day-np { height:80px; }
+td.calendar-day-head { background:#ccc; font-weight:bold; text-align:center; width:120px; padding:1px; border-bottom:1px solid #999; border-top:1px solid #999; border-right:1px solid #999; }
+div.day-number		{ background:#999; padding:2px; color:#fff; font-weight:bold; float:right; margin:-5px -5px 0 0; width:14px; text-align:center; }
+/* shared */
+td.calendar-day, td.calendar-day-np { width:120px; padding:5px; border-bottom:1px solid #999; border-right:1px solid #999; vertical-align: top}
+td.calendar-day h2 {
+	color:#900;
+	padding:0px 0px 0px 3px;
+	margin:0px 0px 0px 0px;
+	font-size:12px;
+	font-weight:normal;
+}
+td.calendar-day .day {
+	min-height: 80px;
+}
+td.calendar-day .event {
+	margin-bottom: 5px;
+}
+
+
+
+
+/* calendar
+table.calendar {
+	width:97%;
+	display:table;
+	padding: 0;
+	margin: 0;
+	margin-top:10px;
+	border-collapse:collapse;
+}
+
+table.calendar td {
+    margin: 3px 0 3px 3px;
+	padding:2px;	
+	border:1px solid #cccccc;
+	border-collapse:collapse;
+	}
+
+table.calendar td h1  {
+	color:#626262;
+	padding:0px 0px 0px 3px;
+	margin:0px 0px 0px 0px;
+	font-family:'Open Sans Semibold', sans-seriff;
+	font-size:.7em;
+	font-weight:normal;
+	background-color:#CCCCCC;
+	}
+	
+.calendar-date{
+	font-size:1.3em;
+	font-weight:bold;
+	color:#990000;
+}
+
+table.calendar td h2  {
+	padding:0px 0px 0px 3px;
+	margin:0px 0px 0px 0px;
+	font-size:.7em;
+	font-weight:normal;
+}
+
+
+
+
+/* calendar
+table.calendar {
+	width:97%;
+	display:table;
+	padding: 0;
+	margin: 0;
+	margin-top:10px;
+	border-collapse:collapse;
+}
+
+table.calendar td {
+    margin: 3px 0 3px 3px;
+	padding:2px;	
+	border:1px solid #cccccc;
+	border-collapse:collapse;
+	}
+
+table.calendar td h1  {
+	color:#626262;
+	padding:0px 0px 0px 3px;
+	margin:0px 0px 0px 0px;
+	font-family:'Open Sans Semibold', sans-seriff;
+	font-size:.7em;
+	font-weight:normal;
+	background-color:#CCCCCC;
+	}
+	
+.calendar-date{
+	font-size:1.3em;
+	font-weight:bold;
+	color:#990000;
+}
+
+table.calendar td h2  {
+	color:#990000;
+	font-size:.7em;
+	font-family: 'Open Sans Semibold',sans-serif;
+	margin:0px 0 5px 3px;
+	padding:0px 0 0px 0;
+}
+
+                
+table.calendar td h3  {
+	color:#626262;
+	font-size:.7em;
+	font-family: 'Open Sans Semibold',sans-serif;
+	margin:0px 0 0px 3px;
+	padding:0px 0 0px 0;
+	font-weight:bold;
+	text-transform:uppercase;
+}
+			
+table.calendar td p {
+	color:#717074;
+	margin:0px 0px;
+	font-family:'Open Sans Semibold', sans-seriff;
+	font-size:.7em;
+}			*/

@@ -144,6 +144,9 @@ class Articles extends Admin_Controller
 	*/
 	function edit()
 	{
+
+		$this->session->set_userdata('sourcepage', uri_string());
+
 		$tab = $this->uri->segment( 5 );
 		switch ($tab) {
 			case false:
@@ -218,6 +221,7 @@ class Articles extends Admin_Controller
 				$this->db->set('venue', $this->input->post('venue'), false);
 				$this->db->set('publish_on', $this->input->post('publish_on'));
 		        $this->db->set('body', $this->input->post('body'));
+		        $this->db->set('author', $this->input->post('author'));
 
 	        if( $role == 'admin' || $role == 'editor') {
 	          $this->db->set('owner', $this->input->post('user'));
@@ -230,6 +234,7 @@ class Articles extends Admin_Controller
 
 				//$this->tag_model->delete_tags('articles', $article_id);
 				$this->tag_model->delete_tags('articles', $article_id);
+
 				$this->tag_model->save_tags('articles', $article_id, $tags);
 				
 				redirect("/admin/articles");

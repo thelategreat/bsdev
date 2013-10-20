@@ -18,7 +18,9 @@
     ?>
 	<tr <?= ($count % 2) != 0 ? "class='odd'" : "" ?>>
 	  	<td width="10%">
-			<img src="<?=imgCache($file->image, 100,100);?>" />
+	  		<? if (isset($file->media[0])) { ?>
+				<img src="<?=imgCache('media/' . $file->media[0]->uuid, 100,100);?>" />
+			<? } ?>
 		</td>
         <td><?=$file->title?> </td>
         <td><a href="#" class="remove film" data="<?= $file->id?>">Remove</a></td>      

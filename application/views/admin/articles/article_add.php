@@ -2,41 +2,11 @@
 <script type="text/javascript" src="/js/admin_mb.js" ></script>
  
 <script>
-/* image picker callback */
-function mediaBrowserCallback( field_name, url, type, win ) {
-  browserField = field_name;
-  browserWin = win;
-  window.open('/admin/media/mce/articles/<?=$article->id?>','browserWindow','modal,width=600,height=600,scrollbars=yes');
-}
-
-function add_to_list()
-{
-  var listid = $('#lists-sel').val();
-
-  $.post("/admin/lists/addtolist",{ listid: listid, url: 'article/view/<?=$article->id?>'},
-    function( data ) {
-      if( data.ok ) {
-        alert( data.msg );
-      } else {
-        alert( data.msg );
-      }
-    }, 'json');
-}
-
-function add_category()
-{
-	$('#new-cat-row').toggle('slow');
-	return false;
-}
-
-function add_group()
-{
-	$('#new-group-row').toggle('slow');
-	return false;
-}
 
 $(function()
 {	
+	initMCE();
+
 	$('.datepicker').datepicker({ dateFormat: 'yy-mm-dd' });
 	
 	$('#new-cat').keypress(function(event) {
@@ -110,10 +80,6 @@ $(function()
 <div class=container>
 	<header>Essay</header>
 
-	<aside class=instruction>
-		
-	</aside>
-	
 	<nav>
 		<?= $tabs ?>
 	</nav>

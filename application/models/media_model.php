@@ -130,62 +130,135 @@ class media_model extends Tag_Model
 		$this->db->delete('media');
 	}
 
+	function get_media_by_id ( $id ) {
+		$this->db->where('id', $id);
+		$result = $this->db->get('media')->row();
+
+		return $result;
+	}
+
 	/**
-	 *
+	 * Gets media given a UUID or an array of media tags
 	 */
 	function get_media( $uuid = null, $stags = array(), $page = 1, $limit = 10 )
 	{
-		/*
-		SELECT distinct media.* from media, media_tag_map, media_tags
-			WHERE media_tag_map.media_tag_id = media_tags.id
-				AND media_tag_map.media_id = media.id
-				AND media_tags.name IN ('blue', 'groovy');
+		if (!$page) {
+				$page = 1;
+			}	
 
-			- or -
-
-			select distinct media.*
-				from media join media_tag_map on media_tag_map.media_id = media.id
-					join media_tags on media_tag_map.media_tag_id = media_tags.id
-						AND media_tags.name IN ('blue', 'groovy');
-		*/
 		$items = array();
 		if( $uuid ) {
-			$this->db->where('uuid', $uuid );
+			// This is a single ID
+			$sql = "SELECT * FROM media WHERE uuid = " . $this->db->escape($uuid);
+		} else {
+			// Find all the ids that have the specified tags or title containing that
+			$sql = "
+					SELECT
+						distinct(media.id)
+					FROM
+						media_tags
+					LEFT JOIN media_tag_map ON media_tag_map.media_tag_id = media_tags.id
+					LEFT JOIN media ON media_tag_map.media_id = media.id
+					WHERE
+						TRUE";
+			if (count($stags) > 0) {
+				foreach ($stags as $it) {
+					$tags[] = $this->db->escape($it);
+				}
+				$tags_str = implode(',', $tags);
+				$sql .= " AND media_tags.NAME IN ({$tags_str}) ";
+				foreach ($stags as $it) {
+					$it = $this->db->escape_like_str($it);
+					$sql .= " OR LOWER(TRIM(media.title)) LIKE '%{$it}%' ";
+				}
+			}
+			$sql .= " ORDER BY media.created_on DESC";
 		}
 
-		// searching tags
-		if( count( $stags ) ) {
-			$this->db->join('media_tag_map', 'media_tag_map.media_id = media.id' );
-			$this->db->join('media_tags', 'media_tag_map.media_tag_id = media_tags.id');
-      		$this->db->where_in( 'media_tags.name', $stags );
-	      // CI 'or_like' is broken and they didn't take my patch :(
-	      //$this->db->or_like('caption',$stags[0]);
-	      // so we use or_where LIKE
-	      $this->db->or_where('caption LIKE', '%'.$this->db->escape_like_str($stags[0]).'%');
-	      $this->db->distinct();
-			$this->db->select('media.id, uuid, title, type, created_on, updated_on, user, caption, description, license, thumbnail');
+		$query = $this->db->query($sql);
+		$results = $query->result();
+
+		// Now we've got the items but we need to assign the tags to those images
+		// which isn't a pretty thing - or maybe I'm just not smart enough
+		$items = array();
+		if ($results) {
+			$ids = array();
+			foreach ($results as $it) {
+				if ($it->id == null) continue;
+				$ids[] = $it->id;
+			}
+
+
+			if (count($ids) > 0) {
+
+			$ids = implode(',', $ids);
+
+			$sql = "SELECT * FROM media WHERE id IN ({$ids})";
+			$query = $this->db->query($sql);
+			$media_results = $query->result();
+
+			// This isn't very efficient, but writing a joining query was proving a hassle
+			// and this won't get called often enough to worry about it for the moment		
+			if ($media_results) foreach ($media_results as $it) {
+				$it->tags = implode(' ', $this->get_tags( 'media', $it->id) );
+				$items[] = $it;
+			}
+			}
 		}
 
-		$this->db->offset( ($page - 1) * $limit );
-		$this->db->limit( $limit );
-		$this->db->from('media');
-		$results = $this->db->get();
-		//log_message( 'error', $this->db->last_query());
-
-		foreach( $results->result() as $row ) {
-			$row->tags = implode(', ', $this->get_tags( 'media', $row->id ));
-
-			$items[] = $row;
-		}
 
 		return $items;
 	}
 
 	function get_media_usage( $uuid )
 	{
-		$query = "select path from media as m, media_map as mm where m.id = mm.media_id and m.uuid = '$uuid'";
-		$res = $this->db->query( $query );
-		return $res;
+		$CI =& get_instance();
+		$CI->load->model('films_model');
+		$CI->load->model('articles_model');
+		$CI->load->model('event_model');
+
+		$sql = "SELECT path FROM media 
+					LEFT JOIN media_map ON media.id = media_map.media_id 
+					WHERE media.uuid = '$uuid'
+					AND path IS NOT null";
+		$query = $this->db->query( $sql ) ;
+		$result = $query->result();
+
+		$return = array();
+		if ($result) {
+			foreach ($result as $it) {
+				
+				$item = explode('/', $it->path);
+				switch ($item[1]) {
+					case 'article':
+					case 'articles':
+						$obj= $CI->articles_model->get_article($item[2]);
+						if (!$obj) break;
+						$obj->type = 'article';
+						$obj->edit_url = '/admin/articles/edit/' . $item[2];
+					break;
+					case 'event':
+					case 'events':
+						$obj = $CI->event_model->get_event($item[2]);
+						if (!$obj) break;
+						$obj->type = 'event';
+						$obj->edit_url = '/admin/event/edit_event/' . $item[2];
+					break;
+					case 'film':
+					case 'films':
+						$obj = $CI->films_model->get_film($item[2]);
+						if (!$obj) break;
+						$obj->type = 'film';					
+						$obj->edit_url = '/admin/event/add_film/' . $item[2];
+					break;
+				}
+
+				if (!isset($obj) || $obj == false) continue;
+				$return[] = $obj;
+			}
+		}
+
+		return $return;
 	}
 
 	
@@ -197,22 +270,55 @@ class media_model extends Tag_Model
 		@param Result limit
 		@return List of file paths suitable to pass to the image helper
 	*/
-	function get_media_for_path( $path, $slot = 'general', $count = 0 )
+	function get_media_for_path( $path, $slot = false, $count = 0 )
 	{
-        $query = "SELECT m.* FROM media as m, media_map as mm WHERE mm.media_id = m.id AND mm.path = '$path' AND mm.slot = '$slot' ORDER BY mm.sort_order";
+        if (substr($path,0,1) != '/') $path = '/' . $path;
+
+        $query = "SELECT m.*, mm.slot, mm.id as map_id FROM media as m, media_map as mm WHERE mm.media_id = m.id AND mm.path = '$path' ";
+        if ($slot) {
+        	$query .= " AND mm.slot = '$slot' ";
+        } 
+        $query .= " ORDER BY mm.sort_order";
         if( $count > 0 ) {
 			$query .= " LIMIT $count";
 		}
 		$files = array();
 		$results = $this->db->query( $query );
 		foreach( $results->result() as $row ) {
+			$row->fname = $row->title;
+			$row->url = $row->uuid;
+			$row->author = $row->user;
+			$row->date = $row->updated_on;
+			$row->object_type = $row->type;
+			if ($row->type != 'link') {
+				$row->size = 'Missing';
+				if( file_exists('media/' . $row->uuid )) {
+					$row->size = pretty_file_size(filesize('media/' . $row->uuid ));
+				}
+			}
+
+			switch($row->type) {
+				case 'link':
+					if (!isset($row->thumbnail) || !strlen($row->thumbnail)) {
+						$row->thumbnail = 'media--logos--youtube';
+					}
+					break;
+				default: 
+					$row->thumbnail_fullpath = 'media/' . $row->uuid;
+					$row->thumbnail = 'media--' . $row->uuid;
+			}
+			/*
+
+			$info['id'] = $row->id;
 			$info['fname'] = $row->title;
+			$info['title'] = $row->title;
 			$info['caption'] = $row->caption;
 			$info['url'] =  $row->uuid;
 			$info['author'] = $row->user;
 			$info['type'] = $row->type;
 			$info['uuid'] = $row->uuid;
 			$info['date'] = $row->updated_on;
+			$info['slot'] = $row->slot;
 			$info['size'] = '';
 			if( $info['type'] != 'link') {
 				$info['size'] = '<p class="error">missing</p>';
@@ -235,6 +341,9 @@ class media_model extends Tag_Model
 		  }
 
 			$files[] = $info;
+			*/
+
+			$files[] = $row;
 		}
 		return $files;
 	}
@@ -250,7 +359,7 @@ class media_model extends Tag_Model
 		$this->db->where( 'uuid', $uuid );
 		$this->db->update('media', $meta );
 
-		$this->save_tags( 'media', $item->id, $tags );
+		if ($tags && $tags != null) $this->save_tags( 'media', $item->id, $tags );
 	}
 
 	function files_for_path( $path, $slot = 'general' )
@@ -263,13 +372,29 @@ class media_model extends Tag_Model
 
     function add_media_for_path( $path, $uuid, $slot='general' )
 	{
+		$response = new stdClass();
+
 		$this->db->where('uuid', $uuid);
 		$item = $this->db->get('media')->row();
-		//if( count($item) == 0 ) {
-		//	return;
-		//}
+		
+		if( !$item || count($item) == 0 ) {
+			$response->success = false;
+			$response->message = "UUID $uuid not found";	
+			return $response;
+		}
 
-		$query = "SELECT max(sort_order) as maxso FROM media_map WHERE path = '$path' AND slot = '$slot'";
+		$this->db->where('media_id', $item->id);
+		$this->db->where('path', $path);
+		$result = $this->db->get('media_map');
+
+		if ($result->num_rows() > 0) {
+			$response->success = false;
+			$response->message = "Media $item->id : $uuid is already assigned to this record.";
+			return $response;
+		}
+
+
+		$query = "SELECT MAX(sort_order) as maxso FROM media_map WHERE path = '$path' AND slot = '$slot'";
 		//echo $query;
 		$so = $this->db->query($query)->row();
 		if( $so ) {
@@ -277,12 +402,23 @@ class media_model extends Tag_Model
 		} else {
 			$max = 0;
 		}
+
 		//$data = array('path' => $path, 'media_id' => $item->id );
 		$this->db->set('path', $path );
 		$this->db->set('slot', $slot );
 		$this->db->set('media_id', $item->id );
 		$this->db->set('sort_order', $max + 1 );
 		$this->db->insert('media_map');
+
+		if ($this->db->affected_rows() > 0) {
+			$response->success = true;
+			$response->message = '';
+		} else {
+			$response->success = false;
+			$response->message = 'Unknown error';
+		}
+
+		return $response;
 		//log_message('debug','foo');
 	}
 
