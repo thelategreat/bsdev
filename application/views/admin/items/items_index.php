@@ -54,27 +54,39 @@ $(document).ready(function() {
 			registerResultClicks();
 		}, 'json');
 	});
-	
+
 });
 
 function registerResultClicks() {
     $('.search_result').click(function() {
         if ($(this).hasClass('article')) {
-            $.post('/admin/articles/addarticle', {associated_article_id: $(this).attr('data'), article_id: <?= $this->uri->segment(4) ?>}, function(data) {
+            $.post('/admin/items/addarticle', 
+            	{	article_id: $(this).attr('data'), 
+            		item_id: <?= $this->uri->segment(4) ?>,
+            		item_type: '<?= $item_type ?>' }, function(data) {
                 if (data.ok == true) {
                     reload();
                 }
             }, 'json');
         }
         if ($(this).hasClass('product')) {
-            $.post('/admin/articles/additem', {product_id: $(this).attr('data'), article_id: <?= $this->uri->segment(4) ?>}, function(data) {
+            $.post('/admin/items/additem', 
+            	{
+            		product_id: $(this).attr('data'), 
+            		item_id: <?= $this->uri->segment(4) ?>,
+            		item_type: '<?= $item_type ?>'}, function(data) {
                 if (data.ok == true) {
                     reload();
                 }
             }, 'json');
         }
         if ($(this).hasClass('event')) {
-            $.post('/admin/articles/addevent', {event_id: $(this).attr('data'), article_id: <?= $this->uri->segment(4) ?>}, function(data) {
+            $.post('/admin/items/addevent', 
+            	{
+            		event_id: $(this).attr('data'), 
+            		item_id: <?= $this->uri->segment(4) ?>,
+            		item_type: '<?= $item_type ?>'
+            	}, function(data) {
                 if (data.ok == true) {
                     reload();
                 }
@@ -82,7 +94,12 @@ function registerResultClicks() {
         }
         if ($(this).hasClass('film')) {
         	console.log('add film')
-            $.post('/admin/articles/addfilm', {film_id: $(this).attr('data'), article_id: <?= $this->uri->segment(4) ?>}, function(data) {
+            $.post('/admin/items/addfilm', 
+            	{
+            		film_id: $(this).attr('data'), 
+            		item_id: <?= $this->uri->segment(4) ?>,
+            		item_type: '<?= $item_type?>'
+            	}, function(data) {
                 if (data.ok == true) {
                     reload();
                 }
@@ -97,48 +114,75 @@ function reload()
 	if( $('#slot_select')) {
 		slot = $('#slot_select').val();
 	}
-	$.post('/admin/articles/article_articles_browser',
-        { article_id: <?= $this->uri->segment(4) ?> },
+	articlesRendered = false;
+	productsRendered = false;
+	eventsRendered = false;
+	filmsRendered = false;
+
+	$.post('/admin/items/item_articles_browser',
+        { 	item_id: <?= $this->uri->segment(4) ?>,
+        	item_type: '<?= $item_type ?>' },
+
 		function(data) {
+			articlesRendered = true;
 			$('#article_area').html( data );
+			registerHandlers();			
 		}
     );
-	$.post('/admin/products/article_products_browser',
-        { article_id: <?= $this->uri->segment(4) ?> },
+	$.post('/admin/items/item_products_browser',
+        { 	item_id: <?= $this->uri->segment(4) ?>,
+        	item_type: '<?= $item_type ?>' 
+        },
 		function(data) {
 			$('#product_area').html( data );
+			productsRendered  = true;
+			registerHandlers();			
 		}
     );
 
-	$.post('/admin/event/article_events_browser',
-        { article_id: <?= $this->uri->segment(4) ?> },
+	$.post('/admin/items/item_events_browser',
+        { 	item_id: <?= $this->uri->segment(4) ?>,
+        	item_type: '<?= $item_type ?>' },
 		function(data) {
 			$('#events_area').html( data );			
+			eventsRendered = true;	
 			registerHandlers();			
 		});
 
-	$.post('/admin/event/article_films_browser',
-        { article_id: <?= $this->uri->segment(4) ?> },
+	$.post('/admin/items/item_films_browser',
+        { 	item_id: <?= $this->uri->segment(4) ?>,
+        	item_type: '<?= $item_type ?>' },
 		function(data) {
 			$('#films_area').html( data );			
+			filmsRendered = true;	
 			registerHandlers();			
 		});
 }
 
 function registerHandlers() {
+	if (!filmsRendered || !eventsRendered || !productsRendered || !articlesRendered) return; 
+	// All must render, we only want to register handlers once
+
 	$('.remove').click(function() {
 		var id = $(this).attr('data');
 		
 		if ($(this).hasClass('article')) {
-			$.post('/admin/articles/removearticle', {associated_article_id: $(this).attr('data'), article_id: <?= $this->uri->segment(4) ?>}, function(data) {
+			$.post('/admin/items/removearticle', 
+				{ 	associated_article_id: $(this).attr('data'), 
+					item_id: <?= $this->uri->segment(4) ?>,
+					item_type: '<?= $item_type ?>' }, function(data) {
                 if (data.ok == true) {
                     reload();
                 }
             }, 'json');
 		}
-		
+
 		if ($(this).hasClass('book')) {
-			$.post('/admin/articles/removeitem', {product_id: $(this).attr('data'), article_id: <?= $this->uri->segment(4) ?>}, function(data) {
+			$.post('/admin/items/removeitem', 
+				{	product_id: $(this).attr('data'), 
+					item_id: <?= $this->uri->segment(4) ?>,
+					item_type: '<?= $item_type ?>'
+				}, function(data) {
                 if (data.ok == true) {
                     reload();
                 }
@@ -146,7 +190,11 @@ function registerHandlers() {
 		}
 		
 		if ($(this).hasClass('event')) {
-			$.post('/admin/articles/removeevent', {event_id: $(this).attr('data'), article_id: <?= $this->uri->segment(4) ?>}, function(data) {
+			$.post('/admin/items/removeevent', 
+				{	event_id: $(this).attr('data'), 
+					item_id: <?= $this->uri->segment(4) ?>,
+					item_type: '<?= $item_type ?>'
+				}, function(data) {
                 if (data.ok == true) {
                     reload();
                 }
@@ -154,7 +202,11 @@ function registerHandlers() {
 		}
 
 		if ($(this).hasClass('film')) {
-			$.post('/admin/articles/removefilm', {event_id: $(this).attr('data'), article_id: <?= $this->uri->segment(4) ?>}, function(data) {
+			$.post('/admin/items/removefilm', 
+				{	film_id: $(this).attr('data'), 
+					item_id: <?= $this->uri->segment(4) ?>,
+					item_type: '<?= $item_type ?>'
+				}, function(data) {
                 if (data.ok == true) {
                     reload();
                 }
@@ -164,7 +216,7 @@ function registerHandlers() {
 }
 
 $(function() {
-		reload();
+	reload();
 });
 </script>
 

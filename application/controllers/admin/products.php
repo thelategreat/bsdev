@@ -291,22 +291,4 @@ class Products extends Admin_Controller
         return $path;
     }
 
-    function article_products_browser() {
-		$is_ajax = true;
-        $article_id = $this->input->post('article_id');
-
-		if( !$article_id) {
-            return false;
-        }
-
-        $products = $this->articles_model->get_products( $article_id );
-        
-		$view_data = array(
-			'article_id' => $article_id,
-			'errors' => '',
-            'files' => $products
-			);
-
-		$this->load->view('admin/products/article_products_browser', $view_data );
-    }
 }

@@ -90,36 +90,44 @@ class Films extends Admin_Controller
 			$cur_tab = strtolower($this->uri->segment(5));
 		}
 		
-		if( $cur_tab == 'media' ) {
-		} else {
-			$this->load->helper('form');
-			$this->load->library('form_validation');
+		switch ($cur_tab) {
+			case 'media':
+			break;
 
-			$this->form_validation->set_error_delimiters('','');
-			$this->form_validation->set_rules('title', 'title', 'trim|required');
-			$this->form_validation->set_rules('year', 'year', 'trim|integer');
-			$this->form_validation->set_rules('running_time', 'running time', 'trim|integer');
+			case 'associated_items':
+			case 'items':
+			break;
 
-			if( $this->form_validation->run()) {
-				$data = array();
-				$data['ttno'] = $this->input->post('ttno');
-				$data['title'] = $this->input->post('title');
-				$data['director'] = $this->input->post('director');
-				$data['country'] = $this->input->post('country');
-				$data['year'] = $this->input->post('year');
-				$data['running_time'] = $this->input->post('running_time');
-				$data['aspect_ratio'] = $this->input->post('aspect_ratio');
-				$data['rating'] = $this->input->post('rating');
-				$data['description'] = $this->input->post('description');
-				$data['imdb_link'] = $this->input->post('link');
+			default: 
+				$this->load->helper('form');
+				$this->load->library('form_validation');
 
-				$this->db->where( 'id', $id );
-				$this->db->update('films', $data );
-				redirect('/admin/films');
-			}			
+				$this->form_validation->set_error_delimiters('','');
+				$this->form_validation->set_rules('title', 'title', 'trim|required');
+				$this->form_validation->set_rules('year', 'year', 'trim|integer');
+				$this->form_validation->set_rules('running_time', 'running time', 'trim|integer');
+
+				if( $this->form_validation->run()) {
+					$data = array();
+					$data['ttno'] = $this->input->post('ttno');
+					$data['title'] = $this->input->post('title');
+					$data['director'] = $this->input->post('director');
+					$data['country'] = $this->input->post('country');
+					$data['year'] = $this->input->post('year');
+					$data['running_time'] = $this->input->post('running_time');
+					$data['aspect_ratio'] = $this->input->post('aspect_ratio');
+					$data['rating'] = $this->input->post('rating');
+					$data['description'] = $this->input->post('description');
+					$data['imdb_link'] = $this->input->post('link');
+
+					$this->db->where( 'id', $id );
+					$this->db->update('films', $data );
+					redirect('/admin/films');
+				}			
+			break;
 		}
 		
-		// check is we can delete this, no references
+		// Can we delete this item - yes only if there are no events associated to it 
 		$can_delete = false;
 		$res = $this->db->query("SELECT * FROM events WHERE event_ref = $id");
 		if( $res->num_rows() == 0 ) {
@@ -132,25 +140,50 @@ class Films extends Admin_Controller
 			redirect('/admin/films');			
 		}
 				
-		$tabs = $tabs = $this->tabs->gen_tabs(array('Details','Media'), $cur_tab, '/admin/films/edit/' . $id);
+		$tabs = $tabs = $this->tabs->gen_tabs(array('Details','Media','Associated Items'), $cur_tab, '/admin/films/edit/' . $id);
 		
-		if( $cur_tab == 'media' ) {
-			$data = array(
-				'film' => $film,
-				'tabs' => $tabs,
-				'title' => "Media for $film->title",											// the page title
-				'path' => '/films/' . $film->id,								// the page in the db for this
-				'next' => "/admin/films/edit/$film->id/media",  // the web path to this tab		
+		
+		switch ($cur_tab) {
+			case 'media':
+
+				$data = array(
+					'film' => $film,
+					'tabs' => $tabs,
+					'title' => "Media for $film->title",											// the page title
+					'path' => '/films/' . $film->id,								// the page in the db for this
+					'next' => "/admin/films/edit/$film->id/media",  // the web path to this tab		
+					);
+				//$content = $this->load->view('admin/films/films_media', array('film' => $film, 'tabs' => $tabs ), true );
+				$content = $this->load->view('admin/media/media_tab', $data, true );
+			break;
+
+			case 'associated_items':
+				$data = array(
+					'film' => $film,
+					'tabs' => $tabs,
+					'item_type' => 'film', // This is used to define which association table will be used article_films/films_events, etc
+					'title' => "Associated items for $film->title",
+					'path' => '/films/' . $film->id,
+					'next' => "/admin/films/edit/$film->id/associated_items",  // the web path to this tab		
 				);
-			//$content = $this->load->view('admin/films/films_media', array('film' => $film, 'tabs' => $tabs ), true );
-			$content = $this->load->view('admin/media/media_tab', $data, true );
-		} else {
-			$content = $this->load->view('admin/films/films_edit', array('film' => $film, 'can_delete' => $can_delete, 'tabs' => $tabs ), true );
+
+				$content = $this->load->view('admin/items/items_index', $data, true);
+
+			break;
+
+			default:
+				$content = $this->load->view('admin/films/films_edit', array('film' => $film, 'can_delete' => $can_delete, 'tabs' => $tabs ), true );
+			break;
 		}
 		
-		$this->gen_page('Admin - Films', $content );
+		$this->gen_page( 'Admin - Films', $content );
 	}
-	
+
+	/**
+	 * Delete this record from the database and any associated media
+	 * @param none
+	 * @return none
+	 */
 	function rm()
 	{
 		$id = (int)$this->uri->segment(4);

@@ -180,6 +180,7 @@ class Articles extends Admin_Controller
 		$view_data = array(
 			'title' => "Items for essay: $article->title",
 			'article' => $article,
+			'item_type' => 'article',
 			'path' => '/articles/' . $article->id,
 			'next' => "/admin/articles/edit/$article->id/items",
 			'tabs' => $this->tabs->gen_tabs(array('Essay','Media', 'Items'), 'Items', '/admin/articles/edit/' . $article->id)
@@ -359,28 +360,6 @@ class Articles extends Admin_Controller
 	}
 
     /**
-     Associated article brower 
-     Used in article items view
-	*/
-    function article_articles_browser() {
-		$is_ajax = true;
-        $article_id = $this->input->post('article_id');
-
-		if( !$article_id) {
-            return false;
-        }
-
-        $products = $this->articles_model->get_associated_articles( $article_id );
-        
-		$view_data = array(
-			'article_id' => $article_id,
-			'errors' => '',
-            'files' => $products
-			);
-
-		$this->load->view('admin/articles/article_articles_browser', $view_data );
-    }
-    /**
     Callback
     Add an event association to an article 
     */
@@ -435,163 +414,6 @@ class Articles extends Admin_Controller
         echo json_encode($ret);
     }
 
-    /**
-    Callback
-    Add an article association to an article 
-    */
-    function addarticle()
-    {
-        $ret = array('ok' => false, 'msg' => 'Unable to add article' );
-        $article_id = $this->input->post('article_id');
-        $associated_article_id = $this->input->post('associated_article_id');
-
-        if (!$article_id || !$associated_article_id) {
-            $ret['msg'] = 'Missing required variable';
-            echo json_encode($ret);
-            exit;
-        }
-
-        if (is_numeric($article_id) && is_numeric($associated_article_id)) {
-            $result = $this->articles_model->add_associated_article($article_id, $associated_article_id);
-            $ret['ok'] = $result;
-            if ($result === true) {
-                $ret['msg'] = 'Article added';
-            }
-        }
-
-        echo json_encode($ret);
-    }
-
-    /** 
-    Callback
-    Remove an article association to an article 
-    */
-    function removearticle()
-    {
-        $ret = array('ok' => false, 'msg' => 'Unable to remove film' );
-        $article_id = $this->input->post('article_id');
-        $associated_article_id = $this->input->post('associated_article_id');
-
-        if (!$article_id || !$associated_article_id) {
-            $ret['msg'] = 'Missing required variable';
-            echo json_encode($ret);
-            exit;
-        }
-
-        if (is_numeric($article_id) && is_numeric($associated_article_id)) {
-            $result = $this->articles_model->remove_associated_article($article_id, $associated_article_id);
-            $ret['ok'] = $result;
-            if ($result === true) {
-                $ret['msg'] = 'Article removed';
-            }
-        }
-
-        echo json_encode($ret);
-    }
-    /**
-    Callback
-    Add a film association to an article 
-    */
-    function addfilm()
-    {
-        $ret = array('ok' => false, 'msg' => 'Unable to add film' );
-        $article_id = $this->input->post('article_id');
-        $film_id = $this->input->post('film_id');
-
-        if (!$article_id || !$film_id) {
-            $ret['msg'] = 'Missing required variable';
-            echo json_encode($ret);
-            exit;
-        }
-
-        if (is_numeric($article_id) && is_numeric($film_id)) {
-            $result = $this->articles_model->add_film($article_id, $film_id);
-            $ret['ok'] = $result;
-            if ($result === true) {
-                $ret['msg'] = 'Film added';
-            }
-        }
-
-        echo json_encode($ret);
-    }
-
-    /** 
-    Callback
-    Remove a film association to an article 
-    */
-    function removefilm()
-    {
-        $ret = array('ok' => false, 'msg' => 'Unable to remove film' );
-        $article_id = $this->input->post('article_id');
-        $event_id = $this->input->post('event_id');
-
-        if (!$article_id || !$event_id) {
-            $ret['msg'] = 'Missing required variable';
-            echo json_encode($ret);
-            exit;
-        }
-
-        if (is_numeric($article_id) && is_numeric($event_id)) {
-            $result = $this->articles_model->remove_film($article_id, $event_id);
-            $ret['ok'] = $result;
-            if ($result === true) {
-                $ret['msg'] = 'Event removed';
-            }
-        }
-
-        echo json_encode($ret);
-    }
-
-
-    /* Callback
-     * Add an item association to an article */
-    function additem()
-    {
-        $ret = array('ok' => false, 'msg' => 'Unable to add item' );
-        $article_id = $this->input->post('article_id');
-        $product_id = $this->input->post('product_id');
-
-        if (!$article_id || !$product_id ) {
-            $ret['msg'] = 'Missing required variable';
-            echo json_encode($ret);
-            exit;
-        }
-
-        if (is_numeric($article_id) && is_numeric($product_id)) {
-            $result = $this->articles_model->add_product($article_id, $product_id);
-            $ret['ok'] = $result;
-            if ($result === true) {
-                $ret['msg'] = 'Product added';
-            }
-        }
-
-        echo json_encode($ret);
-    }
-   
-    /* Callback
-     * Add an item association to an article */
-    function removeitem()
-    {
-        $ret = array('ok' => false, 'msg' => 'Unable to remove item' );
-        $article_id = $this->input->post('article_id');
-        $product_id = $this->input->post('product_id');
-
-        if (!$article_id || !$product_id ) {
-            $ret['msg'] = 'Missing required variable';
-            echo json_encode($ret);
-            exit;
-        }
-
-        if (is_numeric($article_id) && is_numeric($product_id)) {
-            $result = $this->articles_model->remove_product($article_id, $product_id);
-            $ret['ok'] = $result;
-            if ($result === true) {
-                $ret['msg'] = 'Product removed';
-            }
-        }
-
-        echo json_encode($ret);
-    }
     
 	function addgroup()
 	{

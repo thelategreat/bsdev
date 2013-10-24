@@ -318,10 +318,11 @@ SQL;
     return $s;
   }
 
-    /* Add a film association to an article
-     * @param required Article ID
-     * @param requried Film ID
-     * @return boolean Success
+    /** 
+      Add a film association to an article
+      @param required Article ID
+      @param requried Film ID
+      @return boolean Success
      */
     function add_film( $article_id, $film_id)
     {
@@ -339,10 +340,11 @@ SQL;
         return true;
     }
     
-    /* Remove a film association to an article
-     * @param required Film ID
-     * @param requried Event ID
-     * @return boolean Success
+    /** 
+      Remove a film association to an article
+      @param required Film ID
+      @param requried Event ID
+      @return boolean Success
      */
     function remove_film( $film_id, $event_id )
     {
@@ -352,6 +354,7 @@ SQL;
 
         return true;
     }
+    
     /* Add an article association to an article
      * @param required Article ID
      * @param requried Event ID
@@ -548,10 +551,11 @@ SQL;
         return true;
     }
     
-    /* Add a product association to an article
-     * @param required Article ID
-     * @param requried Product ID
-     * @return boolean Success
+    /** 
+      Remove a product association to an article
+      @param required Article ID
+      @param requried Product ID
+      @return boolean Success
      */
     function remove_product( $article_id, $product_id )
     {
