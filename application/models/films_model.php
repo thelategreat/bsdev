@@ -33,8 +33,10 @@ function get_film_media( $id )
 /**
 	Get an individual film by ID
 	@param ID
+  @param Load associated films - if this came from a call for the associated films of some parent film then 
+        it should be set to false otherwise it will nest endlessly
 */
-function get_film( $id ) 
+function get_film( $id, $get_associates = true ) 
 {
 	if (!is_numeric($id)) return false;
 	$sql = "SELECT *, title AS name FROM films WHERE id = '$id'";
@@ -47,6 +49,13 @@ function get_film( $id )
 		$return->object_type = 'film';
 		$return->media = self::get_film_media( $id );
 		$return->showtimes = self::get_upcoming_showtimes( $id );
+    $return->associated = new stdClass();
+    $return->associated->articles = self::get_associated_articles( $id );
+    $return->associated->products = self::get_associated_products( $id );
+    $return->associated->events   = self::get_associated_events( $id );
+    if ($get_associates) {
+      $return->associated->films = self::get_associated_films( $id );
+    }
 		return $return;
 	}
 
@@ -65,33 +74,34 @@ function get_upcoming_showtimes( $id )
 	return $results;
 }
 
+	/**
+   Add an article association to an article
+   @param required Film ID
+   @param requried Article ID
+   @return boolean Success
+  */
+  function add_associated_article( $films_id, $associated_article_id )
+  {
+      $this->db->where('films_id', $films_id);
+      $this->db->where('articles_id', $associated_article_id);
+      $query = $this->db->get('films_articles');
+      if ( $query->num_rows() > 0 ) {
+          return false; // This item is already associated
+      }
 
-	/* Add an article association to an article
-     * @param required Film ID
-     * @param requried Article ID
-     * @return boolean Success
-     */
-    function add_associated_article( $films_id, $associated_article_id )
-    {
-        $this->db->where('films_id', $films_id);
-        $this->db->where('articles_id', $associated_article_id);
-        $query = $this->db->get('films_articles');
-        if ( $query->num_rows() > 0 ) {
-            return false; // This item is already associated
-        }
+      $this->db->set('articles_id', $associated_article_id);
+      $this->db->set('films_id', $films_id);
+      $this->db->insert('films_articles');
 
-        $this->db->set('articles_id', $associated_article_id);
-        $this->db->set('films_id', $films_id);
-        $this->db->insert('films_articles');
-
-        return true;
-    }
+      return true;
+  }
     
-    /* Remove an article association to an article
-     * @param required Films ID
-     * @param requried Article ID
-     * @return boolean Success
-     */
+    /**
+     Remove an article association to an article
+     @param required Films ID
+     @param requried Article ID
+     @return boolean Success
+    */
     function remove_associated_article( $films_id, $associated_article_id )
     {
         $this->db->where('films_id', $films_id);
@@ -105,10 +115,12 @@ function get_upcoming_showtimes( $id )
     /**
       Get the articles related to an article 
       @param Article ID
-      @return Array of events with theumbnails or false
+      @return Array of articles with thembnails or false
     */
     function get_associated_articles( $films_id )
     {
+        $this->load->model('articles_model');
+   
         $sql = "SELECT * FROM films_articles fa 
             LEFT JOIN articles a ON fa.articles_id = a.id
             WHERE fa.films_id = ?";
@@ -122,9 +134,9 @@ function get_upcoming_showtimes( $id )
           $r->type = 'article';
           $img = $this->articles_model->get_article_media( $r->articles_id );
           if ($img) {
-            $r->image = '/media/' . $img->uuid;
+            $r->image = $this->config->item('media_path') . $img->uuid;
           } else {
-            $r->image = '/img/image_not_found.jpg';
+            $r->image = $this->config->item('image_not_found_image');
           }
         }
         return $result;
@@ -248,7 +260,7 @@ function get_upcoming_showtimes( $id )
       @param Article ID
       @return Array of events with theumbnails or false
     */
-    function get_events( $films_id )
+    function get_associated_events( $films_id )
     {
         $sql = "SELECT * FROM films_events fe
             LEFT JOIN events e ON fe.events_id = e.id
@@ -263,9 +275,9 @@ function get_upcoming_showtimes( $id )
           $r->type = 'event';
 	        $img = $this->event_model->get_event_media( $r->events_id );
           if ($img) {
-            $r->image = '/media/' . $img->uuid;
+            $r->image = $this->config->item('media_path') . $img->uuid;
           } else {
-            $r->image = '/img/image_not_found.jpg';
+            $r->image = $this->config->item('image_not_found_image');
           }
         }
         return $result;
@@ -276,7 +288,7 @@ function get_upcoming_showtimes( $id )
      @param required Film ID
      @return product result
      */
-    function get_products( $film_id )
+    function get_associated_products( $film_id )
     {
         $sql = "SELECT p.*, pub.name as publisher FROM {$this->site_db}.films_products fp
             LEFT JOIN {$this->prod_db}.products p ON fp.products_id = p.id
@@ -285,7 +297,7 @@ function get_upcoming_showtimes( $id )
         $result = $this->db->query($sql, $film_id)->result();
         
         if (count($result) == 0 || $result === false) {
-            return array();
+            return false; 
         }
 
         foreach ($result as &$r) {
@@ -299,10 +311,10 @@ function get_upcoming_showtimes( $id )
           $cont_result = $this->db->query($sql)->result();
           $r->contributor = $cont_result[0]->name;
 
-	      $r->type = 'product';
+          $r->type = 'product';
           $r->thumbnail = $this->get_product_image_by_ean($r->ean);
-		  // Reference used for front-end details insertion
-		  $r->ref = $r->ean . '_' . str_replace(' ', '-', str_replace('-', '\-', $r->title));
+		      // Reference used for front-end details insertion
+		      $r->ref = $r->ean . '_' . str_replace(' ', '-', str_replace('-', '\-', $r->title));
         }
         return $result;
     }
@@ -316,7 +328,7 @@ function get_upcoming_showtimes( $id )
     {
       $this->load->model('films_model');
       
-        $sql = "SELECT films_id FROM films_films ff
+        $sql = "SELECT associated_films_id FROM films_films ff
             LEFT JOIN films f ON ff.associated_films_id = f.id
             WHERE ff.films_id = ?";
         $result = $this->db->query($sql, $films_id)->result();
@@ -327,7 +339,7 @@ function get_upcoming_showtimes( $id )
 
         $results = array();
         foreach ($result as &$r) {
-          $results[] = $this->films_model->get_film($r->films_id);
+          $results[] = $this->films_model->get_film( $r->associated_films_id, false );
         }
 
         return $results;

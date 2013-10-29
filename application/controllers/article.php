@@ -93,7 +93,7 @@ class Article extends MY_Controller
 			
 			
 		/* Associated products and events */
-    	$associated_events 	= $this->articles_model->get_events( $id );
+    	$associated_events 	= $this->articles_model->get_associated_events( $id );
     	$item->associated_events = false;
     	if ($associated_events) {
 	    	$item->associated_events = array();
@@ -121,7 +121,7 @@ class Article extends MY_Controller
     		}
     	}
 
-	   	$item->associated_products 	= $this->articles_model->get_products( $id );
+	   	$item->associated_products 	= $this->articles_model->get_associated_products( $id );
     	
 		$pg_data = $this->get_page_data('Bookshelf', 'article_view', false, array('books','bookstore') );		
 		

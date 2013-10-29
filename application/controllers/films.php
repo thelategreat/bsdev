@@ -26,7 +26,10 @@ class Films extends MY_Controller
 		redirect(base_url('cinema/view/month'));	
 	}
 
-	/* View the details about a specific film */	
+	/**
+	 	View the details about a specific film 
+		@param [optional] Film ID
+	 */	
 	function view( $id = false )
 	{
 		$film = $this->films_model->get_film($id);
@@ -37,6 +40,7 @@ class Films extends MY_Controller
 	    $tweets = $this->load->view('widgets/tweets',
 	      array('tweets' => $this->tweets_model->load('bookshelfnews')),
 	      true );
+
 		// Navigation links
 		$nav = $this->groups_model->get_group_tree();
 		// Upcoming events

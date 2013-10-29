@@ -67,10 +67,10 @@ class Items extends Admin_Controller
 
         switch ($item_type) {
         	case 'article':
-		        $products = $this->articles_model->get_products( $item_id );
+		        $products = $this->articles_model->get_associated_products( $item_id );
         	break;
         	case 'film':
-		        $products = $this->films_model->get_products( $item_id );
+		        $products = $this->films_model->get_associated_products( $item_id );
 		    break;
 		}
        
@@ -127,10 +127,10 @@ class Items extends Admin_Controller
 
         switch ($item_type) {
         	case 'article':
-		        $events = $this->articles_model->get_events( $item_id );
+		        $events = $this->articles_model->get_associated_events( $item_id );
         	break;
         	case 'film':
-		        $events = $this->films_model->get_events( $item_id );
+		        $events = $this->films_model->get_associated_events( $item_id );
 		    break;
 		}
 

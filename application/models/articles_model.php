@@ -459,7 +459,7 @@ SQL;
       @param Article ID
       @return Array of events with theumbnails or false
     */
-    function get_events( $article_id )
+    function get_associated_events( $article_id )
     {
     	$this->load->model('event_model');
     	
@@ -571,7 +571,7 @@ SQL;
      @param required Article ID
      @return product result
      */
-    function get_products( $article_id )
+    function get_associated_products( $article_id )
     {
         $sql = "SELECT p.*, pub.name as publisher FROM {$this->site_db}.articles_products ap
             LEFT JOIN {$this->prod_db}.products p ON ap.products_id = p.id

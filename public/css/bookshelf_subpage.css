@@ -264,9 +264,6 @@ div.imageFloat h3 { /*-- grey text --*/
 }
 
 
-#cinema_showtimes {
-}
-
 #cinema_showtimes h1{
 	background:#ffffff url('../images/icon_clock_gr.png') left center no-repeat ;
 	color:#626262;
@@ -279,14 +276,16 @@ div.imageFloat h3 { /*-- grey text --*/
 	height:17px;
 }
 
-#cinema_showtimes h3{
+.discrete {
 	font-size:.9em;
 	color:#626262;
-	margin:3px 0px 10px 0px;
 	font-family:'Open Sans Semibold', sans-seriff;
 	font-size:.95em;
 }
 
+#cinema_showtimes h3{
+	margin:3px 0px 10px 0px;
+}
 
 div.comments,div.tags,div.related{
 	color:#ffffff;
@@ -335,8 +334,20 @@ div.tags {
 	line-height:1.4em;
 }
 
-#social_media h3,
-#associated_data h3
+#associated_data h3 {
+	margin:5px 2px 5px 0px;
+}
+.icon-heading {
+	color:#d21616;
+	padding-left:20px;
+	text-transform:uppercase;
+	font-family:'Arvo', sans-seriff;
+	font-weight:bold;
+	font-size:.8em;
+	height:17px;
+}
+
+#social_media h3
  {
 	color:#d21616;
 	margin:5px 2px 5px 0px;
@@ -346,28 +357,29 @@ div.tags {
 	font-weight:bold;
 	font-size:.8em;
 	height:17px;
-
 }
-#social_media h4,
-#associated_data h4 {
+
+#associated_data h4,
+#social_media h4
+{
 	color:#990000;
 	margin:3px 2px 15px 0px;
 	padding-left:20px;
 	font-family:'Open Sans Semibold', sans-seriff;
 	font-weight:bold;
 	font-size:.9em;
-	height:17px;
+	/*height:17px; Removed for film associated products*/
 }
 #associated_data section {
 	margin-bottom: 20px;
 }
 
-.book {
-background:transparent url('../images/icon_book.png') left center no-repeat ;
+.book, .icon-article, .icon-articles, .icon-product, .icon-products {
+	background:transparent url('../images/icon_book.png') left center no-repeat ;
 }
 
-.film {
-background:transparent url('../images/icon_film.png') left center no-repeat ;
+.film, .icon-event, .icon-events, .icon-film, .icon-films {
+	background:transparent url('../images/icon_film.png') left center no-repeat ;
 }
 
 

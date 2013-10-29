@@ -78,32 +78,64 @@
         <h1>
             Showtimes
         </h1>
-        <h3>
+        <h3 class='discrete'>
             <? foreach ($item->showtimes as $it) { ?>
               <div><? echo date('M d | g:i', strtotime($it->start_time)) . ' - ' . date('g:iA', strtotime($it->end_time)); ?></div>
-            <? } ?>
+            <? }
+            if (count($item->showtimes == 0)) echo 'No upcoming shows';
+             ?>
         <? /* </h3><a class="readMore" href="#">All Showtimes &gt;&gt;</a> */ ?>
     </div>
     <aside id="associated_data">
         <section>
             <div class="related"> Related </div>
-            <h3 class="book"> Review </h3>
-            <h4> Breaking Dawn </h4>
-            <h3 class="film"> Review </h3>
-            <h4> Breaking Dawn </h4>
-            <h3 class="book"> Also by Stephanie Meyer </h3>
+                <? if (isset($item->associated)) {
+                    foreach ($item->associated as $key=>$it) {
+                        $displayed_items = 0;
+                        if($it) foreach ($it as $assoc) {
+                            $displayed_items++;
+                            ?>
+                            <h3 class="icon-heading icon-<?=$key;?>"><?=ucfirst($assoc->type);?></h3>
+                            <h4><? switch($assoc->type) {
+                                case 'article':
+                                    echo "<a href='/article/view/{$assoc->id}'>{$assoc->title}</a>";
+                                    break;
+                                case 'product':
+                                    echo "<a href='/product/view/{$assoc->id}'>{$assoc->title}</a>";
+                                    break;
+                                case 'event':
+                                    echo "<a href='/events/view/{$assoc->id}'>{$assoc->title}</a>";
+                                    break;
+                                case 'film':
+                                    echo "<a href='/films/view/{$assoc->id}'>{$assoc->title}</a>";
+                                    break;
+                                } ?>
+                            </h4>
+                            <?
+                        }
+                    }
+
+                    if ($displayed_items == 0) {
+                        echo '<h3 class="discrete">No related items</h3>';
+                    }
+                }
+                ?>
         </section>
+
+        <? /*
         <section>
 
-        <div class="tags">
-            TAGS
-        </div>
-        <p>
-            Vampire Literature
-        </p>
-        <p>
-            Best Young Adulat fiction of 2011
-        </p>
+            <div class="tags">
+                TAGS
+            </div>
+            <p>
+                Vampire Literature
+            </p>
+            <p>
+                Best Young Adulat fiction of 2011
+            </p>
+        </section>
+        */ ?>
     </aside><!--end second column-->
 </div><!--end main_content dive-->
 </div>

@@ -9,7 +9,7 @@ include("admin_controller.php");
 class Event extends Admin_Controller
 {
 
-	protected $day_names = array("Sun","Mon","Tue","Wed","Thu","Fri","Sat");
+	protected $day_names   = array("Sun","Mon","Tue","Wed","Thu","Fri","Sat");
 	protected $month_names = array("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec");
 
 	/**
@@ -565,6 +565,66 @@ class Event extends Admin_Controller
 		return $sel;
     }
 
-    
+    /**
+    	Browser callback for article items association view
+    */
+    function article_events_browser() {
+		$this->load->model('articles_model');
+
+        $is_ajax = true;
+        $article_id = $this->input->post('article_id');
+
+		if( !$article_id) {
+            return false;
+        }
+
+        $events = $this->articles_model->get_events( $article_id );
+
+        $view_data = array(
+			'article_id' => $article_id,
+			'errors' => '',
+            'files' => $events
+			);
+
+		if( !$is_ajax ) {
+            /*
+            Currently this is an ajax-only call
+                $pg_data = array(
+				'title' => 'Admin - Media',
+				'nav' => $this->load->view('layouts/admin_nav', '', true),
+				'content' => $this->load->view('admin/media/media_browser', $view_data, true),
+				'footer' => $this->load->view('layouts/admin_footer', '', true)
+            );
+			$this->load->view('layouts/admin_page', $pg_data );
+             */
+        } else {
+			$this->load->view('admin/events/article_events_browser', $view_data );
+        }
+    }
+
+    /**
+    	Browser callback for article items association view
+    */
+    function article_films_browser() {
+		$this->load->model('articles_model');
+
+        $is_ajax = true;
+        $article_id = $this->input->post('article_id');
+
+		if( !$article_id) {
+            return false;
+        }
+
+        $events = $this->articles_model->get_films( $article_id );
+
+        $view_data = array(
+			'article_id' => $article_id,
+			'errors' => '',
+            'files' => $events
+			);
+
+		$this->load->view('admin/events/article_films_browser', $view_data );
+    }
+
 
 }

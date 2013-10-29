@@ -44,6 +44,7 @@ $config['allow_comments'] = true;
  * Paths 
  *-------------------------------------------------------------------------- */
 $config['image_not_found_image'] = '/img/image_not_found.jpg';
+$config['media_path'] = '/media/';
 
 /* --------------------------------------------------------------------------
  * Sections 
