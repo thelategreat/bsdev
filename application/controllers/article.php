@@ -34,10 +34,11 @@ class Article extends MY_Controller
 	
 	function view($id=false)
 	{
-		$this->load->model('products_model');
-		$this->load->model('venues_model');
-		$this->load->model('media_model');
 		$this->load->model('events_times_model');
+		$this->load->model('media_model');
+		$this->load->model('products_model');
+		$this->load->model('tweets_model');
+		$this->load->model('venues_model');
 		$this->db->db_select();
 		$data = array();
 		$layout = 'article';
@@ -83,12 +84,18 @@ class Article extends MY_Controller
 
 		$data['lists'] = $lists;
 
+		// Get the tweets for the @bookshelfnews account
+	    $tweets = $this->load->view('widgets/tweets',
+	      array('tweets' => $this->tweets_model->load('bookshelfnews')),
+	      true );
+
 
 		$view_data = array(
-			'nav' => $nav,
+			'nav' 	=> $nav,
 			'lists' => $lists,
-			'item' => $item,
-			'nav' => $nav[0]->children
+			'item' 	=> $item,
+			'tweets' => $tweets,
+			'nav' 	=> $nav[0]->children
 		);
 			
 			

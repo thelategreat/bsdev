@@ -23,7 +23,7 @@
 		</h2>
 	</div>
 	<div class="sidebar_item">
-		<? /*= $tweets */?>	
+		<?= $tweets ?>	
 	</div>
 </div>
 
