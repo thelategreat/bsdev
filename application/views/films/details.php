@@ -67,7 +67,7 @@
         </tr>
     </table>
 
-  <h2>Peter's Review</h2>
+  <h2>From The Booth</h2>
   <?= $item->description; ?>
 
 </div>
