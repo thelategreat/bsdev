@@ -269,9 +269,9 @@ class Articles extends Admin_Controller
 			$tags = $this->tag_model->get_tags('articles', $article_id);
 			$article->tags = implode(', ', $tags);
 
-	    	$associated_products = $this->articles_model->get_products( $article_id );
-	    	$associated_events 	 = $this->articles_model->get_events( $article_id );
-	    	$associated_films	 = $this->articles_model->get_films( $article_id );
+	    	$associated_products = $this->articles_model->get_associated_products( $article_id );
+	    	$associated_events 	 = $this->articles_model->get_associated_events( $article_id );
+	    	$associated_films	 = $this->articles_model->get_associated_films( $article_id );
 	    	$associated_articles = $this->articles_model->get_associated_articles( $article_id );
 
 	    	if (!isset($associated_products) || $associated_products == false) $associated_products = array();

@@ -57,8 +57,8 @@ class Event extends Admin_Controller
 		$widgets = array(
 			"start_time_widget" => $this->get_time_widget('time_start', strtotime($event->start_time)),
 			"end_time_widget" => $this->get_time_widget('time_end', strtotime($event->end_time)),
-			"audience_select" => $this->get_audience_select($event->audience),
-			"category_select" => $this->get_category_select($event->category),
+			"audience_select" => $this->get_audience_select($event->audiences_id),
+			"category_select" => $this->get_category_select($event->categories_id),
 			"venue_select" => $this->get_venues_select($event->venues_id),
 			"event"	=> $event
 			);
@@ -151,7 +151,7 @@ class Event extends Admin_Controller
 		// If there's an event id on the page it's an update, otherwise it's a new event request
 		if ($this->input->post('event_id') === false) {
 			log_message('debug', 'AJAX add event - new event');
-			$sql = "INSERT INTO events (title, venues_id, body, category, audience)
+			$sql = "INSERT INTO events (title, venues_id, body, categories_id, audiences_id)
 				VALUES ("
 					. $this->db->escape($title) . ", " 
 					. $this->db->escape($venue) . ", "
@@ -177,8 +177,8 @@ class Event extends Admin_Controller
 				title = " . $this->db->escape($title) . ", 
 				venues_id = " . $this->db->escape($venue) . ",
 				body = " . $this->db->escape($body) . ",
-				category = " . $this->db->escape($category) . ",
-				audience = " . $this->db->escape($audience) . "
+				categories_id = " . $this->db->escape($category) . ",
+				audiences_id = " . $this->db->escape($audience) . "
 				WHERE id = " . $this->db->escape($this->input->post('event_id'));
 			$query = $this->db->query($sql);
 
@@ -508,7 +508,7 @@ class Event extends Admin_Controller
 	protected function get_venues_select( $filter_id = NULL )
 	{
 		$sel = '<select name="venue" id="fld_venue" >';
-		$results = $this->event_model->get_venues( $filter_id );
+		$results = $this->event_model->get_venues( );
 		foreach( $results->result() as $it) {
 			$sel .= "<option value='{$it->id}' ";
 			if( $filter_id && $filter_id == $it->id ) {
@@ -523,7 +523,7 @@ class Event extends Admin_Controller
 	protected function get_category_select( $filter_id = NULL )
 	{
 		$sel = '<select name="category" id="fld_category">';
-		$results  = $this->event_model->get_categories( $filter_id );
+		$results  = $this->event_model->get_categories( );
 		foreach( $results->result() as $it) {
 			$sel .= "<option value='{$it->id}' ";
 			if( $filter_id && $filter_id == $it->id ) {
@@ -538,7 +538,7 @@ class Event extends Admin_Controller
 	protected function get_venue_select( $filter_id = NULL )
 	{
 		$sel = '<select name="venue" id="fld_venue">';
-		$results  = $this->event_model->get_venues( $filter_id );
+		$results  = $this->event_model->get_venues( );
 		foreach( $results->result() as $it) {
 			$sel .= "<option value='{$it->id}' ";
 			if( $filter_id && $filter_id == $it->id ) {
@@ -553,7 +553,7 @@ class Event extends Admin_Controller
 	protected function get_audience_select( $filter_id = NULL )
 	{
 		$sel = '<select name="audience" id="fld_audience">';
-		$results  = $this->event_model->get_audiences( $filter_id );
+		$results  = $this->event_model->get_audiences( );
 		foreach( $results->result() as $it) {
 			$sel .= "<option value='{$it->id}' ";
 			if( $filter_id && $filter_id == $it->id ) {

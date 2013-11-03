@@ -6,6 +6,8 @@
 <script type='text/javascript'>
 	$(function() {
 
+		initMCE(null);
+
 		$('#fld_venue').autocomplete({ 
 			source: function(request, response) {
                 $.ajax({ url: "<?php echo site_url('admin/event/lookup_venue'); ?>",

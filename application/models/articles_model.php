@@ -489,7 +489,7 @@ SQL;
       @param Article ID
       @return Array of events with theumbnails or false
     */
-    function get_films( $article_id )
+    function get_associated_films( $article_id )
     {
       $this->load->model('films_model');
       
