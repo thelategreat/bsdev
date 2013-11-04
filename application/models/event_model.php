@@ -25,14 +25,14 @@ class event_model extends CI_Model
 	}
 
 	/**
-		Get the media for an event 
+		Get the media for an event
 	 */
 	function get_event_media( $id )
 	{
-		$sql = "SELECT m.uuid FROM 
-				media_map as mm, 
-				media as m 
-				WHERE mm.path = '/event/" . intval($id) . 
+		$sql = "SELECT m.uuid FROM
+				media_map as mm,
+				media as m
+				WHERE mm.path = '/event/" . intval($id) .
 				"' AND m.id = mm.media_id ORDER BY mm.sort_order";
 		$result = $this->db->query($sql)->result();
 
@@ -52,7 +52,7 @@ class event_model extends CI_Model
 	function get_upcoming_events( $count = 10, $end_date = false )
 	{
 		$query = "SELECT
-					events_times.*, events.*, 
+					events_times.*, events.*,
 					event_categories.name as category,
 					event_audiences.name as audience
 				FROM
@@ -104,7 +104,7 @@ class event_model extends CI_Model
 		return $this->db->query( $query )->result();
 	}
 
-	function get_month_films( $month_number ) 
+	function get_month_films( $month_number )
 	{
 		$query = "SELECT
 					*
@@ -126,7 +126,7 @@ class event_model extends CI_Model
 			if (isset($cache[$it->id])) $it->media = $cache[$it->id];
 
 			$query = "SELECT
-						* 
+						*
 					FROM media_map
 					LEFT JOIN media ON media_map.media_id = media.id
 					WHERE media_map.path = '/films/{$it->id}'";
@@ -142,10 +142,10 @@ class event_model extends CI_Model
 	/**
 		Get the list of unique film names playing in the given month
 	*/
-	function get_month_films_by_name( $month_number ) 
+	function get_month_films_by_name( $month_number )
 	{
 		$query = "SELECT
-					distinct(films_id)	
+					distinct(films_id)
 				FROM
 					events_times
 				WHERE
@@ -172,7 +172,7 @@ class event_model extends CI_Model
 		foreach ($films as &$it) {
 			$it->object_type = 'film';
 			$query = "SELECT
-						* 
+						*
 					FROM media_map
 					LEFT JOIN media ON media_map.media_id = media.id
 					WHERE media_map.path = '/films/{$it->id}'";
@@ -325,10 +325,10 @@ EOF;
 
 	function get_future_dates( $category, $title )
 	{
-		$sql = "SELECT * FROM events WHERE category = " . 
-			$this->db->escape($category) . 
-			" AND title = " . 
-			$this->db->escape($title) . 
+		$sql = "SELECT * FROM events WHERE category = " .
+			$this->db->escape($category) .
+			" AND title = " .
+			$this->db->escape($title) .
 			" AND dt_start >= NOW()";
 
 		return $this->db->query($sql)->result();
@@ -361,7 +361,7 @@ EOF;
 	*/
 	function searchEventsByTitle($term, $limit = 25)
 	{
-		$sql = "SELECT *, 'event' as type 
+		$sql = "SELECT *, 'event' as type
 				FROM events WHERE LOWER(title) LIKE '%" . $this->db->escape_like_str($term) . "%'
 				ORDER BY title
 				LIMIT $limit
@@ -372,13 +372,13 @@ EOF;
 	}
 
 	/**
-		Search for a film by title 
+		Search for a film by title
 		@param term
 		@return result
 	*/
 	function searchFilmsByTitle($term, $limit = 25)
 	{
-		$sql = "SELECT *, 'film' as type 
+		$sql = "SELECT *, 'film' as type
 				FROM films WHERE LOWER(title) LIKE '%" . $this->db->escape_like_str($term) . "%'
 				ORDER BY title
 				LIMIT $limit
@@ -388,7 +388,7 @@ EOF;
 		return $result;
 	}
 
-	/** 
+	/**
 		Get Categories - Retrieve event categories
 		@param int or array of ints of category IDs
 		@return result
@@ -401,13 +401,13 @@ EOF;
 				$id = implode(',', $id);
 			}
 			$sql .= " AND id IN ({$id})";
-		} 
+		}
 		$sql .= " ORDER BY name ASC";
 		return $this->db->query($sql);
 	}
 
-	/** 
-		Get Audiences - Retrieve event audiences 
+	/**
+		Get Audiences - Retrieve event audiences
 		@param int or array of ints of category IDs
 		@return result
 	*/
@@ -419,13 +419,13 @@ EOF;
 				$id = implode(',', $id);
 			}
 			$sql .= " AND id IN ({$id})";
-		} 
+		}
 		$sql .= " ORDER BY name ASC";
 		return $this->db->query($sql);
 	}
 
-	/** 
-		Get Venues - Retrieve event venues 
+	/**
+		Get Venues - Retrieve event venues
 		@param int or array of ints of category IDs
 		@return result
 	*/
@@ -437,17 +437,17 @@ EOF;
 				$id = implode(',', $id);
 			}
 			$sql .= " AND id IN ({$id})";
-		} 
+		}
 		$sql .= " ORDER BY name ASC";
 		return $this->db->query($sql);
 	}
 
-	/* Gets the details about a specific event - 
+	/* Gets the details about a specific event -
 	 * used in the JSON callback for movie details so this includes a join on the films table */
 	function get_event($id) {
 		$sql = "SELECT
 					*, events.title as title,
-					dt_start as date_start, dt_end as date_end, 
+					dt_start as date_start, dt_end as date_end,
 					event_categories.name as category,
 					event_audiences.name as audience,
 					ratings.rating
@@ -461,16 +461,16 @@ EOF;
 				LEFT JOIN ratings ON events.ratings_id = ratings.id
 				WHERE
 						events .id = '$id'";
-	
+
 		$result = $this->db->query($sql);
 		$return = $result->row();
 
 		if (!$return) return false;
 
-		$sql = "SELECT 
-					* 
+		$sql = "SELECT
+					*
 				FROM
-					venues 
+					venues
 				WHERE id = '{$return->venues_id}'";
 		$venue_result = $this->db->query($sql);
 		$return->venue = $venue_result->row();
@@ -523,17 +523,17 @@ EOF;
 
 	/**
 		Get all event details based on events_times ID
-		This is used for the event edit page after a calendar event is clicked 
+		This is used for the event edit page after a calendar event is clicked
 		@param event_times ID
 		@return event object or false
 	*/
 	function get_event_by_event_time_id( $id ) {
 		if (!is_numeric($id)) return false;
 
-		$sql = "SELECT events.*, 
-					events_times.start_time, 
-					events_times.end_time 
-			FROM events_times 
+		$sql = "SELECT events.*,
+					events_times.start_time,
+					events_times.end_time
+			FROM events_times
 			LEFT JOIN events ON events_times.events_id = events.id
 			WHERE events_times.id = '$id'";
 		$result = $this->db->query($sql);
@@ -541,7 +541,7 @@ EOF;
 		$ret = $result->row();
 
 		if ($ret) {
-			return $ret; 
+			return $ret;
 		}
 		return false;
 	}
@@ -566,12 +566,12 @@ EOF;
 		$end = date('Y-m-d', $end);
 
 		$sql = "SELECT
-					et.id, 
-					films.title, 
+					et.id,
+					films.title,
 					et.start_time AS start,
 					et.end_time AS end
 				FROM
-					FILMS
+					films
 				LEFT JOIN events_times et ON et.films_id = films.id
 				WHERE
 					start_time >= '$start'
@@ -587,8 +587,8 @@ EOF;
 
 
 		$sql = "SELECT
-					et.id, 
-					events.title, 
+					et.id,
+					events.title,
 					et.start_time AS start,
 					et.end_time AS end
 				FROM
