@@ -29,7 +29,7 @@ class search_model extends CI_Model
 	{
 		$this->db->db_select();
 
-		$terms = split( ' ', $query );
+		$terms = explode( ' ', $query );
 				
 		/*
 		$event_sql = "SELECT id, title, 'event' AS type, NULL AS author
