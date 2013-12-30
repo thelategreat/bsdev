@@ -146,7 +146,8 @@ class Groups extends Admin_Controller
       // HACK
       // we check to make sure there aren't any articles assigned to this
       $ret = $this->articles_model->get_articles_by_group( $this->uri->segment(4));
-      if( $ret->num_rows() == 0 ) {
+
+      if( count($ret) == 0 ) {
 			  $this->groups_model->rm( $this->uri->segment(4) );
       }  
     }

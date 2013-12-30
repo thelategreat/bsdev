@@ -57,6 +57,7 @@ class Films extends Admin_Controller
 			$data['rating'] = $this->input->post('rating');
 			$data['description'] = $this->input->post('description');
 			$data['imdb_link'] = $this->input->post('link');
+			$data['trailer_link'] = $this->input->post('trailer_link');
 			$this->db->insert('films', $data );
 			
 			if( $this->input->post('addedit')) {
@@ -118,6 +119,7 @@ class Films extends Admin_Controller
 					$data['aspect_ratio'] = $this->input->post('aspect_ratio');
 					$data['rating'] = $this->input->post('rating');
 					$data['description'] = $this->input->post('description');
+					$data['trailer_link'] = $this->input->post('trailer_link');
 					$data['imdb_link'] = $this->input->post('link');
 
 					$this->db->where( 'id', $id );

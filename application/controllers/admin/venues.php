@@ -49,10 +49,12 @@ class Venues extends Admin_Controller
 		
 		if( $this->input->post("save")) {
 			if( trim($this->input->post("venue")) != "" ) {
-				unset($_POST["save"]);
-	      $this->db->set('location_id', $this->input->post('locations'));
-        unset($_POST["locations"]);
-		  	$this->db->insert( $this->table_name, $_POST );
+				$locations_id = $this->input->post('locations_id');
+				$name = $this->input->post('venue');
+	      		
+	      		$data = array('locations_id'=>$locations_id, 'name'=>$name);
+
+			  	$this->db->insert( $this->table_name, $data );
 				redirect( $this->root_path );
 			} else {
 				$error_msg = '<p class="error">You must know the venue name, at least. Sheesh!</p>';

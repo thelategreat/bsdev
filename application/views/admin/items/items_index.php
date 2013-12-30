@@ -45,7 +45,7 @@ $(document).ready(function() {
 			$('#search_results').show();
 			if (data.status.code == 200) {
 				$.each(data.data, function(index, value) {
-					$('#search_results_' + value.type + ' .results').append('<div class="search_result ' + value.type + '" data="' + value.id + '"><b>' + value.title + '</b> ' + (value.author ? ' - ' + value.author : '') + '</div>');
+					$('#search_results_' + value.type + ' .results').append('<div class="search_result ' + value.type + '" data="' + value.id + '"><b>' + value.title + '</b> ' + (value.author ? ' - ' + value.author : '') + (value.dt_start ? ' - ' + value.dt_start: '') + '</div>');
 				});
 			} else {
 				$('#search_status').html(data.status.message);

@@ -1,6 +1,8 @@
 <script type='text/javascript'>
-	$(document).ready(function() {
-		$('#films').dataTable();
+$(document).ready(function() {
+	$('#films').dataTable({
+      'sDom': '<"H"rplf>t<"F"i>'
+    });
 	});
 </script>
 

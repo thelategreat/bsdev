@@ -27,7 +27,7 @@ class search_model extends CI_Model
 	
 	function search_callback( $query, $type, $limit = 25) 
 	{
-return false;
+
 		$this->db->db_select();
 
 		$terms = explode( ' ', $query );
@@ -59,11 +59,11 @@ return false;
 		$sql = $article_sql . " LIMIT " . $limit;
 
 
-		$articles = $this->db->query($sql)->result();
+		$articles 	= $this->db->query($sql)->result();
 
-		$events = $this->event_model->searchEventsByTitle($query, $limit);
-		$products = $this->products_model->searchProduct(array('all'=>$query), $limit);
-		$films = $this->event_model->searchFilmsByTitle($query, $limit);
+		$events 	= $this->event_model->searchEventsByTitle($query, $limit);
+		$products 	= $this->products_model->searchProduct(array('all'=>$query), $limit);
+		$films 		= $this->event_model->searchFilmsByTitle($query, $limit);
 
 		$return = array_merge($films, array_merge($articles, array_merge($events, $products)));
 

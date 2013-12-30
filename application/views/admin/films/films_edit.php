@@ -69,7 +69,11 @@ function lookup()
 			<tr><th>Rating</th><td><input name="rating" type="text" value="<?=set_value('rating', $film->rating)?>"/></td>
 				<td class="form_error"><?=form_error('rating')?></td>
 			</tr>
-			<tr><th>Link</th>
+			<tr><th>Trailer Link</th>
+				<td><input name="trailer_link" id="trailer_link" type="text" size="50" value="<?=set_value('trailer_link', $film->trailer_link)?>"/></td>
+				<td class="form_error"><?=form_error('link')?></td>
+			</tr>
+			<tr><th>IMDB Link</th>
 				<td><input name="link" id="link" type="text" size="50" value="<?=set_value('link', $film->imdb_link)?>"/></td>
 				<td class="form_error"><?=form_error('link')?></td>
 			</tr>

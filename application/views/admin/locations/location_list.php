@@ -1,6 +1,8 @@
 <script type='text/javascript'>
-  $(document).ready(function() {
-    $('#datatable').dataTable();
+$(document).ready(function() {
+    $('#datatable').dataTable({
+      'sDom': '<"H"rplf>t<"F"i>'
+    });
   });
 </script>
 <div class=container>
