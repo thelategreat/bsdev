@@ -38,12 +38,9 @@
     <div id="search_wrapper">
       <? // Start Search box ?>
       <div id="search"> <a class="profile" href="#"><img src="<? echo base_url('/images/icon_profile.png');?>" alt="Profile" border="0"></a> <a class="shopping_cart" href="#"><img src="<? echo base_url('/images/icon_cart.png');?>" alt="Shopping Cart" width="16" height="17" border="0"></a>
-        <form id="cse-search-box" action="http://www.google.com/search" class="lighter" >
-          <input type="hidden" name="cx" value="017505389840199103811:kud_tegrox0" />
-          <input type="hidden" name="cof" value="FORID:0" />
-          <input type="hidden" name="ie" value="UTF-8" />
-          <input type="text" class="rounded_corners" name="q" value="Search" onblur="this.value = this.value || this.defaultValue;" onfocus="this.value == this.defaultValue &amp;&amp; (this.value = '');"/>
-          <input type="submit" id="submit" name="sa" value="Go" />
+        <form id="search-box" action="<? echo base_url('/search/results'); ?>" method='post' class="lighter" >
+          <input type="text" class="rounded_corners" name="q" />
+          <input type="submit" id="submit" />
         </form>
       </div>
       <? // End Search Box ?>

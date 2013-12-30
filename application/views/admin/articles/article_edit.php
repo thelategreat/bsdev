@@ -148,7 +148,6 @@ $(function()
 			<tr><th>Status</th><td><?= $status_select ?></td>
 			<tr><th>Venue</th><td><?= $venue_select ?></td>
 			<tr><th>Category</th><td><?= $category_select ?></td>
-			<tr><th>Display Prioirty</th><td><?= $priority_select ?></td></tr>
 			<tr><th>Tags</th><td><textarea name="tags" class="mceNoEditor" cols="20" rows="2"><?=set_value('tags',$article->tags)?></textarea></td></tr>
 		</table>
 </section>
@@ -157,7 +156,7 @@ $(function()
 
 
 <section id="editor">
-	<header>Article Detail</header>
+	<header>Essay Detail</header>
 				<div id="associated_items" style='float:right;width:25%'> 
 				<div class="container">
 					<header>Associated Items</header>
@@ -218,7 +217,7 @@ $(function()
 		<table class='form-table' style='float:left; width: 70%'>
 			<tr><th>Title</th><td><input name="title" size="60" value="<?= set_value('title',$article->title)?>"/></td></tr>
     	    <td><?=form_error('title')?></td>
-			<tr><tH>Author Byline:</th><td><input name="author" size="60" value="<?= set_value('author',$article->author)?>"/></td></tr>
+			<tr><tH>Nom de Plume:</th><td><input name="author" size="60" value="<?= set_value('author',$article->author)?>"/></td></tr>
     	    <tr><th>User</th><td><?= $user_select ?></td></tr>
       		<tr><th>Publication Date</th><td><input title="YYYY-MM-DD" placholder='YYYY-MM-DD' class="datepicker short" name="publish_on" size="12" id="fld_publish_on" value="<?=date('Y-m-d')?>"/></td></tr>
       		<tr><th>Section</th><td><?= $group_select ?></td>

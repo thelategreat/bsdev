@@ -96,7 +96,7 @@ class Items extends Admin_Controller
 
         switch ($item_type) {
         	case 'article':
-		        $events = $this->articles_model->get_films( $item_id );
+		        $events = $this->articles_model->get_associated_films( $item_id );
         	break;
         	case 'film':
 		        $events = $this->films_model->get_associated_films( $item_id );

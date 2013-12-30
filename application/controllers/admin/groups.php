@@ -58,6 +58,10 @@ class Groups extends Admin_Controller
 		$this->gen_page('Admin - Groups', 'admin/groups/group_add', $data );		
 	}
 
+	/**
+	Edit an individual group
+	@param Int group ID
+	**/
 	function edit($id = null)
 	{				
 		
@@ -71,6 +75,7 @@ class Groups extends Admin_Controller
 
 		$this->load->model('lists_model');	
 		$this->load->model('list_positions_model');	
+		$this->load->model('templates_model');	
 		$this->load->model('groups_list_positions_model');	
 				
 		$this->form_validation->set_error_delimiters('<span class="form-error">','</span>');
@@ -113,6 +118,10 @@ class Groups extends Admin_Controller
 		/* The lists assigned to this group with their positions */
 		$group_lists = $this->groups_list_positions_model->get_group_lists($id)->result();
 
+		/* Get the list of available templates - templates control which list positions are visible */
+		$templates 	= $this->templates_model->get_templates();
+		$data['templates'] = $templates;
+
 		$data['group_lists'] = array();
 		foreach ($group_lists as $g) {
 			$data['group_lists'][$g->list_positions_id] = $g->lists_id;
@@ -123,6 +132,7 @@ class Groups extends Admin_Controller
 		// don't show root item
 		$data['tree'] = $data['tree'][0]->children;
 		$data['parent_select'] = $this->groups_model->mk_nested_select($data['group']->parent_id, 0, false );
+
 
 		$page = $this->load->view('admin/groups/group_edit', $data, true );
 						

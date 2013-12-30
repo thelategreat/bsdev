@@ -27,6 +27,7 @@ class search_model extends CI_Model
 	
 	function search_callback( $query, $type, $limit = 25) 
 	{
+return false;
 		$this->db->db_select();
 
 		$terms = explode( ' ', $query );

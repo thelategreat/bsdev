@@ -591,9 +591,9 @@ class Media extends Admin_Controller
 		$this->upload->initialize($conf);
 
 		if( !$this->upload->do_upload('userfile')) {
-			new dBug($_POST);
+			/*new dBug($_POST);
 			new dBug($_FILES);
-			new dBug($this->upload->data());
+			new dBug($this->upload->data());*/
 			echo 'Error in processing upload: ';
 			$errors = $this->upload->display_errors();
 			new dBug($errors);

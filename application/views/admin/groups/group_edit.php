@@ -16,6 +16,17 @@
 		<td><input type="checkbox" name="active"  <?= $group->active ? "checked='checked'" : '' ?>/>
 		</td>
 	</tr>
+	<tr>
+		<td><label>Page Template</label></td>
+		<td>
+			<select name='template_id'>
+				<option value=''>Default Template</option>
+				<? foreach ((array)$templates as $it) { ?> 
+				<option value='<?=$it->id;?>'><?=$it->name;?></option>
+				<? } ?>
+			</select>
+		</td>
+	</tr>
 
 	<? foreach ($list_positions as $l) { ?>
 	<tr>
