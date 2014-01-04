@@ -89,7 +89,7 @@ function getProduct($id) {
 			FROM
 				products
 			LEFT JOIN products_contributors ON products_contributors.products_id = products.id
-			LEFT JOIN CONTRIBUTORS ON CONTRIBUTORS .id = products_contributors.contributors_id
+			LEFT JOIN contributors ON contributors .id = products_contributors.contributors_id
 			LEFT JOIN contributor_types ON contributors.contributor_types_id = contributor_types.id
 			WHERE
 				products.id = {$id}
