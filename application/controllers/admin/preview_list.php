@@ -1,5 +1,7 @@
 <?php
 if (!defined('BASEPATH')) exit('No direct script access allowed');   
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
 
 include("admin_controller.php");
 
@@ -13,14 +15,14 @@ class Preview_List extends Admin_Controller
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->model('lists_model');
+		$this->load->model('list_model');
 		
 	}
 
 	function index($id=false)
 	{
-           $list = lists_model::get_list($id);
-           $list = lists_model::load_list_items($list);
+           $list = list_model::load($id);
+           var_dump($list);exit();
            $this->load->view('page/list', $list );
            
 		
