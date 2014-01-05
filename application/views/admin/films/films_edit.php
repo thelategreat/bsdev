@@ -49,10 +49,6 @@ function lookup()
 <section> 
 		<header>Film Details</header>
 		<table class='form-table'>
-			<tr><th>TT #</th>
-				<td><input name="ttno" type="text" value="<?=set_value('ttno', $film->ttno )?>"/></td>
-				<td class="form_error"><?=form_error('ttno')?></td>
-			</tr>
 			<tr><th>Title</th><td><input id="title" name="title" type="text" size="40" class="required" value="<?=set_value('title', $film->title )?>"/>
 				<button onclick="return lookup();">IMDB Lookup</button></td>
 				<td class="form_error"><?=form_error('title')?></td>
