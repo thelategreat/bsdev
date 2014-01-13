@@ -238,5 +238,14 @@ class lists_model extends CI_Model
     $s .= '</select>';
     return $s;
   }
+  function load_list_items($list){
+    
+    foreach($list->items as &$item){
+        $item->data = lists_model::get_item_by_type($item->type, $item->id);            
+    }
+// 
+    return $list;
+  
+  }
 }
 

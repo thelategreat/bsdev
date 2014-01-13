@@ -172,7 +172,34 @@ SQL;
   	  @param Article ID
   	  @returns Article result
   	 */
-	function get_article( $id )
+    function load($id){
+        $article = new articles_model();
+        $sql = "SELECT a.id, title, body, excerpt, ac.category, publish_on, author,
+                owner, ast.status, a.group as group_id, gt.name as group_name, gt.name AS section,
+                u.firstname, u.lastname, u.nickname 
+                FROM articles a
+                LEFT JOIN article_categories ac ON a.category = ac.id 
+                LEFT JOIN article_statuses ast ON a.status = ast.id 
+                LEFT JOIN group_tree gt ON a.group = gt.id 
+                LEFT JOIN users u ON a.owner = u.username 
+                WHERE a.id = $id";
+        $result = $this->db->query($sql)->row_array();
+        foreach ($result as $key => $value){
+            $article->$key = $value;
+        }
+
+        return $article;
+    
+    
+    }
+    
+    function render(){
+        $data = new stdClass();
+        $data->item = $this;
+        $this->html = $this->load->view('layouts/item_article.php', $data, true);
+    }
+  	 
+  	 function get_article( $id )
 	{
     $this->db->db_select();
 		$q = "

@@ -32,6 +32,9 @@ class Twitter {
        }
 
        if (isset($response->errors)) {
+            if (!isset($response->errors['message'])){
+                $response->errors['message'] = "No message returned";
+            }
             log_message('error', 'Twitter error when searching for feed from ' . $params['screen_name'] . ': ' . $response->errors['message']);
             return false;
        }
