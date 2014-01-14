@@ -57,7 +57,7 @@ class list_model extends CI_Model
   
         $res = $this->db->query("SELECT * FROM list_items WHERE list_id = " . $this->id . " ORDER BY sort_order");
         foreach( $res->result() as $row ) {
-            $this->items[] = item_model::load_by_type($row->type, $row->id);
+            $this->items[] = item_model::load_by_type($row->type, $row->data_id);
         }
     }
   
