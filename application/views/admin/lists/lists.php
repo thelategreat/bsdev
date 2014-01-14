@@ -1,9 +1,21 @@
+<link rel="stylesheet" href="<? echo base_url('/js/fancybox/jquery.fancybox.css?v=2.1.5');?>" type="text/css" media="screen" />
+<script type="text/javascript" src="<? echo base_url('/js/fancybox/jquery.fancybox.pack.js?v=2.1.5');?>"></script>
+
 <script type='text/javascript'>
 	$(document).ready(function() {
 		$('#lists').dataTable({
       'sDom': '<"H"rplf>t<"F"i>'
     });
+    $(".boxframe").fancybox({
+        'width' : '75%',
+        'height' : '75%',
+        'autoScale' : false,
+        'transitionIn' : 'none',
+        'transitionOut' : 'none',
+        'type' : 'iframe'
+     });
 	});
+	
 </script>
 
 <div class=container>
@@ -24,6 +36,7 @@
 		    <tr>
 		      <th width="85%">List Name</th>
 		      <th>Owner</th>
+		      <th>Preview</th>
 		    </tr>
 		  </thead>
 		<?php
@@ -33,6 +46,9 @@
 			  <td><a href="/admin/lists/edit/<?= $it->id ?>"><?= str_max_len($it->name, 40); ?></a></td>
 		    <td>
 		    	<?=$it->creator; ?>
+		    </td>
+		    <td>
+                        <a class='boxframe' href="/admin/preview_list/index/<?=$it->id?>" >Preview </a>
 		    </td>
 		</tr>
 		<?php $cnt++; } ?>
