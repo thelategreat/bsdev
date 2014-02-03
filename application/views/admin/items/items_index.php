@@ -59,13 +59,17 @@ $(document).ready(function() {
 
 function registerResultClicks() {
     $('.search_result').click(function() {
+
         if ($(this).hasClass('article')) {
             $.post('/admin/items/addarticle', 
             	{	article_id: $(this).attr('data'), 
             		item_id: <?= $this->uri->segment(4) ?>,
             		item_type: '<?= $item_type ?>' }, function(data) {
                 if (data.ok == true) {
+                	$.notify('Item added.', 'success');
                     reload();
+                } else {
+                	$.notify(data.msg, 'warn');
                 }
             }, 'json');
         }
@@ -76,7 +80,10 @@ function registerResultClicks() {
             		item_id: <?= $this->uri->segment(4) ?>,
             		item_type: '<?= $item_type ?>'}, function(data) {
                 if (data.ok == true) {
+                	$.notify('Item added.', 'success');
                     reload();
+                } else {
+                	$.notify(data.msg, 'warn');
                 }
             }, 'json');
         }
@@ -88,7 +95,10 @@ function registerResultClicks() {
             		item_type: '<?= $item_type ?>'
             	}, function(data) {
                 if (data.ok == true) {
+                	$.notify('Event added.', 'success');
                     reload();
+                } else {
+                	$.notify(data.msg, 'warn');
                 }
             }, 'json');
         }
@@ -101,7 +111,10 @@ function registerResultClicks() {
             		item_type: '<?= $item_type?>'
             	}, function(data) {
                 if (data.ok == true) {
+					$.notify('Film added.', 'success');
                     reload();
+                } else {
+                	$.notify(data.msg, 'warn');
                 }
             }, 'json');
         }

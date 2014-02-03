@@ -41,7 +41,7 @@
   <script type="text/javascript" src="<? echo base_url('/js/jquery.json-1.3.min.js');?>" ></script>
   <script type="text/javascript" src="<? echo base_url('/js/jquery.qtip.min.js');?>" ></script>
   <script type="text/javascript" src="<? echo base_url('/js/jquery.cookie.js');?>" ></script>
-
+	<script src="<? echo base_url('/js/notifyjs.min.js');?>"></script>
   <script type="text/javascript" src="<? echo base_url('/js/admin.js');?>" ></script>
 
 	<script type="text/javascript" src="<? echo base_url('/js/tiny_mce/tinymce.min.js');?>" ></script>
