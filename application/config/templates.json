@@ -1,0 +1,47 @@
+[
+{
+	"name":"Default",
+	"positions": [
+		{"name": "Bottom",
+		 "orientation": "Horizontal"
+		},
+		{"name": "Left Bottom",
+		 "orientation": "Horizontal"
+		},
+		{"name": "Left Middle",
+		 "orientation": "Horizontal"
+		},
+		{"name": "Left Top",
+		 "orientation": "Horizontal"
+		},
+		{"name": "Middle",
+		 "orientation": "Horizontal"
+		},
+		{"name": "Right Bottom",
+		 "orientation": "Horizontal"
+		},
+		{"name": "Right Middle",
+		 "orientation": "Horizontal"
+		},
+		{"name": "Right Top",
+		 "orientation": "Horizontal"
+		},
+		{"name": "Top",
+		 "orientation": "Horizontal"
+		}
+		
+	]
+},
+
+{
+	"name":"Venue",
+	"positions": [
+		{"name": "Bottom",
+		 "orientation": "Horizontal"
+		},
+		{"name": "Top",
+		 "orientation": "Horizontal"
+		}
+	]
+}
+]
