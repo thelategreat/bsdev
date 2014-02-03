@@ -321,6 +321,7 @@ $config['rewrite_short_tags'] = FALSE;
 */
 $config['site_db'] = 'bookshelf';
 $config['prod_db'] = 'products';
+$config['template_file'] = APPPATH . '/config/templates.json';
 
 
 /* End of file config.php */

@@ -19,15 +19,15 @@
 	<tr>
 		<td><label>Page Template</label></td>
 		<td>
-			<select name='template_id'>
-				<option value=''>Default Template</option>
-				<? foreach ((array)$templates as $it) { ?> 
-				<option value='<?=$it->id;?>'><?=$it->name;?></option>
+			<select name='template'>
+				<? foreach ($templates as $it) { ?> 
+				<option value='<?=$it->name;?>' <? if (isset($it->selected) && $it->selected === true) echo 'selected' ?>><?=$it->name;?></option>
 				<? } ?>
 			</select>
 		</td>
 	</tr>
-
+</table>
+<table id='lp'>
 	<? foreach ($list_positions as $l) { ?>
 	<tr>
 		<td><?=$l->name?></td><td>
@@ -42,4 +42,40 @@
 </fieldset>
 <input class="button" name="save" type="submit" value="Save" />
 <input class="button" name="cancel" type="submit" value="Cancel" />
+
+<select style='display:none' id='dropdown'>
+	<? foreach ($lists_dropdown as $key=>$val) { ?>
+		<option value='<?=$key?>'><?=$val?></option> 
+	<? } ?>			
+</select>
 </form>
+
+<script type='text/javascript'>
+$(function() {
+	$('select[name="template"]').change(function() {
+		loadAvailablePositions($(this).val());
+	});
+
+	loadAvailablePositions($('select[name="template"]').val());
+});
+
+function loadAvailablePositions(templateName) {
+	$.post('/admin/groups/get_template_positions', {template: templateName, id: <?=$group->id;?>}, function(data) {
+		console.log(data);
+		var options = $('#dropdown'); 
+		var lp = $('#lp');
+		$('#lp').empty();
+		$.each(data.positions, function(index, value) {
+			$(lp).append('<tr><td>'+value.name+'</td><td><select id="lists_'+value.id+'" name="lists['+value.id+']">'+$(options).html()+'</select></td></tr>');
+			if (value.lists_id > 0) {
+				// This is the selected list, should be selected in the dropdown
+				$('#lists_'+value.id+ ' option[value="'+value.lists_id+'"]').prop('selected',true);
+				console.log(value.lists_id);
+
+			}
+		});
+	}, 'json').fail(function() {
+		alert('ERROR: Unable to load template positions.');
+	})
+}
+</script>
