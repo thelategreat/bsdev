@@ -45,5 +45,19 @@ $route['scaffolding_trigger'] = "";
 $route['404_override'] = 'error404';
 
 
+/* Dynamic routes defined in section editor */
+require_once( BASEPATH .'database/DB'. EXT );
+$db =& DB();
+$db->where('route IS NOT NULL');
+$query = $db->get( 'group_tree' );
+$result = $query->result();
+
+foreach( $result as $row )
+{
+    $route[ $row->route]                 = '/section/view/' . $row->id;
+    $route[ $row->route . '/:any']                 = '/section/view/' . $row->id;
+}
+
+
 /* End of file routes.php */
 /* Location: ./system/application/config/routes.php */
