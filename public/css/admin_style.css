@@ -168,20 +168,13 @@ ul.picklist {
     display:block;
 }
 
-#sidebar { float: right; width: 22%; position: relative; z-index: 9; }
-
 #content {
-	width: 75%;
 	background-color: #fff;
 	margin: 0;
     line-height: 1.6em;
-	border-right: 1px solid #ddd;
 	padding-right: 10px;
     padding-bottom:30px;   /* Height of the footer */
 }
-
-#main.nosidebar #sidebar{ display: none; }
-#main.nosidebar #content{ width: auto; border-right: 0; }
 
 #footer {
     clear: both; 
@@ -278,7 +271,7 @@ form.login
     padding: 5px;
     border: 2px solid #FDBF3B;
     background-color: #ffffee; /*#FFEBC1;*/
-    width: 40%;
+    width: 300px;
 }
 
 form.login table {
