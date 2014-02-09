@@ -191,7 +191,6 @@ class Media extends Admin_Controller
 			$page = $this->uri->segment(6);
 			if( $page < 1 ) {
 				$page = 1;
-		var_dump($_POST);die;	
 			}
 		}
 
@@ -224,7 +223,7 @@ class Media extends Admin_Controller
 			$meta['tt_isbn'] = trim(str_replace('-','',$this->input->post('tt_isbn')));
 			$meta['description'] = $this->input->post('description');
 			$meta['license'] = $this->input->post('license');
-			$this->media_model->update_media( $uuid, $meta, explode(' ', $this->input->post('tags')) );
+			$this->media_model->update_media( $uuid, $meta, explode(',', $this->input->post('tags')) );
 			redirect(current_url());
 		}
 
@@ -236,6 +235,7 @@ class Media extends Admin_Controller
 		}
 
 		$item = $this->media_model->get_media( $uuid );		
+
 		if( !$item ) {
 			redirect($redirect);
 		}

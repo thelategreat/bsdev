@@ -1170,7 +1170,7 @@ div#search_results {
 	width:100%;
 	border:1px solid #aaa;
 	display:none;
-	height:250px;
+	height:450px;
 }
 div#search_results header {
 	border-bottom: 1px solid #000;
@@ -1179,8 +1179,7 @@ div#search_results header {
 	line-height:25px;
 }
 div#search_results .items {
-	height: 210px;	
-	background: #eaeaea;
+	height: 410px;
 	overflow-y: scroll;
 	padding: 5px;
 }

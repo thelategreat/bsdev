@@ -11,10 +11,10 @@ $(function() {
 
 			if (data != null) {
 				$.each(data, function(i, item) {
-					area.append('<div class="result-image" data-media-id="'+item.id+'" data-uuid="'+item.uuid+'"><img src="/i/size/o/media--'+item.uuid+'/w/70"></div>');
+					$(area).append('<div class="result-image" data-media-id="'+item.id+'" data-uuid="'+item.uuid+'"><a href="/admin/media/edit/'+item.uuid+'"><img src="/i/size/o/media--'+item.uuid+'/w/70"></a></div>');
 				});
 				$('.result-image').click(function() {
-					$(this).toggleClass('selected');
+					//$(this).toggleClass('selected');
 				});
 			}
 		}, 'json');
@@ -38,5 +38,10 @@ $(function() {
 	<form id='searchform' method='post'>
 		Search for media: <input type="text" id='search' name="search" /><button id="search_submit">Search</button><div id="search_status"></div><br/>
 	</form>
+</div>
+
+<div id='search_results' style='display:none'>
+	<header>Search Results</header>
+	<div class='items'></div></div>
 </div>
 

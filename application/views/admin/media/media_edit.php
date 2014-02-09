@@ -123,7 +123,7 @@ $(document).ready(function() {
 		<tr><th>Caption</th><td><input type='text' name="caption" size="50" value="<?= $item->caption ?>" /></td>
 		<tr><th>TT# / ISBN</th><td><input type='text' name="tt_isbn" size="17" value="<?= $item->tt_isbn ?>" /></td>
 		<tr><th>Description</th><td><textarea name="description" class="mceNoEditor" rows="5" cols="40"><?= $item->description ?></textarea></td>
-		<tr><th>Tags</th><td><input type='text' name="tags" size="50" value="<?=$item->tags ?>" /></td></tr>
+		<tr><th>Tags <span style='font-size:0.8em'>(separate by commas)</span></th><td><input type='text' name="tags" size="50" value="<?=$item->tags ?>" /></td></tr>
 		<?php if( $item->type != "link" && !$is_adding ) { ?>			
 		<tr><th>Replacement Image</th>
 			<td>

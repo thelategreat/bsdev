@@ -28,21 +28,30 @@ class Tag_model extends CI_Model
 		$this->db->delete( "${table_name}_tag_map" );
 
 		foreach( $tags as $tag ) {
-			if (trim($tag) == '') continue;
+			$tag = trim($tag);
+			if ($tag == '') continue;
+			
 			$tid = $this->db->query("SELECT id FROM ${table_name}_tags WHERE name = ?", $tag);
 			if( $tid->num_rows()) {
 				$tid = $tid->row()->id;
 			} else {
 				$slug = $this->db->escape(slugify($tag));
 				$tag = $this->db->escape($tag);
+
 				$this->db->query("INSERT INTO ${table_name}_tags (name, slug) VALUES ($tag, $slug)");
-				$tid = $this->db->query("SELECT id FROM ${table_name}_tags WHERE name = ?", $tag);
-				if( $tid->num_rows()) {
-					$tid = $tid->row()->id;
+
+				$sql = "SELECT id FROM ${table_name}_tags WHERE name = {$tag}";
+				$query = $this->db->query($sql);
+
+				if( $query->num_rows()) {
+					$result = $query->row();
+					$tid = $result->id;	
 				}
 			}
+
 			$this->db->query("INSERT INTO ${table_name}_tag_map (${table_name}_id, 
 								${table_name}_tag_id) VALUE ($iid, $tid)");
+
 		}						
 	}
 	
