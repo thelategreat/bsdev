@@ -18,8 +18,8 @@ class Preview_List extends Admin_Controller
 		
 	}
 
-	function index($id=false){
-            $list = list_model::load($id);
+	function index($id=false,$type=false){
+            $list = list_model::load($id,$type);
             foreach($list->items as &$item){
                 $item->render();
                 //echo $item->html;

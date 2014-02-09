@@ -41,9 +41,10 @@ abstract class abstract_tree_model extends CI_Model
 		@param Parent members (root)
 		@return A tree of children and parents
 	*/
-	function get_tree( $flds = '*', $parent = 0, $recurse = true, $parent_tree = array() )
+	function get_tree( $flds = '*', $parent = 0, $recurse = true, $parent_tree = array(), $extra_joins= '' )
 	{		
-		$q = "SELECT $flds FROM $this->table_name WHERE parent_id = $parent ORDER BY sort_order";
+		$q = "SELECT $flds FROM $this->table_name $extra_joins WHERE parent_id = $parent ORDER BY sort_order";
+
 		$res = $this->db->query( $q );
 		
 		$ra = array();		

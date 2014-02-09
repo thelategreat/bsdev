@@ -47,9 +47,6 @@
 		    <td>
 		    	<?=$it->creator; ?>
 		    </td>
-		    <td>
-                        <a class='boxframe' href="/admin/preview_list/index/<?=$it->id?>" >Preview </a>
-		    </td>
 		</tr>
 		<?php $cnt++; } ?>
 		</table>

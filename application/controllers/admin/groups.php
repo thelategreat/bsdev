@@ -27,6 +27,7 @@ class Groups extends Admin_Controller
 		// don't show root item
 		$data['tree'] = $data['tree'][0]->children;
 		
+		
     $this->gen_page('Admin - Groups', 'admin/groups/groups_list', $data );
 	}
 	
@@ -133,7 +134,7 @@ class Groups extends Admin_Controller
 		$data['tree'] = $data['tree'][0]->children;
 		$data['parent_select'] = $this->groups_model->mk_nested_select($data['group']->parent_id, 0, false );
 
-
+                //var_dump($data['list_positions']);exit();
 		$page = $this->load->view('admin/groups/group_edit', $data, true );
 						
 		$this->gen_page( 'Admin - Groups', $page );
