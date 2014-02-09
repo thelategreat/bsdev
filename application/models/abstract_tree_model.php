@@ -49,6 +49,7 @@ abstract class abstract_tree_model extends CI_Model
 		$ra = array();		
 		foreach( $res->result() as $row ) {
 			$row->parent_tree = array_merge($parent_tree, array($row->parent_id));
+			$row->parent_depth = count($row->parent_tree);
 			$ra[] = $row;
 		}
 		
@@ -175,10 +176,17 @@ abstract class abstract_tree_model extends CI_Model
 		return $parent_ids;
 	}
 
+	/**
+		Generates a nested select dropdown based on a data tree
+		@param Selected item ID
+		@param Offset Number of characters of left offset for all results
+		@param (bool) Show root element or not
+		@param Maximum depth to return
+	*/
 	function mk_nested_select( $selected = 0, $offset = 0, $show_root = true, $depth = -1 )
 	{
 		$data = $this->get_tree();
-		
+
 		if( $show_root ) {
 			return $this->_mk_nested_select( $data, $selected, $offset, $depth );
 		} else {
