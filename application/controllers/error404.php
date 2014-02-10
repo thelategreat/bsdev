@@ -15,7 +15,6 @@ class error404 extends CI_Controller
 		$nav = $this->groups_model->get_group_tree();
 		$data['nav'] = $nav[0]->children;
 
-
         $this->load->view('errors/page_not_found', $data);
     }
 }

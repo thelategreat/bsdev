@@ -73,7 +73,7 @@ class Items extends Admin_Controller
 		        $products = $this->films_model->get_associated_products( $item_id );
 		    break;
 		}
-       
+
 		$view_data = array(
 			'item_id' => $item_id,
 			'errors' => '',

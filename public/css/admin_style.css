@@ -168,20 +168,13 @@ ul.picklist {
     display:block;
 }
 
-#sidebar { float: right; width: 22%; position: relative; z-index: 9; }
-
 #content {
-	width: 75%;
 	background-color: #fff;
 	margin: 0;
     line-height: 1.6em;
-	border-right: 1px solid #ddd;
 	padding-right: 10px;
     padding-bottom:30px;   /* Height of the footer */
 }
-
-#main.nosidebar #sidebar{ display: none; }
-#main.nosidebar #content{ width: auto; border-right: 0; }
 
 #footer {
     clear: both; 
@@ -278,7 +271,7 @@ form.login
     padding: 5px;
     border: 2px solid #FDBF3B;
     background-color: #ffffee; /*#FFEBC1;*/
-    width: 40%;
+    width: 300px;
 }
 
 form.login table {
@@ -1177,7 +1170,7 @@ div#search_results {
 	width:100%;
 	border:1px solid #aaa;
 	display:none;
-	height:250px;
+	height:450px;
 }
 div#search_results header {
 	border-bottom: 1px solid #000;
@@ -1186,8 +1179,7 @@ div#search_results header {
 	line-height:25px;
 }
 div#search_results .items {
-	height: 210px;	
-	background: #eaeaea;
+	height: 410px;
 	overflow-y: scroll;
 	padding: 5px;
 }

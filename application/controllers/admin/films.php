@@ -177,7 +177,7 @@ class Films extends Admin_Controller
 				$content = $this->load->view('admin/films/films_edit', array('film' => $film, 'can_delete' => $can_delete, 'tabs' => $tabs ), true );
 			break;
 		}
-		
+
 		$this->gen_page( 'Admin - Films', $content );
 	}
 

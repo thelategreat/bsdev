@@ -14,6 +14,7 @@
 <script src="<? echo base_url('/js/jquery-ui-1.8.20.custom.min.js');?>"></script>
 <script src="<? echo base_url('/js/custom_slider_home.js');?>"></script>
 <script src="<? echo base_url('/js/jquery.columnizer.js');?>"></script>
+<script src="<? echo base_url('/js/notifyjs.min.js');?>"></script>
 <script type='text/javascript'>
     $(function(){
       $('.colz').addClass("dontsplit");

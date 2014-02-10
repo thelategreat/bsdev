@@ -53,7 +53,7 @@ class Groups extends Admin_Controller
 		$data['tree'] = $this->groups_model->get_group_tree();
 		// don't show root item
 		$data['tree'] = $data['tree'][0]->children;
-		$data['parent_select'] = $this->groups_model->mk_nested_select(0,0,false);
+		$data['parent_select'] = $this->groups_model->mk_nested_select(0,0,false,0);
 						
 		$this->gen_page('Admin - Groups', 'admin/groups/group_add', $data );		
 	}
@@ -81,6 +81,8 @@ class Groups extends Admin_Controller
 				
 		$this->form_validation->set_error_delimiters('<span class="form-error">','</span>');
 		$this->form_validation->set_rules('name', 'Name', 'trim|required');
+		$this->form_validation->set_rules('route', 'Route', 'trim|required|regex_match[/^[a-zA-z0-9]+$/]');
+		$this->form_validation->set_message('regex_match', 'This field must contain only letters and numbers');
 				
 		// Page is being saved
 		if( $this->form_validation->run()) {
@@ -89,6 +91,7 @@ class Groups extends Admin_Controller
 			$data['name'] 		= $this->input->post('name');
 			$data['active'] 	= $this->input->post('active') ? "1" : "0";
 			$data['template'] 	= $this->input->post('template');
+			$data['route'] 		= $this->input->post('route');
 
 			$this->groups_model->update( $id, $data );
 			
@@ -148,7 +151,7 @@ class Groups extends Admin_Controller
 		$data['tree'] = $this->groups_model->get_group_tree();
 		// don't show root item
 		$data['tree'] = $data['tree'][0]->children;
-		$data['parent_select'] = $this->groups_model->mk_nested_select($data['group']->parent_id, 0, false );
+		$data['parent_select'] = $this->groups_model->mk_nested_select($data['group']->parent_id, 0, false, 0 );
 
 
 		$page = $this->load->view('admin/groups/group_edit', $data, true );

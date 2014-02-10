@@ -31,6 +31,14 @@ class Section extends MY_Controller
     	$id = (int)$id;
 		$page = $this->groups_model->get_group_by_id( $id );
 
+		if (count($page) == 0) {
+			// Invalid section ID
+			include(APPPATH.'controllers/error404.php');
+		    $error = new Error404();
+		    $error->index();
+		    exit;
+		}
+
 		$nav = $this->groups_model->get_group_tree( $page->parent_id );	
 		$nav = $nav[0]->children;
 

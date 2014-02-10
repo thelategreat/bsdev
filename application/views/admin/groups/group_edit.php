@@ -17,6 +17,12 @@
 		</td>
 	</tr>
 	<tr>
+		<td><label>Short URL</label></td>
+		<td><input type="text" name="route" class="textbox" size="50" value="<?= set_value('route', $group->route)?>" />
+			<?=form_error('route')?>
+		</td>
+	</tr>
+	<tr>
 		<td><label>Page Template</label></td>
 		<td>
 			<select name='template'>

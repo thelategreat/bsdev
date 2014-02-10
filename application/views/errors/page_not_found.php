@@ -7,3 +7,4 @@
 
 </div>
 <? $this->load->view('/common/footer'); ?>
+<? exit; // For some reason this is required to not show a blank page when the 404 is called manually ?>
