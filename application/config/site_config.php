@@ -41,15 +41,16 @@ $config['image_browser_page_size'] = 5;
 $config['allow_comments'] = true;
 
 /* --------------------------------------------------------------------------
- * Paths 
+ * Paths
  *-------------------------------------------------------------------------- */
 $config['image_not_found_image'] = '/img/image_not_found.jpg';
 $config['media_path'] = '/media/';
 
 /* --------------------------------------------------------------------------
- * Sections 
+ * Sections
  *-------------------------------------------------------------------------- */
 $config['section_list_length'] = 5;
+$config['template_file'] = APPPATH . '/config/templates.json';
 
 
 ?>
