@@ -170,6 +170,7 @@ class media_model extends Tag_Model
 				foreach ($stags as $it) {
 					$it = $this->db->escape_like_str($it);
 					$sql .= " OR LOWER(TRIM(media.title)) LIKE '%{$it}%' ";
+					$sql .= " OR LOWER(TRIM(media.caption)) LIKE '%{$it}%' ";
 				}
 			}
 			$sql .= " ORDER BY media.created_on DESC";
@@ -200,7 +201,7 @@ class media_model extends Tag_Model
 			// This isn't very efficient, but writing a joining query was proving a hassle
 			// and this won't get called often enough to worry about it for the moment		
 			if ($media_results) foreach ($media_results as $it) {
-				$it->tags = implode(' ', $this->get_tags( 'media', $it->id) );
+				$it->tags = implode(', ', $this->get_tags( 'media', $it->id) );
 				$items[] = $it;
 			}
 			}

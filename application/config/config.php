@@ -314,7 +314,7 @@ $config['rewrite_short_tags'] = FALSE;
 
 /*
 |--------------------
-|Database names 
+|Database names
 |--------------------
 |Strictly we shouldn't have to use this, but since we're using more than one database
 |this is the easiest way to abstract the database names that I can think of.

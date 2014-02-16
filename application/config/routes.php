@@ -44,6 +44,28 @@ $route['default_controller'] = "home";
 $route['scaffolding_trigger'] = "";
 $route['404_override'] = 'error404';
 
+if (file_exists(APPPATH . '/config/dynamic_routes.php')) {
+	include(APPPATH . '/config/dynamic_routes.php');
+} else {
+	log_message('error', 'Unable to load dynamic routes');
+}
+
+/* Dynamic routes defined in section editor */
+/* Apparently the database class isn't available at this point even though it worked locally
+   so we're going to have to write out the routes to an include file on save 
+
+require_once( BASEPATH .'database/DB'. EXT );
+$db =& DB();
+$db->where('route IS NOT NULL');
+$query = $db->get( 'group_tree' );
+$result = $query->result();
+
+foreach( $result as $row )
+{
+    $route[ $row->route]                 = '/section/view/' . $row->id;
+    $route[ $row->route . '/:any']                 = '/section/view/' . $row->id;
+}
+*/
 
 /* End of file routes.php */
 /* Location: ./system/application/config/routes.php */

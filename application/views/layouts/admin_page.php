@@ -1,6 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE HTML>
 
 <head>
 	<title><?=$title?></title>
@@ -41,7 +39,7 @@
   <script type="text/javascript" src="<? echo base_url('/js/jquery.json-1.3.min.js');?>" ></script>
   <script type="text/javascript" src="<? echo base_url('/js/jquery.qtip.min.js');?>" ></script>
   <script type="text/javascript" src="<? echo base_url('/js/jquery.cookie.js');?>" ></script>
-
+	<script src="<? echo base_url('/js/notifyjs.min.js');?>"></script>
   <script type="text/javascript" src="<? echo base_url('/js/admin.js');?>" ></script>
 
 	<script type="text/javascript" src="<? echo base_url('/js/tiny_mce/tinymce.min.js');?>" ></script>
@@ -207,14 +205,9 @@ function mediaBrowserCallback( field_name, url, type, win ) {
 	   <div id="nav">
 			<?=$nav?>
 	   </div>	
-		<div id="main" class="<?= $sidebar ? '' : 'nosidebar'?>">
-			<div id="sidebar">
-				<?=$sidebar?>
-			</div>
 	   <div id="content">
 			<?=$content?>
 	   </div>
-		</div>
 	   <div id="footer">
 			<?=$footer?>
 	   </div>

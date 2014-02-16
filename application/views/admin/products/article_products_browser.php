@@ -14,7 +14,7 @@
 </tr>
 <?php
 	$count = 0;
-    foreach( $files as $file ) {
+    if ($files) foreach( $files as $file ) {
     ?>
 	<tr <?= ($count % 2) != 0 ? "class='odd'" : "" ?>>
 	  <td width="10%">

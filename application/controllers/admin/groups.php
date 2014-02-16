@@ -54,22 +54,23 @@ class Groups extends Admin_Controller
 		$data['tree'] = $this->groups_model->get_group_tree();
 		// don't show root item
 		$data['tree'] = $data['tree'][0]->children;
-		$data['parent_select'] = $this->groups_model->mk_nested_select(0,0,false);
+		$data['parent_select'] = $this->groups_model->mk_nested_select(0,0,false,0);
 						
 		$this->gen_page('Admin - Groups', 'admin/groups/group_add', $data );		
 	}
 
 	/**
-	Edit an individual group
+	Edit an individual group - the list positions are loaded by a callback and the positions are
+	saved by posting back to this controller.
 	@param Int group ID
 	**/
 	function edit($id = null)
 	{				
-		
 		if( !$id ) {
 			redirect($this->url);						
 		}
 		
+		// Cancel button clicked
 		if( $this->input->post('cancel')) {
 			redirect($this->url);			
 		}
@@ -81,16 +82,26 @@ class Groups extends Admin_Controller
 				
 		$this->form_validation->set_error_delimiters('<span class="form-error">','</span>');
 		$this->form_validation->set_rules('name', 'Name', 'trim|required');
+		$this->form_validation->set_rules('route', 'Route', 'trim|required|regex_match[/^[a-zA-z0-9]+$/]');
+		$this->form_validation->set_message('regex_match', 'This field must contain only letters and numbers');
 				
+		// Page is being saved
 		if( $this->form_validation->run()) {
 			$data = array();
-			$data['parent_id'] = $this->input->post('parent_id');
-			$data['name'] = $this->input->post('name');
-			$data['active'] = $this->input->post('active') ? "1" : "0";
+			$data['parent_id'] 	= $this->input->post('parent_id');
+			$data['name'] 		= $this->input->post('name');
+			$data['active'] 	= $this->input->post('active') ? "1" : "0";
+			$data['template'] 	= $this->input->post('template');
+			$data['route'] 		= $this->input->post('route');
+
 			$this->groups_model->update( $id, $data );
+			$this->groups_model->export_routes();
 			
+			// Clear out any existing position assignments
 			$this->groups_list_positions_model->delete_all_group_lists($id);
+			// The set of lists changes depending on the template chosen, lists is posted as an array with ids
 			$lists = $this->input->post('lists');
+			// Save each of them as an assignment to this section
 			foreach ($lists as $listkey=>$listval) {
 				$this->groups_list_positions_model->insert_group_list($id, $listkey, $listval);
 			}
@@ -104,7 +115,7 @@ class Groups extends Admin_Controller
 			redirect($this->url);						
 		}
 		
-		
+
 		/* The avaiable lists */
 		$lists_dropdown = array();
 		$lists_dropdown[0] = 'No List';
@@ -121,6 +132,16 @@ class Groups extends Admin_Controller
 
 		/* Get the list of available templates - templates control which list positions are visible */
 		$templates 	= $this->templates_model->get_templates();
+
+		// Mark the selected template (if set) for the dropdown
+		if (isset($group->template) && $group->template != null) {
+			foreach ($templates as &$it) {
+				if ($it->name == $group->template) {
+					$it->selected = true;
+				}
+			}
+		}
+
 		$data['templates'] = $templates;
 
 		$data['group_lists'] = array();
@@ -132,7 +153,7 @@ class Groups extends Admin_Controller
 		$data['tree'] = $this->groups_model->get_group_tree();
 		// don't show root item
 		$data['tree'] = $data['tree'][0]->children;
-		$data['parent_select'] = $this->groups_model->mk_nested_select($data['group']->parent_id, 0, false );
+		$data['parent_select'] = $this->groups_model->mk_nested_select($data['group']->parent_id, 0, false, 0 );
 
                 //var_dump($data['list_positions']);exit();
 		$page = $this->load->view('admin/groups/group_edit', $data, true );
@@ -193,5 +214,41 @@ class Groups extends Admin_Controller
 		endforeach;
 		
 		return $s;
+	}
+
+
+	/**
+		Callback used in the secition lists assignment page to load the available positions based on the template
+	**/
+	function get_template_positions() {
+		$this->load->model('templates_model');
+		$this->load->model('groups_list_positions_model');	
+
+		$template = ($this->input->post('template'));
+		$section_id = ($this->input->post('id'));
+
+		$selected_template = false;
+		
+		// Get the JSON defined templates
+		$templates = $this->templates_model->get_templates();
+		foreach ($templates as $it) {
+			if ($it->name == $template) $selected_template = $it;
+		}
+
+		/* The lists assigned to this group with their positions */
+		$group_lists = $this->groups_list_positions_model->get_group_lists($section_id)->result();
+
+		foreach ($group_lists as $group_list) {
+			foreach ($selected_template->positions as &$template_list_position) {
+				if ($template_list_position->name == $group_list->name) {
+					$template_list_position->lists_id = $group_list->lists_id;
+				}
+			}
+		}
+
+		echo json_encode($selected_template);
+
+		// TODO 
+		// The callback is passing back the list names and their assignments - this needs to populate on the front end.
 	}
 }
