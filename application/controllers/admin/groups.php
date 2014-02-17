@@ -94,6 +94,7 @@ class Groups extends Admin_Controller
 			$data['route'] 		= $this->input->post('route');
 
 			$this->groups_model->update( $id, $data );
+			$this->groups_model->export_routes();
 			
 			// Clear out any existing position assignments
 			$this->groups_list_positions_model->delete_all_group_lists($id);

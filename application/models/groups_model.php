@@ -15,7 +15,7 @@ class Groups_model extends abstract_tree_model
 
 	function get_group_tree( $parent = 0, $recurse = true )
 	{
-		return $this->get_tree('id, parent_id, deletable, name, active');
+		return $this->get_tree('id, parent_id, deletable, name, active, route');
 	}
 	
   /*
@@ -79,20 +79,45 @@ class Groups_model extends abstract_tree_model
    */
   function get_parent_tree( $group ) 
   {
-  	$cur_group = $group;
+    $cur_group = $group;
 
-	if (!$group) return false;
-	  
-	$parent_tree = array();
+  	if (!$group) return false;
+  	  
+  	$parent_tree = array();
 
-	while (isset($cur_group->parent_id) && $cur_group->parent_id != 0 && $cur_group->parent_id != 1) {
-		array_push($parent_tree, $cur_group->parent_id);
-		$cur_group = $this->get_group_by_id($group->parent_id);
-	} 
+  	while (isset($cur_group->parent_id) && $cur_group->parent_id != 0 && $cur_group->parent_id != 1) {
+  		array_push($parent_tree, $cur_group->parent_id);
+  		$cur_group = $this->get_group_by_id($group->parent_id);
+  	} 
 
-	$group->parent_tree = array_reverse($parent_tree);
-	
-	return $group;	  
+  	$group->parent_tree = array_reverse($parent_tree);
+  	
+  	return $group;	  
+  }
+
+  /**
+    Export the list of dynamic routes to the dynamic_routes.php file which gets loaded on initialization
+    */
+  function export_routes() {
+    $this->db->where('route IS NOT NULL');
+    $query = $this->db->get( 'group_tree' );
+    $result = $query->result();
+
+    $handle = @fopen(APPPATH . '/config/dynamic_routes.php', 'w');
+
+    if (!$handle) {
+      show_error("Unable to save dynamic route paths to " . APPPATH . "config/dynamic_routes.php");
+    }
+
+    fwrite ($handle, "<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');\n\n");
+
+    foreach( $result as $row )
+    {
+        fwrite($handle, "\$route[ '{$row->route}' ] = '/section/view/{$row->id}';\n");
+        fwrite($handle, "\$route[ '{$row->route}/:any' ] = '/section/view/{$row->id}';\n");
+    }
+
+    fclose($handle);
   }
 
 }
