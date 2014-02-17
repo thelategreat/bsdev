@@ -32,6 +32,7 @@
 <meta charset='utf-8'>
 </head>
 <body>
+
 <div id="page">
   <div id="container">
 
@@ -56,26 +57,31 @@
     </div>
     <? // End search wrapper ?>
 
-
     <? // Start heaader ?>
-
     <div id="header">
       <h1><span>BookShelf</span></h1>
       <? // Start menu ?>
       <div id="nav_wrapper">
         <ul id="nav">
-          <li class=""><a href="/">Home</a></li>
-          <? foreach ($nav as $it) { ?>
-            <li class="<? if (isset($page) && ( $it->id == $page->id || in_array($page->id, $it->child_ids) ) ) echo 'active' ?>"><a href="<? echo base_url('/section/view/' . $it->id);?>"><?=$it->name;?></a>
-            <? if (isset($it->children) && count($it->children) > 0) { ?>
-              <ul>
-              <? foreach ($it->children as $sub) { 
-                  if (isset($sub->route) && ($sub->route != null)) {
-                    ?> <li><a href="<? echo base_url($sub->route); ?>"><?=$sub->name;?></a></li> <?
-                  } else {
-                    ?> <li><a href="<? echo base_url('/section/view/' . $sub->id);?>"><?=$sub->name;?></a></li>  <?
-                }
-             } ?>
+          <li><a href="<? echo base_url(); ?>">Home</a></li>
+          <? foreach ($nav as $it) if ($it->active != false) { ?>
+            <li class="<? if (isset($page) && ( $it->id == $page->id || in_array($page->id, $it->child_ids) ) ) echo 'active' ?>">
+                <? if (isset($it->route) && ($it->route != null)) { ?>
+                <a href="<? echo base_url($it->route) ;?>"><?=$it->name;?></a>
+                <? } else { ?>
+                <a href="<? echo base_url('/section/view/' . $it->id);?>"><?=$it->name;?></a>
+                <? }
+             
+               if (isset($it->children) && count($it->children) > 0) { ?>
+                <ul>
+                <? foreach ($it->children as $sub) if ($sub->active != false) { 
+                    if (isset($sub->route) && ($sub->route != null)) {
+                      ?> <li><a href="<? echo base_url($sub->route); ?>"><?=$sub->name;?></a></li> <?
+                    } else {
+                      ?> <li><a href="<? echo base_url('/section/view/' . $sub->id);?>"><?=$sub->name;?></a></li>  <?
+                  }
+               } 
+               ?>
               </ul>
             </li>
             <? 
