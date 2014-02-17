@@ -17,3 +17,5 @@ data/
 public/product
 tmp/
 *.pxm
+
+application/config/dynamic_routes.php
