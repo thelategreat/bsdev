@@ -15,7 +15,7 @@ class Groups_model extends abstract_tree_model
 
 	function get_group_tree( $parent = 0, $recurse = true )
 	{
-		return $this->get_tree('id, parent_id, deletable, name, active, route');
+		return $this->get_tree('id, parent_id, deletable, name, active, route, orientation');
 	}
 	
   /*
