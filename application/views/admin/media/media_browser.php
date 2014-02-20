@@ -31,7 +31,7 @@
 	  <td><small><?=$file->date; ?><br/><?=$file->size; ?></small></td>
 		<td>
 			<?php if( $count != 0 ) { ?>
-			<a href="/admin/media/move/up/<?= $file->url . '/' . $slot . $media_path ?>">
+			<a href="/admin/media/move/up/<?= $file->url . $slot . $media_path ?>">
 				<img class="icon" src="/img/admin/go-up.png" />
 			<a/> 
 			<?php } else { echo "&nbsp;"; }?>

@@ -423,6 +423,15 @@ class media_model extends Tag_Model
 		//log_message('debug','foo');
 	}
 
+	/**
+		Change the sort order of media in the media map -
+		the sort order isn't really used for anything much at the time of this writing, but it's a holdover from 
+		the old code and there's no reason not to keep it working.
+		@param Diretion
+		@param The path in the article table
+		@param Slot - not used here but a holdover that we'll keep in case there was a good reason
+		@param UUID of media
+	*/
 	function move( $dir, $path, $slot, $uuid )
 	{
 		$table = 'media_map';
@@ -430,19 +439,20 @@ class media_model extends Tag_Model
 		$this->db->where('uuid', $uuid);
 		$item = $this->db->get('media')->row();
 		$crit = "slot = '$slot' AND path = '$path'";
+		$crit = "path = '$path'"; 
 
-		//echo "SELECT id, sort_order FROM $table WHERE $crit";
-		$item = $this->db->query("SELECT id, sort_order FROM $table WHERE $crit AND media_id = $item->id")->row();
+		$sql = "SELECT id, sort_order FROM $table WHERE $crit AND media_id = $item->id";
+		$item = $this->db->query($sql)->row();
+
 		if( $item ) {
 			if( $dir == 'up' ) {
-				//echo "SELECT id, sort_order FROM $table WHERE $crit AND sort_order < $item->sort_order ORDER BY sort_order DESC LIMIT 1";
-				$swap = $this->db->query("SELECT id, sort_order FROM $table WHERE $crit AND sort_order < $item->sort_order ORDER BY sort_order DESC LIMIT 1")->row();
+				$sql = "SELECT id, sort_order FROM $table WHERE $crit AND sort_order < $item->sort_order ORDER BY sort_order DESC LIMIT 1";
+				$swap = $this->db->query($sql)->row();
 			} else {
-				//echo "SELECT id, sort_order FROM $table WHERE $crit AND sort_order > $item->sort_order ORDER BY sort_order DESC LIMIT 1";
-				$swap = $this->db->query("SELECT id, sort_order FROM $table WHERE $crit AND sort_order > $item->sort_order ORDER BY sort_order ASC LIMIT 1")->row();
+				$sql = "SELECT id, sort_order FROM $table WHERE $crit AND sort_order > $item->sort_order ORDER BY sort_order ASC LIMIT 1";
+				$swap = $this->db->query($sql)->row();
 			}
 			if( $swap ) {
-				//echo $swap->id;
 				$this->db->query("UPDATE $table SET sort_order = $swap->sort_order WHERE id = $item->id");
 				$this->db->query("UPDATE $table SET sort_order = $item->sort_order WHERE id = $swap->id");
 			}
