@@ -115,7 +115,7 @@ class Article extends MY_Controller
     		}
     	}
 
-    	$associated_films		= $this->articles_model->get_films( $id );	
+    	$associated_films		= $this->articles_model->get_associated_films( $id );	
     	$item->associated_films = false;
     	if ($associated_films) {
 	    	$item->associated_films = array();
