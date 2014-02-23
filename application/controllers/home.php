@@ -67,135 +67,137 @@ class Home extends MY_Controller
 	*/
 	private function build_page( $section, $page = 1 )
 	{
-		$page_size 	= 10; 
-		$parents 	= $this->groups_model->get_parents( $section );
-		$events 	= NULL;
-		$nav		= array();
-		$data 		= array();
+            $page_size 	= 10; 
+            $parents 	= $this->groups_model->get_parents( $section );
+            $events 	= NULL;
+            $nav		= array();
+            $data 		= array();
 
-		$this->benchmark->mark('code_start');
+            $this->benchmark->mark('code_start');
+            
+            // Get the tweets for the @bookshelfnews account
+            $tweets = $this->tweets_model->load('bookshelfnews');
+
+            // The nav is coming from the group tree / model.  There's a similar call for the pages
+            // which works the same way.
+            $nav = $this->groups_model->get_group_tree();
+            
+            // Sidebar events for homepage
+            if ($section == 0) {
+                $movies = $this->event_model->get_upcoming_films( 2 );
+                $events = $this->event_model->get_upcoming_events( 4, date('Y-m-d', strtotime('+2 weeks')) );
+                
+
+                $lists['serendipity'] = $this->lists_model->get_list_items_by_name( 'serendipity' );
+                shuffle($lists['serendipity']);
+                
+                $articles = $this->articles_model->get_published_articles( $section, 5,  1 );
+                if ($articles) foreach( $articles as &$it) {
+                    $it->media = $this->media_model->get_media_for_path("/articles/$it->id", 'general', 1);
+                }	
+                $lists['_section'] = $articles;
+
+                $nav['main'] = 'Home';
+                $nav['sub'] = '';
+                
+                $data['tweets'] = $tweets;	
+                $data['movies'] = $movies;	
+                $data['events'] = $events;
+                $data['nav'] 	= $nav;
+                $layout = 'main';
+            } 
+            else {
+			
+                $res = $this->articles_model->get_published_articles( $section, 5,  1 );
+
+                foreach( $res->result() as $row ) {
+                    $row->media = $this->media_model->get_media_for_path("/articles/$row->id", 'general', 1);
+                    $data[] = $row;
+                }
+
+                $lists['_section'] = $data;
+                
+                $nav['main'] = 'section';
+                $nav['sub'] = isset($data[0]->group) ? $data[0]->group : false;
+                
+                $lists['serendipity'] = $this->lists_model->get_list_items_by_name( 'serendipity' );
+                $layout = 'section';
+            }
 		
-		// Get the tweets for the @bookshelfnews account
-		$tweets = $this->tweets_model->load('bookshelfnews');
+            $group_lists = $this->groups_list_positions_model->get_group_lists($section)->result();
+            foreach ($group_lists as $g) {
+                if ($g->lists_id > 0) {
+                    $lists['position_' . strtolower($g->name)] = $this->lists_model->get_list_items_by_name( $this->lists_model->get_list($g->lists_id)->name );
+                }
+            }
 
-		// The nav is coming from the group tree / model.  There's a similar call for the pages
-		// which works the same way.
-		$nav = $this->groups_model->get_group_tree();
-		
-		// Sidebar events for homepage
-		if ($section == 0) {
-			$movies = $this->event_model->get_upcoming_films( 2 );
-			$events = $this->event_model->get_upcoming_events( 4, date('Y-m-d', strtotime('+2 weeks')) );
-			
+            $data['nav'] = $nav[0]->children;
+            $data['lists'] = $lists;
+            $data['tweets'] = $tweets;
 
-			$lists['serendipity'] = $this->lists_model->get_list_items_by_name( 'serendipity' );
-			shuffle($lists['serendipity']);
-			
-			$articles = $this->articles_model->get_published_articles( $section, 5,  1 );
-			if ($articles) foreach( $articles as &$it) {
-				$it->media = $this->media_model->get_media_for_path("/articles/$it->id", 'general', 1);
-			}	
-			$lists['_section'] = $articles;
-
-			$nav['main'] = 'Home';
-			$nav['sub'] = '';
-			
-			$data['tweets'] = $tweets;	
-			$data['movies'] = $movies;	
-			$data['events'] = $events;
-			$data['nav'] 	= $nav;
-			$layout = 'main';
-		} else {
-			
-			$res = $this->articles_model->get_published_articles( $section, 5,  1 );
-
-			foreach( $res->result() as $row ) {
-				$row->media = $this->media_model->get_media_for_path("/articles/$row->id", 'general', 1);
-				$data[] = $row;
-			}
-
-			$lists['_section'] = $data;
-			
-			$nav['main'] = 'section';
-			$nav['sub'] = isset($data[0]->group) ? $data[0]->group : false;
-			
-			$lists['serendipity'] = $this->lists_model->get_list_items_by_name( 'serendipity' );
-			$layout = 'section';
-		}
-		
-		$group_lists = $this->groups_list_positions_model->get_group_lists($section)->result();
-		foreach ($group_lists as $g) {
-			if ($g->lists_id > 0) {
-				$lists['position_' . strtolower($g->name)] = $this->lists_model->get_list_items_by_name( $this->lists_model->get_list($g->lists_id)->name );
-			}
-		}
-
-		$data['nav'] = $nav[0]->children;
-		$data['lists'] = $lists;
-		$data['tweets'] = $tweets;
-
-		$this->load->view('layouts/'.$layout, $data);
-		return;
-		die;
+            $this->load->view('layouts/'.$layout, $data);
+            return;
+            die;
 	    // Poll - DISABLED for the moment
 	    // $poll = $this->polls_model->get_current_poll();
 
 	    // list driven stuffs
 
-    $list_meta = array('Features','Serendipity','v3','v4','v5','v6','v7','v8');
-    $lists = array();
-    foreach( $list_meta as $list_name ) {
-      $lists[$list_name] = $this->lists_model->get_list_items_by_name( $list_name );
-    }
-    
-    $list_positions = $this->list_positions_model->get_list_positions()->result();
+            $list_meta = array('Features','Serendipity','v3','v4','v5','v6','v7','v8');
+            $lists = array();
+            foreach( $list_meta as $list_name ) {
+                $lists[$list_name] = $this->lists_model->get_list_items_by_name( $list_name );
+            }
+        
+            $list_positions = $this->list_positions_model->get_list_positions()->result();
 
-    if( $section > 0 ) {
-      $data = array();
-      $res = $this->articles_model->get_published_articles( $section, 10,  1 );
-      foreach( $res->result() as $row ) {
-        $row->media = $this->media_model->get_media_for_path("/articles/$row->id", 'general', 1);
-        $data[] = $row;
-      }
-      $lists['_section'] = $data;
-    }
+            if( $section > 0 ) {
+                $data = array();
+                $res = $this->articles_model->get_published_articles( $section, 10,  1 );
+                foreach( $res->result() as $row ) {
+                    $row->media = $this->media_model->get_media_for_path("/articles/$row->id", 'general', 1);
+                    $data[] = $row;
+                }
+                $lists['_section'] = $data;
+            }
 
-    // calendar
-    $cal = $this->load->view('widgets/calendar', 
-      array('cal' => cal_gen( date('n'), date('Y')),
-            'data' => array()), 
-      true);
+            // calendar
+            $cal = $this->load->view('widgets/calendar', 
+            array('cal' => cal_gen( date('n'), date('Y')),
+                'data' => array()), 
+                true);
 
-    // tweets
-    $tweet_data = $this->tweets_model->load('bookshelfnews');
+            // tweets
+            $tweet_data = $this->tweets_model->load('bookshelfnews');
 
-    $tweets = $this->load->view('widgets/tweets',
-      array('tweets' => $this->tweets_model->load('bookshelfnews')),
-      true );
+            $tweets = $this->load->view('widgets/tweets',
+                array('tweets' => $this->tweets_model->load('bookshelfnews')),
+                true );
       
-		$parents = array_reverse($parents);
-		array_shift($parents);
-		$view_data = array(
-			'parents' => $parents,
-		      'lists' => $lists,
-		      'events' => $events,
-		      'poll' => $poll,
-		      'cal' => $cal,
-		      'tweets' => $tweets,
-		      'list_positions' => $list_positions
-			);
+            $parents = array_reverse($parents);
+            array_shift($parents);
+            $view_data = array(
+                'parents' => $parents,
+                'lists' => $lists,
+                'events' => $events,
+                'poll' => $poll,
+                'cal' => $cal,
+                'tweets' => $tweets,
+                'list_positions' => $list_positions
+            );
 
-    $pg_data = $this->get_page_data('Bookshelf', 'home', $section );
-	$pg_data['section'] = $section;
-	//new dBug($lists);die;
-    if( $section == 0 ) {
-      $pg_data['content'] = $this->load->view('home/home_page', $view_data, true);
-    } else {
-      $pg_data['content'] = $this->load->view('home/section', $view_data, true);
-    }
+            $pg_data = $this->get_page_data('Bookshelf', 'home', $section );
+            $pg_data['section'] = $section;
+            //new dBug($lists);die;
+            if( $section == 0 ) {
+                $pg_data['content'] = $this->load->view('home/home_page', $view_data, true);
+            }
+            else {
+                $pg_data['content'] = $this->load->view('home/section', $view_data, true);
+            }
 
-		$this->load->view('layouts/standard_page', $pg_data );		
-	}
+            $this->load->view('layouts/standard_page', $pg_data );		
+        }
 	
 	private function build_page_old( $section, $page = 1 )
 	{

@@ -64,6 +64,7 @@
       <div id="nav_wrapper">
         <ul id="nav">
           <li><a href="<? echo base_url(); ?>">Home</a></li>
+          <?if (isset($nav)) {?>
           <? foreach ($nav as $it) if ($it->active != false) { ?>
             <li class="<? if (isset($page) && ( $it->id == $page->id || in_array($page->id, $it->child_ids) ) ) echo 'active' ?>">
                 <? if (isset($it->route) && ($it->route != null)) { ?>
@@ -87,6 +88,7 @@
             <? 
             } 
           } ?>
+        <?}?>
       </div>
       <? // End menu ?>
     </div>

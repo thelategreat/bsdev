@@ -116,7 +116,7 @@ function loadAvailablePositions(templateName) {
 		var lp = $('#lp');
 		$('#lp').empty();
 		$.each(data.positions, function(index, value) {
-			$(lp).append('<tr><td>'+value.name+'</td><td><select id="lists_'+value.id+'" name="lists['+value.id+']">'+$(options).html()+'</select></td> <td><a position_id="'value.id+'" id = "preview_link_"'value.id+'" class='boxframe' href="/admin/preview_list/index/"'value.id+'"/0" >Preview </a>
+			$(lp).append('<tr><td>'+value.name+'</td><td><select id="lists_'+value.id+'" name="lists['+value.id+']">'+$(options).html()+'</select></td> <td><a position_id="'value.id+'" id = "preview_link_"'value.id+'" class='boxframe' href="/admin/preview_list/index/"'value.name+'"/0" >Preview </a>
             </td></tr>');
 			if (value.lists_id > 0) {
 				// This is the selected list, should be selected in the dropdown

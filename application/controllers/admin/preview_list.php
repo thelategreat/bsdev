@@ -23,13 +23,12 @@ class Preview_List extends Admin_Controller
             $list->get_items();
             //make data conform to widget
             $list->list = $list->items;
-            $widget = $list->get_list_type_by_position($position);
 
 	
 
             
             
-           $list->html=$this->load->view("widgets/$widget", $list, true);
+           $list->html=$this->load->view("sections/$position", $list,true);
            $this->load->view('page/list', $list );
            
 	}
