@@ -613,20 +613,21 @@ class Media extends Admin_Controller
 	/**
 	 * Change the sort order
 	 */
-	function move()
+	function move($direction, $uuid, $slot)
 	{
-		$dir = $this->uri->segment(4);
-		$uuid = $this->uri->segment(5);
-		$slot = $this->uri->segment(6);
-		$path = '/' . implode( '/', array_slice($this->uri->segment_array(), 6));
+		// $dir = $this->uri->segment(4);
+		// $uuid = $this->uri->segment(5);
+		// $slot = $this->uri->segment(6);
+		$path = '/' . implode( '/', array_slice($this->uri->segment_array(), 5));
 
 		$this->db->where('uuid', $uuid);
 		$item = $this->db->get('media')->row();
 
-		$this->media_model->move( $dir, $path, $slot, $uuid );
+		$this->media_model->move( $direction, $path, $slot, $uuid );
 
 		// lame, the sequel
 		$tmp = explode('/', $path );
+
 		redirect('/admin/' . $tmp[1] . '/edit/' . $tmp[2] . '/media/' . $slot );
 	}
 

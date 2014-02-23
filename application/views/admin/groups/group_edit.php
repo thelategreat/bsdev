@@ -59,6 +59,13 @@
 			</select>
 		</td>
 	</tr>
+	<tr id='orientation_select'>
+		<td><label>Link Type</label></td>
+		<td>
+			<input type="radio" name="orientation" value="horizontal" <? if (!isset($group->orientation) || $group->orientation = 'horizontal') echo 'checked'; ?>>Horizontal
+			<input type="radio" name="orientation" value="vertical" <? if (isset($group->orientation) && $group->orientation = 'vertical') echo 'checked'; ?>>Vertical<br>
+		</td>
+	</tr>
 </table>
 <table id='lp'>
 	<? foreach ($list_positions as $l) { ?>
@@ -94,7 +101,12 @@ $(function() {
 		loadAvailablePositions($(this).val());
 	});
 
+	$('select[name="parent_id"]').change(function() {
+		updateOrientationVisibility();
+	});
+
 	loadAvailablePositions($('select[name="template"]').val());
+	updateOrientationVisibility();
 });
 
 function loadAvailablePositions(templateName) {
@@ -116,5 +128,15 @@ function loadAvailablePositions(templateName) {
 	}, 'json').fail(function() {
 		alert('ERROR: Unable to load template positions.');
 	})
+}
+
+function updateOrientationVisibility() {
+	var target = $('select[name="parent_id"]');
+	if ($(target).val() == 1) {
+		// top level items are the only ones eligible for vertical layout
+		$('#orientation_select').show();
+	} else {
+		$('#orientation_select').hide();
+	}
 }
 </script>

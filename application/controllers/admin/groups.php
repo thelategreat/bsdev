@@ -82,7 +82,7 @@ class Groups extends Admin_Controller
 				
 		$this->form_validation->set_error_delimiters('<span class="form-error">','</span>');
 		$this->form_validation->set_rules('name', 'Name', 'trim|required');
-		$this->form_validation->set_rules('route', 'Route', 'trim|required|regex_match[/^[a-zA-z0-9]+$/]');
+		$this->form_validation->set_rules('route', 'Route', 'trim|regex_match[/^[a-zA-z0-9]+$/]');
 		$this->form_validation->set_message('regex_match', 'This field must contain only letters and numbers');
 				
 		// Page is being saved
@@ -93,6 +93,11 @@ class Groups extends Admin_Controller
 			$data['active'] 	= $this->input->post('active') ? "1" : "0";
 			$data['template'] 	= $this->input->post('template');
 			$data['route'] 		= $this->input->post('route');
+			if ($data['parent_id'] == 1) {
+				$data['orientation'] = $this->input->post('orientation');
+			} else {
+				$data['orientation'] = '';
+			}
 
 			$this->groups_model->update( $id, $data );
 			$this->groups_model->export_routes();

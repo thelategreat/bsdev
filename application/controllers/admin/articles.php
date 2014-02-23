@@ -216,7 +216,7 @@ class Articles extends Admin_Controller
 				$this->db->where('id', $article_id);
 				$this->db->set('title', $this->input->post('title'));
 				$this->db->set('group', $this->input->post('group'), false);
-				$this->db->set('display_priority', $this->input->post('display_priority'), false);
+				//$this->db->set('display_priority', $this->input->post('display_priority'), false);
 				$this->db->set('category', $this->input->post('category'), false);
 				$this->db->set('status', $this->input->post('status'), false);
 				$this->db->set('venue', $this->input->post('venue'), false);
@@ -229,11 +229,10 @@ class Articles extends Admin_Controller
 	        }
 				$this->db->set('excerpt', $this->input->post('excerpt'));
 				$this->db->update("articles");
-				
+
 				$tags = $this->input->post('tags');
 				$tags = explode(',', $tags);
 
-				//$this->tag_model->delete_tags('articles', $article_id);
 				$this->tag_model->delete_tags('articles', $article_id);
 
 				$this->tag_model->save_tags('articles', $article_id, $tags);
