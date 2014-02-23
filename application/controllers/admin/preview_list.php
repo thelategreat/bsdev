@@ -18,14 +18,19 @@ class Preview_List extends Admin_Controller
 		
 	}
 
-	function index($id=false,$type=false){
-            $list = list_model::load($id,$type);
-            foreach($list->items as &$item){
-                $item->render();
-                //echo $item->html;
-            }
+	function index($position=false,$id=false){
+            $list = list_model::load($id);
+            $list->get_items();
+            //make data conform to widget
+            $list->list = $list->items;
+            $widget = $list->get_list_type_by_position($position);
+
+	
+
             
-            $this->load->view('page/list', $list );
+            
+           $list->html=$this->load->view("widgets/$widget", $list, true);
+           $this->load->view('page/list', $list );
            
 	}
 	

@@ -60,24 +60,29 @@
     <? // Start heaader ?>
 
     <div id="header">
-      <h1><span>BookShelf</span></h1>
-      <? // Start menu ?>
-      <div id="nav_wrapper">
-        <ul id="nav">
-          <li class=""><a href="/">Home</a></li>
-          <? foreach ($nav as $it) { ?>
-            <li class="<? if (isset($page) && ( $it->id == $page->id || in_array($page->id, $it->child_ids) ) ) echo 'active' ?>"><a href="<? echo base_url('/section/view/' . $it->id);?>"><?=$it->name;?></a>
-            <? if (isset($it->children) && count($it->children) > 0) { ?>
-              <ul>
-              <? foreach ($it->children as $sub) { ?>
-                <li><a href="<? echo base_url('/section/view/' . $sub->id);?>"><?=$sub->name;?></a></li>
-              <? } ?>
-              </ul>
-            </li>
-            <? 
-            } 
-          } ?>
-      </div>
+        <h1><span>BookShelf</span></h1>
+        <? // Start menu ?>
+        <div id="nav_wrapper">
+            <ul id="nav">
+                <li class=""><a href="/">Home</a></li>
+                <?if (isset($nav)) {?>
+                    <? foreach ($nav as $it) { ?>
+                        <li class="<? if (isset($page) && ( $it->id == $page->id || in_array($page->id, $it->child_ids) ) ) echo 'active' ?>">
+                            <a href="<? echo base_url('/section/view/' . $it->id);?>"><?=$it->name;?></a>
+                            <? if (isset($it->children) && count($it->children) > 0) { ?>
+                                <ul>
+                                <? foreach ($it->children as $sub) { ?>
+                                    <li>
+                                        <a href="<? echo base_url('/section/view/' . $sub->id);?>"><?=$sub->name;?></a>
+                                    </li>
+                                <? } ?>
+                                </ul>
+                            <?}?>
+                        </li>
+                    <?}?>
+                <?}?>
+            </ul>
+        </div>
       <? // End menu ?>
     </div>
     <? // End header ?>

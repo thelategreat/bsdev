@@ -61,6 +61,12 @@ class list_model extends CI_Model
         }
     }
   
+    function get_list_type_by_position($position){
+    //this will get updated quickly, so just a stub
+        return 'vertical_generic_list';
+    
+    
+    }
   
 
  

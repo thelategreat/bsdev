@@ -24,7 +24,6 @@
         value = $(list).val();
         link = "/admin/preview_list/index/"+position_id+"/"+value;
         $('#preview_link_'+position_id).attr('href',link);
-        console.log(link);
     }
         
 </script>
@@ -105,7 +104,8 @@ function loadAvailablePositions(templateName) {
 		var lp = $('#lp');
 		$('#lp').empty();
 		$.each(data.positions, function(index, value) {
-			$(lp).append('<tr><td>'+value.name+'</td><td><select id="lists_'+value.id+'" name="lists['+value.id+']">'+$(options).html()+'</select></td></tr>');
+			$(lp).append('<tr><td>'+value.name+'</td><td><select id="lists_'+value.id+'" name="lists['+value.id+']">'+$(options).html()+'</select></td> <td><a position_id="'value.id+'" id = "preview_link_"'value.id+'" class='boxframe' href="/admin/preview_list/index/"'value.id+'"/0" >Preview </a>
+            </td></tr>');
 			if (value.lists_id > 0) {
 				// This is the selected list, should be selected in the dropdown
 				$('#lists_'+value.id+ ' option[value="'+value.lists_id+'"]').prop('selected',true);
